@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-with, initial-scale=1.0">
+    <title>Skontakuj się z nami za pośrednictwem Gmaila!</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <from onsubmit="sendEmail(); reset(); return false;">
+            <h3>Skontaktuj się z nami</h3>
+            <input type="text" id="name" placeholder="Nazwa" required>
+            <input type="text" id="email" placeholder="Email" required>
+            <input type="text" id="phone" placeholder="Nr Telefonu" required>
+            <textarea id="message" rows="4" placeholder="Jak możemy ci pomóc?"></textarea>
+            <button type="sumbit">Wyślij</button>
+        </from>
+    </div>
+    <script src="https://smtpjs.com/v3/smtp.js"></script>
+    <script>
+        function sendEmail(){
+            Email.send({
+                SecureToken: "90730797-86be-43ba-871a-401a5a7954eb",
+                To : 'xajperminecraftyt@gmail.com',
+                From : document.getElementById("email").value,
+                Subject : "Nowy Kontakt z Zapytania",
+                Body : "Nazwa: " + document.getElementById("name").value
+                    + "<br> Email: " + document.getElementById("email").value
+                    + "<br> Nr Telefonu: " + document.getElementById("phone").value
+                    + "<br> Wiadomość: " + document.getElementById("message").value
+            }).then(
+            message => alert("Wiadomość została pomyślnie wysłana")
+            );
+        }
+    </script>
+</body>
+</html>
