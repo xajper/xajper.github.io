@@ -10,6 +10,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
   <link rel="shortcut icon" href="assets/images/logopixelparadise-128x128.png" type="image/x-icon">
   <meta name="description" content="Oficjalna strona PixelParadise">
+
   
   
   <title>Strona Główna | PixelParadise</title>
@@ -28,8 +29,6 @@
   <link rel="preload" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,200i,300,300i,400,400i,600,600i,700,700i,900,900i&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,200i,300,300i,400,400i,600,600i,700,700i,900,900i&display=swap"></noscript>
   <link rel="preload" as="style" href="assets/mobirise/css/mbr-additional.css"><link rel="stylesheet" href="assets/mobirise/css/mbr-additional.css" type="text/css">
-  
-  
   
   
 </head>
@@ -78,10 +77,11 @@
 
 </section>
 
+
 <section data-bs-version="5.1" class="header2 cid-t4ESShJSDh mbr-fullscreen mbr-parallax-background" id="header2-k">
 
     
-
+        
     
     <div class="mbr-overlay" style="opacity: 0.8; background-color: rgb(159, 219, 248);"></div>
 
@@ -90,13 +90,55 @@
             <div class="col-12 col-lg-7">
                 <h1 class="mbr-section-title mbr-fonts-style mb-3 display-1"><strong>Witaj</strong></h1>
                 
-                <p class="mbr-text mbr-fonts-style display-7">Na oficjalnej stronie PixelParadise!</p>
+                <p class="mbr-text mbr-fonts-style display-5">Na oficjalnej stronie PixelParadise!</p>
                 <div class="mbr-section-btn mt-3"><a class="btn btn-primary display-4" href="index.html#content4-l">Czytaj więcej</a>
                     <a class="btn btn-black display-4" href="index.html#slider3-u">Śledź nas &gt;</a></div>
+                    <div class="btn btn-primary display-8"><span class="font-semibold server-status" id="player-count">00</span> Online</div>
             </div>
         </div>
     </div>
+
+
+
+    
+    
 </section>
+
+<script>
+    function initServerData(serverIp,serverPort){
+        const serverIpElement = document.getElementById('server-ip');
+        serverIpElement.innerHTML = serverIp;
+
+        console.log('https://mcapi.us/server/status?ip='+serverIp+'&port='+serverPort);
+        fetch('https://mcapi.us/server/status?ip='+serverIp+'&port='+serverPort)
+        .then(response => response.json())
+        .then(data => handleServerStatus(data));
+
+        function handleServerStatus(data){
+            if(data.status=='error'){
+                console.log(data.error);
+                return false;
+            }
+
+            const motd = document.getElementById("motd");
+            motd.innerHTML = data.motd;
+
+            const playerCounter = document.getElementById("player-count");
+            playerCounter.innerHTML = data.players.now;
+
+            const logo = document.getElementById("server-icon");
+            logo.src = data.favicon;
+        } 
+
+    }
+
+    initServerData("pixelparadise.mc-server.me","14359");
+</script>
+
+</body>
+</html>
+
+
 
 <section data-bs-version="5.1" class="content4 cid-t4EUbg67aC" id="content4-l">
     
@@ -236,7 +278,7 @@
     <div class="container">
         <div class="title">
             <h3 class="mbr-section-title mbr-fonts-style mb-4 display-2">
-                <strong>Kilka produktów w <a href="https://pixelparadise.tebex.io" class="text-primary" target="_blank">sklepie</a></strong></h3>
+                <strong>Kilka produktów w <a href="https://vishop.pl/shop/1850/" class="text-primary" target="_blank">sklepie</a></strong></h3>
             
         </div>
         <div class="card">
@@ -244,7 +286,7 @@
                 <div class="row align-items-center">
                     <div class="col-12 col-md-3">
                         <div class="image-wrapper">
-                            <img src="assets/images/mbr-1-506x506.png" alt="" title="">
+                            <img src="assets/images/klucz.png" alt="" title="">
                         </div>
                     </div>
                     <div class="col-12 col-md">
@@ -252,14 +294,14 @@
                             <div class="row">
                                 <div class="col-12">
                                     <div class="top-line">
-                                        <h4 class="card-title mbr-fonts-style display-5"><p><strong><a href="https://pixelparadise.tebex.io" class="text-primary" target="_blank">Mystety Box</strong></p></h4>
-                                        <p class="cost mbr-fonts-style display-5">8.99</p>
+                                        <h4 class="card-title mbr-fonts-style display-5"><strong>Klucze</strong></h4>
+                                        <p class="cost mbr-fonts-style display-5">2.99zł</p>
                                     </div>
                                 </div>
                                 <div class="col-12">
                                     <div class="bottom-line">
                                         <p class="mbr-text mbr-fonts-style m-0 display-7">
-                                            Kup skrzynie, otwórz ją i sprawdź co dostaniesz!<br>Brzmi ciekawie?&nbsp;<br>Na co czekasz?</p>
+                                            Kup klucz do skrzyni, otwórz ją i sprawdź co dostaniesz!<br>Brzmi ciekawie? Na co czekasz!&nbsp;</p>
                                     </div>
                                 </div>
                             </div>
@@ -310,8 +352,8 @@
                             <div class="row">
                                 <div class="col-12">
                                     <div class="top-line">
-                                        <h4 class="card-title mbr-fonts-style display-5">10,000 Monet</h4>
-                                        <p class="cost mbr-fonts-style display-5">4.99zł</p>
+                                        <h4 class="card-title mbr-fonts-style display-5">Monety</h4>
+                                        <p class="cost mbr-fonts-style display-5">0.50zł</p>
                                     </div>
                                 </div>
                                 <div class="col-12">
@@ -340,7 +382,7 @@
     <div class="container">
         <div class="row content-wrapper justify-content-center">
             <div class="col-lg-3 offset-lg-1 mbr-form" data-form-type="formoid">
-                <form action="https://mobirise.eu/" method="POST" class="mbr-form form-with-styler" data-form-title="Form Name"><input type="hidden" name="email" data-form-email="true" value="umpBhUJTVBYLLf2ewXt2u3kklNGxVdVNfemhWrCiXi0SUrQremVv2Hb3OypBh0/cwyurx2MfAF0hSk7J/BkrjU+351KqO4sKcFdMfCIKTH6oD7dgCLYwc9g3hVl6Lsd2">
+                <form action="https://www.google.com/intl/pl/gmail/about/s" method="POST" class="mbr-form form-with-styler" data-form-title="Form Name"><input type="hidden" name="email" data-form-email="true" value="umpBhUJTVBYLLf2ewXt2u3kklNGxVdVNfemhWrCiXi0SUrQremVv2Hb3OypBh0/cwyurx2MfAF0hSk7J/BkrjU+351KqO4sKcFdMfCIKTH6oD7dgCLYwc9g3hVl6Lsd2">
                     <div class="row">
                         <div hidden="hidden" data-form-alert="" class="alert alert-success col-12">Wiadomość została pomyślnie wysłana!</div>
                         <div hidden="hidden" data-form-alert-danger="" class="alert alert-danger col-12">
