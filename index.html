@@ -93,7 +93,6 @@
                 <p class="mbr-text mbr-fonts-style display-5">Na oficjalnej stronie PixelParadise!</p>
                 <div class="mbr-section-btn mt-3"><a class="btn btn-primary display-4" href="index.html#content4-l">Czytaj więcej</a>
                     <a class="btn btn-black display-4" href="index.html#slider3-u">Śledź nas &gt;</a></div>
-                    <div class="btn btn-primary display-8"><span class="font-semibold server-status" id="player-count">0 </span><Online</div>
             </div>
         </div>
     </div>
@@ -104,36 +103,7 @@
     
 </section>
 
-<script>
-    function initServerData(serverIp,serverPort){
-        const serverIpElement = document.getElementById('server-ip');
-        serverIpElement.innerHTML = serverIp;
 
-        console.log('https://mcapi.us/server/status?ip='+serverIp+'&port='+serverPort);
-        fetch('https://mcapi.us/server/status?ip='+serverIp+'&port='+serverPort)
-        .then(response => response.json())
-        .then(data => handleServerStatus(data));
-
-        function handleServerStatus(data){
-            if(data.status=='error'){
-                console.log(data.error);
-                return false;
-            }
-
-            const motd = document.getElementById("motd");
-            motd.innerHTML = data.motd;
-
-            const playerCounter = document.getElementById("player-count");
-            playerCounter.innerHTML = data.players.now;
-
-            const logo = document.getElementById("server-icon");
-            logo.src = data.favicon;
-        } 
-
-    }
-
-    initServerData("pixelparadise.mc-server.me","14359");
-</script>
 
 </body>
 </html>
