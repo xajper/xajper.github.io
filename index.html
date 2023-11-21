@@ -3,8 +3,31 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <script defer src="script.js"></script>
     <title>O Mnie</title>
     <style>
+        @import url("https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap");
+        @import url("https:/use.fontawesome.com/releases/v6.4.2/css/all.css");
+        
+        /* Subskrypcje */
+        
+        .containersub {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: center;
+            margin: 30px 40px;
+            font-family: "Roboto Mono", sans-serif;
+        }
+        
+        .fa-brands {
+            font-size: 4rem;
+        }
+        
+        .counter {
+            font-size: 2.5rem;
+            margin: 10px 0x;
+        }
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800&display=swap');
 
         *{
@@ -257,6 +280,14 @@
         </div>
       </div>
 
+      <div class="containersub">
+          <i class="fa-brands fa-youtube"></i>
+          <div class="counter" data-target="630">
+              0
+          </div>
+          <span>Subksrypcje</span>
+      </div>
+      
       <div class = "about-right">
         <h1>Hej!<span>!</span></h1>
         <h2>Moje projekty:</h2>
