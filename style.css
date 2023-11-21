@@ -670,20 +670,3 @@ from button{
   outline: none;
   cursor: pointer; 
 }
-.containersub {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  text-align: center;
-  margin: 30px 40px;
-  font-family: "Roboto Mono", sans-serif;
-}
-        
-.fa-brands {
-  font-size: 8rem;
-}
-        
-.counter {
-  font-size: 2.5rem;
-  margin: 10px 0x;
-}
