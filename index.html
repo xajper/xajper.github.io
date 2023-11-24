@@ -5,14 +5,22 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css" />
     <script defer src="script.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/confetti-js"></script>
+    <canvas id="my-canvas"></canvas>
     <title>O Mnie</title>
     <style>
         @import url("https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap");
         @import url("https://use.fontawesome.com/releases/v6.4.2/css/all.css");
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800&display=swap');
-
-        
+      
+        .emoji {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 3rem;
+        }
         .containersub {
             display: flex;
             flex-direction: column;
@@ -20,6 +28,7 @@
             text-align: center;
             margin: 30px 40px;
             font-family: "Roboto Mono", sans-serif;
+            position: relative;
         }
         
         .fa-brands {
