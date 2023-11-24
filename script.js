@@ -1,25 +1,35 @@
-const $counters = document
-    .querySelectorAll('.counter');
-  
+const $counters = document.querySelectorAll('.counter');
+
 $counters.forEach(($counter) => {
     $counter.innerText = '0';
     const updateCounter = () => {
-        const target = Number(
-            $counter.getAttribute('data-target'),
-        );
+        const target = Number($counter.getAttribute('data-target'));
         const count = Number($counter.innerText);
         const increment = target / 200;
         if (count < target) {
-            $counter.innerText =
-                `${Math.ceil(count + increment)}`;
+            $counter.innerText = `${Math.ceil(count + increment)}`;
             setTimeout(updateCounter, 20);
         } else {
             $counter.innerText = target;
+
+            // Dodaj efekt konfetti i emotki twarzy z konfetii po osiągnięciu 1000
+            if (target >= 1000) {
+                celebrate();
+            }
         }
     };
-  
     updateCounter();
 });
+
+function celebrate() {
+    const confettiSettings = { target: 'my-canvas' };
+    const confetti = new ConfettiGenerator(confettiSettings);
+    confetti.render();
+
+    // Dodaj emotki twarzy z konfetii
+    const celebrationContainer = document.querySelector('.containersub');
+    celebrationContainer.innerHTML += '<div class="emoji">🎉😊🎉</div>';
+}
 
 $(document).ready(function() {
     $(window).scroll(function() {
