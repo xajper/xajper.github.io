@@ -21,15 +21,33 @@
             transform: translate(-50%, -50%);
             font-size: 3rem;
         }
+      
+        body {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        .about-right {
+            max-width: 800px; /* Dostosuj szerokość do swoich preferencji */
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
         .containersub {
             display: flex;
             flex-direction: column;
             justify-content: center;
+            align-items: center;
             text-align: center;
-            margin: 30px 40px;
             font-family: "Roboto Mono", sans-serif;
-            position: relative;
         }
+        
+        .carousel {
+            max-width: 800px; /* Dostosuj szerokość do swoich preferencji */
+            margin: 0 auto;
+        }
+
         
         .fa-brands {
             font-size: 8rem;
@@ -240,6 +258,17 @@
             opacity: 0.8;
         }
 
+        @media (max-width: 768px) {
+            .about-right {
+                padding: 10px;
+            }
+        
+            .carousel {
+                margin: 0;
+                max-width: none;
+            }
+        }
+      
         @media screen and (min-width: 992px){
             .about-wrapper{
                 display: grid;
