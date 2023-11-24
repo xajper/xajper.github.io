@@ -14,21 +14,30 @@
         @import url("https://use.fontawesome.com/releases/v6.4.2/css/all.css");
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800&display=swap');
       
+        body {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            overflow-x: hidden; /* Dodaj overflow-x: hidden, aby uniknąć poziomego przewijania */
+        }
+        
         .containersub {
-            position: relative; /* Dodaj pozycję względną dla kontenera */
+            position: relative;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
             font-family: "Roboto Mono", sans-serif;
+            max-height: 100vh;
+            overflow: hidden;
         }
         
-        /* Dodaj style dla efektu konfetti */
         #my-canvas {
             position: absolute;
             top: 0;
             left: 0;
+            max-height: 100%;
         }
         
         .emoji {
@@ -40,13 +49,13 @@
         }
         
         .about-right {
-            max-width: 800px; /* Dostosuj szerokość do swoich preferencji */
+            max-width: 800px;
             margin: 0 auto;
             padding: 20px;
         }
       
         .carousel {
-            max-width: 800px; /* Dostosuj szerokość do swoich preferencji */
+            max-width: 800px;
             margin: 0 auto;
         }
 
