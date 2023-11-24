@@ -29,7 +29,7 @@ function celebrate() {
     // Dodaj emotki twarzy z konfetii
     const celebrationContainer = document.querySelector('.containersub');
     celebrationContainer.innerHTML += '<div class="emoji">🎉😊🎉</div>';
-}
+};
 
 $(document).ready(function() {
     $(window).scroll(function() {
