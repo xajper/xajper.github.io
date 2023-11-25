@@ -341,8 +341,8 @@
                 <span class="fa fa-star checked"></span>
     
                 <div class="image-gallery">
-                    <img onclick="openImageModal('party_activities_1.jpg')" src="party_activities_1.jpg" alt="Party Activities 1/2">
-                    <img onclick="openImageModal('party_activities_2.jpg')" src="party_activities_2.jpg" alt="Party Activities 2/2">
+                    <img class="myImages" onclick="openImageModal('party_activities_1.jpg')" src="party_activities_1.jpg" alt="Party Activities 1/2">
+                    <img class="myImages" onclick="openImageModal('party_activities_2.jpg')" src="party_activities_2.jpg" alt="Party Activities 2/2">
                 </div>
 
                 <p>Autor: <a href="index.html">Xajper</a></p>
@@ -370,8 +370,8 @@
                 <span class="fa fa-star checked"></span>
 
                 <div class="image-gallery">
-                    <img onclick="openImageModal('clicker_evolved_1.jpg')" src="clicker_evolved_1.jpg" alt="Clicker Evolved 1">
-                    <img onclick="openImageModal('clicker_evolved_2.jpg')" src="clicker_evolved_2.jpg" alt="Clicker Evolved 2">
+                    <img class="myImages" onclick="openImageModal('clicker_evolved_1.jpg')" src="clicker_evolved_1.jpg" alt="Clicker Evolved 1">
+                    <img class="myImages" onclick="openImageModal('clicker_evolved_2.jpg')" src="clicker_evolved_2.jpg" alt="Clicker Evolved 2">
                 </div>
 
                 <p>Autor: <a href="index.html">Xajper</a></p>
@@ -419,10 +419,8 @@
         </div>
 
         <script>
-            // Get the modal
             var modal = document.getElementById("myModal");
-        
-            // Get the image and insert it inside the modal - use its "alt" text as a caption
+
             var images = document.getElementsByClassName("myImages");
             var modalImg = document.getElementById("img01");
             var captionText = document.getElementById("caption");
@@ -434,11 +432,9 @@
                     captionText.innerHTML = this.alt;
                 };
             }
-        
-            // Get the <span> element that closes the modal
+
             var span = document.getElementsByClassName("close")[0];
-        
-            // When the user clicks on <span> (x), close the modal
+
             span.onclick = function () {
                 modal.style.display = "none";
             };
