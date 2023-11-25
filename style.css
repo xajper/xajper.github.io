@@ -362,7 +362,13 @@ footer span a:hover {
   text-decoration: underline;
 }
 
-
+.admins__content__card__img {
+  max-width: 100%; /* Maksymalna szerokość obrazu w odniesieniu do szerokości kafelka */
+  height: auto; /* Automatyczne dostosowanie wysokości, aby utrzymać proporcje */
+  border-radius: 50%; /* Zaokrąglenie obrazu do kształtu koła */
+  display: block; /* Ustawienie na blok, aby skorzystać z max-width: 100% */
+  margin: 0 auto; /* Automatyczne centrowanie obrazu */
+}
 
 /* haha responsiveness kill me pain halp me pls kthxbai */
 
