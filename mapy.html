@@ -252,6 +252,38 @@
             background-color: #f44336;
         }
 
+        .author-info {
+            margin-top: 10px;
+        }
+
+        .author-info a {
+            color: #008080;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        .image-gallery {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .image-gallery img {
+            width: 100%;
+            max-width: 200px;
+            height: auto;
+            margin-right: 10px;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+            cursor: pointer;
+        }
+
+        .image-gallery img:hover {
+            transform: scale(1.1);
+        }
+
         @media (max-width: 400px) {
             .side,
             .middle {
@@ -287,9 +319,16 @@
                 <span class="fa fa-star checked"></span>
                 <span class="fa fa-star checked"></span>
                 <span class="fa fa-star checked"></span>
-    
-                <a href="index.html" target="_blank" style="color: white;">Xajper</a>
-    
+
+                <div class="image-gallery">
+                    <img src="party_activities_1.jpg" alt="Party Activities 1">
+                    <img src="party_activities_2.jpg" alt="Party Activities 2">
+                </div>
+                
+                <div class="author-info">
+                    <p>Autor: <a href="index.html" onmouseover="underlineAuthor(this)" onmouseout="removeUnderlineAuthor(this)">Xajper</a></p>
+                </div>
+                
             </article>
     
             <article>
@@ -307,8 +346,15 @@
                 <span class="fa fa-star checked"></span>
                 <span class="fa fa-star checked"></span>
                 <span class="fa fa-star checked"></span>
-    
-                <a href="index.html" target="_blank" style="color: white;">Xajper</a>
+
+                <div class="image-gallery">
+                    <img src="clicker_evolved_1.jpg" alt="Clicker Evolved 1">
+                    <img src="clicker_evolved_2.jpg" alt="Clicker Evolved 2">
+                </div>
+                
+                <div class="author-info">
+                    <p>Autor: <a href="index.html" onmouseover="underlineAuthor(this)" onmouseout="removeUnderlineAuthor(this)">Xajper</a></p>
+                </div>
     
             </article>
     
@@ -340,6 +386,16 @@
     
             </div>
         </div>
+
+        <script>
+            function underlineAuthor(element) {
+                element.style.textDecoration = "underline";
+            }
+    
+            function removeUnderlineAuthor(element) {
+                element.style.textDecoration = "none";
+            }
+        </script>
     
         <script>
             document.addEventListener("DOMContentLoaded", function() {
