@@ -243,7 +243,7 @@
         <article>
             <h2>Party Activites</h2>
             <p>Witaj! Mapa którą obecnie widzisz jest zbiorem różnych minigier...</p>
-            <a href="#" onclick="openModal()">Czytaj więcej</a>
+            <a href="#" onclick="openModalPA()">Czytaj więcej</a>
 
             <i onclick="toggleLike(this)" class="fa fa-thumbs-up"></i>
 
@@ -261,7 +261,7 @@
         <article>
             <h2>Clicker Evolved</h2>
             <p>...</p>
-            <a href="#" onclick="openModal()">Czytaj więcej</a>
+            <a href="#" onclick="openModalCE()">Czytaj więcej</a>
     
             <i onclick="toggleLike(this)" class="fa fa-thumbs-up"></i>
     
@@ -271,7 +271,7 @@
         <article>
             <h2>Ostatnia Twierdza</h2>
             <p>...</p>
-            <a href="#" onclick="openModal()">Czytaj więcej</a>
+            <a href="#" onclick="openModalOT()">Czytaj więcej</a>
     
             <i onclick="toggleLike(this)" class="fa fa-thumbs-up"></i>
         </article>
@@ -305,7 +305,7 @@
             icon.classList.toggle("liked");
         }
 
-        function openModal() {
+        function openModalPA() {
             document.getElementById("mapTitle").innerText = "Party Activites";
             document.getElementById("mapDescription").innerHTML = "Witaj!<br><br>" +
                 "Mapa którą obecnie widzisz jest zbiorem różnych minigier. Party Activities jest mojego autorstwa i została stworzona dla maksymalnie DWÓCH graczy na wersję 1.19.4+! Gier jest PONAD 20 i na pewno każdy znajdzie coś dla siebie! Budowa tej mapy zajęła mi sporo czasu i włożyłem w nią sporo pracy, więc byłbym wdzięczny gdybyś ocenił ją zostawiając diaxa pod spodem. Możesz wbić na mój serwer discord gdzie uzyskasz dużo informacji o przedpremierowych mapach! Zaglądnij również na mój kanał na yt gdzie pokazuję jak tworzyć mapy. (https://discord.gg/QCnXbND9UZ)<br><br>" +
@@ -313,7 +313,41 @@
                 "» NIE klikaj wiadomości Wyjście [KLIKNIJ] do byle jakiej minigry, każda wiadomość jest indywidualna i przystosowana do każdej gry z osobna!!!<br>" +
                 "» Jeśli jakimś cudem zepsujesz mapę, pobierz ją jeszcze raz!<br>" +
                 "» Gdy nie działają ci klikane wiadomości, otwórz świat w LAN i włącz uprawnienia - jeśli jesteś na pojedynczym świecie, lub gdy grasz na serwerze ze znajomym, daj sobie i koledze uprawnienia operatora serwera.<br>" +
-                "» Masz jakieś pytania lub pojawił się bug? Napisz do mnie na dc (Xajper#1368), na moim serwerze discord lub w komentarzach pod tą mapą.";
+                "» Masz jakieś pytania lub pojawił się bug? Napisz do mnie na dc (Xajper), na moim serwerze discord lub w komentarzach pod tą mapą.";
+
+            document.getElementById("myModal").style.display = "flex";
+            setTimeout(function () {
+                document.getElementById("myModal").classList.add("show");
+            }, 10);
+        }
+
+        function openModalCE() {
+            document.getElementById("mapTitle").innerText = "Clicker Evolved";
+            document.getElementById("mapDescription").innerHTML = "Cześć!<br><br>" +
+                "Przychodzę do was z kolejną mapą pt. Clicker Evolved.<br>" +
+                
+                "Mapa jest dla jednego gracza i na wersję 1.19!<br>" +
+                
+                "By przejść mapę należy uzbroić się na walkę z mobami i ich artefaktami a na koniec z witherem.<br>" 6
+                "Pokonanie Withera = przejście mapy.<br>" + 
+                
+                "Dajcie jeszcze chwilkę, wyjaśnię tylko na czym polega doświadczenie w grze:<br>" +
+                "Jest to system który wynagradza cię za czas spędzony na ARENIE. Nagrody są różne (od golda, refów do różnych potek).<br>" +
+                
+                
+                "Chcesz dowiedzieć się co zawiera aktualizacja? Pobierz mapę i się przekonaj!";
+          
+
+            document.getElementById("myModal").style.display = "flex";
+            setTimeout(function () {
+                document.getElementById("myModal").classList.add("show");
+            }, 10);
+        }
+        
+        function openModalOT() {
+            document.getElementById("mapTitle").innerText = "Ostatnia Twierdza";
+            document.getElementById("mapDescription").innerHTML = "Witaj!"
+              
 
             document.getElementById("myModal").style.display = "flex";
             setTimeout(function () {
