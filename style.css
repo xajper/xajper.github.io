@@ -691,3 +691,21 @@ from button{
   outline: none;
   cursor: pointer; 
 }
+
+.subscribe-form {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.subscribe-input {
+  padding: 10px;
+  width: 200px;
+  margin-right: 10px;
+}
+
+.subscribe-button {
+  padding: 10px;
+  background-color: #22b4b7;
+  color: white;
+  cursor: pointer;
+}
