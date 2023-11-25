@@ -252,6 +252,28 @@
             background-color: #f44336;
         }
 
+        .minecraft-scrollbar {
+          width: 100%;
+          height: 100vh;
+          overflow-y: scroll;
+          scrollbar-width: thin;
+          scrollbar-color: #82c873 #0f382e;
+        }
+        
+        .minecraft-scrollbar::-webkit-scrollbar {
+          width: 12px;
+        }
+        
+        .minecraft-scrollbar::-webkit-scrollbar-thumb {
+          background-color: #82c873;
+          border-radius: 6px;
+          border: 3px solid #0f382e;
+        }
+        
+        .minecraft-scrollbar::-webkit-scrollbar-track {
+          background-color: #0f382e;
+        }
+
         @media (max-width: 400px) {
             .side,
             .middle {
@@ -266,280 +288,282 @@
 </head>
 
 <body>
-
-    <header>
-        <h1>LISTA MAP [BETA]</h1>
-    </header>
-
-    <section class="articles-list">
-        <article>
-            <h2>Party Activites</h2>
-            <p>Witaj! Mapa którą obecnie widzisz jest zbiorem różnych minigier...</p>
-            <a href="#" onclick="openModalPA()">Czytaj więcej</a>
-
-            <i onclick="toggleLike(this)" class="fa fa-thumbs-up"></i>
-
-            <a href="Party Activities.zip" class="btn" download="Party Activities.zip"><i class="fa fa-download"></i>Pobierz</a>
-
-            <h2>Oceny</h2>
-            <span class="fa fa-star checked"></span>
-            <span class="fa fa-star checked"></span>
-            <span class="fa fa-star checked"></span>
-            <span class="fa fa-star checked"></span>
-            <span class="fa fa-star checked"></span>
-
-            <a href="index.html" target="_blank" style="color: white;">Xajper</a>
-
-        </article>
-
-        <article>
-            <h2>Clicker Evolved</h2>
-            <p>Cześć! Przychodzę do was z kolejną mapą pt. Clicker Evolved...</p>
-            <a href="#" onclick="openModalCE()">Czytaj więcej</a>
-
-            <i onclick="toggleLike(this)" class="fa fa-thumbs-up"></i>
-
-            <a href="ClickerEvolved.zip" class="btn" download="ClickerEvolved.zip"><i class="fa fa-download"></i>Pobierz</a>
-
-            <h2>Oceny</h2>
-            <span class="fa fa-star checked"></span>
-            <span class="fa fa-star checked"></span>
-            <span class="fa fa-star checked"></span>
-            <span class="fa fa-star checked"></span>
-            <span class="fa fa-star checked"></span>
-
-            <a href="index.html" target="_blank" style="color: white;">Xajper</a>
-
-        </article>
-
-        <article>
-            <h2>Ostatnia Twierdza</h2>
-            <p>...</p>
-            <a href="#" onclick="openModalOT()">Czytaj więcej</a>
-
-            <i onclick="toggleLike(this)" class="fa fa-thumbs-up"></i>
-        </article>
-
-    </section>
-
-    <div id="myDIV">
-      <button class="btnprzycisk active">1</button>
-      <button class="btnprzycisk">2</button>
-      <button class="btnprzycisk">3</button>
-      <button class="btnprzycisk">4</button>
-      <button class="btnprzycisk">5</button>
-    </div>
-
-    <div id="myModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal()">&times;</span>
-
-            <h2 id="mapTitle">Tytuł Mapy</h2>
-            <p id="mapDescription">Opis Mapy</p>
-            <h2 id="mapocena">Oceny Użytkowników</h2>
-
-        </div>
-    </div>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-          var header = document.getElementById("myDIV");
-          var btns = header.getElementsByClassName("btn");
-      
-          for (var i = 0; i < btns.length; i++) {
-            btns[i].addEventListener("click", function() {
-              var current = header.getElementsByClassName("active");
-              current[0].className = current[0].className.replace(" active", "");
-              this.className += " active";
-            });
-          }
-        });
-    </script>
+    <div class="minecraft-scrollbar">
     
-    <script>
-        function toggleLike(icon) {
-            icon.classList.toggle("liked");
-        }
-
-        function openModalPA() {
-            document.getElementById("mapTitle").innerText = "Party Activites";
-            document.getElementById("mapDescription").innerHTML = "Witaj!<br><br>" +
-                "Mapa którą obecnie widzisz jest zbiorem różnych minigier. Party Activities jest mojego autorstwa i została stworzona dla maksymalnie DWÓCH graczy na wersję 1.19.4+! Gier jest PONAD 20 i na pewno każdy znajdzie coś dla siebie! Budowa tej mapy zajęła mi sporo czasu i włożyłem w nią sporo pracy, więc byłbym wdzięczny gdybyś ocenił ją zostawiając diaxa pod spodem. Możesz wbić na mój serwer discord gdzie uzyskasz dużo informacji o przedpremierowych mapach! Zaglądnij również na mój kanał na yt gdzie pokazuję jak tworzyć mapy. (https://discord.gg/QCnXbND9UZ)<br><br>" +
-                "<strong>WAŻNE INFORMACJE:</strong><br>" +
-                "» NIE klikaj wiadomości Wyjście [KLIKNIJ] do byle jakiej minigry, każda wiadomość jest indywidualna i przystosowana do każdej gry z osobna!!!<br>" +
-                "» Jeśli jakimś cudem zepsujesz mapę, pobierz ją jeszcze raz!<br>" +
-                "» Gdy nie działają ci klikane wiadomości, otwórz świat w LAN i włącz uprawnienia - jeśli jesteś na pojedynczym świecie, lub gdy grasz na serwerze ze znajomym, daj sobie i koledze uprawnienia operatora serwera.<br>" +
-                "» Masz jakieś pytania lub pojawił się bug? Napisz do mnie na dc (Xajper), na moim serwerze discord lub w komentarzach pod tą mapą.";
-
-            document.getElementById("mapocena").innerHTML = `
-            <h2>Oceny Użytkowników</h2>
-            <span class="fa fa-star checked"></span>
-            <span class="fa fa-star checked"></span>
-            <span class="fa fa-star checked"></span>
-            <span class="fa fa-star checked"></span>
-            <span class="fa fa-star checked"></span>
-            <p>Średnia 5,0 na podstawie 1 oceny</p>
-            <hr style="border:3px solid #f1f1f1">
-
-            <div class="row">
-              <div class="side">
-                <div>5</div>
-              </div>
-              <div class="middle">
-                <div class="bar-container">
-                  <div class="bar-5"></div>
-                </div>
-              </div>
-              <div class="side right">
-                <div>1</div>
-              </div>
-              <div class="side">
-                <div>4</div>
-              </div>
-              <div class="middle">
-                <div class="bar-container">
-                  <div class="bar-4"></div>
-                </div>
-              </div>
-              <div class="side right">
-                <div>0</div>
-              </div>
-              <div class="side">
-                <div>3</div>
-              </div>
-              <div class="middle">
-                <div class="bar-container">
-                  <div class="bar-3"></div>
-                </div>
-              </div>
-              <div class="side right">
-                <div>0</div>
-              </div>
-              <div class="side">
-                <div>2</div>
-              </div>
-              <div class="middle">
-                <div class="bar-container">
-                  <div class="bar-2"></div>
-                </div>
-              </div>
-              <div class="side right">
-                <div>0</div>
-              </div>
-              <div class="side">
-                <div>1</div>
-              </div>
-              <div class="middle">
-                <div class="bar-container">
-                  <div class="bar-1"></div>
-                </div>
-              </div>
-              <div class="side right">
-                <div>0</div>
-              </div>
-            </div>`;
-
-            document.getElementById("myModal").style.display = "flex";
-            setTimeout(function () {
-                document.getElementById("myModal").classList.add("show");
-            }, 10);
-        }
-
-        function openModalCE() {
-            document.getElementById("mapTitle").innerText = "Clicker Evolved";
-            document.getElementById("mapDescription").innerHTML = "Cześć!<br><br>" +
-                "Przychodzę do was z kolejną mapą pt. Clicker Evolved.<br>" +
-
-                "Mapa jest dla jednego gracza i na wersję 1.19!<br>" +
-
-                "By przejść mapę należy uzbroić się na walkę z mobami i ich artefaktami a na koniec z witherem.<br>" +
-                "Pokonanie Withera = przejście mapy.<br>" +
-                "Dajcie jeszcze chwilkę, wyjaśnię tylko na czym polega doświadczenie w grze:<br>" +
-                "Jest to system który wynagradza cię za czas spędzony na ARENIE. Nagrody są różne (od golda, refów do różnych potek).<br>" +
-
-                "Chcesz dowiedzieć się co zawiera aktualizacja? Pobierz mapę i się przekonaj!";
-
-            document.getElementById("mapocena").innerHTML = `
-            <h2>Oceny Użytkowników</h2>
-            <span class="fa fa-star checked"></span>
-            <span class="fa fa-star checked"></span>
-            <span class="fa fa-star checked"></span>
-            <span class="fa fa-star checked"></span>
-            <span class="fa fa-star checked"></span>
-            <p>Średnia 5,0 na podstawie 1 oceny</p>
-            <hr style="border:3px solid #f1f1f1">
-
-            <div class="row">
-              <div class="side">
-                <div>5</div>
-              </div>
-              <div class="middle">
-                <div class="bar-container">
-                  <div class="bar-5"></div>
-                </div>
-              </div>
-              <div class="side right">
-                <div>1</div>
-              </div>
-              <div class="side">
-                <div>4</div>
-              </div>
-              <div class="middle">
-                <div class="bar-container">
-                  <div class="bar-4"></div>
-                </div>
-              </div>
-              <div class="side right">
-                <div>0</div>
-              </div>
-              <div class="side">
-                <div>3</div>
-              </div>
-              <div class="middle">
-                <div class="bar-container">
-                  <div class="bar-3"></div>
-                </div>
-              </div>
-              <div class="side right">
-                <div>0</div>
-              </div>
-              <div class="side">
-                <div>2</div>
-              </div>
-              <div class="middle">
-                <div class="bar-container">
-                  <div class="bar-2"></div>
-                </div>
-              </div>
-              <div class="side right">
-                <div>0</div>
-              </div>
-              <div class="side">
-                <div>1</div>
-              </div>
-              <div class="middle">
-                <div class="bar-container">
-                  <div class="bar-1"></div>
-                </div>
-              </div>
-              <div class="side right">
-                <div>0</div>
-              </div>
-            </div>`;
-
-            document.getElementById("myModal").style.display = "flex";
-            setTimeout(function () {
-                document.getElementById("myModal").classList.add("show");
-            }, 10);
-        }
-
-        function closeModal() {
-            document.getElementById("myModal").classList.remove("show");
-            setTimeout(function () {
-                document.getElementById("myModal").style.display = "none";
-            }, 300);
-        }
-    </script>
+        <header>
+            <h1>LISTA MAP [BETA]</h1>
+        </header>
+    
+        <section class="articles-list">
+            <article>
+                <h2>Party Activites</h2>
+                <p>Witaj! Mapa którą obecnie widzisz jest zbiorem różnych minigier...</p>
+                <a href="#" onclick="openModalPA()">Czytaj więcej</a>
+    
+                <i onclick="toggleLike(this)" class="fa fa-thumbs-up"></i>
+    
+                <a href="Party Activities.zip" class="btn" download="Party Activities.zip"><i class="fa fa-download"></i>Pobierz</a>
+    
+                <h2>Oceny</h2>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+    
+                <a href="index.html" target="_blank" style="color: white;">Xajper</a>
+    
+            </article>
+    
+            <article>
+                <h2>Clicker Evolved</h2>
+                <p>Cześć! Przychodzę do was z kolejną mapą pt. Clicker Evolved...</p>
+                <a href="#" onclick="openModalCE()">Czytaj więcej</a>
+    
+                <i onclick="toggleLike(this)" class="fa fa-thumbs-up"></i>
+    
+                <a href="ClickerEvolved.zip" class="btn" download="ClickerEvolved.zip"><i class="fa fa-download"></i>Pobierz</a>
+    
+                <h2>Oceny</h2>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+    
+                <a href="index.html" target="_blank" style="color: white;">Xajper</a>
+    
+            </article>
+    
+            <article>
+                <h2>Ostatnia Twierdza</h2>
+                <p>...</p>
+                <a href="#" onclick="openModalOT()">Czytaj więcej</a>
+    
+                <i onclick="toggleLike(this)" class="fa fa-thumbs-up"></i>
+            </article>
+    
+        </section>
+    
+        <div id="myDIV">
+          <button class="btnprzycisk active">1</button>
+          <button class="btnprzycisk">2</button>
+          <button class="btnprzycisk">3</button>
+          <button class="btnprzycisk">4</button>
+          <button class="btnprzycisk">5</button>
+        </div>
+    
+        <div id="myModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal()">&times;</span>
+    
+                <h2 id="mapTitle">Tytuł Mapy</h2>
+                <p id="mapDescription">Opis Mapy</p>
+                <h2 id="mapocena">Oceny Użytkowników</h2>
+    
+            </div>
+        </div>
+    
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+              var header = document.getElementById("myDIV");
+              var btns = header.getElementsByClassName("btn");
+          
+              for (var i = 0; i < btns.length; i++) {
+                btns[i].addEventListener("click", function() {
+                  var current = header.getElementsByClassName("active");
+                  current[0].className = current[0].className.replace(" active", "");
+                  this.className += " active";
+                });
+              }
+            });
+        </script>
+        
+        <script>
+            function toggleLike(icon) {
+                icon.classList.toggle("liked");
+            }
+    
+            function openModalPA() {
+                document.getElementById("mapTitle").innerText = "Party Activites";
+                document.getElementById("mapDescription").innerHTML = "Witaj!<br><br>" +
+                    "Mapa którą obecnie widzisz jest zbiorem różnych minigier. Party Activities jest mojego autorstwa i została stworzona dla maksymalnie DWÓCH graczy na wersję 1.19.4+! Gier jest PONAD 20 i na pewno każdy znajdzie coś dla siebie! Budowa tej mapy zajęła mi sporo czasu i włożyłem w nią sporo pracy, więc byłbym wdzięczny gdybyś ocenił ją zostawiając diaxa pod spodem. Możesz wbić na mój serwer discord gdzie uzyskasz dużo informacji o przedpremierowych mapach! Zaglądnij również na mój kanał na yt gdzie pokazuję jak tworzyć mapy. (https://discord.gg/QCnXbND9UZ)<br><br>" +
+                    "<strong>WAŻNE INFORMACJE:</strong><br>" +
+                    "» NIE klikaj wiadomości Wyjście [KLIKNIJ] do byle jakiej minigry, każda wiadomość jest indywidualna i przystosowana do każdej gry z osobna!!!<br>" +
+                    "» Jeśli jakimś cudem zepsujesz mapę, pobierz ją jeszcze raz!<br>" +
+                    "» Gdy nie działają ci klikane wiadomości, otwórz świat w LAN i włącz uprawnienia - jeśli jesteś na pojedynczym świecie, lub gdy grasz na serwerze ze znajomym, daj sobie i koledze uprawnienia operatora serwera.<br>" +
+                    "» Masz jakieś pytania lub pojawił się bug? Napisz do mnie na dc (Xajper), na moim serwerze discord lub w komentarzach pod tą mapą.";
+    
+                document.getElementById("mapocena").innerHTML = `
+                <h2>Oceny Użytkowników</h2>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <p>Średnia 5,0 na podstawie 1 oceny</p>
+                <hr style="border:3px solid #f1f1f1">
+    
+                <div class="row">
+                  <div class="side">
+                    <div>5</div>
+                  </div>
+                  <div class="middle">
+                    <div class="bar-container">
+                      <div class="bar-5"></div>
+                    </div>
+                  </div>
+                  <div class="side right">
+                    <div>1</div>
+                  </div>
+                  <div class="side">
+                    <div>4</div>
+                  </div>
+                  <div class="middle">
+                    <div class="bar-container">
+                      <div class="bar-4"></div>
+                    </div>
+                  </div>
+                  <div class="side right">
+                    <div>0</div>
+                  </div>
+                  <div class="side">
+                    <div>3</div>
+                  </div>
+                  <div class="middle">
+                    <div class="bar-container">
+                      <div class="bar-3"></div>
+                    </div>
+                  </div>
+                  <div class="side right">
+                    <div>0</div>
+                  </div>
+                  <div class="side">
+                    <div>2</div>
+                  </div>
+                  <div class="middle">
+                    <div class="bar-container">
+                      <div class="bar-2"></div>
+                    </div>
+                  </div>
+                  <div class="side right">
+                    <div>0</div>
+                  </div>
+                  <div class="side">
+                    <div>1</div>
+                  </div>
+                  <div class="middle">
+                    <div class="bar-container">
+                      <div class="bar-1"></div>
+                    </div>
+                  </div>
+                  <div class="side right">
+                    <div>0</div>
+                  </div>
+                </div>`;
+    
+                document.getElementById("myModal").style.display = "flex";
+                setTimeout(function () {
+                    document.getElementById("myModal").classList.add("show");
+                }, 10);
+            }
+    
+            function openModalCE() {
+                document.getElementById("mapTitle").innerText = "Clicker Evolved";
+                document.getElementById("mapDescription").innerHTML = "Cześć!<br><br>" +
+                    "Przychodzę do was z kolejną mapą pt. Clicker Evolved.<br>" +
+    
+                    "Mapa jest dla jednego gracza i na wersję 1.19!<br>" +
+    
+                    "By przejść mapę należy uzbroić się na walkę z mobami i ich artefaktami a na koniec z witherem.<br>" +
+                    "Pokonanie Withera = przejście mapy.<br>" +
+                    "Dajcie jeszcze chwilkę, wyjaśnię tylko na czym polega doświadczenie w grze:<br>" +
+                    "Jest to system który wynagradza cię za czas spędzony na ARENIE. Nagrody są różne (od golda, refów do różnych potek).<br>" +
+    
+                    "Chcesz dowiedzieć się co zawiera aktualizacja? Pobierz mapę i się przekonaj!";
+    
+                document.getElementById("mapocena").innerHTML = `
+                <h2>Oceny Użytkowników</h2>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <p>Średnia 5,0 na podstawie 1 oceny</p>
+                <hr style="border:3px solid #f1f1f1">
+    
+                <div class="row">
+                  <div class="side">
+                    <div>5</div>
+                  </div>
+                  <div class="middle">
+                    <div class="bar-container">
+                      <div class="bar-5"></div>
+                    </div>
+                  </div>
+                  <div class="side right">
+                    <div>1</div>
+                  </div>
+                  <div class="side">
+                    <div>4</div>
+                  </div>
+                  <div class="middle">
+                    <div class="bar-container">
+                      <div class="bar-4"></div>
+                    </div>
+                  </div>
+                  <div class="side right">
+                    <div>0</div>
+                  </div>
+                  <div class="side">
+                    <div>3</div>
+                  </div>
+                  <div class="middle">
+                    <div class="bar-container">
+                      <div class="bar-3"></div>
+                    </div>
+                  </div>
+                  <div class="side right">
+                    <div>0</div>
+                  </div>
+                  <div class="side">
+                    <div>2</div>
+                  </div>
+                  <div class="middle">
+                    <div class="bar-container">
+                      <div class="bar-2"></div>
+                    </div>
+                  </div>
+                  <div class="side right">
+                    <div>0</div>
+                  </div>
+                  <div class="side">
+                    <div>1</div>
+                  </div>
+                  <div class="middle">
+                    <div class="bar-container">
+                      <div class="bar-1"></div>
+                    </div>
+                  </div>
+                  <div class="side right">
+                    <div>0</div>
+                  </div>
+                </div>`;
+    
+                document.getElementById("myModal").style.display = "flex";
+                setTimeout(function () {
+                    document.getElementById("myModal").classList.add("show");
+                }, 10);
+            }
+    
+            function closeModal() {
+                document.getElementById("myModal").classList.remove("show");
+                setTimeout(function () {
+                    document.getElementById("myModal").style.display = "none";
+                }, 300);
+            }
+        </script>]
+    </div>
 
 </body>
 
