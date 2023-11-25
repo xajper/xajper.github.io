@@ -73,6 +73,38 @@
             color: #fff;
         }
 
+        #myDIV {
+          display: flex;
+          justify-content: center;
+          align-items: flex-end;
+          position: fixed;
+          bottom: 0;
+          width: 100%;
+          padding: 20px;
+          background-color: #f1f1f1;
+          box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+          transition: all 0.3s ease-in-out;
+        }
+        
+        .btnprzycisk {
+          background-color: #4CAF50;
+          color: white;
+          padding: 10px 15px;
+          margin: 0 5px;
+          border: none;
+          border-radius: 5px;
+          cursor: pointer;
+          transition: background-color 0.3s ease-in-out;
+        }
+        
+        .btnprzycisk.active {
+          background-color: #45a049;
+        }
+        
+        .btnprzycisk:hover {
+          background-color: #45a049;
+        }
+
         .btn {
             background-color: DodgerBlue;
             border: none;
@@ -287,11 +319,11 @@
     </section>
 
     <div id="myDIV">
-      <button class="btn">1</button>
-      <button class="btn active">2</button>
-      <button class="btn">3</button>
-      <button class="btn">4</button>
-      <button class="btn">5</button>
+      <button class="btnprzycisk active">1</button>
+      <button class="btnprzycisk">2</button>
+      <button class="btnprzycisk">3</button>
+      <button class="btnprzycisk">4</button>
+      <button class="btnprzycisk">5</button>
     </div>
 
     <div id="myModal" class="modal">
