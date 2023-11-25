@@ -393,6 +393,11 @@
             </article>
     
         </section>
+
+        <div id="imageModal" class="modal">
+            <span class="close" onclick="closeImageModal()">&times;</span>
+            <img class="modal-content" id="modalImage">
+        </div>
     
         <div id="myDIV">
           <button class="btnprzycisk active">1</button>
@@ -419,25 +424,18 @@
         </div>
 
         <script>
-            var modal = document.getElementById("myModal");
-
-            var images = document.getElementsByClassName("myImages");
-            var modalImg = document.getElementById("img01");
-            var captionText = document.getElementById("caption");
+            function openImageModal(imageSrc) {
+                var modal = document.getElementById("imageModal");
+                var modalImg = document.getElementById("modalImage");
         
-            for (var i = 0; i < images.length; i++) {
-                images[i].onclick = function () {
-                    modal.style.display = "block";
-                    modalImg.src = this.src;
-                    captionText.innerHTML = this.alt;
-                };
+                modal.style.display = "block";
+                modalImg.src = imageSrc;
             }
-
-            var span = document.getElementsByClassName("close")[0];
-
-            span.onclick = function () {
+        
+            function closeImageModal() {
+                var modal = document.getElementById("imageModal");
                 modal.style.display = "none";
-            };
+            }
         </script>
     
         <script>
