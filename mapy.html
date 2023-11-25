@@ -224,73 +224,18 @@
         <span class="fa fa-star checked"></span>
         <span class="fa fa-star checked"></span>
         <span class="fa fa-star checked"></span>
-        
-        <div class="row">
-          <div class="side">
-            <div>5</div>
-          </div>
-          <div class="middle">
-            <div class="bar-container">
-              <div class="bar-5"></div>
-            </div>
-          </div>
-          <div class="side right">
-            <div>1</div>
-          </div>
-          <div class="side">
-            <div>4</div>
-          </div>
-          <div class="middle">
-            <div class="bar-container">
-              <div class="bar-4"></div>
-            </div>
-          </div>
-          <div class="side right">
-            <div>0</div>
-          </div>
-          <div class="side">
-            <div>3</div>
-          </div>
-          <div class="middle">
-            <div class="bar-container">
-              <div class="bar-3"></div>
-            </div>
-          </div>
-          <div class="side right">
-            <div>0</div>
-          </div>
-          <div class="side">
-            <div>2</div>
-          </div>
-          <div class="middle">
-            <div class="bar-container">
-              <div class="bar-2"></div>
-            </div>
-          </div>
-          <div class="side right">
-            <div>0</div>
-          </div>
-          <div class="side">
-            <div>1</div>
-          </div>
-          <div class="middle">
-            <div class="bar-container">
-              <div class="bar-1"></div>
-            </div>
-          </div>
-          <div class="side right">
-            <div>0</div>
-          </div>
-        </div>
+   
     </article>
-
-    <!-- Dodaj kolejne artykuły z odpowiednimi tytułami, opisami i ocenami -->
 
 </section>
 
 <div id="myModal" class="modal">
     <div class="modal-content">
         <span class="close" onclick="closeModal()">&times;</span>
+
+        <h2 id="mapTitle">Tytuł Mapy</h2>
+        <p id="mapDescription">Opis Mapy</p>
+        
         <h2>Oceny Użytkowników</h2>
         <span class="fa fa-star checked"></span>
         <span class="fa fa-star checked"></span>
@@ -366,6 +311,9 @@
     }
 
     function openModal() {
+        document.getElementById("mapTitle").innerText = "Party Activites";
+        document.getElementById("mapDescription").innerText = "Witaj! Mapa którą obecnie widzisz jest zbiorem różnych minigier...";
+
         document.getElementById("myModal").style.display = "flex";
     }
 
