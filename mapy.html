@@ -1,1 +1,100 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista Artykułów</title>
+    <style>
+        /* Resetowanie domyślnych styli przeglądarki */
+        body, h1, h2, p, a {
+            margin: 0;
+            padding: 0;
+        }
 
+        /* Ustawienie podstawowego stylu strony */
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            background-color: #f4f4f4;
+            color: #333;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            color: #008080;
+        }
+
+        .articles-list {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+        article {
+            width: calc(33.33% - 20px);
+            background-color: #fff;
+            margin-bottom: 20px;
+            padding: 20px;
+            box-sizing: border-box;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        h2 {
+            color: #008080;
+        }
+
+        p {
+            margin-bottom: 10px;
+        }
+
+        a {
+            color: #008080;
+            text-decoration: none;
+            display: inline-block;
+            border: 1px solid #008080;
+            padding: 5px 10px;
+            border-radius: 3px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        a:hover {
+            background-color: #008080;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Moja Lista Artykułów</h1>
+</header>
+
+<section class="articles-list">
+    <article>
+        <h2>Tytuł Artykułu 1</h2>
+        <p>Opis artykułu 1...</p>
+        <a href="#">Czytaj więcej</a>
+    </article>
+
+    <article>
+        <h2>Tytuł Artykułu 2</h2>
+        <p>Opis artykułu 2...</p>
+        <a href="#">Czytaj więcej</a>
+    </article>
+
+    <article>
+        <h2>Tytuł Artykułu 3</h2>
+        <p>Opis artykułu 3...</p>
+        <a href="#">Czytaj więcej</a>
+    </article>
+</section>
+
+</body>
+</html>
