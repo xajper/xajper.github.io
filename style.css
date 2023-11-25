@@ -12,10 +12,19 @@
   color: #22b4b7;
 }
 
+.logo-container {
+  display: flex;
+  align-items: center;
+}
+
+.logo-link {
+  text-decoration: none;
+  color: yellow; /* Kolor żółty */
+  font-size: 24px;
+}
+
 .bell-button {
-  position: fixed;
-  top: 20px;
-  right: 20px;
+  margin-left: 10px; /* Dodaj margines między napisem a przyciskiem */
   background-color: #22b4b7;
   color: white;
   border: none;
