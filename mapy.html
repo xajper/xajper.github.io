@@ -6,8 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script>
-        function myFunction(x) {
-          x.classList.toggle("fa-thumbs-down");
+        function toggleLike(icon) {
+            icon.classList.toggle("liked");
         }
     </script>
     <title>Lista Map</title>
@@ -41,6 +41,7 @@
         }
 
         article {
+            position: relative;
             width: calc(33.33% - 20px);
             background-color: #fff;
             margin-bottom: 20px;
@@ -88,15 +89,22 @@
             transform: scale(1.05);
         }
 
-        .fa-thumbs-up, .fa-thumbs-down {
+        .fa-thumbs-up {
             font-size: 24px;
-            color: #008080;
+            color: #808080; /* Szary kolor */
             cursor: pointer;
-            transition: transform 0.3s;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            transition: color 0.3s;
         }
 
-        .fa-thumbs-up:hover, .fa-thumbs-down:hover {
-            transform: scale(1.2);
+        .fa-thumbs-up.liked {
+            color: #4CAF50; /* Zielony kolor */
+        }
+
+        .fa-thumbs-up:hover {
+            color: #4CAF50; /* Zielony kolor */
         }
     </style>
 </head>
@@ -109,14 +117,12 @@
 <section class="articles-list">
     <article>
         <h2>Party Activites</h2>
-        <p>Witaj!
-Mapa którą obecnie widzisz jest zbiorem różnych minigier...</p>
+        <p>Witaj! Mapa którą obecnie widzisz jest zbiorem różnych minigier...</p>
         <a href="#">Czytaj więcej</a>
 
         <i onclick="myFunction(this)" class="fa fa-thumbs-up"></i>
 
         <a href="Party Activities.zip" class="btn" download="Party Activities.zip"><i class="fa fa-download"></i>Pobierz</a>
-        
     </article>
 
     <article>
@@ -124,7 +130,7 @@ Mapa którą obecnie widzisz jest zbiorem różnych minigier...</p>
         <p>...</p>
         <a href="#">Czytaj więcej</a>
 
-        <i onclick="myFunction(this)" class="fa fa-thumbs-up"></i>
+        <i onclick="toggleLike(this)" class="fa fa-thumbs-up"></i>
 
         <a href="ClickerEvolved.zip" class="btn" download="ClickerEvolved.zip"><i class="fa fa-download"></i>Pobierz</a>
     </article>
