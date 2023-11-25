@@ -11,6 +11,29 @@
             padding: 0;
         }
 
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 66.66%; /* 2/3 szerokości strony */
+            max-width: 800px; /* Maksymalna szerokość modala */
+            margin: auto;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 1;
+            opacity: 0; /* Początkowo niewidoczny */
+            transform: translateY(-50px); /* Przesunięcie do góry przed animacją */
+            transition: opacity 0.3s, transform 0.3s;
+        }
+    
+        .modal.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+            
         body {
             font-family: 'Arial', sans-serif;
             line-height: 1.6;
@@ -320,11 +343,11 @@
             "» Gdy nie działają ci klikane wiadomości, otwórz świat w LAN i włącz uprawnienia - jeśli jesteś na pojedynczym świecie, lub gdy grasz na serwerze ze znajomym, daj sobie i koledze uprawnienia operatora serwera.<br>" +
             "» Masz jakieś pytania lub pojawił się bug? Napisz do mnie na dc (Xajper#1368), na moim serwerze discord lub w komentarzach pod tą mapą.";
 
-        document.getElementById("myModal").style.display = "flex";
+        document.getElementById("myModal").classList.add("show");
     }
 
     function closeModal() {
-        document.getElementById("myModal").style.display = "none";
+        document.getElementById("myModal").classList.remove("show");
     }
 </script>
 
