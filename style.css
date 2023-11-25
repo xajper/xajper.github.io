@@ -14,7 +14,7 @@
 
 .bell-button {
   position: fixed;
-  bottom: 20px;
+  top: 20px;
   right: 20px;
   background-color: #22b4b7;
   color: white;
