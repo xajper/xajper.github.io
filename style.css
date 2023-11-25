@@ -11,6 +11,20 @@
 *::selection {
   color: #22b4b7;
 }
+
+.bell-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #22b4b7;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  padding: 10px;
+  font-size: 20px;
+  cursor: pointer;
+}
+
 html {
   scroll-behavior: smooth;
 }
