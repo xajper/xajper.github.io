@@ -53,6 +53,12 @@
             margin: 0 auto;
             padding: 20px;
         }
+      
+        .carousel {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
         
         .fa-brands {
             font-size: 8rem;
@@ -256,12 +262,43 @@
             background: #2ddd33;
             border-color: #2ddd33;
             color: #fff;
-        }      
+        }
+        .about-para p{
+            font-weight: 300;
+            padding: 0.5rem;
+            opacity: 0.8;
+        }
+
+        @media (max-width: 768px) {
+            .about-right {
+                padding: 10px;
+            }
+        
+            .carousel {
+                margin: 0;
+                max-width: none;
+            }
+        }
+      
+        @media screen and (min-width: 992px){
+            .about-wrapper{
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .about-left{
+                position: relative;
+            }
+            .about-left-content{
+                position: absolute;
+                right: -50px;
+            }
+        }
     </style>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
   </head>
+  <body>
     
     <div class = "about-wrapper">
       <div class = "about-left">
@@ -317,5 +354,5 @@
           </div>
       </div>
 
-</body>
+  </body>
 </html>
