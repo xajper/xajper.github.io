@@ -27,6 +27,12 @@
     
         <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.11/typed.min.js"></script>
 
+        <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+              
+        <script>
+              emailjs.init("user_your_emailjs_user_id");
+        </script>
+              
         <script>
               document.addEventListener("DOMContentLoaded", function() {
                 if ("Notification" in window) {
@@ -227,13 +233,29 @@
         </footer>
 
         <script>
-            function subscribe() {
-              const subscriberEmail = document.getElementById("subscriberEmail").value;
-
-              console.log("Subskrypcja email:", subscriberEmail);
-
-              alert("Dziękuję za subskrypcje!");
-            }
+              function subscribe() {
+                const subscriberEmail = document.getElementById("subscriberEmail").value;
+            
+                // Wykonaj ewentualną walidację tutaj
+            
+                // Wysyłaj wiadomość e-mail za pomocą Email.js
+                const templateParams = {
+                  to_email: subscriberEmail,
+                  subject: "Nowy subskrybent",
+                  body: `Nowy subskrybent o adresie e-mail: ${subscriberEmail}`,
+                };
+            
+                emailjs.send("service_your_emailjs_service_id", "template_your_emailjs_template_id", templateParams)
+                  .then(function(response) {
+                    console.log("Email wysłany pomyślnie:", response);
+                    // Wyświetl komunikat potwierdzający dla użytkownika
+                    alert("Dziękuję za subskrypcję! Sprawdź swoją pocztę e-mail w celu potwierdzenia.");
+                  }, function(error) {
+                    console.error("Error wysyłanie email:", error);
+                    // Wyświetl komunikat błędu dla użytkownika
+                    alert("Ups! Coś poszło nie tak. Spróbuj ponownie później.");
+                  });
+              }
         </script>
 
         <script src="./aos/aos.js"></script>
