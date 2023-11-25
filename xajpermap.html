@@ -26,6 +26,40 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
     
         <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.11/typed.min.js"></script>
+
+        <script>
+              document.addEventListener("DOMContentLoaded", function() {
+                if ("Notification" in window) {
+                  Notification.requestPermission().then(function(permission) {
+                    console.log("Notification permission:", permission);
+                  });
+                }
+    
+                let notificationCount = 0;
+
+                function showNotification() {
+                  if (Notification.permission === "granted") {
+                    notificationCount++;
+                    const notification = new Notification("Nowe powiadomienie", {
+                      body: `Masz ${notificationCount} nowe powiadomienie`,
+                      icon: "https://example.com/bell-icon.png"
+                    });
+
+                    notification.addEventListener("click", function() {
+                      console.log("Powiadomienie zostało kliknięte");
+                    });
+                  }
+                }
+
+                const bellButton = document.createElement("button");
+                bellButton.innerHTML = '<i class="fas fa-bell"></i>';
+                bellButton.classList.add("bell-button");
+
+                bellButton.addEventListener("click", showNotification);
+
+                document.body.appendChild(bellButton);
+              });
+        </script>
     
         <link
           rel="stylesheet"
