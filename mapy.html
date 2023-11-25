@@ -1,39 +1,21 @@
 <!DOCTYPE html>
 <html lang="pl">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
-        body, h1, h2, p, a {
+        body,
+        h1,
+        h2,
+        p,
+        a {
             margin: 0;
             padding: 0;
         }
 
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 66.66%;
-            max-width: 800px;
-            margin: auto;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            justify-content: center;
-            align-items: center;
-            z-index: 1;
-            opacity: 0;
-            transform: translateY(-50px);
-            transition: opacity 0.3s, transform 0.3s;
-        }
-    
-        .modal.show {
-            opacity: 1;
-            transform: translateY(0);
-        }
-            
         body {
             font-family: 'Arial', sans-serif;
             line-height: 1.6;
@@ -108,7 +90,8 @@
 
         .fa-thumbs-up {
             font-size: 24px;
-            color: #808080; /* Szary kolor */
+            color: #808080;
+            /* Szary kolor */
             cursor: pointer;
             position: absolute;
             top: 10px;
@@ -117,11 +100,13 @@
         }
 
         .fa-thumbs-up.liked {
-            color: #4CAF50; /* Zielony kolor */
+            color: #4CAF50;
+            /* Zielony kolor */
         }
 
         .fa-thumbs-up:hover {
-            color: #4CAF50; /* Zielony kolor */
+            color: #4CAF50;
+            /* Zielony kolor */
         }
 
         /* Modal styles */
@@ -130,7 +115,9 @@
             position: fixed;
             top: 0;
             left: 0;
-            width: 100%;
+            width: 66.66%;
+            max-width: 800px;
+            margin: auto;
             height: 100%;
             background-color: rgba(0, 0, 0, 0.5);
             justify-content: center;
@@ -142,6 +129,14 @@
             background-color: #fefefe;
             padding: 20px;
             border-radius: 5px;
+            opacity: 0;
+            transform: translateY(-50px);
+            transition: opacity 0.3s, transform 0.3s;
+        }
+
+        .modal.show .modal-content {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         .close {
@@ -150,206 +145,226 @@
             right: 20px;
             cursor: pointer;
         }
-        
+
         * {
-          box-sizing: border-box;
+            box-sizing: border-box;
         }
-        
-        body {
-          font-family: Arial;
-          margin: 0 auto;
-          max-width: 800px; 
-          padding: 20px;
-        }
-        
+
         .heading {
-          font-size: 25px;
-          margin-right: 25px;
+            font-size: 25px;
+            margin-right: 25px;
         }
-        
+
         .fa {
-          font-size: 25px;
+            font-size: 25px;
         }
-        
+
         .checked {
-          color: orange;
+            color: orange;
         }
 
         .side {
-          float: left;
-          width: 15%;
-          margin-top: 10px;
+            float: left;
+            width: 15%;
+            margin-top: 10px;
         }
-        
+
         .middle {
-          float: left;
-          width: 70%;
-          margin-top: 10px;
+            float: left;
+            width: 70%;
+            margin-top: 10px;
         }
 
         .right {
-          text-align: right;
+            text-align: right;
         }
 
         .row:after {
-          content: "";
-          display: table;
-          clear: both;
+            content: "";
+            display: table;
+            clear: both;
         }
-    
+
         .bar-container {
-          width: 100%;
-          background-color: #f1f1f1;
-          text-align: center;
-          color: white;
+            width: 100%;
+            background-color: #f1f1f1;
+            text-align: center;
+            color: white;
         }
-        
+
         .checked {
-          color: orange;
+            color: orange;
         }
-        
-        .bar-5 {width: 60%; height: 18px; background-color: #04AA6D;}
-        .bar-4 {width: 30%; height: 18px; background-color: #2196F3;}
-        .bar-3 {width: 10%; height: 18px; background-color: #00bcd4;}
-        .bar-2 {width: 4%; height: 18px; background-color: #ff9800;}
-        .bar-1 {width: 15%; height: 18px; background-color: #f44336;}
+
+        .bar-5 {
+            width: 60%;
+            height: 18px;
+            background-color: #04AA6D;
+        }
+
+        .bar-4 {
+            width: 30%;
+            height: 18px;
+            background-color: #2196F3;
+        }
+
+        .bar-3 {
+            width: 10%;
+            height: 18px;
+            background-color: #00bcd4;
+        }
+
+        .bar-2 {
+            width: 4%;
+            height: 18px;
+            background-color: #ff9800;
+        }
+
+        .bar-1 {
+            width: 15%;
+            height: 18px;
+            background-color: #f44336;
+        }
 
         @media (max-width: 400px) {
-          .side, .middle {
-            width: 100%;
-          }
+            .side,
+            .middle {
+                width: 100%;
+            }
 
-          .right {
-            display: none;
-          }
+            .right {
+                display: none;
+            }
         }
     </style>
 </head>
+
 <body>
 
-<header>
-    <h1>LISTA MAP [BETA]</h1>
-</header>
+    <header>
+        <h1>LISTA MAP [BETA]</h1>
+    </header>
 
-<section class="articles-list">
-    <article>
-        <h2>Party Activites</h2>
-        <p>Witaj! Mapa którą obecnie widzisz jest zbiorem różnych minigier...</p>
-        <a href="#" onclick="openModal()">Czytaj więcej</a>
+    <section class="articles-list">
+        <article>
+            <h2>Party Activites</h2>
+            <p>Witaj! Mapa którą obecnie widzisz jest zbiorem różnych minigier...</p>
+            <a href="#" onclick="openModal()">Czytaj więcej</a>
 
-        <i onclick="toggleLike(this)" class="fa fa-thumbs-up"></i>
+            <i onclick="toggleLike(this)" class="fa fa-thumbs-up"></i>
 
-        <a href="Party Activities.zip" class="btn" download="Party Activities.zip"><i class="fa fa-download"></i>Pobierz</a>
+            <a href="Party Activities.zip" class="btn" download="Party Activities.zip"><i class="fa fa-download"></i>Pobierz</a>
 
-        <h2>Oceny</h2>
-        <span class="fa fa-star checked"></span>
-        <span class="fa fa-star checked"></span>
-        <span class="fa fa-star checked"></span>
-        <span class="fa fa-star checked"></span>
-        <span class="fa fa-star checked"></span>
-   
-    </article>
+            <h2>Oceny</h2>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
 
-</section>
+        </article>
 
-<div id="myModal" class="modal">
-    <div class="modal-content">
-        <span class="close" onclick="closeModal()">&times;</span>
+    </section>
 
-        <h2 id="mapTitle">Tytuł Mapy</h2>
-        <p id="mapDescription">Opis Mapy</p>
-        
-        <h2>Oceny Użytkowników</h2>
-        <span class="fa fa-star checked"></span>
-        <span class="fa fa-star checked"></span>
-        <span class="fa fa-star checked"></span>
-        <span class="fa fa-star checked"></span>
-        <span class="fa fa-star checked"></span>
-        <p>Średnia 5,0 na podstawie 1 oceny</p>
-        <hr style="border:3px solid #f1f1f1">
-        
-        <div class="row">
-          <div class="side">
-            <div>5</div>
-          </div>
-          <div class="middle">
-            <div class="bar-container">
-              <div class="bar-5"></div>
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+
+            <h2 id="mapTitle">Tytuł Mapy</h2>
+            <p id="mapDescription">Opis Mapy</p>
+
+            <h2>Oceny Użytkowników</h2>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <p>Średnia 5,0 na podstawie 1 oceny</p>
+            <hr style="border:3px solid #f1f1f1">
+
+            <div class="row">
+                <div class="side">
+                    <div>5</div>
+                </div>
+                <div class="middle">
+                    <div class="bar-container">
+                        <div class="bar-5"></div>
+                    </div>
+                </div>
+                <div class="side right">
+                    <div>1</div>
+                </div>
+                <div class="side">
+                    <div>4</div>
+                </div>
+                <div class="middle">
+                    <div class="bar-container">
+                        <div class="bar-4"></div>
+                    </div>
+                </div>
+                <div class="side right">
+                    <div>0</div>
+                </div>
+                <div class="side">
+                    <div>3</div>
+                </div>
+                <div class="middle">
+                    <div class="bar-container">
+                        <div class="bar-3"></div>
+                    </div>
+                </div>
+                <div class="side right">
+                    <div>0</div>
+                </div>
+                <div class="side">
+                    <div>2</div>
+                </div>
+                <div class="middle">
+                    <div class="bar-container">
+                        <div class="bar-2"></div>
+                    </div>
+                </div>
+                <div class="side right">
+                    <div>0</div>
+                </div>
+                <div class="side">
+                    <div>1</div>
+                </div>
+                <div class="middle">
+                    <div class="bar-container">
+                        <div class="bar-1"></div>
+                    </div>
+                </div>
+                <div class="side right">
+                    <div>0</div>
+                </div>
             </div>
-          </div>
-          <div class="side right">
-            <div>1</div>
-          </div>
-          <div class="side">
-            <div>4</div>
-          </div>
-          <div class="middle">
-            <div class="bar-container">
-              <div class="bar-4"></div>
-            </div>
-          </div>
-          <div class="side right">
-            <div>0</div>
-          </div>
-          <div class="side">
-            <div>3</div>
-          </div>
-          <div class="middle">
-            <div class="bar-container">
-              <div class="bar-3"></div>
-            </div>
-          </div>
-          <div class="side right">
-            <div>0</div>
-          </div>
-          <div class="side">
-            <div>2</div>
-          </div>
-          <div class="middle">
-            <div class="bar-container">
-              <div class="bar-2"></div>
-            </div>
-          </div>
-          <div class="side right">
-            <div>0</div>
-          </div>
-          <div class="side">
-            <div>1</div>
-          </div>
-          <div class="middle">
-            <div class="bar-container">
-              <div class="bar-1"></div>
-            </div>
-          </div>
-          <div class="side right">
-            <div>0</div>
-          </div>
         </div>
     </div>
-</div>
 
-<script>
-    function toggleLike(icon) {
-        icon.classList.toggle("liked");
-    }
+    <script>
+        function toggleLike(icon) {
+            icon.classList.toggle("liked");
+        }
 
-    function openModal() {
-        document.getElementById("mapTitle").innerText = "Party Activites";
-        document.getElementById("mapDescription").innerHTML = "Witaj!<br><br>" +
-            "Mapa którą obecnie widzisz jest zbiorem różnych minigier. Party Activities jest mojego autorstwa i została stworzona dla maksymalnie DWÓCH graczy na wersję 1.19.4+! Gier jest PONAD 20 i na pewno każdy znajdzie coś dla siebie! Budowa tej mapy zajęła mi sporo czasu i włożyłem w nią sporo pracy, więc byłbym wdzięczny gdybyś ocenił ją zostawiając diaxa pod spodem. Możesz wbić na mój serwer discord gdzie uzyskasz dużo informacji o przedpremierowych mapach! Zaglądnij również na mój kanał na yt gdzie pokazuję jak tworzyć mapy. (https://discord.gg/QCnXbND9UZ)<br><br>" +
-            "<strong>WAŻNE INFORMACJE:</strong><br>" +
-            "» NIE klikaj wiadomości Wyjście [KLIKNIJ] do byle jakiej minigry, każda wiadomość jest indywidualna i przystosowana do każdej gry z osobna!!!<br>" +
-            "» Jeśli jakimś cudem zepsujesz mapę, pobierz ją jeszcze raz!<br>" +
-            "» Gdy nie działają ci klikane wiadomości, otwórz świat w LAN i włącz uprawnienia - jeśli jesteś na pojedynczym świecie, lub gdy grasz na serwerze ze znajomym, daj sobie i koledze uprawnienia operatora serwera.<br>" +
-            "» Masz jakieś pytania lub pojawił się bug? Napisz do mnie na dc (Xajper), na moim serwerze discord lub w komentarzach pod tą mapą.";
+        function openModal() {
+            document.getElementById("mapTitle").innerText = "Party Activites";
+            document.getElementById("mapDescription").innerHTML = "Witaj!<br><br>" +
+                "Mapa którą obecnie widzisz jest zbiorem różnych minigier. Party Activities jest mojego autorstwa i została stworzona dla maksymalnie DWÓCH graczy na wersję 1.19.4+! Gier jest PONAD 20 i na pewno każdy znajdzie coś dla siebie! Budowa tej mapy zajęła mi sporo czasu i włożyłem w nią sporo pracy, więc byłbym wdzięczny gdybyś ocenił ją zostawiając diaxa pod spodem. Możesz wbić na mój serwer discord gdzie uzyskasz dużo informacji o przedpremierowych mapach! Zaglądnij również na mój kanał na yt gdzie pokazuję jak tworzyć mapy. (https://discord.gg/QCnXbND9UZ)<br><br>" +
+                "<strong>WAŻNE INFORMACJE:</strong><br>" +
+                "» NIE klikaj wiadomości Wyjście [KLIKNIJ] do byle jakiej minigry, każda wiadomość jest indywidualna i przystosowana do każdej gry z osobna!!!<br>" +
+                "» Jeśli jakimś cudem zepsujesz mapę, pobierz ją jeszcze raz!<br>" +
+                "» Gdy nie działają ci klikane wiadomości, otwórz świat w LAN i włącz uprawnienia - jeśli jesteś na pojedynczym świecie, lub gdy grasz na serwerze ze znajomym, daj sobie i koledze uprawnienia operatora serwera.<br>" +
+                "» Masz jakieś pytania lub pojawił się bug? Napisz do mnie na dc (Xajper), na moim serwerze discord lub w komentarzach pod tą mapą.";
 
-        document.getElementById("myModal").classList.add("show");
-    }
+            document.getElementById("myModal").classList.add("show");
+        }
 
-    function closeModal() {
-        document.getElementById("myModal").classList.remove("show");
-    }
-</script>
+        function closeModal() {
+            document.getElementById("myModal").classList.remove("show");
+        }
+    </script>
 
 </body>
+
 </html>
