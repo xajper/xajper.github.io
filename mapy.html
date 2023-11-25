@@ -15,34 +15,34 @@
             margin: 0;
             padding: 0;
         }
-
+    
         .download-section {
             display: flex;
             justify-content: flex-end;
             align-items: center;
         }
-
+    
         .btn-download {
             background-color: #4CAF50;
             color: white;
-            padding: 8px 15px; /* Adjust padding for a smaller button */
+            padding: 8px 15px;
             cursor: pointer;
-            font-size: 16px; /* Adjust font size for a smaller button */
+            font-size: 16px;
             border-radius: 5px;
             transition: background-color 0.3s, transform 0.3s;
             display: flex;
             align-items: center;
         }
-
+    
         .btn-download i {
             margin-right: 5px;
         }
-
+    
         .btn-download:hover {
             background-color: #45a049;
             transform: scale(1.05);
         }
-
+    
         body {
             font-family: 'Arial', sans-serif;
             line-height: 1.6;
@@ -50,22 +50,22 @@
             color: #333;
             padding: 20px;
         }
-
+    
         header {
             text-align: center;
             margin-bottom: 20px;
         }
-
+    
         h1 {
             color: #008080;
         }
-
+    
         .articles-list {
             display: flex;
             justify-content: space-between;
             flex-wrap: wrap;
         }
-
+    
         article {
             position: relative;
             width: calc(33.33% - 20px);
@@ -76,15 +76,15 @@
             border: 1px solid #ddd;
             border-radius: 5px;
         }
-
+    
         h2 {
             color: #008080;
         }
-
+    
         p {
             margin-bottom: 10px;
         }
-
+    
         a {
             color: #008080;
             text-decoration: none;
@@ -94,44 +94,44 @@
             border-radius: 3px;
             transition: background-color 0.3s, color 0.3s;
         }
-
+    
         a:hover {
             background-color: #008080;
             color: #fff;
         }
-
+    
         #myDIV {
-          display: flex;
-          justify-content: center;
-          align-items: flex-end;
-          position: fixed;
-          bottom: 0;
-          width: 100%;
-          padding: 20px;
-          background-color: #f1f1f1;
-          box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
-          transition: all 0.3s ease-in-out;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            padding: 20px;
+            background-color: #f1f1f1;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease-in-out;
         }
-        
+    
         .btnprzycisk {
-          background-color: #4CAF50;
-          color: white;
-          padding: 10px 15px;
-          margin: 0 5px;
-          border: none;
-          border-radius: 5px;
-          cursor: pointer;
-          transition: background-color 0.3s ease-in-out;
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            margin: 0 5px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease-in-out;
         }
-        
+    
         .btnprzycisk.active {
-          background-color: #45a049;
+            background-color: #45a049;
         }
-        
+    
         .btnprzycisk:hover {
-          background-color: #45a049;
+            background-color: #45a049;
         }
-
+    
         .btn {
             background-color: DodgerBlue;
             border: none;
@@ -141,12 +141,12 @@
             font-size: 20px;
             transition: background-color 0.3s, transform 0.3s;
         }
-
+    
         .btn:hover {
             background-color: RoyalBlue;
             transform: scale(1.05);
         }
-
+    
         .fa-thumbs-up {
             font-size: 24px;
             color: #808080;
@@ -156,15 +156,15 @@
             right: 10px;
             transition: color 0.3s;
         }
-
+    
         .fa-thumbs-up.liked {
             color: #4CAF50;
         }
-
+    
         .fa-thumbs-up:hover {
             color: #4CAF50;
         }
-
+    
         .modal {
             display: none;
             position: fixed;
@@ -178,7 +178,7 @@
             align-items: center;
             z-index: 1;
         }
-
+    
         .modal-content {
             background-color: #fefefe;
             padding: 20px;
@@ -186,127 +186,122 @@
             opacity: 0;
             transition: opacity 0.3s, transform 0.3s;
         }
-
+    
         .modal.show .modal-content {
             opacity: 1;
             transform: translateY(0);
         }
-
+    
         .close {
-          position: absolute;
-          top: 15px;
-          right: 35px;
-          color: #f1f1f1;
-          font-size: 40px;
-          font-weight: bold;
-          transition: 0.3s;
+            position: absolute;
+            top: 15px;
+            right: 35px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            transition: 0.3s;
         }
-
+    
         * {
             box-sizing: border-box;
         }
-
+    
         .heading {
             font-size: 25px;
             margin-right: 25px;
         }
-
+    
         .fa {
             font-size: 25px;
         }
-
+    
         .checked {
             color: orange;
         }
-
+    
         .side {
             float: left;
             width: 15%;
             margin-top: 10px;
         }
-
+    
         .middle {
             float: left;
             width: 70%;
             margin-top: 10px;
         }
-
+    
         .right {
             text-align: right;
         }
-
+    
         .row:after {
             content: "";
             display: table;
             clear: both;
         }
-
+    
         .bar-container {
             width: 100%;
             background-color: #f1f1f1;
             text-align: center;
             color: white;
         }
-
+    
         .checked {
             color: orange;
         }
-
+    
         .bar-5 {
             width: 60%;
             height: 18px;
             background-color: #04AA6D;
         }
-
+    
         .bar-4 {
             width: 30%;
             height: 18px;
             background-color: #2196F3;
         }
-
+    
         .bar-3 {
             width: 10%;
             height: 18px;
             background-color: #00bcd4;
         }
-
+    
         .bar-2 {
             width: 4%;
             height: 18px;
             background-color: #ff9800;
         }
-
+    
         .bar-1 {
             width: 15%;
             height: 18px;
             background-color: #f44336;
         }
-
+    
         .author-section {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 20px;
         }
-
+    
         .author-section h1 {
             color: #008080;
             margin-right: 20px;
             border: none;
         }
-
-        .download-section {
-            display: flex;
-            justify-content: flex-end;
-        }
-        
+    
         .image-gallery {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-top: 20px;
         }
-
+    
         .image-gallery img {
             width: 100%;
             max-width: 200px;
@@ -317,99 +312,11 @@
             transition: transform 0.3s;
             cursor: pointer;
         }
-
+    
         .image-gallery img:hover {
             transform: scale(1.1);
         }
-
-
-        #myImg {
-          border-radius: 5px;
-          cursor: pointer;
-          transition: 0.3s;
-        }
-        
-        #myImg:hover {opacity: 0.7;}
-        
-        /* The Modal (background) */
-        .modal {
-          display: none; /* Hidden by default */
-          position: fixed; /* Stay in place */
-          z-index: 1; /* Sit on top */
-          padding-top: 100px; /* Location of the box */
-          left: 0;
-          top: 0;
-          width: 100%; /* Full width */
-          height: 100%; /* Full height */
-          overflow: auto; /* Enable scroll if needed */
-          background-color: rgb(0,0,0); /* Fallback color */
-          background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
-        }
-        
-        /* Modal Content (image) */
-        .modal-content {
-          margin: auto;
-          display: block;
-          width: 80%;
-          max-width: 700px;
-        }
-        
-        /* Caption of Modal Image */
-        #caption {
-          margin: auto;
-          display: block;
-          width: 80%;
-          max-width: 700px;
-          text-align: center;
-          color: #ccc;
-          padding: 10px 0;
-          height: 150px;
-        }
-        
-        /* Add Animation */
-        .modal-content, #caption {  
-          -webkit-animation-name: zoom;
-          -webkit-animation-duration: 0.6s;
-          animation-name: zoom;
-          animation-duration: 0.6s;
-        }
-        
-        @-webkit-keyframes zoom {
-          from {-webkit-transform:scale(0)} 
-          to {-webkit-transform:scale(1)}
-        }
-        
-        @keyframes zoom {
-          from {transform:scale(0)} 
-          to {transform:scale(1)}
-        }
-        
-        /* The Close Button */
-        .close {
-          position: absolute;
-          top: 15px;
-          right: 35px;
-          color: #f1f1f1;
-          font-size: 40px;
-          font-weight: bold;
-          transition: 0.3s;
-        }
-        
-        .close:hover,
-        .close:focus {
-          color: #bbb;
-          text-decoration: none;
-          cursor: pointer;
-        }
-        
-        /* 100% Image Width on Smaller Screens */
-        @media only screen and (max-width: 700px){
-          .modal-content {
-            width: 100%;
-          }
-        }
-
-    </style>
+</style>
 </head>
 
 <body>
@@ -432,10 +339,11 @@
                 <span class="fa fa-star checked"></span>
                 <span class="fa fa-star checked"></span>
                 <span class="fa fa-star checked"></span>
-
-                <img id="party_activities_1.jpg" src="party_activities_1.jpg" alt="Party Activities 1/2" style="width:100%;max-width:300px">
-                <img id="party_activities_2.jpg" src="party_activities_2.jpg" alt="Party Activities 2/2" style="width:100%;max-width:300px">
-
+    
+                <div class="image-gallery">
+                    <img onclick="openImageModal('party_activities_1.jpg')" src="party_activities_1.jpg" alt="Party Activities 1/2">
+                    <img onclick="openImageModal('party_activities_2.jpg')" src="party_activities_2.jpg" alt="Party Activities 2/2">
+                </div>
 
                 <p>Autor: <a href="index.html">Xajper</a></p>
 
@@ -462,8 +370,8 @@
                 <span class="fa fa-star checked"></span>
 
                 <div class="image-gallery">
-                    <img src="clicker_evolved_1.jpg" alt="Clicker Evolved 1">
-                    <img src="clicker_evolved_2.jpg" alt="Clicker Evolved 2">
+                    <img onclick="openImageModal('clicker_evolved_1.jpg')" src="clicker_evolved_1.jpg" alt="Clicker Evolved 1">
+                    <img onclick="openImageModal('clicker_evolved_2.jpg')" src="clicker_evolved_2.jpg" alt="Clicker Evolved 2">
                 </div>
 
                 <p>Autor: <a href="index.html">Xajper</a></p>
@@ -494,10 +402,9 @@
           <button class="btnprzycisk">5</button>
         </div>
 
-        <div id="myModal" class="modal">
-          <span class="close">&times;</span>
-          <img class="modal-content" id="img01">
-          <div id="caption"></div>
+        <div class="modal" id="imageModal">
+            <span class="close" onclick="closeImageModal()">&times;</span>
+            <img class="modal-content" id="modalImage">
         </div>
     
         <div id="myModal" class="modal">
@@ -513,25 +420,17 @@
 
 
         <script>
-            // Get the modal
-            var modal = document.getElementById("myModal");
-            
-            // Get the image and insert it inside the modal - use its "alt" text as a caption
-            var img = document.getElementById("myImg");
-            var modalImg = document.getElementById("img01");
-            var captionText = document.getElementById("caption");
-            img.onclick = function(){
-              modal.style.display = "block";
-              modalImg.src = this.src;
-              captionText.innerHTML = this.alt;
+            function openImageModal(imageSrc) {
+                var modal = document.getElementById("imageModal");
+                var modalImg = document.getElementById("modalImage");
+    
+                modal.style.display = "flex";
+                modalImg.src = imageSrc;
             }
-            
-            // Get the <span> element that closes the modal
-            var span = document.getElementsByClassName("close")[0];
-            
-            // When the user clicks on <span> (x), close the modal
-            span.onclick = function() { 
-              modal.style.display = "none";
+    
+            function closeImageModal() {
+                var modal = document.getElementById("imageModal");
+                modal.style.display = "none";
             }
         </script>
     
