@@ -74,16 +74,29 @@
         }
 
         .btn {
-          background-color: DodgerBlue;
-          border: none;
-          color: white;
-          padding: 12px 30px;
-          cursor: pointer;
-          font-size: 20px;
+            background-color: DodgerBlue;
+            border: none;
+            color: white;
+            padding: 12px 30px;
+            cursor: pointer;
+            font-size: 20px;
+            transition: background-color 0.3s, transform 0.3s;
         }
 
         .btn:hover {
-          background-color: RoyalBlue;
+            background-color: RoyalBlue;
+            transform: scale(1.05);
+        }
+
+        .fa-thumbs-up, .fa-thumbs-down {
+            font-size: 24px;
+            color: #008080;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .fa-thumbs-up:hover, .fa-thumbs-down:hover {
+            transform: scale(1.2);
         }
     </style>
 </head>
