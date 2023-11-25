@@ -197,6 +197,12 @@
             </div>
           </div>
         </section>
+
+    <div class="subscribe-form">
+      <h3>Newsletter:</h3>
+      <input type="email" class="subscribe-input" placeholder="Twój Email" id="subscriberEmail" />
+      <button class="subscribe-button" onclick="subscribe()">Subskrybuj</button>
+    </div>
     
         <div class="loader-wrapper">
     
@@ -216,7 +222,17 @@
             Stworzone przez <a href="index.html" target="_blank" style="color: white;">Xajper</a><br/><span class="far fa-copyright"></span> Wszelkie Prawa Zastrzeżone
           </span>
         </footer>
-    
+
+        <script>
+            function subscribe() {
+              const subscriberEmail = document.getElementById("subscriberEmail").value;
+
+              console.log("Subskrypcja email:", subscriberEmail);
+
+              alert("Dziękuję za subskrypcje!");
+            }
+        </script>
+
         <script src="./aos/aos.js"></script>
     
         <script type="text/javascript">
