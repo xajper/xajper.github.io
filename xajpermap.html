@@ -32,46 +32,7 @@
         <script>
               emailjs.init("user_your_emailjs_user_id");
         </script>
-              
-        <script>
-            document.addEventListener("DOMContentLoaded", function () {
-              if ("Notification" in window) {
-                Notification.requestPermission().then(function (permission) {
-                  console.log("Notification permission:", permission);
-                });
-              }
-      
-              let notificationCount = 0;
-      
-              function showNotification() {
-                if (Notification.permission === "granted") {
-                  notificationCount++;
-                  const notification = new Notification("Nowe powiadomienie", {
-                    body: `Masz ${notificationCount} nowe powiadomienie`,
-                    icon: "https://example.com/bell-icon.png",
-                  });
-      
-                  notification.addEventListener("click", function () {
-                    console.log("Powiadomienie zostało kliknięte");
-                  });
-                } else {
-                  // Jeżeli nie uzyskano zgody, wyświetl powiadomienie w innym miejscu
-                  const notificationContainer = document.getElementById("notification-container");
-                  notificationContainer.style.display = "block";
-                  notificationContainer.innerHTML = `Masz ${notificationCount} nowe powiadomienie`;
-                }
-              }
-      
-              const bellButton = document.createElement("button");
-              bellButton.innerHTML = '<i class="fas fa-bell"></i>';
-              bellButton.classList.add("bell-button");
-      
-              bellButton.addEventListener("click", showNotification);
-      
-              document.body.appendChild(bellButton);
-            });
-        </script>
-              
+   
         <link
           rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css"
@@ -105,10 +66,6 @@
             <div class="logo">
               <a href="#home">XajperMAP<span></span></a>
             </div>
-
-            <button class="bell-button" onclick="showNotification()">
-                  <i class="fas fa-bell"></i>
-            </button>
                 
             <ul class="menu">
               <li><a href="index.html" class="menu-btn">O mnie</a></li>
