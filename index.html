@@ -1,125 +1,74 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>O Mnie</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css" />
     <script defer src="script.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/confetti-js"></script>
-    <canvas id="my-canvas"></canvas>
-    <title>O Mnie</title>
     <style>
         @import url("https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap");
         @import url("https://use.fontawesome.com/releases/v6.4.2/css/all.css");
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800&display=swap');
-      
+
         body {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             overflow-x: hidden;
-        }
-        
-        .containersub {
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            font-family: "Roboto Mono", sans-serif;
-            max-height: 100vh;
-            overflow: hidden;
-        }
-        
-        #my-canvas {
-            position: absolute;
-            top: 0;
-            left: 0;
-            max-height: 100%;
-        }
-        
-        .emoji {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 3rem;
-        }
-        
-        .about-right {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-      
-        .carousel {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        
-        .fa-brands {
-            font-size: 8rem;
-        }
-        
-        .counter {
-            font-size: 2.5rem;
-            margin: 10px 0x;
-        }
-
-      
-        *{
-            padding: 0;
-            margin: 0;
-            box-sizing: border-box;
-        }
-        body{
             font-family: 'Poppins', sans-serif;
         }
-        .about-wrapper{
-            height: 100vh;
-        }
-        .about-left{
-            background: #55c5ea;
+
+        .about-wrapper {
             display: flex;
-            flex-direction: column;
+            flex-wrap: wrap;
+        }
+
+        .about-left {
+            background: #55c5ea;
+            flex: 1;
+            display: flex;
             align-items: center;
             justify-content: center;
-            height: 100vh;
+            text-align: center;
         }
-        .about-left-content > div{
+
+        .about-left-content {
             background: #9cd9ed;
             padding: 4rem 4rem 2.5rem 5rem;
             text-align: center;
-        }
-        .about-left-content{
             box-shadow: 0px 0px 18px -1px rgba(0, 0, 0, 0.39);
             -webkit-box-shadow: 0px 0px 18px -1px rgba(0, 0, 0, 0.39);
             -moz-box-shadow: 0px 0px 18px -1px rgba(0, 0, 0, 0.39);
         }
-        .about-img img{
-            display: block;
-            width: 200px;
-        }
-        .about-img{
+
+        .about-img {
             width: 200px;
             height: 200px;
             overflow: hidden;
             border-radius: 50%;
             transition: all 0.5s ease-in-out;
+            margin-right: 20px; /* Dodany odstęp z prawej strony karty z avatarem */
         }
-        .shadow{
-            margin-left: auto;
-            margin-right: auto;
+
+        .about-img img {
+            display: block;
+            width: 100%; /* Dostosowano szerokość obrazu do kontenera */
+        }
+
+        .shadow {
             border-radius: 50%;
             width: 200px;
             height: 200px;
             position: relative;
             cursor: pointer;
+            margin-left: auto;
+            margin-right: auto;
         }
-        .shadow::after{
+
+        .shadow::after {
             content: "";
             position: absolute;
             background: rgba(0, 0, 0, 0.4);
@@ -133,32 +82,38 @@
             opacity: 0;
             transition: all 0.6s ease;
         }
-        .shadow:hover .about-img{
+
+        .shadow:hover .about-img {
             transform: translateY(-10px);
         }
-        .shadow:hover::after{
+
+        .shadow:hover::after {
             opacity: 1;
         }
-        .about-left-content h2{
+
+        .about-left-content h2 {
             font-size: 2rem;
             margin: 2.2rem 0 0.6rem 0;
             line-height: 1.2;
             padding-bottom: 1rem;
             border-bottom: 2px solid #edffec;
         }
-        .about-left-content h3{
+
+        .about-left-content h3 {
             text-transform: uppercase;
             font-weight: 300;
             letter-spacing: 5px;
             margin-top: 1.2rem;
         }
-        .icons{
+
+        .icons {
             background: #fff;
             display: flex;
             justify-content: center;
             padding: 0.8rem 0;
         }
-        .icons li{
+
+        .icons li {
             list-style-type: none;
             background: #7bc9e4;
             color: #fff;
@@ -173,13 +128,15 @@
             cursor: pointer;
             transition: all 0.5s ease-in-out;
         }
-        .icons li:hover{
+
+        .icons li:hover {
             background: #edffec;
             color: #000;
         }
-        .about-right{
+
+        .about-right {
             background: #fff;
-            height: 100vh;
+            flex: 1;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -187,21 +144,26 @@
             padding: 0 5rem;
             text-align: center;
         }
-        .about-right h1{
+
+        .about-right h1 {
             font-size: 7rem;
             text-transform: uppercase;
         }
-        .about-right h1 span{
+
+        .about-right h1 span {
             color: #2dc9dd;
         }
-        .about-right h2{
+
+        .about-right h2 {
             font-weight: 600;
         }
-        .about-btns{
+
+        .about-btns {
             display: flex;
             margin: 2rem 0;
         }
-        .btn{
+
+        .btn {
             border: none;
             font-size: 0.9rem;
             text-transform: uppercase;
@@ -214,78 +176,97 @@
             margin: 0 0.5rem;
             cursor: pointer;
         }
-        .btn.btn-pink{
+
+        .btn.btn-pink {
             background: #7bc9e4;
             color: #fff;
             border-color: #7bc9e4;
             transition: all 0.5s ease-in-out;
         }
-        .btn.btn-pink:hover{
+
+        .btn.btn-pink:hover {
             background: transparent;
             border-color: #7bc9e4;
             color: #000;
         }
-        .btn.btn-white{
+
+        .btn.btn-white {
             transition: all 0.5s ease-in-out;
         }
-        .btn.btn-white:hover{
+
+        .btn.btn-white:hover {
             background: #dd2d4a;
             border-color: #dd2d4a;
             color: #fff;
         }
-        .btn.btn-blue{
+
+        .btn.btn-blue {
             background: #2d3cdd;
             color: #fff;
             border-color: #2d3cdd;
             transition: all 0.5s ease-in-out;
         }
-        .btn.btn-blue:hover{
+
+        .btn.btn-blue:hover {
             background: transparent;
             border-color: #2d3cdd;
             color: #000;
         }
-        .btn.btn-yellow{
+
+        .btn.btn-yellow {
             background: #cedd2d;
             color: #fff;
             border-color: #cedd2d;
             transition: all 0.5s ease-in-out;
         }
-        .btn.btn-yellow:hover{
+
+        .btn.btn-yellow:hover {
             background: transparent;
             border-color: #cedd2d;
             color: #000;
         }
-        .btn.btn-green{
+
+        .btn.btn-green {
             transition: all 0.5s ease-in-out;
         }
-        .btn.btn-green:hover{
+
+        .btn.btn-green:hover {
             background: #2ddd33;
             border-color: #2ddd33;
             color: #fff;
         }
-        .about-para p{
+
+        .about-para p {
             font-weight: 300;
             padding: 0.5rem;
             opacity: 0.8;
         }
 
         @media (max-width: 768px) {
-            .about-right {
-                padding: 10px;
+            .about-right,
+            .about-left {
+                padding: 20px;
             }
-        
-            .carousel {
-                margin: 0;
-                max-width: none;
+
+            .about-right,
+            .about-left,
+            .about-left-content > div,
+            .about-img {
+                width: 100%; /* Dostosowanie szerokości dla urządzeń o mniejszej szerokości ekranu */
+                margin: 0; /* Usunięcie marginesów dla responsywności */
+            }
+
+            .about-left {
+                order: 2; /* Zamiana kolejności wyświetlania na mniejszych ekranach */
             }
         }
-      
     </style>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
-  </head>
-  <body>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+        integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA=="
+        crossorigin="anonymous" />
+</head>
+<body>
     
     <div class = "about-wrapper">
       <div class = "about-left">
@@ -341,5 +322,5 @@
           </div>
       </div>
 
-  </body>
+</body>
 </html>
