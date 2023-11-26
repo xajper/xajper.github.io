@@ -516,6 +516,29 @@
         </div>
 
         <script>
+            function openNav() {
+                document.getElementById("mySidenav").style.width = "250px";
+            }
+
+            function closeNav() {
+                document.getElementById("mySidenav").style.width = "0";
+            }
+
+            function openImageModal(imageSrc) {
+                var modal = document.getElementById("imageModal");
+                var modalImg = document.getElementById("modalImage");
+    
+                modal.style.display = "flex";
+                modalImg.src = imageSrc;
+            }
+
+            function closeImageModal() {
+                var modal = document.getElementById("imageModal");
+                modal.style.display = "none";
+            }
+        </script>
+
+        <script>
             function openImageModal(imageSrc) {
                 var modal = document.getElementById("imageModal");
                 var modalImg = document.getElementById("modalImage");
