@@ -510,19 +510,22 @@
         </div>
 
         <script>
-            let sidebarVisible = false;
-            
             function toggleSidebar() {
                 const sidebar = document.querySelector('.sidebar');
                 sidebarVisible = !sidebarVisible;
-                sidebar.style.width = sidebarVisible ? '200px' : '0';
+                sidebar.style.width = sidebarVisible ? '250px' : '0';
             }
-            
+
+            function hideSidebar() {
+                const sidebar = document.querySelector('.sidebar');
+                sidebar.style.width = '0';
+            }
+
             function search() {
                 const searchInput = document.getElementById('searchInput');
                 const searchTerm = searchInput.value.toLowerCase();
-                
                 console.log('Szukaj: ' + searchTerm);
+                hideSidebar();
             }
         </script>
 
