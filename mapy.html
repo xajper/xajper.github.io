@@ -339,7 +339,7 @@
         .container {
             display: flex;
         }
-        
+
         .navbar {
             background-color: #333;
             padding: 15px;
@@ -372,8 +372,9 @@
         
         .search-container input[type=text] {
             padding: 10px;
-            width: 80%;
+            width: calc(100% - 20px);
             font-size: 16px;
+            box-sizing: border-box;
         }
         
         .search-container button {
@@ -514,16 +515,26 @@
             document.addEventListener("DOMContentLoaded", function () {
                 const sidebar = document.getElementById("sidebar");
                 const container = document.querySelector(".container");
-            
-                document.querySelector(".menu-btn").addEventListener("click", function () {
+
+                const toggleContainerClass = () => {
                     container.classList.toggle("change");
-                });
+                };
             
-                // Close sidebar when clicking outside
+                document.querySelector(".menu-btn").addEventListener("click", toggleContainerClass);
+
                 window.addEventListener("click", function (event) {
                     if (event.target !== sidebar && event.target.closest(".menu-btn") === null) {
                         container.classList.remove("change");
                     }
+                });
+
+                document.getElementById("searchInput").addEventListener("click", function (event) {
+                    event.stopPropagation();
+                });
+
+                document.getElementById("searchButton").addEventListener("click", function () {
+
+                    console.log("Przycisk WYSZUKAJ - kliknięty");
                 });
             });
         </script>
