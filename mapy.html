@@ -335,19 +335,7 @@
         .image-gallery img:hover {
             transform: scale(1.1);
         }
-
-        .container {
-            display: flex;
-        }
-
-        .navbar {
-            background-color: #333;
-            padding: 15px;
-            color: white;
-            text-align: center;
-            cursor: pointer;
-        }
-
+        
         .sidebar {
             height: 100vh;
             width: 0;
@@ -360,6 +348,8 @@
             transition: 0.5s;
             padding-top: 60px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
         }
         
         .sidebar p {
@@ -368,27 +358,21 @@
 
         .search-container {
             margin: 10px;
+            display: flex;
+            flex-direction: column;
         }
         
         .search-container input[type=text] {
             padding: 10px;
-            width: calc(100% - 20px);
             font-size: 16px;
             box-sizing: border-box;
+            margin-bottom: 10px;
         }
         
         .search-container button {
             padding: 10px;
             font-size: 16px;
             cursor: pointer;
-        }
-
-        .container.change .sidebar {
-            width: 250px;
-        }
-        
-        .container.change .content {
-            margin-left: 250px;
         }
 </style>
 </head>
@@ -515,25 +499,20 @@
             document.addEventListener("DOMContentLoaded", function () {
                 const sidebar = document.getElementById("sidebar");
                 const container = document.querySelector(".container");
-
+            
                 const toggleContainerClass = () => {
                     container.classList.toggle("change");
                 };
             
                 document.querySelector(".menu-btn").addEventListener("click", toggleContainerClass);
-
+            
                 window.addEventListener("click", function (event) {
                     if (event.target !== sidebar && event.target.closest(".menu-btn") === null) {
                         container.classList.remove("change");
                     }
                 });
 
-                document.getElementById("searchInput").addEventListener("click", function (event) {
-                    event.stopPropagation();
-                });
-
                 document.getElementById("searchButton").addEventListener("click", function () {
-
                     console.log("Przycisk WYSZUKAJ - kliknięty");
                 });
             });
