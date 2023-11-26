@@ -1,8 +1,3 @@
-
-Sure, here's the updated code with the added scripts:
-
-javascript
-Copy code
 const $counters = document.querySelectorAll('.counter');
 
 $counters.forEach(($counter) => {
