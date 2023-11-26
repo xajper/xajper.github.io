@@ -388,11 +388,10 @@
 
         <div class="container">
             <div class="navbar">
-                <span class="menu-btn">&#9776;</span>
+                <span class="menu-btn" onclick="toggleSidebar()">&#9776;</span>
             </div>
-   
+    
             <div class="sidebar" id="sidebar">
-
                 <div class="search-container">
                     <input type="text" placeholder="Szukaj...">
                     <button type="button">Szukaj</button>
@@ -498,6 +497,14 @@
     
             </div>
         </div>
+
+        <script>
+            function toggleSidebar() {
+                const sidebar = document.getElementById("sidebar");
+                const container = document.querySelector(".container");
+                container.classList.toggle("change");
+            }
+        </script>
 
         <script>
             document.addEventListener("DOMContentLoaded", function () {
