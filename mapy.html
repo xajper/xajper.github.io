@@ -376,6 +376,22 @@
             transition: margin-left 0.5s;
             padding: 16px;
         }
+
+        .search-container {
+            margin: 10px;
+        }
+        
+        .search-container input[type=text] {
+            padding: 10px;
+            width: 80%;
+            font-size: 16px;
+        }
+        
+        .search-container button {
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
 </style>
 </head>
 
@@ -387,6 +403,11 @@
         <button class="toggle-sidebar-btn" onclick="toggleSidebar()">☰</button>
 
         <div class="sidebar" id="sidebar">
+            <!-- Search Bar -->
+            <div class="search-container">
+                <input type="text" placeholder="Szukaj...">
+                <button type="button">Search</button>
+            </div>
             <a href="index.html">O mnie</a>
             <a href="xajperteam.html">Xajper Team</a>
             <a href="xajperbot.html">XajperBOT</a>
