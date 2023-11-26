@@ -336,10 +336,6 @@
             transform: scale(1.1);
         }
 
-        .container {
-            display: flex;
-        }
-        
         .sidebar {
             height: 100vh;
             width: 0;
@@ -377,6 +373,9 @@
             padding: 10px;
             font-size: 16px;
             cursor: pointer;
+        }
+        .container {
+            display: flex;
         }
 </style>
 </head>
@@ -423,6 +422,7 @@
                 <div class="image-gallery">
                     <img class="myImages" onclick="openImageModal('party_activities_1.jpg')" src="party_activities_1.jpg" alt="Party Activities 1/2">
                     <img class="myImages" onclick="openImageModal('party_activities_2.jpg')" src="party_activities_2.jpg" alt="Party Activities 2/2">
+                    <img class="modal-content" id="modalImage" src="https://via.placeholder.com/600" alt="Modal Image">
                 </div>
 
                 <p>Autor: <a href="index.html">Xajper</a></p>
