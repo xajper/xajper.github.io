@@ -335,10 +335,10 @@
         .image-gallery img:hover {
             transform: scale(1.1);
         }
-
-        .sidenav {
+        
+        .sidebar {
             height: 100%;
-            width: 250px;
+            width: 0;
             position: fixed;
             z-index: 1;
             top: 0;
@@ -347,59 +347,52 @@
             overflow-x: hidden;
             transition: 0.5s;
             padding-top: 60px;
+            color: white;
         }
-
-        .sidenav a {
+    
+        .sidebar a {
             padding: 8px 8px 8px 32px;
             text-decoration: none;
-            font-size: 20px;
+            font-size: 25px;
             color: #818181;
             display: block;
             transition: 0.3s;
         }
-
-        .sidenav a:hover {
+    
+        .sidebar a:hover {
             color: #f1f1f1;
         }
-
-        .sidenav .closebtn {
-            position: absolute;
-            top: 0;
-            right: 25px;
-            font-size: 36px;
-            margin-left: 50px;
-        }
-
-        @media screen and (max-height: 450px) {
-            .sidenav {padding-top: 15px;}
-            .sidenav a {font-size: 18px;}
-        }
-        
-        .search-container {
-            float: right;
-        }
-
-        .search-container input[type=text] {
-            padding: 6px;
-            margin-top: 8px;
-            font-size: 17px;
+    
+        .sidebar .toggle-sidebar-btn {
+            font-size: 20px;
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            background-color: #111;
             border: none;
+            color: white;
+            cursor: pointer;
         }
-
-        .search-container button {
-            padding: 6px 10px;
+    
+        .search-container {
+            padding: 16px;
+            text-align: center;
+        }
+    
+        .search-container input[type=text] {
+            padding: 10px;
             margin-top: 8px;
-            margin-right: 16px;
+            width: 80%;
+        }
+    
+        .search-container button {
+            padding: 10px;
+            margin-top: 8px;
+            width: 20%;
             background: #ddd;
-            font-size: 17px;
             border: none;
             cursor: pointer;
         }
-
-        .search-container button:hover {
-            background: #ccc;
-        }
-
 </style>
 </head>
 
@@ -408,18 +401,17 @@
             <h1>LISTA MAP [BETA]</h1>
         </header>
 
-        <div id="mySidenav" class="sidenav">
-            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <div class="sidebar">
+            <button class="toggle-sidebar-btn" onclick="toggleSidebar()">☰</button>
+            <div class="search-container">
+                <input type="text" placeholder="Szukaj..." id="searchInput">
+                <button onclick="search()">Szukaj</button>
+            </div>
             <a href="index.html">O mnie</a>
             <a href="xajperteam.html">Xajper Team/a>
             <a href="xajperbot.html">XajperBOT</a>
             <a href="xajpermap.html">XajperMAP</a>
             <a href="stroneserwera.html">PixelParadise</a>
-        </div>
-
-        <div class="search-container">
-            <input type="text" placeholder="Szukaj...">
-            <button type="submit"><i class="fa fa-search"></i></button>
         </div>
     
         <section class="articles-list">
@@ -516,25 +508,19 @@
         </div>
 
         <script>
-            function openNav() {
-                document.getElementById("mySidenav").style.width = "250px";
+            let sidebarVisible = false;
+            
+            function toggleSidebar() {
+                const sidebar = document.querySelector('.sidebar');
+                sidebarVisible = !sidebarVisible;
+                sidebar.style.width = sidebarVisible ? '200px' : '0';
             }
-
-            function closeNav() {
-                document.getElementById("mySidenav").style.width = "0";
-            }
-
-            function openImageModal(imageSrc) {
-                var modal = document.getElementById("imageModal");
-                var modalImg = document.getElementById("modalImage");
-    
-                modal.style.display = "flex";
-                modalImg.src = imageSrc;
-            }
-
-            function closeImageModal() {
-                var modal = document.getElementById("imageModal");
-                modal.style.display = "none";
+            
+            function search() {
+                const searchInput = document.getElementById('searchInput');
+                const searchTerm = searchInput.value.toLowerCase();
+                
+                console.log('Szukaj: ' + searchTerm);
             }
         </script>
 
