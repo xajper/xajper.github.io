@@ -500,29 +500,25 @@
 
         <script>
             function toggleSidebar() {
-                const sidebar = document.getElementById("sidebar");
                 const container = document.querySelector(".container");
                 container.classList.toggle("change");
             }
-        </script>
-
-        <script>
+    
             document.addEventListener("DOMContentLoaded", function () {
-                const sidebar = document.getElementById("sidebar");
                 const container = document.querySelector(".container");
-            
+    
                 const toggleContainerClass = () => {
                     container.classList.toggle("change");
                 };
-            
+    
                 document.querySelector(".menu-btn").addEventListener("click", toggleContainerClass);
-            
+    
                 window.addEventListener("click", function (event) {
-                    if (event.target !== sidebar && event.target.closest(".menu-btn") === null) {
+                    if (event.target.closest(".menu-btn") === null) {
                         container.classList.remove("change");
                     }
                 });
-
+    
                 document.getElementById("searchButton").addEventListener("click", function () {
                     console.log("Przycisk WYSZUKAJ - kliknięty");
                 });
@@ -542,21 +538,20 @@
                 var modal = document.getElementById("imageModal");
                 modal.style.display = "none";
             }
-    
         </script>
 
         <script>
-            document.addEventListener("DOMContentLoaded", function() {
-              var header = document.getElementById("myDIV");
-              var btns = header.getElementsByClassName("btn");
-          
-              for (var i = 0; i < btns.length; i++) {
-                btns[i].addEventListener("click", function() {
-                  var current = header.getElementsByClassName("active");
-                  current[0].className = current[0].className.replace(" active", "");
-                  this.className += " active";
-                });
-              }
+            document.addEventListener("DOMContentLoaded", function () {
+                var header = document.getElementById("myDIV");
+                var btns = header.getElementsByClassName("btnprzycisk");
+    
+                for (var i = 0; i < btns.length; i++) {
+                    btns[i].addEventListener("click", function () {
+                        var current = header.getElementsByClassName("active");
+                        current[0].classList.remove("active");
+                        this.classList.add("active");
+                    });
+                }
             });
         </script>
         
@@ -646,6 +641,8 @@
                 document.getElementById("mapTitle").innerText = mapTitle;
                 document.getElementById("mapDescription").innerHTML = mapDescription;
                 document.getElementById("mapocena").innerHTML = mapOcenaHTML;
+
+                openImageModal("https://via.placeholder.com/600");
             
                 const myModal = document.getElementById("myModal");
                 myModal.style.display = "flex";
