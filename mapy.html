@@ -164,6 +164,10 @@
         .fa-thumbs-up:hover {
             color: #4CAF50;
         }
+
+        #imageModal {
+            display: none;
+        }
     
         .modal {
             display: none;
@@ -177,6 +181,12 @@
             justify-content: center;
             align-items: center;
             z-index: 1;
+        }
+
+        .modal-content img {
+            width: 100%;
+            max-width: 800px;
+            height: auto;
         }
     
         .modal-content {
@@ -320,7 +330,6 @@
 </head>
 
 <body>
-    
         <header>
             <h1>LISTA MAP [BETA]</h1>
         </header>
@@ -406,11 +415,6 @@
           <button class="btnprzycisk">4</button>
           <button class="btnprzycisk">5</button>
         </div>
-
-        <div class="modal" id="imageModal">
-            <span class="close" onclick="closeImageModal()">&times;</span>
-            <img class="modal-content" id="modalImage">
-        </div>
     
         <div id="myModal" class="modal">
             <div class="modal-content">
@@ -427,17 +431,18 @@
             function openImageModal(imageSrc) {
                 var modal = document.getElementById("imageModal");
                 var modalImg = document.getElementById("modalImage");
-        
-                modal.style.display = "block";
+    
+                modal.style.display = "flex";
                 modalImg.src = imageSrc;
             }
-        
+    
             function closeImageModal() {
                 var modal = document.getElementById("imageModal");
                 modal.style.display = "none";
             }
-        </script>
     
+        </script>
+
         <script>
             document.addEventListener("DOMContentLoaded", function() {
               var header = document.getElementById("myDIV");
