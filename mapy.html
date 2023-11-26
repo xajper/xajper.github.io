@@ -336,45 +336,34 @@
             transform: scale(1.1);
         }
 
+        .container {
+            display: flex;
+        }
+        
+        .navbar {
+            background-color: #333;
+            padding: 15px;
+            color: white;
+            text-align: center;
+            cursor: pointer;
+        }
+
         .sidebar {
-            height: 100%;
+            height: 100vh;
             width: 0;
             position: fixed;
             z-index: 1;
             top: 0;
             left: 0;
             background-color: white;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             overflow-x: hidden;
             transition: 0.5s;
             padding-top: 60px;
-            color: black;
-            width: 250px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
         
-        .sidebar.expanded {
-            box-shadow: -5px 0 10px rgba(0, 0, 0, 0.1);
-        }
-        
-        .sidebar.expanded + .content {
-            box-shadow: 5px 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .toggle-sidebar-btn {
-            font-size: 20px;
-            position: fixed;
-            top: 10px;
-            left: 10px;
-            background-color: white;
-            border: none;
-            color: black;
-            cursor: pointer;
-        }
-        
-        .content {
-            margin-left: 0;
-            transition: margin-left 0.5s;
-            padding: 16px;
+        .sidebar p {
+            padding: 10px;
         }
 
         .search-container {
@@ -392,6 +381,14 @@
             font-size: 16px;
             cursor: pointer;
         }
+
+        .container.change .sidebar {
+            width: 250px;
+        }
+        
+        .container.change .content {
+            margin-left: 250px;
+        }
 </style>
 </head>
 
@@ -400,20 +397,28 @@
             <h1>LISTA MAP [BETA]</h1>
         </header>
 
-        <button class="toggle-sidebar-btn" onclick="toggleSidebar()">☰</button>
+        <div class="container">
+            <div class="navbar">
+                <span class="menu-btn">&#9776; Menu</span>
+            </div>
+   
+            <div class="sidebar" id="sidebar">
 
-        <div class="sidebar" id="sidebar">
-            <!-- Search Bar -->
-            <div class="search-container">
-                <input type="text" placeholder="Szukaj...">
-                <button type="button">Search</button>
+                <div class="search-container">
+                    <input type="text" placeholder="Szukaj...">
+                    <button type="button">Szukaj</button>
+                </div>
+
+                <p>Panel</p>
             </div>
             <a href="index.html">O mnie</a>
             <a href="xajperteam.html">Xajper Team</a>
             <a href="xajperbot.html">XajperBOT</a>
             <a href="xajpermap.html">XajperMAP</a>
             <a href="stroneserwera.html">PixelParadise</a>
-            <p>Panel</p>
+            <div class="content">
+                <h1>Panel.</h1>
+            </div>
         </div>
     
         <section class="articles-list">
@@ -510,12 +515,21 @@
         </div>
 
         <script>
-            function toggleSidebar() {
-                const sidebar = document.getElementById('sidebar');
-                sidebar.classList.toggle('expanded');
-                const content = document.querySelector('.content');
-                content.classList.toggle('expanded');
-            }
+            document.addEventListener("DOMContentLoaded", function () {
+                const sidebar = document.getElementById("sidebar");
+                const container = document.querySelector(".container");
+            
+                document.querySelector(".menu-btn").addEventListener("click", function () {
+                    container.classList.toggle("change");
+                });
+            
+                // Close sidebar when clicking outside
+                window.addEventListener("click", function (event) {
+                    if (event.target !== sidebar && event.target.closest(".menu-btn") === null) {
+                        container.classList.remove("change");
+                    }
+                });
+            });
         </script>
 
         <script>
