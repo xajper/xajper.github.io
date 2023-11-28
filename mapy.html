@@ -346,6 +346,10 @@
             padding: 10px;
             text-align: center;
             cursor: pointer;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 2;
         }
 
         .sidebar {
@@ -413,7 +417,7 @@
         </header>
 
         <div class="container">
-            <div class="navbar" onclick="toggleSidebar(); closeSearch();">
+            <div class="navbar" onclick="toggleSidebar(); openSearch();">
                 &#9776;
             </div>
 
