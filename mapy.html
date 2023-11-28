@@ -388,7 +388,7 @@
         }
 
         .search-bar {
-            margin-top: 10px;
+            margin-top: 50px;
             padding: 10px;
             display: flex;
             align-items: center;
@@ -396,6 +396,7 @@
             top: 10px;
             left: 50px;
             z-index: 1;
+            transition: top 0.3s;
         }
 
         .search-input {
@@ -421,7 +422,7 @@
         </header>
 
         <div class="container">
-            <div class="navbar" onclick="toggleSidebar(); openSearch();">
+            <div class="navbar" onclick="toggleSidebar(); toggleSearch();">
                 &#9776;
             </div>
             <div class="search-bar" id="searchbar" style="display: none;">
@@ -560,14 +561,17 @@
         </script>
 
         <script>
-            function openSearch() {
-                const searchbar = document.getElementById("searchbar");
-                searchbar.style.display = "flex";
-            }
+            let isSearchOpen = false;
     
-            function closeSearch() {
+            function toggleSearch() {
                 const searchbar = document.getElementById("searchbar");
-                searchbar.style.display = "none";
+                isSearchOpen = !isSearchOpen;
+    
+                if (isSearchOpen) {
+                    searchbar.style.top = "10px";
+                } else {
+                    searchbar.style.top = "-50px"; // przesuń na górę, poza obszar widoczności
+                }
             }
         </script>
     
