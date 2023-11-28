@@ -498,26 +498,22 @@
         </div>
 
         <script>
-            function toggleSidebar() {
-                const container = document.querySelector(".container");
-                container.classList.toggle("change");
-            }
-    
             document.addEventListener("DOMContentLoaded", function () {
                 const container = document.querySelector(".container");
-    
+                const sidebar = document.getElementById("sidebar");
+            
                 const toggleContainerClass = () => {
                     container.classList.toggle("change");
                 };
-    
+            
                 document.querySelector(".menu-btn").addEventListener("click", toggleContainerClass);
-    
+            
                 window.addEventListener("click", function (event) {
-                    if (event.target.closest(".menu-btn") === null) {
+                    if (!event.target.closest(".menu-btn") && !event.target.closest("#sidebar")) {
                         container.classList.remove("change");
                     }
                 });
-    
+            
                 document.getElementById("searchButton").addEventListener("click", function () {
                     console.log("Przycisk WYSZUKAJ - kliknięty");
                 });
