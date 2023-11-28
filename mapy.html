@@ -336,6 +336,18 @@
             transform: scale(1.1);
         }
 
+        .container {
+            display: flex;
+        }
+
+        .navbar {
+            background-color: #333;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+        }
+
         .sidebar {
             height: 100vh;
             width: 0;
@@ -343,39 +355,37 @@
             z-index: 1;
             top: 0;
             left: 0;
-            background-color: white;
+            background-color: #111;
             overflow-x: hidden;
             transition: 0.5s;
             padding-top: 60px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             display: flex;
             flex-direction: column;
-        }
-        
-        .sidebar p {
-            padding: 10px;
+            color: white;
         }
 
-        .search-container {
-            margin: 10px;
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .search-container input[type=text] {
+        .sidebar a {
             padding: 10px;
-            font-size: 16px;
-            box-sizing: border-box;
-            margin-bottom: 10px;
+            text-decoration: none;
+            font-size: 18px;
+            color: white;
+            display: block;
+            transition: 0.3s;
         }
-        
-        .search-container button {
-            padding: 10px;
-            font-size: 16px;
+
+        .sidebar a:hover {
+            background-color: #555;
+        }
+
+        .content {
+            flex-grow: 1;
+            padding: 20px;
+        }
+
+        .menu-btn {
+            font-size: 24px;
             cursor: pointer;
-        }
-        .container {
-            display: flex;
         }
 </style>
 </head>
@@ -386,21 +396,22 @@
         </header>
 
         <div class="container">
-            <div class="navbar">
-                <span class="menu-btn" onclick="toggleSidebar()">&#9776;</span>
+            <div class="navbar" onclick="toggleSidebar()">
+                &#9776; Menu
             </div>
     
             <div class="sidebar" id="sidebar">
-                <div class="search-container">
-                    <input type="text" placeholder="Szukaj...">
-                    <button type="button">Szukaj</button>
-                </div>
-                <a href="index.html">O mnie</a>
-                <a href="xajperteam.html">Xajper Team</a>
-                <a href="xajperbot.html">XajperBOT</a>
-                <a href="xajpermap.html">XajperMAP</a>
-                <a href="stroneserwera.html">PixelParadise</a>
-                <p>Panel</p>
+                <a href="#">Item 1</a>
+                <a href="#">Item 2</a>
+                <a href="#">Item 3</a>
+                <a href="#">Item 4</a>
+                <a href="#">Item 5</a>
+            </div>
+    
+            <div class="content">
+                <!-- Your main content goes here -->
+                <h1>Main Content</h1>
+                <p>This is the main content area.</p>
             </div>
         </div>
     
@@ -498,28 +509,12 @@
         </div>
 
         <script>
-            document.addEventListener("DOMContentLoaded", function () {
-                const container = document.querySelector(".container");
+            function toggleSidebar() {
                 const sidebar = document.getElementById("sidebar");
-            
-                const toggleContainerClass = () => {
-                    container.classList.toggle("change");
-                };
-            
-                document.querySelector(".menu-btn").addEventListener("click", toggleContainerClass);
-            
-                window.addEventListener("click", function (event) {
-                    if (!event.target.closest(".menu-btn") && !event.target.closest("#sidebar")) {
-                        container.classList.remove("change");
-                    }
-                });
-            
-                document.getElementById("searchButton").addEventListener("click", function () {
-                    console.log("Przycisk WYSZUKAJ - kliknięty");
-                });
-            });
+                sidebar.style.width = sidebar.style.width === "250px" ? "0" : "250px";
+            }
         </script>
-
+    
         <script>
             function openImageModal(imageSrc) {
                 var modal = document.getElementById("imageModal");
