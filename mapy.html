@@ -415,11 +415,6 @@
             padding: 10px;
             display: flex;
             align-items: center;
-            position: fixed;
-            top: 0;
-            left: 50px;
-            z-index: 3;
-            transition: top 0.3s;
             width: calc(100% - 50px);
             background-color: #333;
         }
@@ -431,7 +426,7 @@
             border: none;
             border-radius: 3px;
         }
-        
+
         .search-btn {
             padding: 5px 10px;
             background-color: #008080;
@@ -448,17 +443,18 @@
             <h1>LISTA MAP [BETA]</h1>
         </header>
 
-        <div class="search-bar" id="searchbar">
-            <input type="text" class="search-input" id="search-input" placeholder="Szukaj...">
-            <button class="search-btn" onclick="performSearch()">Szukaj</button>
-        </div>    
-    
         <div class="sidebar" id="sidebar">
             <a href="index.html">O mnie</a>
             <a href="xajperteam.html">Xajper Team</a>
             <a href="xajperbot.html">XajperBOT</a>
             <a href="xajpermap.html">XajperMAP</a>
             <a href="stroneserwera.html">PixelParadise</a>
+            
+            <div class="search-bar" id="searchbar">
+                <input type="text" class="search-input" id="search-input" placeholder="Szukaj...">
+                <button class="search-btn" onclick="performSearch()">Szukaj</button>
+            </div>
+            
             <div class="sidebar-footer">
                 <a href="#">Konto <i class="fa fa-user"></i></a>
             </div>
