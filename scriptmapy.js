@@ -260,3 +260,10 @@ function filterArticles() {
         }
     });
 }
+
+const articles = allArticles;
+
+articles.forEach((article, index) => {
+    document.getElementById(`article-title-${index}`).innerText = article.title;
+    document.getElementById(`article-content-${index}`).innerText = article.content;
+});
