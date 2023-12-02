@@ -1,5 +1,14 @@
 const $counters = document.querySelectorAll('.counter');
 
+function celebrate() {
+    const confettiSettings = { target: 'my-canvas' };
+    const confetti = new ConfettiGenerator(confettiSettings);
+    confetti.render();
+
+    const celebrationContainer = document.querySelector('.containersub');
+    celebrationContainer.innerHTML += '<div class="emoji">🎉</div>';
+}
+
 $counters.forEach(($counter) => {
     $counter.innerText = '0';
     const updateCounter = () => {
@@ -19,12 +28,3 @@ $counters.forEach(($counter) => {
     };
     updateCounter();
 });
-
-function celebrate() {
-    const confettiSettings = { target: 'my-canvas' };
-    const confetti = new ConfettiGenerator(confettiSettings);
-    confetti.render();
-
-    const celebrationContainer = document.querySelector('.containersub');
-    celebrationContainer.innerHTML += '<div class="emoji">🎉</div>';
-}
