@@ -244,3 +244,19 @@ function closeModal() {
         document.getElementById("myModal").style.display = "none";
     }, 300);
 }
+
+function filterArticles() {
+    const searchInput = document.getElementById('search-input').value.toLowerCase();
+    const articles = document.querySelectorAll('.articles-list article');
+
+    articles.forEach(article => {
+        const title = article.querySelector('h2').innerText.toLowerCase();
+        const shouldShow = title.includes(searchInput);
+
+        if (shouldShow) {
+            article.style.display = 'block';
+        } else {
+            article.style.display = 'none';
+        }
+    });
+}
