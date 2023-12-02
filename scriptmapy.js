@@ -244,3 +244,15 @@ function closeModal() {
         document.getElementById("myModal").style.display = "none";
     }, 300);
 }
+
+async function handleDownload(downloadUrl, button) {
+    const response = await fetch(`/download?url=${encodeURIComponent(downloadUrl)}`);
+    const data = await response.json();
+
+    const downloadCountElement = button.parentElement.querySelector('.download-count');
+    if (downloadCountElement) {
+        downloadCountElement.textContent = `Liczba pobrań: ${data.count}`;
+    }
+
+    window.location.href = downloadUrl;
+}
