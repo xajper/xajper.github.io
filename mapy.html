@@ -314,18 +314,24 @@
             height: 18px;
             background-color: #f44336;
         }
-    
-        .author-section {
+
+        .author-download-section {
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
+            align-items: flex-end;
         }
-    
-        .author-section h1 {
-            color: #008080;
-            margin-right: 20px;
-            border: none;
+        
+        .author-download-section p {
+            margin: 0;
+        }
+        
+        .download-section {
+            display: flex;
+            align-items: center;
+        }
+        
+        .download-section img {
+            margin-left: 10px;
         }
     
         .image-gallery {
@@ -504,15 +510,15 @@
                     <img class="myImages" onclick="openImageModal('clicker_evolved_2.jpg')" src="party_activities_2.jpg" alt="Party Activities 2/2">
                 </div>
 
-                <p>Autor: <a href="index.html">Xajper</a></p>
-
-                <div class="download-section">
-                    <a href="Party Activities.zip" class="btn-download" download="Party Activities.zip">
-                        <i class="fa fa-download"></i>
-                    </a>
-                    <img alt="Liczba Pobrań" src="https://img.shields.io/github/downloads/webs1te/xajper/PartyActivities/total">
+                <div class="author-download-section">
+                    <p>Autor: <a href="index.html">Xajper</a></p>
+                    
+                    <div class="download-section">
+                        <a href="Party Activities.zip" class="btn-download" download="Party Activities.zip">
+                            <i class="fa fa-download"></i>Pobierz
+                        </a>
+                    </div>
                 </div>
-                
             </article>
     
             <article>
