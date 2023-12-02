@@ -39,6 +39,10 @@ function openImageModal(imageSrc) {
     modalImg.src = imageSrc;
 }
 
+function toggleLike(icon) {
+    icon.classList.toggle("liked");
+}
+
 function closeImageModal() {
     var modal = document.getElementById("imageModal");
     modal.style.display = "none";
@@ -56,10 +60,6 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 });
-
-function toggleLike(icon) {
-    icon.classList.toggle("liked");
-}
 
 function openModalPA() {
     const mapTitle = "Party Activities";
