@@ -14,8 +14,6 @@ const articles = [
     {
         title: "Ostatnia Twierdza",
         content: "...",
-        author: "Xajper",
-        downloads: 0
     }
 ];
 
