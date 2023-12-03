@@ -47,6 +47,16 @@ function openImageModal(imageSrc) {
     modalImg.src = imageSrc;
 }
 
+function toggleDislike(element) {
+    element.classList.toggle("disliked");
+
+    if (element.classList.contains("disliked")) {
+        showReactionAnimation(element, "-1");
+    } else {
+        showReactionAnimation(element, "+1");
+    }
+}
+
 function toggleLike(element) {
     element.classList.toggle("liked");
 
