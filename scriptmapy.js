@@ -278,3 +278,11 @@ articles.forEach((article, index) => {
     document.getElementById(`article-title-${index}`).innerText = article.title;
     document.getElementById(`article-content-${index}`).innerText = article.content;
 });
+
+function openLoginModal() {
+    document.getElementById('loginModal').classList.add('show');
+}
+
+function closeLoginModal() {
+    document.getElementById('loginModal').classList.remove('show');
+}
