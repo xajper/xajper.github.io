@@ -52,15 +52,16 @@ let dislikeCount = 0;
 
 function toggleLike(element) {
     const likeCountElement = document.getElementById("like-count");
+    const likeOverlay = document.getElementById("like-overlay");
 
     element.classList.toggle("liked");
 
     if (element.classList.contains("liked")) {
         likeCount++;
-        showReactionAnimation(element, "+1");
+        showReactionAnimation(likeOverlay, "+1");
     } else {
         likeCount--;
-        showReactionAnimation(element, "-1");
+        showReactionAnimation(likeOverlay, "-1");
     }
 
     likeCountElement.textContent = likeCount;
@@ -68,15 +69,16 @@ function toggleLike(element) {
 
 function toggleDislike(element) {
     const dislikeCountElement = document.getElementById("dislike-count");
+    const dislikeOverlay = document.getElementById("dislike-overlay");
 
     element.classList.toggle("disliked");
 
     if (element.classList.contains("disliked")) {
         dislikeCount++;
-        showReactionAnimation(element, "-1");
+        showReactionAnimation(dislikeOverlay, "-1");
     } else {
         dislikeCount--;
-        showReactionAnimation(element, "+1");
+        showReactionAnimation(dislikeOverlay, "+1");
     }
 
     dislikeCountElement.textContent = dislikeCount;
