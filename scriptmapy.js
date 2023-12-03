@@ -13,6 +13,14 @@ function performSearch() {
     }
 }
 
+function animateSword() {
+    var sword = document.querySelector('.grass-dirt-block');
+    sword.classList.add('clicked');
+    setTimeout(function () {
+        sword.classList.remove('clicked');
+    }, 500);
+}
+
 function toggleSidebar() {
     const sidebar = document.getElementById("sidebar");
     sidebar.style.width = sidebar.style.width === "250px" ? "0" : "250px";
