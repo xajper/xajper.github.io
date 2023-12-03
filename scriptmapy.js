@@ -47,9 +47,48 @@ function openImageModal(imageSrc) {
     modalImg.src = imageSrc;
 }
 
-function toggleLike(icon) {
-    icon.classList.toggle("liked");
+function toggleLike(element) {
+    element.classList.toggle("liked");
+
+    if (element.classList.contains("liked")) {
+        showReactionAnimation(element, "+1");
+    } else {
+        showReactionAnimation(element, "-1");
+    }
 }
+
+// Funkcja do pokazywania animacji reakcji
+function showReactionAnimation(element, reaction) {
+    // Stworzenie elementu z reakcją
+    const reactionElement = document.createElement("div");
+    reactionElement.className = "reaction";
+    reactionElement.textContent = reaction;
+
+    // Dodanie animacji do elementu
+    reactionElement.style.animation = "reactionAnimation 1s ease-out";
+
+    // Dodanie elementu z reakcją do strony
+    document.body.appendChild(reactionElement);
+
+    // Ustawienie pozycji reakcji na pozycji elementu lajka/dislajka
+    const rect = element.getBoundingClientRect();
+    reactionElement.style.top = rect.top + "px";
+    reactionElement.style.left = rect.left + "px";
+
+    // Usunięcie elementu z reakcją po zakończeniu animacji
+    reactionElement.addEventListener("animationend", () => {
+        reactionElement.remove();
+    });
+}
+
+// Dodanie animacji dla reakcji
+document.styleSheets[0].insertRule(`
+@keyframes reactionAnimation {
+    0% { transform: translateY(0); opacity: 1; }
+    50% { transform: translateY(-30px); opacity: 0; }
+    100% { transform: translateY(0); opacity: 1; }
+}
+`, 0);
 
 function closeImageModal() {
     var modal = document.getElementById("imageModal");
