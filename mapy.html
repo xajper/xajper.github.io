@@ -459,6 +459,83 @@
         .search-btn i {
             font-size: 18px;
         }
+
+        #loginModal {
+            display: none;
+        }
+    
+        .modal-login {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 50%;
+            max-width: 500px;
+            background-color: #fefefe;
+            justify-content: center;
+            align-items: center;
+            z-index: 1;
+        }
+    
+        .modal-login-content {
+            padding: 20px;
+            border-radius: 5px;
+            opacity: 0;
+            transition: opacity 0.3s, transform 0.3s;
+            max-width: 100%;
+            margin: auto;
+        }
+    
+        .modal-login.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    
+        .close-login {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            color: #f1f1f1;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+    
+        .close-login:hover {
+            color: #666;
+        }
+    
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+    
+        .login-input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            font-size: 16px;
+        }
+    
+        .login-btn {
+            background-color: #008080;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 3px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+    
+        .login-btn:hover {
+            background-color: #006666;
+        }
 </style>
 </head>
 
@@ -480,12 +557,23 @@
             </div>
             
             <div class="sidebar-footer">
-                <a href="#">Konto <i class="fa fa-user"></i></a>
+                <a href="#" onclick="openLoginModal()">Konto <i class="fa fa-user"></i></a>
             </div>
         </div>
 
         <div class="navbar" onclick="toggleSidebar();">
             &#9776;
+        </div>
+
+        <div id="loginModal" class="modal-login">
+            <div class="modal-login-content">
+                <span class="close-login" onclick="closeLoginModal()">&times;</span>
+                <form class="login-form">
+                    <input type="text" class="login-input" placeholder="Login" required>
+                    <input type="password" class="login-input" placeholder="Hasło" required>
+                    <button type="submit" class="login-btn">Zaloguj się</button>
+                </form>
+            </div>
         </div>
     
         <section class="articles-list">
