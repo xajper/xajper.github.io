@@ -47,51 +47,60 @@ function openImageModal(imageSrc) {
     modalImg.src = imageSrc;
 }
 
-function toggleDislike(element) {
-    element.classList.toggle("disliked");
-
-    if (element.classList.contains("disliked")) {
-        showReactionAnimation(element, "-1");
-    } else {
-        showReactionAnimation(element, "+1");
-    }
-}
+let likeCount = 0;
+let dislikeCount = 0;
 
 function toggleLike(element) {
+    const likeCountElement = document.getElementById("like-count");
+
     element.classList.toggle("liked");
 
     if (element.classList.contains("liked")) {
+        likeCount++;
         showReactionAnimation(element, "+1");
     } else {
+        likeCount--;
         showReactionAnimation(element, "-1");
     }
+
+    likeCountElement.textContent = likeCount;
 }
 
-// Funkcja do pokazywania animacji reakcji
+function toggleDislike(element) {
+    const dislikeCountElement = document.getElementById("dislike-count");
+
+    element.classList.toggle("disliked");
+
+    if (element.classList.contains("disliked")) {
+        dislikeCount++;
+        showReactionAnimation(element, "-1");
+    } else {
+        dislikeCount--;
+        showReactionAnimation(element, "+1");
+    }
+
+    dislikeCountElement.textContent = dislikeCount;
+}
+
 function showReactionAnimation(element, reaction) {
-    // Stworzenie elementu z reakcją
+
     const reactionElement = document.createElement("div");
     reactionElement.className = "reaction";
     reactionElement.textContent = reaction;
 
-    // Dodanie animacji do elementu
     reactionElement.style.animation = "reactionAnimation 1s ease-out";
 
-    // Dodanie elementu z reakcją do strony
     document.body.appendChild(reactionElement);
 
-    // Ustawienie pozycji reakcji na pozycji elementu lajka/dislajka
     const rect = element.getBoundingClientRect();
     reactionElement.style.top = rect.top + "px";
     reactionElement.style.left = rect.left + "px";
 
-    // Usunięcie elementu z reakcją po zakończeniu animacji
     reactionElement.addEventListener("animationend", () => {
         reactionElement.remove();
     });
 }
 
-// Dodanie animacji dla reakcji
 document.styleSheets[0].insertRule(`
 @keyframes reactionAnimation {
     0% { transform: translateY(0); opacity: 1; }
