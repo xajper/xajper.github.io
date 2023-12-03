@@ -179,6 +179,14 @@
             font-size: 14px;
         }
         
+        .like-overlay {
+            background-color: #4CAF50;
+        }
+        
+        .dislike-overlay {
+            background-color: red;
+        }
+        
         .fa-thumbs-up,
         .fa-thumbs-down {
             font-size: 24px;
@@ -187,7 +195,9 @@
             transition: color 0.3s;
         }
         
-        .fa-thumbs-up.liked,
+        .fa-thumbs-up.liked {
+            color: #4CAF50;
+        }
         .fa-thumbs-down.disliked {
             color: red;
         }
@@ -634,12 +644,12 @@
                 <a href="#" onclick="openModalPA()">Czytaj więcej</a>
     
                 <div class="reaction-container">
-                    <div class="reaction-overlay" id="like-overlay">+1</div>
+                    <div class="reaction-overlay like-overlay" id="like-overlay">+1</div>
                     <i onclick="toggleLike(this)" class="fa fa-thumbs-up"></i>
                     <span class="reaction-count" id="like-count">0</span>
                 </div>
                 <div class="reaction-container">
-                    <div class="reaction-overlay" id="dislike-overlay">-1</div>
+                    <div class="reaction-overlay dislike-overlay" id="dislike-overlay">-1</div>
                     <i onclick="toggleDislike(this)" class="fa fa-thumbs-down"></i>
                     <span class="reaction-count" id="dislike-count">0</span>
                 </div>
@@ -673,12 +683,12 @@
                 <a href="#" onclick="openModalCE()">Czytaj więcej</a>
     
                 <div class="reaction-container">
-                    <div class="reaction-overlay" id="like-overlay">+1</div>
+                    <div class="reaction-overlay like-overlay" id="like-overlay">+1</div>
                     <i onclick="toggleLike(this)" class="fa fa-thumbs-up"></i>
                     <span class="reaction-count" id="like-count">0</span>
                 </div>
                 <div class="reaction-container">
-                    <div class="reaction-overlay" id="dislike-overlay">-1</div>
+                    <div class="reaction-overlay dislike-overlay" id="dislike-overlay">-1</div>
                     <i onclick="toggleDislike(this)" class="fa fa-thumbs-down"></i>
                     <span class="reaction-count" id="dislike-count">0</span>
                 </div>
@@ -712,15 +722,16 @@
                 <a href="#" onclick="openModalOT()">Czytaj więcej</a>
     
                 <div class="reaction-container">
-                    <div class="reaction-overlay" id="like-overlay">+1</div>
+                    <div class="reaction-overlay like-overlay" id="like-overlay">+1</div>
                     <i onclick="toggleLike(this)" class="fa fa-thumbs-up"></i>
                     <span class="reaction-count" id="like-count">0</span>
                 </div>
                 <div class="reaction-container">
-                    <div class="reaction-overlay" id="dislike-overlay">-1</div>
+                    <div class="reaction-overlay dislike-overlay" id="dislike-overlay">-1</div>
                     <i onclick="toggleDislike(this)" class="fa fa-thumbs-down"></i>
                     <span class="reaction-count" id="dislike-count">0</span>
                 </div>
+                
             </article>
     
         </section>
