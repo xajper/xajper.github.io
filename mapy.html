@@ -159,8 +159,9 @@
             background-color: RoyalBlue;
             transform: scale(1.05);
         }
-    
-        .fa-thumbs-up {
+
+        .fa-thumbs-up,
+        .fa-thumbs-down {
             font-size: 24px;
             color: #808080;
             cursor: pointer;
@@ -170,14 +171,15 @@
             transition: color 0.3s;
         }
         
-        .fa-thumbs-up.liked {
+        .fa-thumbs-up.liked,
+        .fa-thumbs-down.disliked {
             color: #4CAF50;
         }
         
-        .fa-thumbs-up:hover {
-            color: #4CAF50;
+        .fa-thumbs-down:hover {
+            color: #FF0000; 
         }
-        
+    
         #imageModal {
             display: none;
         }
@@ -620,6 +622,7 @@
                 <a href="#" onclick="openModalPA()">Czytaj więcej</a>
     
                 <i onclick="toggleLike(this)" class="fa fa-thumbs-up"></i>
+                <i onclick="toggleDislike(this)" class="fa fa-thumbs-down"></i>
 
                 <h2>Oceny</h2>
                 <span class="fa fa-star checked"></span>
