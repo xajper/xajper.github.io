@@ -84,6 +84,14 @@ function toggleDislike(element) {
     dislikeCountElement.textContent = dislikeCount;
 }
 
+function showReactionAnimation(overlay, text) {
+    overlay.textContent = text;
+    overlay.style.display = "block";
+    setTimeout(() => {
+        overlay.style.display = "none";
+    }, 2000);
+}
+
 function showReactionAnimation(element, reaction) {
 
     const reactionElement = document.createElement("div");
