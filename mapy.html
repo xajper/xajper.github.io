@@ -160,24 +160,23 @@
             transform: scale(1.05);
         }
 
+        .reaction-container {
+            display: inline-block;
+            position: relative;
+            margin-right: 10px;
+        }
+        
         .fa-thumbs-up,
         .fa-thumbs-down {
             font-size: 24px;
             color: #808080;
             cursor: pointer;
-            position: absolute;
-            top: 10px;
-            right: 10px;
             transition: color 0.3s;
         }
         
         .fa-thumbs-up.liked,
         .fa-thumbs-down.disliked {
             color: #4CAF50;
-        }
-        
-        .fa-thumbs-down:hover {
-            color: #FF0000; 
         }
     
         #imageModal {
@@ -621,8 +620,14 @@
                 <p id="article-content-0"></p>
                 <a href="#" onclick="openModalPA()">Czytaj więcej</a>
     
-                <i onclick="toggleLike(this)" class="fa fa-thumbs-up"></i>
-                <i onclick="toggleDislike(this)" class="fa fa-thumbs-down"></i>
+                <div class="reaction-container">
+                    <i onclick="toggleLike(this)" class="fa fa-thumbs-up"></i>
+                    <span class="reaction-count" id="like-count">0</span>
+                </div>
+                <div class="reaction-container">
+                    <i onclick="toggleDislike(this)" class="fa fa-thumbs-down"></i>
+                    <span class="reaction-count" id="dislike-count">0</span>
+                </div>
 
                 <h2>Oceny</h2>
                 <span class="fa fa-star checked"></span>
