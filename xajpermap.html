@@ -26,35 +26,6 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
     
         <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.11/typed.min.js"></script>
-
-      <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
-      <script>
-          emailjs.init("user_your_emailjs_user_id");
-      
-          function subscribe() {
-              var subscriberEmail = document.getElementById("subscriberEmail").value;
-      
-              if (validateEmail(subscriberEmail)) {
-                  var templateParams = {
-                      to_email: subscriberEmail,
-                  };
-      
-                  emailjs.send("your_mailgun_template_id", "your_mailgun_template", templateParams)
-                      .then(function(response) {
-                          console.log("Wiadomość wysłana!", response);
-                      }, function(error) {
-                          console.log("Błąd podczas wysyłania wiadomości", error);
-                      });
-              } else {
-                  console.log("Błędny adres e-mail");
-              }
-          }
-      
-          function validateEmail(email) {
-              var re = /\S+@\S+\.\S+/;
-              return re.test(email);
-          }
-      </script>
    
         <link
           rel="stylesheet"
@@ -189,28 +160,57 @@
           </div>
         </section>
 
-    <section class="features" id="mapy">
-      <div class="max-width">
-        <h2 class="title">Newsletter</h2>
-          <div class="subscribe-form">
-            <input type="email" class="subscribe-input" placeholder="Twój Email" id="subscriberEmail" />
-            <button class="subscribe-button" onclick="subscribe()">Subskrybuj</button>
-          </div>
-      </div>
-          
-        <div class="loader-wrapper">
-    
-          <div class="longfazers">
-            <span></span>
-    
-            <span></span>
-    
-            <span></span>
-    
-            <span></span>
-          </div>
-        </div>
-    </section>
+        <section class="features" id="mapy">
+              <div class="max-width">
+                <h2 class="title">Newsletter</h2>
+                <div class="subscribe-form">
+                  <input type="email" class="subscribe-input" placeholder="Twój Email" id="subscriberEmail" />
+                  <button class="subscribe-button" onclick="subscribe()">Subskrybuj</button>
+                </div>
+              </div>
+            
+              <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+              <script>
+                function subscribe() {
+                  var subscriberEmail = document.getElementById("subscriberEmail").value;
+            
+                  if (validateEmail(subscriberEmail)) {
+                    var apiKey = "YOUR_MAILGUN_API_KEY";
+                    var domain = "YOUR_MAILGUN_DOMAIN";
+                    var mailgunUrl = "https://api.mailgun.net/v3/" + domain + "/messages";
+                    var data = {
+                      from: "Excited User <mailgun@" + domain + ">",
+                      to: subscriberEmail,
+                      subject: "Hello",
+                      text: "Testing some Mailgun awesomeness!",
+                    };
+            
+                    $.ajax({
+                      type: "POST",
+                      url: mailgunUrl,
+                      data: data,
+                      dataType: "json",
+                      headers: {
+                        Authorization: "Basic " + btoa("api:" + apiKey),
+                      },
+                      success: function (response) {
+                        console.log("Wiadomość wysłana!", response);
+                      },
+                      error: function (error) {
+                        console.log("Błąd podczas wysyłania wiadomości", error);
+                      },
+                    });
+                  } else {
+                    console.log("Błędny adres e-mail");
+                  }
+                }
+            
+                function validateEmail(email) {
+                  var re = /\S+@\S+\.\S+/;
+                  return re.test(email);
+                }
+              </script>
+        </section>
     
         <footer>
           <span style="color: white;">
