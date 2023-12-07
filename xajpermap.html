@@ -27,11 +27,34 @@
     
         <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.11/typed.min.js"></script>
 
-        <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
-              
-        <script>
-              emailjs.init("user_your_emailjs_user_id");
-        </script>
+      <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+      <script>
+          emailjs.init("user_your_emailjs_user_id");
+      
+          function subscribe() {
+              var subscriberEmail = document.getElementById("subscriberEmail").value;
+      
+              if (validateEmail(subscriberEmail)) {
+                  var templateParams = {
+                      to_email: subscriberEmail,
+                  };
+      
+                  emailjs.send("your_mailgun_template_id", "your_mailgun_template", templateParams)
+                      .then(function(response) {
+                          console.log("Wiadomość wysłana!", response);
+                      }, function(error) {
+                          console.log("Błąd podczas wysyłania wiadomości", error);
+                      });
+              } else {
+                  console.log("Błędny adres e-mail");
+              }
+          }
+      
+          function validateEmail(email) {
+              var re = /\S+@\S+\.\S+/;
+              return re.test(email);
+          }
+      </script>
    
         <link
           rel="stylesheet"
