@@ -54,7 +54,20 @@
         .categories a:hover {
             background-color: #555;
         }
-    
+
+        .profile-link {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .profile-link i {
+            margin-left: 5px;
+        }
+        
         .download-section {
             display: flex;
             justify-content: flex-end;
@@ -622,8 +635,16 @@
 </head>
 
 <body>
+        <div class="categories">
+            <a href="#nowe">NOWE</a>
+            <a href="#pvp">PVP</a>
+            <a href="#popularne">POPULARNE</a>
+        </div>   
+    
         <header>
-            <h3>XAJPERMAP</h3>
+            <h1>XAJPERMAP</h1>
+            <a href="#" class="profile-link">Profil autora <i class="fa fa-user"></i></a>
+            <button onclick="showMapList()">LISTA MAP</button>
         </header>
     
         <div class="sidebar" id="sidebar">
@@ -645,12 +666,6 @@
 
         <div class="navbar" onclick="toggleSidebar()">
             <div class="grass-dirt-block" onclick="animateSword()"></div>
-        </div>
-
-        <div class="categories">
-            <a href="#nowe">NOWE</a>
-            <a href="#pvp">PVP</a>
-            <a href="#popularne">POPULARNE</a>
         </div>
 
         <section class="articles-list" id="nowe">
@@ -676,106 +691,110 @@
             </div>
         </div>
     
-        <section class="articles-list">
-            <article>
-                <h2>Party Activities</h2>
-                <p>Witaj! Mapa którą obecnie widzisz jest zbiorem różnych minigier...</p>
-                <h2 id="article-title-0"></h2>
-                <p id="article-content-0"></p>
-                <a href="#" onclick="openModalPA()">Czytaj więcej</a>
-    
-                <div class="reaction-container">
-                    <div class="reaction-overlay like-overlay" id="like-overlay">+1</div>
-                    <i onclick="toggleLike(this)" class="fa fa-thumbs-up"></i>
-                    <span class="reaction-count" id="like-count">0</span>
-                </div>
-                <div class="reaction-container">
-                    <div class="reaction-overlay dislike-overlay" id="dislike-overlay">-1</div>
-                    <i onclick="toggleDislike(this)" class="fa fa-thumbs-down"></i>
-                    <span class="reaction-count" id="dislike-count">0</span>
-                </div>
-
-                <h2>Oceny</h2>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-    
-                <div class="image-gallery">
-                    <img class="myImages" onclick="openImageModal('clicker_evolved_1.jpg')" src="party_activities_1.jpg" alt="Party Activities 1/2">
-                    <img class="myImages" onclick="openImageModal('clicker_evolved_2.jpg')" src="party_activities_2.jpg" alt="Party Activities 2/2">
-                </div>
-
-                <div class="author-download-section">
-                    <p>Autor: <a href="index.html">Xajper</a></p>
-                    
-                    <div class="download-section">
-                        <a href="Party Activities.zip" class="btn-download" download="Party Activities.zip">
-                            <i class="fa fa-download"></i>Pobierz
-                        </a>
-                    </div>
-                </div>
-            </article>
-    
-            <article>
-                <h2>Clicker Evolved</h2>
-                <p>Cześć! Przychodzę do was z kolejną mapą pt. Clicker Evolved...</p>
-                <a href="#" onclick="openModalCE()">Czytaj więcej</a>
-    
-                <div class="reaction-container">
-                    <div class="reaction-overlay like-overlay" id="like-overlay">+1</div>
-                    <i onclick="toggleLike(this)" class="fa fa-thumbs-up"></i>
-                    <span class="reaction-count" id="like-count">0</span>
-                </div>
-                <div class="reaction-container">
-                    <div class="reaction-overlay dislike-overlay" id="dislike-overlay">-1</div>
-                    <i onclick="toggleDislike(this)" class="fa fa-thumbs-down"></i>
-                    <span class="reaction-count" id="dislike-count">0</span>
-                </div>
-
-                <h2>Oceny</h2>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-
-                <div class="image-gallery">
-                    <img class="myImages" onclick="openImageModal('clicker_evolved_1.jpg')" src="clicker_evolved_1.jpg" alt="Clicker Evolved 1/2">
-                    <img class="myImages" onclick="openImageModal('clicker_evolved_2.jpg')" src="clicker_evolved_2.jpg" alt="Clicker Evolved 2/2">
-                </div>
-
-                <div class="author-download-section">
-                    <p>Autor: <a href="index.html">Xajper</a></p>
-                    
-                    <div class="download-section">
-                        <a href="ClickerEvolved.zip" class="btn-download" download="ClickerEvolved.zip">
-                            <i class="fa fa-download"></i>Pobierz
-                        </a>
-                    </div>
-                </div>
-            </article>
-    
-            <article>
-                <h2>Ostatnia Twierdza</h2>
-                <p>...</p>
-                <a href="#" onclick="openModalOT()">Czytaj więcej</a>
-    
-                <div class="reaction-container">
-                    <div class="reaction-overlay like-overlay" id="like-overlay">+1</div>
-                    <i onclick="toggleLike(this)" class="fa fa-thumbs-up"></i>
-                    <span class="reaction-count" id="like-count">0</span>
-                </div>
-                <div class="reaction-container">
-                    <div class="reaction-overlay dislike-overlay" id="dislike-overlay">-1</div>
-                    <i onclick="toggleDislike(this)" class="fa fa-thumbs-down"></i>
-                    <span class="reaction-count" id="dislike-count">0</span>
-                </div>
-                
-            </article>
-    
-        </section>
+        <div id="mapListModal" class="modal">
+            <span class="close" onclick="closeMapListModal()">&times;</span>
+            <h2>Lista Map</h2>
+                <section class="articles-list">
+                    <article>
+                        <h2>Party Activities</h2>
+                        <p>Witaj! Mapa którą obecnie widzisz jest zbiorem różnych minigier...</p>
+                        <h2 id="article-title-0"></h2>
+                        <p id="article-content-0"></p>
+                        <a href="#" onclick="openModalPA()">Czytaj więcej</a>
+            
+                        <div class="reaction-container">
+                            <div class="reaction-overlay like-overlay" id="like-overlay">+1</div>
+                            <i onclick="toggleLike(this)" class="fa fa-thumbs-up"></i>
+                            <span class="reaction-count" id="like-count">0</span>
+                        </div>
+                        <div class="reaction-container">
+                            <div class="reaction-overlay dislike-overlay" id="dislike-overlay">-1</div>
+                            <i onclick="toggleDislike(this)" class="fa fa-thumbs-down"></i>
+                            <span class="reaction-count" id="dislike-count">0</span>
+                        </div>
+        
+                        <h2>Oceny</h2>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+            
+                        <div class="image-gallery">
+                            <img class="myImages" onclick="openImageModal('clicker_evolved_1.jpg')" src="party_activities_1.jpg" alt="Party Activities 1/2">
+                            <img class="myImages" onclick="openImageModal('clicker_evolved_2.jpg')" src="party_activities_2.jpg" alt="Party Activities 2/2">
+                        </div>
+        
+                        <div class="author-download-section">
+                            <p>Autor: <a href="index.html">Xajper</a></p>
+                            
+                            <div class="download-section">
+                                <a href="Party Activities.zip" class="btn-download" download="Party Activities.zip">
+                                    <i class="fa fa-download"></i>Pobierz
+                                </a>
+                            </div>
+                        </div>
+                    </article>
+            
+                    <article>
+                        <h2>Clicker Evolved</h2>
+                        <p>Cześć! Przychodzę do was z kolejną mapą pt. Clicker Evolved...</p>
+                        <a href="#" onclick="openModalCE()">Czytaj więcej</a>
+            
+                        <div class="reaction-container">
+                            <div class="reaction-overlay like-overlay" id="like-overlay">+1</div>
+                            <i onclick="toggleLike(this)" class="fa fa-thumbs-up"></i>
+                            <span class="reaction-count" id="like-count">0</span>
+                        </div>
+                        <div class="reaction-container">
+                            <div class="reaction-overlay dislike-overlay" id="dislike-overlay">-1</div>
+                            <i onclick="toggleDislike(this)" class="fa fa-thumbs-down"></i>
+                            <span class="reaction-count" id="dislike-count">0</span>
+                        </div>
+        
+                        <h2>Oceny</h2>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+        
+                        <div class="image-gallery">
+                            <img class="myImages" onclick="openImageModal('clicker_evolved_1.jpg')" src="clicker_evolved_1.jpg" alt="Clicker Evolved 1/2">
+                            <img class="myImages" onclick="openImageModal('clicker_evolved_2.jpg')" src="clicker_evolved_2.jpg" alt="Clicker Evolved 2/2">
+                        </div>
+        
+                        <div class="author-download-section">
+                            <p>Autor: <a href="index.html">Xajper</a></p>
+                            
+                            <div class="download-section">
+                                <a href="ClickerEvolved.zip" class="btn-download" download="ClickerEvolved.zip">
+                                    <i class="fa fa-download"></i>Pobierz
+                                </a>
+                            </div>
+                        </div>
+                    </article>
+            
+                    <article>
+                        <h2>Ostatnia Twierdza</h2>
+                        <p>...</p>
+                        <a href="#" onclick="openModalOT()">Czytaj więcej</a>
+            
+                        <div class="reaction-container">
+                            <div class="reaction-overlay like-overlay" id="like-overlay">+1</div>
+                            <i onclick="toggleLike(this)" class="fa fa-thumbs-up"></i>
+                            <span class="reaction-count" id="like-count">0</span>
+                        </div>
+                        <div class="reaction-container">
+                            <div class="reaction-overlay dislike-overlay" id="dislike-overlay">-1</div>
+                            <i onclick="toggleDislike(this)" class="fa fa-thumbs-down"></i>
+                            <span class="reaction-count" id="dislike-count">0</span>
+                        </div>
+                        
+                    </article>
+            
+                </section>
+        </div>
 
         <div id="imageModal" class="modal">
             <span class="close" onclick="closeImageModal()">&times;</span>
