@@ -30,6 +30,15 @@ document.addEventListener("DOMContentLoaded", function () {
     console.log("Strona została wczytana.");
 });
 
+
+document.addEventListener("DOMContentLoaded", function () {
+    const sword = document.getElementById("sword");
+
+    sword.addEventListener("click", function () {
+        sword.classList.toggle("clicked");
+    });
+});
+
 function animateSword() {
     var sword = document.querySelector('.grass-dirt-block');
     sword.classList.add('clicked');
