@@ -143,6 +143,19 @@ function closeImageModal() {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
+    var buttons = document.querySelectorAll(".category-btn");
+
+    buttons.forEach(function (button) {
+        button.addEventListener("click", function () {
+            buttons.forEach(function (btn) {
+                btn.classList.remove("active");
+            });
+            this.classList.add("active");
+        });
+    });
+});
+
+document.addEventListener("DOMContentLoaded", function () {
     var header = document.getElementById("myDIV");
     var btns = header.getElementsByClassName("btnprzycisk");
 
