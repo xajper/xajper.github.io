@@ -31,6 +31,29 @@
             margin: 0;
             padding: 0;
         }
+
+        .categories {
+            display: flex;
+            justify-content: space-around;
+            background-color: #333;
+            padding: 10px;
+            color: white;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 2;
+        }
+
+        .categories a {
+            text-decoration: none;
+            color: white;
+            padding: 10px;
+            transition: 0.3s;
+        }
+
+        .categories a:hover {
+            background-color: #555;
+        }
     
         .download-section {
             display: flex;
@@ -624,6 +647,24 @@
             <div class="grass-dirt-block" onclick="animateSword()"></div>
         </div>
 
+        <div class="categories">
+            <a href="#nowe">NOWE</a>
+            <a href="#pvp">PVP</a>
+            <a href="#popularne">POPULARNE</a>
+        </div>
+
+        <section class="articles-list" id="nowe">
+            <!-- ... (Zawartość sekcji "NOWE") -->
+        </section>
+    
+        <section class="articles-list" id="pvp">
+            <!-- ... (Zawartość sekcji "PVP") -->
+        </section>
+    
+        <section class="articles-list" id="popularne">
+            <!-- ... (Zawartość sekcji "POPULARNE") -->
+        </section>
+    
         <div id="loginModal" class="modal-login">
             <div class="modal-login-content">
                 <span class="close-login" onclick="closeLoginModal()">&times;</span>
