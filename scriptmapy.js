@@ -18,6 +18,18 @@ function showMapList() {
     modal.style.display = "block";
 }
 
+function closeMapListModal() {
+    var modal = document.getElementById("mapListModal");
+    modal.style.display = "none";
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+    var modal = document.getElementById("mapListModal");
+    modal.style.display = "none";
+    
+    console.log("Strona została wczytana.");
+});
+
 function animateSword() {
     var sword = document.querySelector('.grass-dirt-block');
     sword.classList.add('clicked');
