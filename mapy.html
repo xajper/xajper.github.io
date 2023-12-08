@@ -54,7 +54,11 @@
             margin: 20px;
         }
 
-        .category-btn.new {
+        .category-btn.listamap {
+            background-color: white;
+        }
+
+        .category-btn.nowe {
             background-color: #4CAF50;
         }
         
@@ -668,11 +672,11 @@
 <body>    
         <header>
             <h1>XAJPERMAP</h1>
-            <button onclick="showMapList()">LISTA MAP</button>
+            <button onclick="showMapList()" class="category-btn listamap"><i class="fa fa-list-alt"></i>LISTA MAP</button>
         </header>
 
         <div class="categories-container">
-            <button class="category-btn new"><i class="fa fa-leaf"></i>NOWE</button>
+            <button class="category-btn nowe"><i class="fa fa-leaf"></i>NOWE</button>
             <button class="category-btn popularne"><i class="fa fa-fire"></i>POPULARNE</button>
             <button class="category-btn pvp"><i class="fa fa-crosshairs"></i>PVP</button>
             <button class="category-btn fabularne"><i class="fa fa-book"></i>FABULARNE</button>
