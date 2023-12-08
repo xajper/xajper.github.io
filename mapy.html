@@ -463,24 +463,20 @@
         .navbar:hover {
             background-color: #555;
         }
-                
+        
         .animated-sword {
             width: 50px;
             height: 50px;
             background-image: url('diamond_sword.jpg');
             background-size: cover;
-            background-color: transparent;
-            transition: height 0.3s;
+            transition: transform 0.3s;
             cursor: pointer;
-            position: fixed;
-            top: 20px;
-            left: 20px;
         }
-
+        
         .animated-sword:hover {
-            height: 80px;
+            transform: scale(1.2) rotate(360deg);
         }
-
+        
         .clicked {
             transform: scale(1.2) rotate(360deg);
         }
@@ -643,8 +639,6 @@
             <button id="profile-btn">PROFIL XAJPERA <i class="fa fa-user"></i></button>
             <button onclick="showMapList()">LISTA MAP</button>
         </header>
-
-        <div class="animated-sword" id="sword" onclick="animateSword(); toggleSidebar();"></div>
     
         <div class="sidebar" id="sidebar">
             <a href="index.html">O mnie</a>
@@ -663,6 +657,10 @@
             </div>
         </div>
 
+        <div class="navbar" onclick="toggleSidebar()">
+            <div id="sword" class="animated-sword" onclick="animateSword()"></div>
+        </div>
+    
         <div id="loginModal" class="modal-login">
             <div class="modal-login-content">
                 <span class="close-login" onclick="closeLoginModal()">&times;</span>
