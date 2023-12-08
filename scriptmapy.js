@@ -13,6 +13,11 @@ function performSearch() {
     }
 }
 
+function showMapList() {
+    var modal = document.getElementById("mapListModal");
+    modal.style.display = "block";
+}
+
 function animateSword() {
     var sword = document.querySelector('.grass-dirt-block');
     sword.classList.add('clicked');
