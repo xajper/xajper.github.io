@@ -40,20 +40,48 @@
             margin: 20px;
         }
 
+        .category-btn.new {
+            background-color: #4CAF50;
+        }
+        
+        .category-btn.pvp {
+            background-color: #FFFF00;
+        }
+        
+        .category-btn.popularne {
+            background-color: #FF0000;
+        }
+        
+        .category-btn.fabularne {
+            background-color: #0000FF;
+        }
+        
+        .category-btn.przygodowe {
+            background-color: #800080;
+        }
+        
         .category-btn {
-            background-color: #008080;
-            color: white;
             padding: 15px;
             margin: 10px;
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            transition: background-color 0.3s;
+            transition: background-color 0.3s, transform 0.3s, color 0.3s;
+            position: relative;
         }
-
+        
         .category-btn:hover {
-            background-color: #006666;
+            background-color: #333;
+            color: white;
         }
+        
+        .category-btn.active {
+            transform: translateY(5px);
+        }
+        
+        .category-btn i {
+            margin-right: 5px;
+        }  
 
         #profile-btn {
             background-color: #FFFF00;
@@ -635,9 +663,11 @@
         </header>
 
         <div class="categories-container">
-            <button class="category-btn">NOWE</button>
-            <button class="category-btn">PVP</button>
-            <button class="category-btn">POPULARNE</button>
+            <button class="category-btn new"><i class="fa fa-leaf"></i>NOWE</button>
+            <button class="category-btn popularne"><i class="fa fa-fire"></i>POPULARNE</button>
+            <button class="category-btn pvp"><i class="fa fa-crosshairs"></i>PVP</button>
+            <button class="category-btn fabularne"><i class="fa fa-book"></i>FABULARNE</button>
+            <button class="category-btn przygodowe"><i class="fa fa-compass"></i>PRZYGODOWE</button>
         </div>
     
         <div class="sidebar" id="sidebar">
