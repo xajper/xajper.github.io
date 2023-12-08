@@ -474,24 +474,19 @@
             cursor: pointer;
         }
 
-        .grass-dirt-block:hover {
-            transform: translateY(-5px);
+        .animated-sword {
+            width: 50px;
+            height: 150px;
+            background-color: #3498db;
+            transition: transform 0.3s, scale 0.3s;
         }
-
-        .grass-dirt-block.clicked {
-            animation: jumpAnimation 0.5s ease-in-out;
+        
+        .animated-sword:hover {
+            transform: scale(1.2);
         }
-
-        @keyframes jumpAnimation {
-            0%, 20%, 50%, 80%, 100% {
-                transform: translateY(0);
-            }
-            40% {
-                transform: translateY(-10px);
-            }
-            60% {
-                transform: translateY(-5px);
-            }
+        
+        .clicked {
+            transform: scale(1.2) rotate(360deg);
         }
         
         .sidebar {
@@ -671,7 +666,7 @@
         </div>
 
         <div class="navbar" onclick="toggleSidebar()">
-            <div class="grass-dirt-block" onclick="animateSword()"></div>
+            <div id="sword" class="animated-sword" onclick="animateSword()"></div>
         </div>
     
         <div id="loginModal" class="modal-login">
