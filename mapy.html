@@ -46,6 +46,17 @@
             padding: 0;
         }
 
+        @keyframes leafAnimation {
+          0% { transform: rotate(0); }
+          100% { transform: rotate(360deg); }
+        }
+        
+        @keyframes fireAnimation {
+          0% { box-shadow: 0 0 10px #FF0000; }
+          50% { box-shadow: 0 0 20px #FF4500, 0 0 40px #FFD700; }
+          100% { box-shadow: 0 0 10px #FF0000; }
+        }
+
         .categories-container {
             display: flex;
             justify-content: center;
@@ -57,17 +68,9 @@
         .category-btn.listamap {
             background-color: white;
         }
-
-        .category-btn.nowe {
-            background-color: #4CAF50;
-        }
         
         .category-btn.pvp {
             background-color: #FFFF00;
-        }
-        
-        .category-btn.popularne {
-            background-color: #FF0000;
         }
         
         .category-btn.fabularne {
@@ -76,6 +79,16 @@
         
         .category-btn.przygodowe {
             background-color: #800080;
+        }
+        
+        .category-btn.nowe {
+          background-color: #4CAF50;
+          animation: leafAnimation 2s infinite linear;
+        }
+
+        .category-btn.popularne {
+          background-color: #FF0000;
+          animation: fireAnimation 2s infinite ease-in-out;
         }
         
         .category-btn {
