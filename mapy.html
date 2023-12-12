@@ -45,16 +45,17 @@
             margin: 0;
             padding: 0;
         }
-
+        
         @keyframes leafAnimation {
-          0% { transform: rotate(0); }
-          100% { transform: rotate(360deg); }
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+            100% { transform: translateY(0); }
         }
         
         @keyframes fireAnimation {
-          0% { box-shadow: 0 0 10px #FF0000; }
-          50% { box-shadow: 0 0 20px #FF4500, 0 0 40px #FFD700; }
-          100% { box-shadow: 0 0 10px #FF0000; }
+            0% { box-shadow: 0 0 10px #FF0000; }
+            50% { box-shadow: 0 0 20px #FF4500, 0 0 40px #FFD700; }
+            100% { box-shadow: 0 0 10px #FF0000; }
         }
 
         .categories-container {
@@ -82,15 +83,15 @@
         }
         
         .category-btn.nowe {
-          background-color: #4CAF50;
-          animation: leafAnimation 2s infinite linear;
+            background-color: #4CAF50;
+            animation: leafAnimation 2s infinite ease-in-out;
         }
 
         .category-btn.popularne {
-          background-color: #FF0000;
-          animation: fireAnimation 2s infinite ease-in-out;
+            background-color: #FF0000;
+            animation: fireAnimation 2s infinite ease-in-out;
         }
-        
+
         .category-btn {
             padding: 15px;
             margin: 10px;
