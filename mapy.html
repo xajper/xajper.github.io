@@ -58,6 +58,28 @@
             100% { box-shadow: 0 0 10px #FF0000; }
         }
 
+        .category-btn img {
+            width: 20px;
+            height: 20px;
+            margin-right: 5px;
+        }
+
+        .category-btn.popularne img {
+            content: url('popularne.jpg');
+        }
+        
+        .category-btn.pvp img {
+            content: url('pvp.jpg');
+        }
+        
+        .category-btn.fabularne img {
+            content: url('fabularne.jpg');
+        }
+        
+        .category-btn.przygodowe img {
+            content: url('przygodowe.jpg');
+        }
+
         .categories-container {
             display: flex;
             justify-content: center;
@@ -691,10 +713,10 @@
 
         <div class="categories-container">
             <button class="category-btn nowe"><i class="fa fa-leaf"></i>NOWE</button>
-            <button class="category-btn popularne"><i class="fa fa-fire"></i>POPULARNE</button>
-            <button class="category-btn pvp"><i class="fa fa-crosshairs"></i>PVP</button>
-            <button class="category-btn fabularne"><i class="fa fa-book"></i>FABULARNE</button>
-            <button class="category-btn przygodowe"><i class="fa fa-compass"></i>PRZYGODOWE</button>
+            <button class="category-btn popularne"><img src="popularne.jpg" alt="Fire Icon">POPULARNE</button>
+            <button class="category-btn pvp"><img src="pvp.jpg" alt="Gun Icon">PVP</button>
+            <button class="category-btn fabularne"><img src="fabularne.jpg" alt="Paper Icon">FABULARNE</button>
+            <button class="category-btn przygodowe"><img src="przygodowe.jpg" alt="Magnifier Icon">PRZYGODOWE</button>
         </div>
     
         <div class="sidebar" id="sidebar">
