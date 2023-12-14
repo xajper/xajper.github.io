@@ -27,11 +27,16 @@ function hideArticles() {
 }
 
 function openMapDetails() {
-    var articlesList = document.getElementById("articles-list");
-    var overlay = document.getElementById("overlay");
+    var mapSection = document.getElementById("mapSection");
+    var listamapBtn = document.getElementById("listamapBtn");
 
-    articlesList.style.display = "block";
-    overlay.style.display = "none";
+    if (mapSection.style.display === "none") {
+        mapSection.style.display = "block";
+        listamapBtn.classList.add("active");
+    } else {
+        mapSection.style.display = "none";
+        listamapBtn.classList.remove("active");
+    }
 }
 
 function closeMapDetails() {
