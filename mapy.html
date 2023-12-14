@@ -11,18 +11,75 @@
         body {
             font-family: 'Arial', sans-serif;
             line-height: 1.6;
-            background-color: #f4f4f4;
-            color: #333;
+            background-color: #333;
+            color: #fff;
             padding: 0;
             margin: 0;
             background-image: url('tło.jpg');
             background-size: cover;
         }
 
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); /* kolor zaciemnienia */
+            display: none;
+            z-index: 3;
+        }
+
         header {
             text-align: center;
             margin-bottom: 20px;
             color: white;
+        }
+
+        .category-btn:hover {
+            background-color: #555;
+            color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .category-btn {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 15px;
+            margin: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s, color 0.3s, box-shadow 0.3s;
+            position: relative;
+        }
+
+        .category-btn.active {
+            transform: translateY(5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .overlay.active {
+            display: block;
+        }
+
+        .articles-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+        }
+
+        article {
+            margin: 10px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border: 1px solid #ddd;
+            background-color: #fff;
+            border-radius: 5px;
+            width: calc(33.33% - 20px);
+            text-align: center;
+            position: relative;
         }
 
         header h1 {
@@ -117,25 +174,6 @@
             background-color: #FF0000;
             animation: fireAnimation 2s infinite ease-in-out;
         }
-
-        .category-btn {
-            padding: 15px;
-            margin: 10px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s, transform 0.3s, color 0.3s;
-            position: relative;
-        }
-        
-        .category-btn:hover {
-            background-color: #333;
-            color: white;
-        }
-        
-        .category-btn.active {
-            transform: translateY(5px);
-        }
         
         .category-btn i {
             margin-right: 5px;
@@ -194,24 +232,6 @@
     
         h1 {
             color: #008080;
-        }
-    
-        .articles-list {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-        
-        article {
-            margin: 10px;
-            padding: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            border: 1px solid #ddd;
-            background-color: #fff;
-            border-radius: 5px;
-            width: calc(33.33% - 20px);
-            text-align: center;
-            position: relative;
         }
     
         h2 {
@@ -710,9 +730,10 @@
 </head>
 
 <body>    
+        <div class="overlay" id="overlay"></div>
         <header>
             <h1>XAJPERMAP</h1>
-            <button onclick="showMapList()" class="category-btn listamap"><i class="fa fa-list-alt"></i>LISTA MAP</button>
+            <button onclick="openMapDetails()" class="category-btn listamap"><i class="fa fa-list-alt"></i>LISTA MAP</button>
         </header>
 
         <div class="categories-container">
