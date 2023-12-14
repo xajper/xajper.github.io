@@ -39,8 +39,9 @@ document.addEventListener("DOMContentLoaded", function () {
     modal.style.display = "none";
 
     hideArticles();
-    
+
     console.log("Strona została wczytana.");
+
 });
 
 
