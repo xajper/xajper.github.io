@@ -1,3 +1,11 @@
+function openMapDetails() {
+    document.getElementById("overlay").classList.add("active");
+}
+
+function closeMapDetails() {
+    document.getElementById("overlay").classList.remove("active");
+}
+
 function performSearch() {
     const searchInput = document.getElementById("search-input").value.toLowerCase();
     const articles = document.getElementsByClassName("article");
