@@ -26,19 +26,6 @@ function hideArticles() {
     }
 }
 
-function openMapDetails() {
-    var mapSection = document.getElementById("mapSection");
-    var listamapBtn = document.getElementById("listamapBtn");
-
-    if (mapSection.style.display === "none") {
-        mapSection.style.display = "block";
-        listamapBtn.classList.add("active");
-    } else {
-        mapSection.style.display = "none";
-        listamapBtn.classList.remove("active");
-    }
-}
-
 function closeMapDetails() {
     var articlesList = document.getElementById("articles-list");
     var overlay = document.getElementById("overlay");
@@ -50,6 +37,8 @@ function closeMapDetails() {
 document.addEventListener("DOMContentLoaded", function () {
     var modal = document.getElementById("mapListModal");
     modal.style.display = "none";
+
+    hideArticles();
     
     console.log("Strona została wczytana.");
 });
@@ -73,8 +62,6 @@ document.addEventListener('click', function (event) {
     if (event.target.closest('.container') && sidebar.style.width === '250px') {
         toggleSidebar();
     }
-
-    hideArticles();
 });
 
 function toggleSearch() {
