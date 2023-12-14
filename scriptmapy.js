@@ -1,11 +1,3 @@
-function openMapDetails() {
-    document.getElementById("overlay").classList.add("active");
-}
-
-function closeMapDetails() {
-    document.getElementById("overlay").classList.remove("active");
-}
-
 function performSearch() {
     const searchInput = document.getElementById("search-input").value.toLowerCase();
     const articles = document.getElementsByClassName("article");
@@ -21,14 +13,33 @@ function performSearch() {
     }
 }
 
-function showMapList() {
-    var modal = document.getElementById("mapListModal");
-    modal.style.display = "block";
+function hideArticles() {
+    var articlesList = document.getElementById("articles-list");
+    var overlay = document.getElementById("overlay");
+
+    if (articlesList.style.display === "none") {
+        articlesList.style.display = "block";
+        overlay.style.display = "none";
+    } else {
+        articlesList.style.display = "none";
+        overlay.style.display = "block";
+    }
 }
 
-function closeMapListModal() {
-    var modal = document.getElementById("mapListModal");
-    modal.style.display = "none";
+function openMapDetails() {
+    var articlesList = document.getElementById("articles-list");
+    var overlay = document.getElementById("overlay");
+
+    articlesList.style.display = "block";
+    overlay.style.display = "none";
+}
+
+function closeMapDetails() {
+    var articlesList = document.getElementById("articles-list");
+    var overlay = document.getElementById("overlay");
+
+    articlesList.style.display = "none";
+    overlay.style.display = "block";
 }
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -57,6 +68,8 @@ document.addEventListener('click', function (event) {
     if (event.target.closest('.container') && sidebar.style.width === '250px') {
         toggleSidebar();
     }
+
+    hideArticles();
 });
 
 function toggleSearch() {
