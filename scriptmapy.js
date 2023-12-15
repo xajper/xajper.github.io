@@ -13,25 +13,14 @@ function performSearch() {
     }
 }
 
-function hideArticles() {
-    var articlesList = document.getElementById("articles-list");
-    var overlay = document.getElementById("overlay");
-
-    if (articlesList.style.display === "none") {
-        articlesList.style.display = "block";
-        overlay.style.display = "none";
-    } else {
-        articlesList.style.display = "none";
-        overlay.style.display = "block";
-    }
+function showArticles() {
+    document.getElementById("articles-list").style.display = "flex";
+    document.getElementById("overlay").classList.add("active");
 }
 
-function closeMapDetails() {
-    var articlesList = document.getElementById("articles-list");
-    var overlay = document.getElementById("overlay");
-
-    articlesList.style.display = "none";
-    overlay.style.display = "block";
+function hideArticles() {
+    document.getElementById("articles-list").style.display = "none";
+    document.getElementById("overlay").classList.remove("active");
 }
 
 document.addEventListener("DOMContentLoaded", function () {
