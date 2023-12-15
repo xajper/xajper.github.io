@@ -23,6 +23,7 @@ function hideArticles() {
     document.getElementById("overlay").classList.remove("active");
 }
 
+
 document.addEventListener("DOMContentLoaded", function () {
     var modal = document.getElementById("mapListModal");
     modal.style.display = "none";
