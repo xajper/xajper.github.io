@@ -13,17 +13,6 @@ function performSearch() {
     }
 }
 
-function showArticles() {
-    document.getElementById("articles-list").style.display = "flex";
-    document.getElementById("overlay").classList.add("active");
-}
-
-function hideArticles() {
-    document.getElementById("articles-list").style.display = "none";
-    document.getElementById("overlay").classList.remove("active");
-}
-
-
 document.addEventListener("DOMContentLoaded", function () {
     var modal = document.getElementById("mapListModal");
     modal.style.display = "none";
@@ -32,7 +21,24 @@ document.addEventListener("DOMContentLoaded", function () {
 
     console.log("Strona została wczytana.");
 
+    document.getElementById("showArticlesButton").addEventListener("click", function () {
+        showArticles();
+    });
+
+    document.getElementById("hideArticlesButton").addEventListener("click", function () {
+        hideArticles();
+    });
 });
+
+function showArticles() {
+    document.getElementById("articles-list").style.display = "flex";
+    document.querySelector('.overlay').classList.add('active');
+}
+
+function hideArticles() {
+    document.getElementById("articles-list").style.display = "none";
+    document.querySelector('.overlay').classList.remove('active');
+}
 
 
 document.addEventListener("DOMContentLoaded", function () {
