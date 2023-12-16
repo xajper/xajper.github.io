@@ -80,6 +80,7 @@ function createFireworks() {
 
       setTimeout(() => {
         container.innerHTML = '';
+        listaMapButton.classList.remove('disabled');
       }, 1000);
 }
 
