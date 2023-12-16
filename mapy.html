@@ -143,26 +143,28 @@
         }
 
         .articles-list {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            background-color: transparent;/
-            padding: 20px;
-            z-index: 3;
-            margin: auto;
-            max-width: 1200px;
+          display: none;
+          flex-wrap: wrap;
+          justify-content: center;
+          background-color: transparent;
+          position: fixed;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          z-index: 3;
         }
-
+    
         .articles-list article {
-            display: block;
-            margin: 10px;
-            padding: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            border-radius: 5px;
-            width: calc(33.33% - 20px);
-            text-align: center;
-            position: relative;
-            z-index: 3;
+          display: block;
+          margin: 10px;
+          padding: 20px;
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+          border-radius: 5px;
+          width: calc(33.33% - 20px);
+          text-align: center;
+          position: relative;
+          z-index: 3;
+          background-color: rgba(255, 255, 255, 0.8);
         }
 
         header h1 {
