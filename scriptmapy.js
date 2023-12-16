@@ -141,13 +141,38 @@ function toggleSearch() {
     searchbar.style.top = searchbar.style.top === "10px" ? "-50px" : "10px";
 }
 
-function openImageModal(imageSrc) {
-    var modal = document.getElementById("imageModal");
-    var modalImg = document.getElementById("modalImage");
+document.addEventListener('DOMContentLoaded', function () {
+    var modal = document.getElementById('imageModal');
+    var modalImg = document.getElementById('modalImage');
+    var images = document.querySelectorAll('.myImages');
+    var closeBtn = document.querySelector('.close');
 
-    modal.style.display = "flex";
-    modalImg.src = imageSrc;
-}
+    function openImageModal(imageSrc) {
+        modal.style.display = 'flex';
+        modalImg.src = imageSrc;
+        modal.classList.add('show');
+    }
+
+    function closeImageModal() {
+        modal.style.display = 'none';
+        modal.classList.remove('show');
+    }
+
+    images.forEach(function (image) {
+        image.addEventListener('click', function () {
+            var imageSrc = this.getAttribute('src');
+            openImageModal(imageSrc);
+        });
+    });
+
+    closeBtn.addEventListener('click', closeImageModal);
+
+    window.addEventListener('click', function (event) {
+        if (event.target === modal) {
+            closeImageModal();
+        }
+    });
+});
 
 let likeCount = 0;
 let dislikeCount = 0;
