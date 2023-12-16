@@ -16,18 +16,26 @@ function performSearch() {
 document.addEventListener("DOMContentLoaded", function () {
     function showArticles() {
         var articlesList = document.getElementById('articles-list');
+        var overlay = document.querySelector('.overlay');
+        
         articlesList.style.display = 'flex';
-        document.querySelector('.overlay').classList.add('active');
+        overlay.classList.add('active');
     }
 
     var animatedButton = document.querySelector('.animated-button');
     animatedButton.addEventListener('click', showArticles);
-});
 
-function hideArticles() {
-    document.getElementById("articles-list").style.display = "none";
-    document.querySelector('.overlay').classList.remove('active');
-}
+    function hideArticles() {
+        var articlesList = document.getElementById('articles-list');
+        var overlay = document.querySelector('.overlay');
+        
+        articlesList.style.display = 'none';
+        overlay.classList.remove('active');
+    }
+
+    var closeButton = document.querySelector('.close');
+    closeButton.addEventListener('click', hideArticles);
+});
 
 document.addEventListener("DOMContentLoaded", function () {
     const sword = document.getElementById("sword");
