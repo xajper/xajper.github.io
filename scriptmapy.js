@@ -1,22 +1,49 @@
 document.addEventListener('DOMContentLoaded', function () {
     const categoryButtons = document.querySelectorAll('.category-btn');
+    const newButton = document.getElementById('new-button');
+    const popularneButton = document.getElementById('popularne-button');
+    const pvpButton = document.getElementById('pvp-button');
+    const fabularneButton = document.getElementById('fabularne-button');
+    const przygodoweButton = document.getElementById('przygodowe-button');
 
     categoryButtons.forEach(button => {
         button.addEventListener('click', function () {
-
             categoryButtons.forEach(btn => btn.classList.remove('active'));
-
             button.classList.add('active');
 
             const tag = button.innerText.toLowerCase();
-
             showMapsByTag(tag);
         });
+    });
+
+    newButton.addEventListener('click', function () {
+        toggleButton(newButton);
+        showMapsByTag('nowe');
+    });
+
+    popularButton.addEventListener('click', function () {
+        toggleButton(popularneButton);
+        showMapsByTag('popularne');
+    });
+
+    pvpButton.addEventListener('click', function () {
+        toggleButton(pvpButton);
+        showMapsByTag('pvp');
+    });
+
+    fabularneButton.addEventListener('click', function () {
+        toggleButton(fabularneButton);
+        showMapsByTag('fabularne');
+    });
+
+    przygodoweButton.addEventListener('click', function () {
+        toggleButton(przygodoweButton);
+        showMapsByTag('przygodowe');
     });
 });
 
 function showMapsByTag(tag) {
-    console.log(`Showing maps with tag: ${tag}`);
+    console.log(`Pokazywanie map z tagiem: ${tag}`);
 }
 
 function toggleButton(button) {
