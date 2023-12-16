@@ -146,12 +146,15 @@
           display: none;
           flex-wrap: wrap;
           justify-content: center;
-          background-color: transparent;
+          background-color: #F2F2F2;
           position: fixed;
           top: 50%;
           left: 50%;
           transform: translate(-50%, -50%);
           z-index: 3;
+          padding: 20px;
+          box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+          text-align: center;
         }
     
         .articles-list article {
@@ -160,11 +163,12 @@
           padding: 20px;
           box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
           border-radius: 5px;
-          width: calc(33.33% - 20px);
+          width: calc(30% - 20px);
           text-align: center;
           position: relative;
           z-index: 3;
-          background-color: rgba(255, 255, 255, 0.8);
+          background-color: #F2F2F2;
+          color: #000;
         }
 
         header h1 {
@@ -473,7 +477,7 @@
             opacity: 1;
             transform: translateY(0);
         }
-    
+        
         .close {
             position: absolute;
             top: 15px;
