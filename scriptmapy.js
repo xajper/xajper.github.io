@@ -14,32 +14,20 @@ function performSearch() {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-    var modal = document.getElementById("mapListModal");
-    modal.style.display = "none";
+    function showArticles() {
+        var articlesList = document.getElementById('articles-list');
+        articlesList.style.display = 'flex';
+        document.querySelector('.overlay').classList.add('active');
+    }
 
-    hideArticles();
-
-    console.log("Strona została wczytana.");
-
-    document.getElementById("showArticlesButton").addEventListener("click", function () {
-        showArticles();
-    });
-
-    document.getElementById("hideArticlesButton").addEventListener("click", function () {
-        hideArticles();
-    });
+    var animatedButton = document.querySelector('.animated-button');
+    animatedButton.addEventListener('click', showArticles);
 });
-
-function showArticles() {
-    document.getElementById("articles-list").style.display = "flex";
-    document.querySelector('.overlay').classList.add('active');
-}
 
 function hideArticles() {
     document.getElementById("articles-list").style.display = "none";
     document.querySelector('.overlay').classList.remove('active');
 }
-
 
 document.addEventListener("DOMContentLoaded", function () {
     const sword = document.getElementById("sword");
