@@ -19,92 +19,69 @@
             background-size: cover;
         }
 
-        .animated-button {
+        .button-container {
           position: relative;
-          display: flex;
-          align-items: center;
-          gap: 4px;
-          padding: 16px 36px;
-          border: 4px solid;
-          border-color: transparent;
-          font-size: 16px;
-          background-color: inherit;
-          border-radius: 100px;
-          font-weight: 600;
-          color: greenyellow;
-          box-shadow: 0 0 0 2px greenyellow;
+        }
+    
+        .animated-button {
+          display: inline-block;
+          padding: 15px 30px;
+          font-size: 18px;
+          font-weight: bold;
+          text-align: center;
+          text-decoration: none;
           cursor: pointer;
+          border-radius: 5px;
           overflow: hidden;
-          transition: all 0.6 cubic-bezier(0.23, 1, 0.32, 1);
+          position: relative;
+          background-color: #3498db;
+          color: #fff;
+          border: 2px solid #3498db;
+          transition: background 0.3s, color 0.3s, transform 0.3s;
         }
-        
-        .animated-button svg {
-          position: absolute;
-          width: 24px;
-          fill: greenyellow;
-          z-index: 9;
-          transition: all 0.8 cubic-bezier(0.23, 1, 0.32, 1);
+    
+        .animated-button:hover {
+          background-color: #fff;
+          color: #3498db;
         }
-        
-        .animated-button .arr-1 {
-          right: 16px;
-        }
-        
-        .animated-button .arr-2 {
-          left: -25%;
-        }
-        
-        .animated-button .circle {
+    
+        .animated-button:before {
+          content: "";
+          background-color: #2980b9;
           position: absolute;
           top: 50%;
           left: 50%;
           transform: translate(-50%, -50%);
-          width: 20px;
-          height: 20px;
-          background-color: greenyellow;
+          width: 100%;
+          height: 0;
           border-radius: 50%;
-          opacity: 0;
-          transition: all 0.8 cubic-bezier(0.23, 1, 0.32, 1);
+          z-index: -1;
+          transition: height 0.3s, width 0.3s;
         }
-        
-        .animated-button .text {
-          position: relative;
-          z-index: 1;
-          transform: translateX(-12px);
-          transition: all 0.8 cubic-bezier(0.23, 1, 0.32, 1);
+    
+        .animated-button:hover:before {
+          width: 100%;
+          height: 100%;
         }
-        
-        .animated-button:hover {
-          box-shadow: 0 0 0 12px transparent;
-          color: #212121;
-          border-radius: 12px;
+    
+        .fireworks {
+          position: absolute;
+          width: 10px;
+          height: 10px;
+          border-radius: 50%;
+          background-color: #3498db;
+          animation: fireworks-animation 1s ease-out;
         }
-        
-        .animated-button:hover .arr-1 {
-          right: -25%;
-        }
-        
-        .animated-button:hover .arr-2 {
-          left: 16px;
-        }
-        
-        .animated-button:hover .text {
-          transform: translateX(12px);
-        }
-        
-        .animated-button:hover svg {
-          fill: #212121;
-        }
-        
-        .animated-button:active {
-          scale: 0.95;
-          box-shadow: 0 0 0 4px greenyellow;
-        }
-        
-        .animated-button:hover .circle {
-          width: 220px;
-          height: 220px;
-          opacity: 1;
+    
+        @keyframes fireworks-animation {
+          0% {
+            transform: scale(1);
+            opacity: 1;
+          }
+          100% {
+            transform: scale(20);
+            opacity: 0;
+          }
         }
 
         .overlay {
@@ -820,17 +797,9 @@
             <h1>XAJPERMAP</h1>
         </header>
 
-
-        <button class="animated-button" onclick="showArticles()">
-                <svg viewBox="0 0 24 24" class="arr-2" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z"></path>
-                </svg>
-                <span class="text">LISTA MAP</span>
-                <span class="circle"></span>
-                <svg viewBox="0 0 24 24" class="arr-1" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z"></path>
-                </svg>
-        </button>
+        <div class="button-container">
+            <a href="#lista-map" class="button" onclick="createFireworks() showArticles()">LISTA MAP</a>
+        </div>
 
         <div class="categories-container">
             <button class="category-btn nowe"><img src="nowe.png" alt="NOWE">NOWE</button>
