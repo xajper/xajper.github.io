@@ -333,66 +333,7 @@ function openModalCE() {
         <span class="fa fa-star checked"></span>
         <span class="fa fa-star checked"></span>
         <span class="fa fa-star checked"></span>
-        <p>Średnia 5,0 na podstawie 1 oceny</p>
-        <hr style="border:3px solid #f1f1f1">
-
-        <div class="row">
-          <div class="side">
-            <div>5</div>
-          </div>
-          <div class="middle">
-            <div class="bar-container">
-              <div class="bar-5"></div>
-            </div>
-          </div>
-          <div class="side right">
-            <div>1</div>
-          </div>
-          <div class="side">
-            <div>4</div>
-          </div>
-          <div class="middle">
-            <div class="bar-container">
-              <div class="bar-4"></div>
-            </div>
-          </div>
-          <div class="side right">
-            <div>0</div>
-          </div>
-          <div class="side">
-            <div>3</div>
-          </div>
-          <div class="middle">
-            <div class="bar-container">
-              <div class="bar-3"></div>
-            </div>
-          </div>
-          <div class="side right">
-            <div>0</div>
-          </div>
-          <div class="side">
-            <div>2</div>
-          </div>
-          <div class="middle">
-            <div class="bar-container">
-              <div class="bar-2"></div>
-            </div>
-          </div>
-          <div class="side right">
-            <div>0</div>
-          </div>
-          <div class="side">
-            <div>1</div>
-          </div>
-          <div class="middle">
-            <div class="bar-container">
-              <div class="bar-1"></div>
-            </div>
-          </div>
-          <div class="side right">
-            <div>0</div>
-          </div>
-        </div>`;
+        <p>Średnia 5,0 na podstawie 1 oceny</p>`;
 
     document.getElementById("myModal").style.display = "flex";
     setTimeout(function () {
