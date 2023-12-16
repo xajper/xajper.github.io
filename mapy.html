@@ -153,7 +153,9 @@
         }
         
         .articles-list {
-            display: none;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
             flex-wrap: wrap;
             justify-content: center;
             position: fixed;
