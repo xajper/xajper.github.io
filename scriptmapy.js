@@ -1,3 +1,28 @@
+document.addEventListener('DOMContentLoaded', function () {
+      const categoryButtons = document.querySelectorAll('.category-btn');
+
+      categoryButtons.forEach(button => {
+        button.addEventListener('click', function () {
+
+          categoryButtons.forEach(btn => btn.classList.remove('active'));
+
+          button.classList.add('active');
+
+          const tag = button.innerText.toLowerCase();
+
+          showMapsByTag(tag);
+        });
+      });
+});
+
+function showMapsByTag(tag) {
+    console.log(`Showing maps with tag: ${tag}`);
+}
+
+function toggleButton(button) {
+    button.classList.toggle('active');
+}
+
 function performSearch() {
     const searchInput = document.getElementById("search-input").value.toLowerCase();
     const articles = document.getElementsByClassName("article");
