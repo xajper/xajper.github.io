@@ -1,18 +1,18 @@
 document.addEventListener('DOMContentLoaded', function () {
-      const categoryButtons = document.querySelectorAll('.category-btn');
+    const categoryButtons = document.querySelectorAll('.category-btn');
 
-      categoryButtons.forEach(button => {
+    categoryButtons.forEach(button => {
         button.addEventListener('click', function () {
 
-          categoryButtons.forEach(btn => btn.classList.remove('active'));
+            categoryButtons.forEach(btn => btn.classList.remove('active'));
 
-          button.classList.add('active');
+            button.classList.add('active');
 
-          const tag = button.innerText.toLowerCase();
+            const tag = button.innerText.toLowerCase();
 
-          showMapsByTag(tag);
+            showMapsByTag(tag);
         });
-      });
+    });
 });
 
 function showMapsByTag(tag) {
