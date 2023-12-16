@@ -66,22 +66,26 @@ function performSearch() {
 }
 
 function createFireworks() {
-      const container = document.querySelector('.button-container');
+  const container = document.querySelector('.button-container');
+  const listaMapButton = document.getElementById('listaMapButton');
 
-      for (let i = 0; i < 5; i++) {
-        const fireworks = document.createElement('div');
-        fireworks.className = 'fireworks';
-        const xPos = Math.random() * 100;
-        const yPos = Math.random() * 100;
-        fireworks.style.left = `${xPos}%`;
-        fireworks.style.top = `${yPos}%`;
-        container.appendChild(fireworks);
-      }
+  listaMapButton.classList.add('clicked');
 
-      setTimeout(() => {
-        container.innerHTML = '';
-        listaMapButton.classList.remove('disabled');
-      }, 1000);
+  for (let i = 0; i < 5; i++) {
+    const fireworks = document.createElement('div');
+    fireworks.className = 'fireworks';
+    const xPos = Math.random() * 100;
+    const yPos = Math.random() * 100;
+    fireworks.style.left = `${xPos}%`;
+    fireworks.style.top = `${yPos}%`;
+    container.appendChild(fireworks);
+  }
+
+  setTimeout(() => {
+    container.innerHTML = '';
+
+    listaMapButton.classList.remove('clicked');
+  }, 1000);
 }
 
 document.addEventListener("DOMContentLoaded", function () {
