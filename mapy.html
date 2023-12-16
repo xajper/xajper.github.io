@@ -642,7 +642,7 @@
         }
 
         .navbar {
-            background-color: #333;
+            background-color: transparent;
             color: white;
             padding: 10px;
             text-align: center;
@@ -650,14 +650,10 @@
             position: fixed;
             top: 15px;
             left: 15px;
-            z-index: 2;
+            z-index: 11;
             transition: 0.3s;
         }
 
-        .navbar:hover {
-            background-color: #555;
-        }
-        
         .animated-sword {
             width: 50px;
             height: 50px;
@@ -665,6 +661,7 @@
             background-size: cover;
             transition: transform 0.3s;
             cursor: pointer;
+            z-index: 12;
         }
         
         .animated-sword:hover {
@@ -679,7 +676,7 @@
             height: 100vh;
             width: 0;
             position: fixed;
-            z-index: 1;
+            z-index: 10;
             top: 0;
             left: 0;
             background-color: #333;
