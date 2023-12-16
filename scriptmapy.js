@@ -13,6 +13,24 @@ function performSearch() {
     }
 }
 
+function createFireworks() {
+      const container = document.querySelector('.button-container');
+
+      for (let i = 0; i < 5; i++) {
+        const fireworks = document.createElement('div');
+        fireworks.className = 'fireworks';
+        const xPos = Math.random() * 100;
+        const yPos = Math.random() * 100;
+        fireworks.style.left = `${xPos}%`;
+        fireworks.style.top = `${yPos}%`;
+        container.appendChild(fireworks);
+      }
+
+      setTimeout(() => {
+        container.innerHTML = '';
+      }, 1000);
+}
+
 document.addEventListener("DOMContentLoaded", function () {
     function showArticles() {
         var articlesList = document.getElementById('articles-list');
