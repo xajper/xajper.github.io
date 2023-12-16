@@ -280,11 +280,16 @@ document.addEventListener("DOMContentLoaded", function () {
 function openModalPA() {
     const mapTitle = "Party Activities";
     const mapDescription = "Witaj!<br><br>" +
-        "Mapa którą obecnie widzisz jest zbiorem różnych minigier. Party Activities jest mojego autorstwa i została stworzona dla maksymalnie DWÓCH graczy na wersję 1.19.4+! Gier jest PONAD 20 i na pewno każdy znajdzie coś dla siebie! Budowa tej mapy zajęła mi sporo czasu i włożyłem w nią sporo pracy, więc byłbym wdzięczny gdybyś ocenił ją zostawiając diaxa pod spodem. Możesz wbić na mój serwer discord gdzie uzyskasz dużo informacji o przedpremierowych mapach! Zaglądnij również na mój kanał na yt gdzie pokazuję jak tworzyć mapy. (https://discord.gg/QCnXbND9UZ)<br><br>" +
+        "Mapa którą obecnie widzisz jest zbiorem różnych minigier." +
+        "» Party Activities jest mojego autorstwa i została stworzona dla maksymalnie DWÓCH graczy na wersję 1.19.4+!<br>" +
+        "» Gier jest PONAD 20 i na pewno każdy znajdzie coś dla siebie! Budowa tej mapy zajęła mi sporo czasu i włożyłem w nią sporo pracy, więc byłbym wdzięczny gdybyś ocenił ją zostawiając diaxa pod spodem.<br>" +
+        "» Możesz wbić na mój serwer discord gdzie uzyskasz dużo informacji o przedpremierowych mapach!<br>" +
+        "» Zaglądnij również na mój kanał na yt gdzie pokazuję jak tworzyć mapy. (https://discord.gg/QCnXbND9UZ)<br><br>" +
         "<strong>WAŻNE INFORMACJE:</strong><br>" +
         "» NIE klikaj wiadomości Wyjście [KLIKNIJ] do byle jakiej minigry, każda wiadomość jest indywidualna i przystosowana do każdej gry z osobna!!!<br>" +
         "» Jeśli jakimś cudem zepsujesz mapę, pobierz ją jeszcze raz!<br>" +
-        "» Gdy nie działają ci klikane wiadomości, otwórz świat w LAN i włącz uprawnienia - jeśli jesteś na pojedynczym świecie, lub gdy grasz na serwerze ze znajomym, daj sobie i koledze uprawnienia operatora serwera.<br>" +
+        "» Gdy nie działają ci klikane wiadomości, otwórz świat w LAN i włącz uprawnienia - jeśli jesteś na pojedynczym świecie,<br>" +
+        "» lub gdy grasz na serwerze ze znajomym, daj sobie i koledze uprawnienia operatora serwera.<br>" +
         "» Masz jakieś pytania lub pojawił się bug? Napisz do mnie na dc (Xajper), na moim serwerze discord lub w komentarzach pod tą mapą.";
 
     const mapOcenaHTML = `
@@ -294,66 +299,7 @@ function openModalPA() {
         <span class="fa fa-star checked"></span>
         <span class="fa fa-star checked"></span>
         <span class="fa fa-star checked"></span>
-        <p>Średnia 5,0 na podstawie 1 oceny</p>
-        <hr style="border:3px solid #f1f1f1">
-        
-        <div class="row">
-            <div class="side">
-                <div>5</div>
-            </div>
-            <div class="middle">
-                <div class="bar-container">
-                    <div class="bar-5"></div>
-                </div>
-            </div>
-            <div class="side right">
-                <div>1</div>
-            </div>
-            <div class="side">
-                <div>4</div>
-            </div>
-            <div class="middle">
-                <div class="bar-container">
-                    <div class="bar-4"></div>
-                </div>
-            </div>
-            <div class="side right">
-                <div>0</div>
-            </div>
-            <div class="side">
-                <div>3</div>
-            </div>
-            <div class="middle">
-                <div class="bar-container">
-                    <div class="bar-3"></div>
-                </div>
-            </div>
-            <div class="side right">
-                <div>0</div>
-            </div>
-            <div class="side">
-                <div>2</div>
-            </div>
-            <div class="middle">
-                <div class="bar-container">
-                    <div class="bar-2"></div>
-                </div>
-            </div>
-            <div class="side right">
-                <div>0</div>
-            </div>
-            <div class="side">
-                <div>1</div>
-            </div>
-            <div class="middle">
-                <div class="bar-container">
-                    <div class="bar-1"></div>
-                </div>
-            </div>
-            <div class="side right">
-                <div>0</div>
-            </div>
-        </div>`;
+        <p>Średnia 5,0 na podstawie 1 oceny</p>`;
 
     document.getElementById("mapTitle").innerText = mapTitle;
     document.getElementById("mapDescription").innerHTML = mapDescription;
