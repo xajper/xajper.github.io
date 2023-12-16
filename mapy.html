@@ -36,6 +36,16 @@
           position: relative;
           margin-top: 10vh;
         }
+
+        .animated-button.clicked {
+          background-color: #fff;
+          color: #3498db;
+        }
+        
+        .animated-button.clicked:hover {
+          background-color: #3498db;
+          color: #fff;
+        }
         
         .animated-button {
           display: inline-block;
@@ -817,7 +827,7 @@
         </header>
 
         <div class="button-container">
-            <a href="#lista-map" class="animated-button" onclick="createFireworks(); showArticles();">LISTA MAP</a>
+            <a id="listaMapButton" href="#lista-map" class="animated-button" onclick="createFireworks(); showArticles();">LISTA MAP</a>
         </div>
 
         <div class="categories-container">
