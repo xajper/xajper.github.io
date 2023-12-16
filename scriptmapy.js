@@ -105,6 +105,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
     var closeButton = document.querySelector('.close');
     closeButton.addEventListener('click', hideArticles);
+
+    var listaMapButton = document.querySelector('.category-btn.listamap');
+    listaMapButton.addEventListener('click', showArticles);
 });
 
 document.addEventListener("DOMContentLoaded", function () {
