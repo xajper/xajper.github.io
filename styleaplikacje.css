@@ -20,6 +20,7 @@ body {
     transition: background-color 0.3s ease-in-out;
     border-radius: 8px;
     overflow: hidden;
+    text-decoration: none;
 }
 
 .tile p {
