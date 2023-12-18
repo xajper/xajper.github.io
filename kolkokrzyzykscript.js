@@ -38,7 +38,7 @@ const enableButtons = () => {
 //This function is executed when a player wins
 const winFunction = (letter) => {
   disableButtons();
-  if (letter == "X") {
+  if (letter == "❌") {
     msgRef.innerHTML = "&#x1F389; <br> ❌ wygrało!";
   } else {
     msgRef.innerHTML = "&#x1F389; <br> ⭕ wygrało!";
@@ -72,7 +72,7 @@ const winChecker = () => {
     ];
     //Check if elements are filled
     //If 3 empty elements are same and would give win as would
-    if (element1 != "" && (element2 != "") & (element3 != "")) {
+    if (element1 != "" && element2 != "" && element3 != "") {
       if (element1 == element2 && element2 == element3) {
         //If all 3 buttons have same values then pass the value to winFunction
         winFunction(element1);
