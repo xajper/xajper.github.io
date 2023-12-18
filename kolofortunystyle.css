@@ -1,0 +1,167 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden; /* Ukryj overflow, aby konfetti było widoczne na całej stronie */
+}
+
+.container {
+    text-align: center;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    position: relative; /* Ustawienie pozycji relative dla kontenera */
+}
+
+h1 {
+    color: #333;
+}
+
+label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+input {
+    padding: 8px;
+}
+
+button {
+    background-color: #4caf50;
+    color: #fff;
+    padding: 8px;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    margin-left: 10px;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+#menu {
+    margin-bottom: 10px;
+}
+
+.menu-value {
+    display: inline-block;
+    margin: 0 5px;
+    background-color: #eee;
+    padding: 10px; /* Zwiększenie paddingu dla większej przestrzeni wokół tekstu */
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.menu-value:hover {
+    background-color: #ddd;
+}
+
+#wheel-container {
+    position: relative;
+    margin: 20px auto;
+    width: 300px;
+    height: 300px;
+}
+
+#pointer {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 5px;
+    height: 75px;
+    background-color: #333; /* Kolor wskaźnika */
+    visibility: visible; /* Widoczny wskaźnik na początku */
+    z-index: 3; /* Ustawienie z-index wyżej niż sekcje koła i konfetti */
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+#wheel {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 5px solid #000; /* Gruba czarna obwódka dla koła */
+    overflow: hidden;
+    position: relative;
+    animation: none; /* Zatrzymaj animację na początku */
+    background-color: transparent; /* Przezroczyste tło dla koła */
+}
+
+.section-label {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(0deg);
+    font-size: 20px; /* Zwiększenie rozmiaru fontu dla większej czytelności */
+    color: #fff;
+    white-space: nowrap;
+}
+
+#confetti-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 1; /* Ustawienie z-index na niższy niż tło koła */
+}
+
+.confetti {
+    width: 8px;
+    height: 8px;
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.8;
+    transform: scale(0);
+    animation: fall linear infinite;
+}
+
+@keyframes fall {
+    0% {
+        transform: translateY(0) rotate(0) scale(0);
+    }
+    100% {
+        transform: translateY(200vh) rotate(720deg) scale(1); /* Przesunięcie poza ekran, kilka obrotów */
+    }
+}
+
+.wheel-section {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    clip-path: polygon(50% 50%, 100% 100%, 0 100%);
+    background-color: #000; /* Czarny kolor dla sekcji koła */
+}
+
+.wheel-section::after {
+    content: attr(data-value); /* Wyświetlanie wartości */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(0deg);
+    font-size: 20px; /* Zwiększenie rozmiaru fontu dla większej czytelności */
+    color: #fff;
+    white-space: nowrap;
+    text-align: center;
+    animation: spin 4s cubic-bezier(0.17, 0.67, 0.83, 0.67) forwards; /* Animacja ruchu dla wartości */
+    z-index: 2; /* Ustawienie z-index na wyższy poziom niż tło koła */
+}
+
+.colorful .wheel-section {
+    animation: spin 4s cubic-bezier(0.17, 0.67, 0.83, 0.67) forwards;
+}
