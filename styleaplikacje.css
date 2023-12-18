@@ -23,11 +23,15 @@ body {
     text-decoration: none;
 }
 
+.tile a {
+    text-decoration: none; /* Usunięcie podkreślenia dla linków */
+}
+
 .tile p {
     color: #fff;
     font-weight: bold;
     text-align: center;
-    margin: 0; /* Usunięcie marginesu, aby całkowicie usunąć odstęp */
+    margin: 0;
     white-space: nowrap;
     overflow: hidden;
 }
