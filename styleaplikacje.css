@@ -1,0 +1,58 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+}
+
+.tile {
+    width: 120px;
+    height: 100px;
+    background-color: #3498db;
+    margin: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.tile p {
+    color: #fff;
+    font-weight: bold;
+    text-align: center;
+    margin: 0; /* Usunięcie marginesu, aby całkowicie usunąć odstęp */
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.tile p span {
+    display: inline-block;
+    max-width: 100%;
+    font-size: 1em;
+}
+
+.tile:hover {
+    background-color: #2980b9;
+}
+
+.tile.clicked {
+    animation: scaleUp 0.3s ease-in-out;
+}
+
+@keyframes scaleUp {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
