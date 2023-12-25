@@ -42,6 +42,10 @@ body {
     font-size: 1em;
 }
 
+.tile.random-color {
+    background-color: #3498db;
+}
+
 .tile:hover {
     background-color: #2980b9;
 }
