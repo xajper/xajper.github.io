@@ -8,9 +8,9 @@ body {
 }
 
 .tile {
-    position: relative;
     width: 120px;
     height: 100px;
+    background-color: #3498db;
     margin: 10px;
     display: flex;
     flex-direction: column;
@@ -23,23 +23,8 @@ body {
     text-decoration: none;
 }
 
-.tile::before {
-    content: "";
-    display: block;
-    padding-top: 100%; /* Zachowaj stosunek szerokości do wysokości (1:1) */
-}
-
 .tile a {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-decoration: none;
+    text-decoration: none; /* Usunięcie podkreślenia dla linków */
 }
 
 .tile p {
@@ -67,4 +52,23 @@ body {
 
 .tile.clicked {
     animation: scaleUp 0.3s ease-in-out;
+}
+
+@keyframes scaleUp {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Media query dla mniejszych ekranów */
+@media only screen and (max-width: 600px) {
+    .tile {
+        width: calc(50% - 20px); /* Na mniejszych ekranach szerokość kafelka to 50% minus odstępy */
+    }
 }
