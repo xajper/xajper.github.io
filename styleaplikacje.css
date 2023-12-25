@@ -8,7 +8,7 @@ body {
 }
 
 .tile {
-    width: 100%; /* Zmiana szerokości na 100% dla urządzeń mobilnych */
+    width: 120px;
     height: 100px;
     background-color: #3498db;
     margin: 10px;
@@ -63,5 +63,12 @@ body {
     }
     100% {
         transform: scale(1);
+    }
+}
+
+/* Media query dla mniejszych ekranów */
+@media only screen and (max-width: 600px) {
+    .tile {
+        width: calc(50% - 20px); /* Na mniejszych ekranach szerokość kafelka to 50% minus odstępy */
     }
 }
