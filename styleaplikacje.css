@@ -65,10 +65,3 @@ body {
         transform: scale(1);
     }
 }
-
-/* Media query dla mniejszych ekranów */
-@media only screen and (max-width: 600px) {
-    .tile {
-        width: calc(50% - 20px); /* Na mniejszych ekranach szerokość kafelka to 50% minus odstępy */
-    }
-}
