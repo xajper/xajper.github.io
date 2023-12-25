@@ -8,7 +8,7 @@ body {
 }
 
 .tile {
-    width: 120px;
+    width: 100%; /* Zmiana szerokości na 100% dla urządzeń mobilnych */
     height: 100px;
     background-color: #3498db;
     margin: 10px;
