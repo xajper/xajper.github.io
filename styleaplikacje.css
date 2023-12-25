@@ -68,15 +68,3 @@ body {
 .tile.clicked {
     animation: scaleUp 0.3s ease-in-out;
 }
-
-@keyframes scaleUp {
-    0% {
-        transform: scale(1);
-    }
-    50% {
-        transform: scale(1.2);
-    }
-    100% {
-        transform: scale(1);
-    }
-}
