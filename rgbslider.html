@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="rgbsliderstyle.css">
+    <title>RGB Slider</title>
+</head>
+<body>
+    <div class="container">
+        <div class="slider-container">
+            <label for="red">Czerwony:</label>
+            <input type="range" id="red" min="0" max="255" value="0" class="slider">
+        </div>
+        <div class="slider-container">
+            <label for="green">Zielony:</label>
+            <input type="range" id="green" min="0" max="255" value="0" class="slider">
+        </div>
+        <div class="slider-container">
+            <label for="blue">Niebieski:</label>
+            <input type="range" id="blue" min="0" max="255" value="0" class="slider">
+        </div>
+        <div class="color-box" id="color-box"></div>
+        <div class="copy-container">
+            <label for="copy">RGB:</label>
+            <input type="text" id="copy" readonly>
+            <button onclick="copyToClipboard()">
+                <i class="fas fa-copy"></i> Kopiuj
+            </button>
+        </div>
+    </div>
+
+    <script src="rgbsliderscript.js"></script>
+</body>
+</html>
