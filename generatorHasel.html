@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="generatorHasel.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
+    <title>Generator Haseł</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Generator Haseł</h1>
+        <div class="password-container">
+            <input type="text" id="password" readonly>
+            <button class="button" id="generateButton" onclick="generatePassword()"><i class="fas fa-sync-alt"></i> Generuj Hasło</button>
+            <button class="button" id="copyButton" onclick="copyPassword()"><i class="far fa-copy"></i> Kopiuj</button>
+        </div>
+    </div>
+
+    <script src="generatorHasel.js"></script>
+</body>
+</html>
