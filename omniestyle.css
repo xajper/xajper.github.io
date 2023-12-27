@@ -189,6 +189,10 @@ body{
     display: flex;
     margin: 2rem 0;
 }
+.about-btns1{
+    display: flex;
+    margin: 2rem 0;
+}
 .btn{
     border: none;
     font-size: 0.9rem;
@@ -252,14 +256,13 @@ body{
     border-color: #2ddd33;
     color: #fff;
 }
-
 .btn.btn-purple{
     transition: all 0.5s ease-in-out;
     color: #000;
 }
 .btn.btn-purple:hover{
-    background: #b803ff;
-    border-color: #b803ff;
+    background: #800080;
+    border-color: #800080;
     color: #fff;
 }
 .btn.btn-red{
