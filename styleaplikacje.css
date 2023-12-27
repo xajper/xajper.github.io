@@ -1,14 +1,26 @@
 body {
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    margin: 0;
+    margin: 0; /* Reset margin to 0 */
     font-family: 'Roboto', sans-serif;
+    background-color: #ffffff;
+    overflow: hidden;
+}
+
+.tiles-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    margin: 150px;
 }
 
 .tile {
-    width: 120px;
+    flex: 0 0 calc(20% - 20px);
+    width: calc(20% - 20px);
     height: 100px;
     background-color: #3498db;
     margin: 10px;
@@ -17,10 +29,11 @@ body {
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    transition: background-color 0.3s ease-in-out;
+    transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
     border-radius: 8px;
     overflow: hidden;
     text-decoration: none;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
 }
 
 .tile a {
@@ -48,6 +61,8 @@ body {
 
 .tile:hover {
     background-color: #2980b9;
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.4);
+    transform: scale(1.05);
 }
 
 .tile.clicked {
@@ -63,5 +78,28 @@ body {
     }
     100% {
         transform: scale(1);
+    }
+}
+
+.trail {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background-color: #3498db;
+    border-radius: 50%;
+    pointer-events: none;
+    transform-origin: 50% 50%;
+    opacity: 0.6;
+    animation: trailFade 0.5s ease-in-out;
+}
+
+@keyframes trailFade {
+    0% {
+        transform: scale(1);
+        opacity: 0.6;
+    }
+    100% {
+        transform: scale(0);
+        opacity: 0;
     }
 }
