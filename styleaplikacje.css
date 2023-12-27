@@ -4,7 +4,7 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
-    margin: 0; /* Reset margin to 0 */
+    margin: 0;
     font-family: 'Roboto', sans-serif;
     background-color: #ffffff;
     overflow: hidden;
@@ -15,7 +15,7 @@ body {
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    margin: 150px;
+    margin: 20px; /* zmniejszenie marginesu dla responsywności */
 }
 
 .tile {
@@ -36,8 +36,23 @@ body {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
 }
 
+/* Dodanie reguł dla mniejszych ekranów */
+@media screen and (max-width: 768px) {
+    .tile {
+        flex: 0 0 calc(50% - 20px);
+        width: calc(50% - 20px);
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .tile {
+        flex: 0 0 calc(100% - 20px);
+        width: calc(100% - 20px);
+    }
+}
+
 .tile a {
-    text-decoration: none; /* Usunięcie podkreślenia dla linków */
+    text-decoration: none;
 }
 
 .tile p {
