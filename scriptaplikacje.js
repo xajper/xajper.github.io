@@ -15,12 +15,25 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 
-function animateTile(element) {
-    element.classList.add('clicked');
+document.addEventListener('DOMContentLoaded', function () {
+    addMouseTrailEffect();
+});
 
-    element.style.backgroundColor = getRandomColor();
+function addMouseTrailEffect() {
+    document.addEventListener('mousemove', function (e) {
+        createTrail(e);
+    });
+}
+
+function createTrail(e) {
+    var trail = document.createElement('div');
+    trail.classList.add('trail');
+    document.body.appendChild(trail);
+
+    trail.style.left = e.clientX + 'px';
+    trail.style.top = e.clientY + 'px';
 
     setTimeout(function () {
-        element.classList.remove('clicked');
-    }, 300);
+        document.body.removeChild(trail);
+    }, 500);
 }
