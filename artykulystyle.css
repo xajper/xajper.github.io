@@ -43,6 +43,20 @@ body {
   transform: scaleY(0.5);
 }
 
+#tag-checkboxes-btn {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+#tag-checkboxes-btn:hover {
+  background-color: #45a049;
+}
+
 #tag-checkboxes {
   margin-top: 10px;
 }
