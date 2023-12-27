@@ -9,6 +9,20 @@ body {
   scrollbar-color: #4CAF50 #f0f0f0;
 }
 
+button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
 .custom-scrollbar {
   scrollbar-width: thin;
   scrollbar-color: #4CAF50 #f0f0f0;
