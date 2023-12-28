@@ -250,6 +250,7 @@ body{
 .btn.btn-green{
     transition: all 0.5s ease-in-out;
     color: #000;
+    border-color: #2ddd33;
 }
 .btn.btn-green:hover{
     background: #2ddd33;
@@ -259,6 +260,7 @@ body{
 .btn.btn-purple{
     transition: all 0.5s ease-in-out;
     color: #000;
+    border-color: #800080;
 }
 .btn.btn-purple:hover{
     background: #800080;
