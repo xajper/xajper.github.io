@@ -65,53 +65,39 @@ function performSearch() {
     }
 }
 
-function createFireworks() {
-  const container = document.querySelector('.button-container');
-  const listaMapButton = document.getElementById('listaMapButton');
-
-  listaMapButton.classList.add('clicked');
-
-  for (let i = 0; i < 5; i++) {
-    const fireworks = document.createElement('div');
-    fireworks.className = 'fireworks';
-    const xPos = Math.random() * 100;
-    const yPos = Math.random() * 100;
-    fireworks.style.left = `${xPos}%`;
-    fireworks.style.top = `${yPos}%`;
-    container.appendChild(fireworks);
-  }
-
-  setTimeout(() => {
-    container.innerHTML = '';
-
-    listaMapButton.classList.remove('clicked');
-  }, 1000);
-}
-
 document.addEventListener("DOMContentLoaded", function () {
+    var listaMapButton = document.querySelector('.category-btn.listamap');
+  
     function showArticles() {
-        var articlesList = document.getElementById('articles-list');
-        var overlay = document.querySelector('.overlay');
-        
-        articlesList.style.display = 'flex';
-        overlay.classList.add('active');
+      var articlesList = document.getElementById('articles-list');
+      var overlay = document.querySelector('.overlay');
+  
+      articlesList.style.display = 'flex';
+      overlay.classList.add('active');
+      listaMapButton.style.visibility = 'hidden';  // Ukryj przycisk
+      listaMapButton.style.opacity = '0';  // Ustaw przezroczystość na 0
+  
+      // Po 2 sekundach przywróć widoczność i przezroczystość przycisku
+      setTimeout(() => {
+        listaMapButton.style.visibility = 'visible';
+        listaMapButton.style.opacity = '1';
+      }, 2000);
     }
-
+  
     var animatedButton = document.querySelector('.animated-button');
     animatedButton.addEventListener('click', showArticles);
-
+  
     function hideArticles() {
-        var articlesList = document.getElementById('articles-list');
-        var overlay = document.querySelector('.overlay');
-        
-        articlesList.style.display = 'none';
-        overlay.classList.remove('active');
+      var articlesList = document.getElementById('articles-list');
+      var overlay = document.querySelector('.overlay');
+  
+      articlesList.style.display = 'none';
+      overlay.classList.remove('active');
     }
-
+  
     var closeButton = document.querySelector('.close');
     closeButton.addEventListener('click', hideArticles);
-
-    var listaMapButton = document.querySelector('.category-btn.listamap');
+  
     listaMapButton.addEventListener('click', showArticles);
 });
 
