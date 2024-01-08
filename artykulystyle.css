@@ -9,6 +9,12 @@ body {
   scrollbar-color: #4CAF50 #f0f0f0;
 }
 
+.container img {
+  width: 350px;
+  height: 200px;
+  object-fit: cover; 
+}
+
 button {
   background-color: #4CAF50;
   color: white;
@@ -55,20 +61,6 @@ button:hover {
 .at-top .custom-scrollbar::-webkit-scrollbar-thumb {
   border-radius: 0;
   transform: scaleY(0.5);
-}
-
-#tag-checkboxes-btn {
-  background-color: #4CAF50;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
-}
-
-#tag-checkboxes-btn:hover {
-  background-color: #45a049;
 }
 
 #tag-checkboxes {
@@ -598,8 +590,8 @@ footer {
   border: none;
   border-radius: 50%;
   font-size: 16px;
-  width: 20px; /* Dodałem szerokość dla idealnego koła */
-  height: 20px; /* Dodałem wysokość dla idealnego koła */
+  width: 20px;
+  height: 20px;
 }
 
 .scroll-to-top i {
