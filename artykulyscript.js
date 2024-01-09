@@ -327,21 +327,41 @@ function getParameterByName(name, url) {
     return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
 
+function scrollToArticle(articleId) {
+    // Pobierz element artykułu na podstawie jego identyfikatora
+    var articleElement = document.getElementById(articleId);
+
+    // Sprawdź, czy element został znaleziony
+    if (articleElement) {
+        // Ustaw właściwość 'scrollIntoView' na true, aby przewinąć do elementu
+        articleElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+}
+
+// Funkcja obsługująca kliknięcie na link do artykułu
 function zobacz(articleId) {
-    // Dodaj dowolną logikę, która ma być wykonana po kliknięciu na artykuł
+    // Wywołaj funkcję przewijania do artykułu
+    scrollToArticle(articleId);
+
+    // Dodaj dowolną dodatkową logikę, która ma być wykonana po kliknięciu na artykuł
     console.log('Wybrany artykuł:', articleId);
+
     // Pobierz aktualny adres URL
     var currentUrl = window.location.href;
+
     // Ustaw parametr w adresie URL na aktualnie wybrany artykuł
     window.location.href = currentUrl.split('?')[0] + '?artykul=' + articleId;
 }
 
-  // Sprawdź, czy w adresie URL znajduje się parametr article
+// Sprawdź, czy w adresie URL znajduje się parametr artykul
 window.onload = function () {
-    var currentArticle = getParameterByName('article');
+    var currentArticle = getParameterByName('artykul');
     if (currentArticle) {
-      // Zaznacz aktualny artykuł
-      document.getElementById(currentArticle).classList.add('selected');
+        // Zaznacz aktualny artykuł
+        document.getElementById(currentArticle).classList.add('selected');
+        
+        // Przewiń do aktualnego artykułu po załadowaniu strony
+        scrollToArticle(currentArticle);
     }
 };
 
