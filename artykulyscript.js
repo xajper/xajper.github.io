@@ -20,17 +20,16 @@ document.addEventListener('DOMContentLoaded', function () {
     const maxWidth = 250;
     const maxHeight = 250;
 
-    // Dynamically generate tag checkboxes
     articleTags.forEach(tag => {
         const checkbox = document.createElement('input');
         checkbox.type = 'checkbox';
         checkbox.id = 'tag-' + tag.textContent.toLowerCase();
         checkbox.value = tag.textContent.toLowerCase();
-
+    
         const label = document.createElement('label');
         label.setAttribute('for', 'tag-' + tag.textContent.toLowerCase());
         label.textContent = tag.textContent;
-
+    
         tagOptionsContainer.appendChild(checkbox);
         tagOptionsContainer.appendChild(label);
     });
@@ -317,7 +316,35 @@ window.addEventListener('scroll', function () {
       newsletterForm.addEventListener('submit', handleNewsletterForm);
     }
   });
-  
+
+function getParameterByName(name, url) {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
+}
+
+function zobacz(articleId) {
+    // Dodaj dowolną logikę, która ma być wykonana po kliknięciu na artykuł
+    console.log('Wybrany artykuł:', articleId);
+    // Pobierz aktualny adres URL
+    var currentUrl = window.location.href;
+    // Ustaw parametr w adresie URL na aktualnie wybrany artykuł
+    window.location.href = currentUrl.split('?')[0] + '?artykul=' + articleId;
+}
+
+  // Sprawdź, czy w adresie URL znajduje się parametr article
+window.onload = function () {
+    var currentArticle = getParameterByName('article');
+    if (currentArticle) {
+      // Zaznacz aktualny artykuł
+      document.getElementById(currentArticle).classList.add('selected');
+    }
+};
+
 document.addEventListener('DOMContentLoaded', function () {
     const tagLinks = document.querySelectorAll('#article-tags li a');
 
