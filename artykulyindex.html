@@ -9,23 +9,65 @@
   <title>Sportowo.pl</title>
 </head>
 <body class="custom-scrollbar custom-scrollbar-bottom">
-    <div id="overlay"></div>
+    <div id="menu-overlay"></div>
 
     <div id="notification-section"></div>
 
     <section id="sport-section">
         <h2>Sportowo - Artykuły Sportowe</h2>
-        <div class="button-section">
-          <a href="index.html" class="button">O mnie</a>
-          <a href="xajperteam.html" class="button">Xajper Team</a>
-          <a href="xajperbot.html" class="button">XajperBOT</a>
-          <a href="xajpermap.html" class="button">XajperMAP</a>
-          <a href="stronaserwera-wkrotce.html" class="button">PixelParadise</a>
+        <div id="menu-button" onclick="toggleMenu()">
+          <i class="fas fa-bars"></i>
         </div>
+        <button class="profil-button" id="profilButton">
+          <i class="fas fa-user"></i>
+        </button>
         <button class="add-article-btn" id="add-article-btn" style="display: none;">
             <i class="fas fa-plus"></i> DODAJ ARTYKUŁ
         </button>
     </section>
+
+    <div id="menu-container" class="menu-container">
+      <div id="menu">
+        <section id="projects-sectionmenu" class="menu-sectionmenu">
+          <h2>PROJEKTY</h2>
+          <div class="button-section">
+            <a href="index.html" class="button">O mnie</a>
+            <a href="xajperteam.html" class="button">Xajper Team</a>
+            <a href="xajperbot.html" class="button">XajperBOT</a>
+            <a href="xajpermap.html" class="button">XajperMAP</a>
+            <a href="stronaserwera-wkrotce.html" class="button">PixelParadise</a>
+          </div>
+        </section>
+    
+        <section id="tags-sectionmenu" class="menu-sectionmenu">
+          <h2>TAGI</h2>
+          <div class="tag-icons">
+            <div class="tag"><i class="fas fa-hashtag"></i>NOWE</div>
+            <div class="tag"><i class="fas fa-hashtag"></i>INNE</div>
+            <div class="tag"><i class="fas fa-hashtag"></i>POPULARNE</div>
+            <div class="tag"><i class="fas fa-hashtag"></i>KOLARSTWO</div>
+            <div class="tag"><i class="fas fa-hashtag"></i>E-SPORT</div>
+            <div class="tag"><i class="fas fa-hashtag"></i>PIŁKA NOŻNA</div>
+            <div class="tag"><i class="fas fa-hashtag"></i>LEKKOATLETYKA</div>
+            <div class="tag"><i class="fas fa-hashtag"></i>TENIS</div>
+            <div class="tag"><i class="fas fa-hashtag"></i>KOSZYKÓWKA</div>
+            <div class="tag"><i class="fas fa-hashtag"></i>SIATKÓWKA</div>
+            <div class="tag"><i class="fas fa-hashtag"></i>PIŁKA RĘCZNA</div>
+            <div class="tag"><i class="fas fa-hashtag"></i>PŁYWANIE</div>
+            <div class="tag"><i class="fas fa-hashtag"></i>ŻUŻEL</div>
+            <div class="tag"><i class="fas fa-hashtag"></i>SPORTY ZIMOWE</div>
+            <div class="tag"><i class="fas fa-hashtag"></i>SKOKI NARCIARSKIE</div>
+            <div class="tag"><i class="fas fa-hashtag"></i>BIEGI NARCIARSKIE</div>
+            <div class="tag"><i class="fas fa-hashtag"></i>BIATHLON</div>
+            <div class="tag"><i class="fas fa-hashtag"></i>HOKEJ</div>
+          </div>
+        </section>
+    
+        <section id="movies-sectionmenu" class="menu-sectionmenu">
+          <h2>FILMY</h2>
+        </section>
+      </div>
+    </div>
 
     <div id="article-form" style="display: none;">
         <h2>Dodaj nowy artykuł</h2>
@@ -96,31 +138,56 @@
 
   <div class="container">
     <article id="main-article">
-      <div id="artykul8" class="article-link" data-tags="piłka-nożna" data-date="2024-01-10T19:24:18">
-        <h3><a href="?artykul=artykul8" onclick="zobacz('artykul8')" class="article-link">ZASKAKUJĄCY TRANSFER BYŁEGO GWIAZDORA EKSTRAKLASY. ⚽</a></h3>
+      <div id="artykul8" class="article-link" data-tags="piłka-nożna" data-date="2024-01-10T19:24" onclick="zobacz('artykul8')">
+        <h3><a href="?artykul=artykul8">ZASKAKUJĄCY TRANSFER BYŁEGO GWIAZDORA EKSTRAKLASY. ⚽</a></h3>
+        <span class="hover-bar"></span>
         <p>Fedor Cernych swego czasu był jedną z największych gwiazd Jagielloni Białystok i Ekstraklasy. Do Polski trafił z Białorusi, z Dniepru Mogilevo. Dobrą postawą w Górniku Łęczna zapracował na transfer do Dumy Podlasia, gdzie osiągnął swój szczyt. W sezonie 2016/17 zdobył 13 bramek i zaliczył 9 asyst, dzięki czemu za 400 tysięcy euro trafił do Dynama Moskwa. Od tego momentu zaczął się zjazd 88-krotnego reprezentanta Litwy. Był wypożyczony do Orenburga, a ostatecznie wrócił do Jagielloni. Jedynie pojedynczymi występami nawiązywał do dawnej formy i ostatecznie w styczniu 2023 roku trafił do AEL-u Limassol. Po sezonie w cypryjskim klubie przeszedł do... indyjskiego zespołu Kerala Blasters. Będzie tam jednym z trzech piłkarzy z Europy, obok Czarnogórca Milosa Drincicia oraz mającego francuskie i australijskie obywatelstwo Jaushua Sotirio. Trenerem Keraly jest Serb, Ivan Vukomanović.</p>    
-        <img src="SPORTOWO-ZDJECIA/artykul8.jpg" alt="ZDJĘCIE">
+        <img class="placeholder" src="SPORTOWO-ZDJECIA/artykul8.jpg" alt="ZDJĘCIE">
         <p><i class="fas fa-hashtag"></i> Tagi: #piłka nożna</p>
-        <p><i class="far fa-clock"></i> Data publikacji: 10.01.2024 | 19:24:18</p>
+        <p><i class="far fa-clock"></i> Data publikacji: 10.01.2024 | 19:24</p>
         <p><i class="far fa-user"></i> Autor: Ksaveriusz</p>
+        <button class="save-button" id="saveButton">
+          <i class="fas fa-bookmark"></i>
+          <div class="fireworks"></div>
+        </button>
+        <button class="udostepnij-button" onclick="udostepnij('artykul8', event)">
+          <i class="fas fa-share"></i>
+          <div class="fireworks"></div>
+          <div class="sukces-icon">
+            <i class="fas fa-check-circle"></i>
+          </div>
+        </button>
       </div>
       <hr>
-      <div id="artykul7" class="article-link" data-tags="piłka-nożna" data-date="2024-01-10T18:58:37">
-        <h3><a href="?artykul=artykul7" onclick="zobacz('artykul7')" class="article-link">SZYMAŃSKI! ON JEST NIEMOŻLIWY! 🔥</a></h3>
+      <div id="artykul7" class="article-link" data-tags="piłka-nożna" data-date="2024-01-10T18:58" onclick="zobacz('artykul7')">
+        <h3><a href="?artykul=artykul7">SZYMAŃSKI! ON JEST NIEMOŻLIWY! 🔥</a></h3>
+        <span class="hover-bar"></span>
         <p>Sebastian Szymański gra kapitalny sezon, potwierdził to w obecnie trwającym meczu. W zaledwie 4 minuty zdobył gola i zaliczył dwie asysty! A to dopiero w pierwszej połowie, druga zaraz się rozpocznie.</p>    
-        <p>GOL: https://twitter.com/TekYolFener/status/1745139862125129912 👈</p>
+        <p><strong>GOL:</strong> https://twitter.com/TekYolFener/status/1745139862125129912 👈</p>
         <p><strong>STATYSTYKI ZAWODNIKA:</strong> <em>(transfermarkt)</em></p>  
         <p>Mecze: 31 🏟️</p>
         <p>Gole: 12 ⚽ </p>
         <p>Asysty: 13 🅰️</p>
-        <img src="SPORTOWO-ZDJECIA/artykul7.jpg" alt="ZDJĘCIE">
+        <img class="placeholder" src="SPORTOWO-ZDJECIA/artykul7.jpg" alt="ZDJĘCIE">
         <p><i class="fas fa-hashtag"></i> Tagi: #piłka nożna</p>
-        <p><i class="far fa-clock"></i> Data publikacji: 10.01.2024 | 18:58:37</p>
+        <p><i class="far fa-clock"></i> Data publikacji: 10.01.2024 | 18:58</p>
         <p><i class="far fa-user"></i> Autor: Xajper</p>
-      </div>
+        <button class="save-button" id="saveButton">
+          <i class="fas fa-bookmark"></i>
+          <div class="fireworks"></div>
+        </button>
+        <button class="udostepnij-button" onclick="udostepnij('artykul7', event)">
+          <i class="fas fa-share"></i>
+          <div class="fireworks"></div>
+          <div class="sukces-icon">
+            <i class="fas fa-check-circle"></i>
+          </div>
+        </button>
+      </div>      
       <hr>
-      <div id="artykul6" class="article-link" data-tags="piłka-nożna" data-date="2024-01-10T15:01:17">
-        <h3><a href="?artykul=artykul6" onclick="zobacz('artykul6')" class="article-link">ZNAMY SKŁAD NA MŚ. 6 DEBIUTANTÓW I ZASKOCZENIE. 🤾</a></h3>
+      <div id="artykul6" class="article-link" data-tags="piłka-nożna" data-date="2024-01-10T15:01" onclick="zobacz('artykul6')">
+        <h3><a href="?artykul=artykul6">ZNAMY SKŁAD NA MŚ. 6 DEBIUTANTÓW I ZASKOCZENIE. 🤾</a></h3>
+        <span class="hover-bar"></span>
         <p>W środę Marcin Lijewski, selekcjoner reprezentacji Polski piłkarzy ręcznych, ogłosił 18-osobowy skład na rozpoczynające się mistrzostwa Europy. Zabrakło w nim między innymi świetnego bramkarza - Adama Morawskiego.</p>
         <p> - "<em>Gramy w Berlinie i w każdej chwili możemy powołać kogoś z listy rezerwowej.</em>" – zaznaczył Marcin Wichary, odpowiadając na pytanie czemu nie 3 powołania dla bramkarzy (trener bramkarzy). 📖</p>
         <p>Wcześniej kontuzje wykluczyły z gry w mistrzostwach obrotowego Patryka Walczaka oraz prawoskrzydłowego Arkadiusza Morytę. 🏥</p>
@@ -139,63 +206,134 @@
         <p class="akapit">Mateusz Kosmala (MMTS Kwidzyn), Jakub Szyszko (Górnik Zabrze)</p>
         <p class="akapit">Obrotowi: 🛡️ </p>
         <p class="akapit">Bartłomiej Bis (HSC Coburg 2000, Niemcy), Dawid Dawydzik (Orlen Wisła Płock), Maciej Gębala (SC DHfK Lipsk, Niemcy), Kamil Syprzak (Paris Saint-Germain HB, Francja)</p>
-        <img src="SPORTOWO-ZDJECIA/artykul6.jpg" alt="ZDJĘCIE">
+        <img class="placeholder" src="SPORTOWO-ZDJECIA/artykul6.jpg" alt="ZDJĘCIE">
         <p><i class="fas fa-hashtag"></i> Tagi: #piłka nożna</p>
-        <p><i class="far fa-clock"></i> Data publikacji: 10.01.2024 | 15:01:17</p>
+        <p><i class="far fa-clock"></i> Data publikacji: 10.01.2024 | 15:01</p>
         <p><i class="far fa-user"></i> Autor: Xajper</p>
-      </div>
+        <button class="save-button" id="saveButton">
+          <i class="fas fa-bookmark"></i>
+          <div class="fireworks"></div>
+        </button>
+        <button class="udostepnij-button" onclick="udostepnij('artykul6', event)">
+          <i class="fas fa-share"></i>
+          <div class="fireworks"></div>
+          <div class="sukces-icon">
+            <i class="fas fa-check-circle"></i>
+          </div>
+        </button>
+      </div>      
       <hr>
-      <div id="artykul5" class="article-link" data-tags="piłka-nożna" data-date="2024-01-09T14:45:31">
-        <h3><a href="?artykul=artykul5" onclick="zobacz('artykul5')" class="article-link">JADON SANCHO WRACA DO BORUSSI! 🤯</a></h3>
+      <div id="artykul5" class="article-link" data-tags="piłka-nożna" data-date="2024-01-09T14:45" onclick="zobacz('artykul5')">
+        <h3><a href="?artykul=artykul5">JADON SANCHO WRACA DO BORUSSI! 🤯</a></h3>
+        <span class="hover-bar"></span>
         <p>Wielki powrót! Sancho do końca sezonu ma grać dla Borussi Dortmund - przekazuje Fabrizio Romano. 23-letni piłkarz zmarnował ostatnie miesiące. Na starcie sezonu wszedł w konflikt z Erikiem ten Hagiem, który wykluczył go z kadry. Anglik zagrał tylko 3 razy. Po raz ostatni wystąpił na murawie w sierpniu.</p>
         <p><strong>STATYSTYKI ZAWODNIKA:</strong> <em>(transfermarkt)</em></p>  
         <p>Mecze: 3 🏟️</p>
         <p>Gole: 0 ⚽ </p>
         <p>Asysty: 0 🅰️</p>
-        <img src="SPORTOWO-ZDJECIA/artykul5.jpg" alt="ZDJĘCIE">
+        <img class="placeholder" src="SPORTOWO-ZDJECIA/artykul5.jpg" alt="ZDJĘCIE">
         <p><i class="fas fa-hashtag"></i> Tagi: #piłka nożna</p>
-        <p><i class="far fa-clock"></i> Data publikacji: 09.01.2024 | 14:45:31</p>
+        <p><i class="far fa-clock"></i> Data publikacji: 09.01.2024 | 14:45</p>
         <p><i class="far fa-user"></i> Autor: Xajper</p>
-      </div>
+        <button class="save-button" id="saveButton">
+          <i class="fas fa-bookmark"></i>
+          <div class="fireworks"></div>
+        </button>
+        <button class="udostepnij-button" onclick="udostepnij('artykul5', event)">
+          <i class="fas fa-share"></i>
+          <div class="fireworks"></div>
+          <div class="sukces-icon">
+            <i class="fas fa-check-circle"></i>
+          </div>
+        </button>
+      </div>      
       <hr>
-      <div id="artykul4" class="article-link" data-tags="piłka-nożna" data-date="2024-01-09T14:55:23">
-        <h3><a href="?artykul=artykul4" onclick="zobacz('artykul4')" class="article-link">GERARD PIQUE TRENEREM? 🧓</a></h3>
+      <div id="artykul4" class="article-link" data-tags="piłka-nożna" data-date="2024-01-10T19:35" onclick="zobacz('artykul4')">
+        <h3><a href="?artykul=artykul4">GERARD PIQUE TRENEREM? 🧓</a></h3>
+        <span class="hover-bar"></span>
         <p>Były piłkarz Barcelony ogłosił za pośrednictwem mediów społecznościowych, że wraca do futbolu.</p>
         <p>- <em>"Jest nowy rok i po dokładnym przemyśleniu sprawy, zdecydowałem się wrócić do futbolu. Bardzo za nim tęsknię. Tym razem nie będzie to w roli piłkarza, tylko trenera. Więcej szczegółów podam na koniec tygodnia." 📖</em></p>
-        <img src="SPORTOWO-ZDJECIA/artykul4.jpg" alt="ZDJĘCIE">
+        <img class="placeholder" src="SPORTOWO-ZDJECIA/artykul4.jpg" alt="ZDJĘCIE">
         <p><i class="fas fa-hashtag"></i> Tagi: #piłka nożna</p>
-        <p><i class="far fa-clock"></i> Data publikacji: 09.01.2024 | 19:35:54</p>
+        <p><i class="far fa-clock"></i> Data publikacji: 10.01.2024 | 19:35</p>
         <p><i class="far fa-user"></i> Autor: Xajper</p>
-      </div>
+        <button class="save-button" id="saveButton">
+          <i class="fas fa-bookmark"></i>
+          <div class="fireworks"></div>
+        </button>
+        <button class="udostepnij-button" onclick="udostepnij('artykul4', event)">
+          <i class="fas fa-share"></i>
+          <div class="fireworks"></div>
+          <div class="sukces-icon">
+            <i class="fas fa-check-circle"></i>
+          </div>
+        </button>
+      </div>      
       <hr>
-      <div id="artykul3" class="article-link" data-tags="sportwy-zimowe, skoki-narciarskie" data-date="2024-01-09T14:55:23">
-        <h3><a href="?artykul=artykul3" onclick="zobacz('artykul3')" class="article-link">WIELKI POWRÓT, ZNAMY KADRĘ NA POLSKI TURNIEJ! ⛷️</a></h3>
+      <div id="artykul3" class="article-link" data-tags="sportwy-zimowe, skoki-narciarskie" data-date="2024-01-09T14" onclick="zobacz('artykul3')">
+        <h3><a href="?artykul=artykul3">WIELKI POWRÓT, ZNAMY KADRĘ NA POLSKI TURNIEJ! ⛷️</a></h3>
+        <span class="hover-bar"></span>
         <p>Skład na wiślański etap Polskiego Turnieju został ogłoszony we wtorek przez Polski Związek Narciarski. W kwalifikacjach wystąpi dziewięciu reprezentantów Polski. Wśród nich znajdziemy Klemensa Murańkę, a także Macieja Kota, Dawida Kubackiego, Andrzeja Stękałę, Kamila Stocha, Pawła Wąska, Jakuba Wolnego, Aleksandra Zniszczoła i Piotra Żyłę. 9️⃣</p>
         <img src="SPORTOWO-ZDJECIA/artykul3.jpg" alt="ZDJĘCIE">
         <p><i class="fas fa-hashtag"></i> Tagi: #sportwy zimowe, #skoki narciarskie</p>
-        <p><i class="far fa-clock"></i> Data publikacji: 09.01.2024 | 14:55:23</p>
+        <p><i class="far fa-clock"></i> Data publikacji: 09.01.2024 | 14:55</p>
         <p><i class="far fa-user"></i> Autor: Xajper</p>
-      </div>
+        <button class="save-button" id="saveButton">
+          <i class="fas fa-bookmark"></i>
+          <div class="fireworks"></div>
+        </button>
+        <button class="udostepnij-button" onclick="udostepnij('artykul3', event)">
+          <i class="fas fa-share"></i>
+          <div class="fireworks"></div>
+          <div class="sukces-icon">
+            <i class="fas fa-check-circle"></i>
+          </div>
+        </button>
+      </div>      
       <hr>
-      <div id="artykul2" class="article-link" data-tags="piłka-nożna" data-date="2024-01-08T11:32:17">
-        <h3><a href="?artykul=artykul2" onclick="zobacz('artykul2')" class="article-link">ŁUKASZ KACZMAREK KOMENTUJE KRYTYKĘ NA LEWANDOWSKIEGO. 🏐</a></h3>
+      <div id="artykul2" class="article-link" data-tags="piłka-nożna" data-date="2024-01-08T11:32" onclick="zobacz('artykul2')">
+        <h3><a href="?artykul=artykul2">ŁUKASZ KACZMAREK KOMENTUJE KRYTYKĘ NA LEWANDOWSKIEGO. 🏐</a></h3>
+        <span class="hover-bar"></span>
         <p>Reprezentant Polski w siatkówce w rozmowie z Kanałem Sportowym:</p>
         <p>- "<em>Ma słabszy sezon i ludzie się od niego odwracają. Nie podoba mi się to. Tyle zrobił dla kraju, że to naprawdę niesamowite. Był, jest i będzie naszą wizytówką.</em>"</p>
         <p>- "<em>Każdy kraj chciałby mieć taką ikonę sportu.</em>" 📖</p>
-        <img src="SPORTOWO-ZDJECIA/artykul2.jpg" alt="ZDJĘCIE">
+        <img class="placeholder" src="SPORTOWO-ZDJECIA/artykul2.jpg" alt="ZDJĘCIE">
         <p><i class="fas fa-hashtag"></i> Tagi: #piłka nożna</p>
-        <p><i class="far fa-clock"></i> Data publikacji: 08.01.2024 | 11:32:17</p>
+        <p><i class="far fa-clock"></i> Data publikacji: 08.01.2024 | 11:32</p>
         <p><i class="far fa-user"></i> Autor: Xajper</p>
-      </div>
+        <button class="save-button" id="saveButton">
+          <i class="fas fa-bookmark"></i>
+          <div class="fireworks"></div>
+        </button>
+        <button class="udostepnij-button" onclick="udostepnij('artykul2', event)">
+          <i class="fas fa-share"></i>
+          <div class="fireworks"></div>
+          <div class="sukces-icon">
+            <i class="fas fa-check-circle"></i>
+          </div>
+        </button>
+      </div>      
       <hr>
-      <div id="artykul1" class="article-link" data-tags="piłka-nożna" data-date="2023-12-24T21:08:15">
-        <h3><a href="?artykul=artykul1" onclick="zobacz('artykul1')" class="article-link" class="article-link">HE IS BACK! 🎙️</a></h3>
+      <div id="artykul1" class="article-link" data-tags="piłka-nożna" data-date="2023-12-24T21:08" onclick="zobacz('artykul1')">
+        <h3><a href="?artykul=artykul1">HE IS BACK! 🎙️</a></h3>
+        <span class="hover-bar"></span>
         <p>To już oficjalnie, Dariusz Szpakowski wraca! Nowy prezes telewizji polskiej - Tomasz Sygut - poinformował, że komentator wraca do TVP SPORT. Szpakowski ponownie będzie komentował mecze, dodatkowo Sportowe Fakty donoszą, że legendarny komentator zasiądzie również na stanowisku doradcy Jakuba Kwiatkowskiego - nowego dyrektora TVP SPORT. 🔥</p>
-        <img src="SPORTOWO-ZDJECIA/artykul1.jpg" alt="ZDJĘCIE">
+        <img class="placeholder" src="SPORTOWO-ZDJECIA/artykul1.jpg" alt="ZDJĘCIE">
         <p><i class="fas fa-hashtag"></i> Tagi: #piłka nożna</p>
-        <p><i class="far fa-clock"></i> Data publikacji: 24.12.2023 | 21:08:15</p>
+        <p><i class="far fa-clock"></i> Data publikacji: 24.12.2023 | 21:08</p>
         <p><i class="far fa-user"></i> Autor: Xajper</p>
-      </div>
+        <button class="save-button" id="saveButton">
+          <i class="fas fa-bookmark"></i>
+          <div class="fireworks"></div>
+        </button>
+        <button class="udostepnij-button" onclick="udostepnij('artykul1', event)">
+          <i class="fas fa-share"></i>
+          <div class="fireworks"></div>
+          <div class="sukces-icon">
+            <i class="fas fa-check-circle"></i>
+          </div>
+        </button>
+      </div>      
     </article>
         <div class="sidebar">
             <section id="latest-articles-list">
