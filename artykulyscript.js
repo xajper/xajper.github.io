@@ -248,6 +248,33 @@ document.getElementById('search-icon').addEventListener('click', function () {
     searchForm.classList.toggle('active');
 });
 
+document.getElementById('search-form').addEventListener('submit', function (event) {
+    event.preventDefault();
+
+    var searchTerm = document.getElementById('search-input').value.toLowerCase();
+
+    // Pobieramy wszystkie artykuły
+    var articles = document.querySelectorAll('.article-link');
+
+    // Iterujemy przez artykuły i sprawdzamy, czy tytuł lub treść zawierają wpisane zapytanie
+    articles.forEach(function (article) {
+        var title = article.querySelector('h3 a').textContent.toLowerCase();
+        var content = article.querySelector('p').textContent.toLowerCase();
+        
+        // Sprawdzamy, czy wszystkie słowa z zapytania są zawarte w tytule lub treści
+        var allWordsPresent = searchTerm.split(' ').every(function (word) {
+            return title.includes(word) || content.includes(word);
+        });
+
+        // Jeśli wszystkie słowa są obecne, pokazujemy artykuł, w przeciwnym razie ukrywamy
+        if (allWordsPresent) {
+            article.style.display = 'block';
+        } else {
+            article.style.display = 'none';
+        }
+    });
+});
+
 window.addEventListener('scroll', function () {
     const atTop = window.scrollY === 0;
     const atBottom = window.innerHeight + window.scrollY >= document.body.offsetHeight - 2;
@@ -387,3 +414,95 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 });
+
+function toggleMenu() {
+    var overlay = document.getElementById("menu-overlay");
+    var menuContainer = document.getElementById("menu-container");
+
+    if (overlay.style.display === "block" || menuContainer.style.display === "block") {
+        overlay.style.display = "none";
+        menuContainer.classList.remove("active"); /* Usuń klasę .active z menu */
+
+    } else {
+        overlay.style.display = "block";
+        menuContainer.classList.add("active"); /* Dodaj klasę .active do menu */
+
+    }
+}
+
+document.getElementById('saveButton').addEventListener('click', function() {
+  this.classList.add('clicked');
+  setTimeout(() => {
+    this.classList.remove('clicked');
+  }, 800);
+});
+
+let minDuration = 500;
+let startTime = Date.now();
+
+// funkcja, która sprawdza, czy minęły 2 sekundy
+function checkImageLoaded(img) {
+    // pobranie aktualnego czasu
+    let now = Date.now();
+    // sprawdzenie, czy minęły 2 sekundy od załadowania strony
+    if (now - startTime >= minDuration) {
+      // usunięcie klasy placeholder z elementu img
+      img.classList.remove("placeholder");
+    } else {
+      // ponowne wywołanie funkcji po 100 milisekundach
+      setTimeout(function() {
+        checkImageLoaded(img);
+      }, 100);
+    }
+  }
+
+  // pobranie wszystkich obrazów na stronie
+  let images = document.querySelectorAll("img");
+
+  // pętla, która iteruje po wszystkich obrazach
+  for (let i = 0; i < images.length; i++) {
+    // wywołanie funkcji dla każdego obrazu
+    checkImageLoaded(images[i]);
+  }
+
+document.addEventListener("DOMContentLoaded", function () {
+    // Pobierz przycisk i zaciemnione tło
+    var profilButton = document.getElementById("profilButton");
+    var overlaylogin = document.querySelector(".overlaylogin");
+
+    // Dodaj obsługę zdarzenia dla kliknięcia przycisku
+    profilButton.addEventListener("click", function () {
+      // Pobierz panel
+      var profilePanel = document.querySelector(".profile-panel");
+
+      // Pokaż zaciemnione tło i panel
+      overlaylogin.style.display = "block";
+      profilePanel.style.display = "block";
+
+      // Dodaj obsługę kliknięcia na zaciemnione tło
+      overlaylogin.addEventListener("click", function () {
+        // Ukryj zaciemnione tło i panel po kliknięciu na tło
+        overlaylogin.style.display = "none";
+        profilePanel.style.display = "none";
+      });
+    });
+});
+
+function udostepnij(artykulId, event) {
+    event.stopPropagation(); // Zapobiega propagacji zdarzenia do elementów nadrzędnych
+
+    var button = document.querySelector('.udostepnij-button');
+    var sukcesIcon = document.querySelector('.sukces-icon');
+
+    // Symulacja udostępniania
+    button.classList.add('clicked');
+    setTimeout(function () {
+      button.classList.remove('clicked');
+    }, 800);
+
+    // Symulacja sukcesu
+    sukcesIcon.style.opacity = 1;
+    setTimeout(function () {
+      sukcesIcon.style.opacity = 0;
+    }, 1500);
+  }
