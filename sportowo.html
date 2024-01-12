@@ -139,6 +139,13 @@
   </header>
 
   <div class="container">
+    <div class="sort-filter-container">
+      <div id="filter-icon" onclick="toggleSortMenu()"><i class="fas fa-sort-amount-up"></i></div>
+      <div id="sort-menu">
+        <div onclick="sortArticles('newest')">Najnowsze</div>
+        <div onclick="sortArticles('oldest')">Najstarsze</div>
+      </div>
+    </div>
     <article id="main-article">
       <div id="artykul11" class="article-link" data-tags="piłka-nożna" data-date="2024-01-12T09:20" onclick="zobacz('artykul11')">
         <h3><a href="?artykul=artykul11">MILIK BOHATEREM! ⚽</a></h3>
