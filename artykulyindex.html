@@ -18,6 +18,18 @@
         <div id="menu-button" onclick="toggleMenu()">
           <i class="fas fa-bars"></i>
         </div>
+        <li>
+          <a href="#szukaj" id="search-icon" class="search-icon">
+            <i class="fas fa-search"></i>
+          </a>
+          <form id="search-form" class="nav-search-form" action="#" method="get">
+            <input id="search-input" type="text" placeholder="Szukaj..." name="search">
+            <button type="submit">Szukaj</button>
+          </form>
+        </li>
+        <div id="searchResults">
+          <!-- Wyniki wyszukiwania będą pojawiać się tutaj -->
+        </div>
         <button class="profil-button" id="profilButton">
           <i class="fas fa-user"></i>
         </button>
@@ -123,15 +135,6 @@
         <li><a href="#">KOSZYKÓWKA</a></li>
         <li><a href="#">PIŁKA RĘCZNA</a></li>
         <li><a href="#">PŁYWANIE</a></li>
-        <li>
-          <a href="#szukaj" id="search-icon">
-            <i class="fas fa-search"></i>
-          </a>
-          <form id="search-form" class="nav-search-form" action="#" method="get">
-            <input id="search-input" type="text" placeholder="Szukaj..." name="search">
-            <button type="submit">Szukaj</button>
-          </form>
-        </li>
       </ul>
     </nav>
   </header>
@@ -157,8 +160,8 @@
             <i class="fas fa-check-circle"></i>
           </div>
         </button>
+        <hr>
       </div>
-      <hr>
       <div id="artykul10" class="article-link" data-tags="piłka-ręczna" data-date="2024-01-12T09:11" onclick="zobacz('artykul10')">
         <h3><a href="?artykul=artykul10">POLSKA PRZEGRYWA PIERWSZY GRUPOWY MECZ. 🤾</a></h3>
         <span class="hover-bar"></span>
@@ -178,8 +181,8 @@
             <i class="fas fa-check-circle"></i>
           </div>
         </button>
+        <hr>
       </div>
-      <hr>
       <div id="artykul9" class="article-link" data-tags="tenis" data-date="2024-01-12T09:07" onclick="zobacz('artykul9')">
         <h3><a href="?artykul=artykul9">HURKACZ POZNAŁ PIERWSZEGO RYZWALA! 🎾</a></h3>
         <span class="hover-bar"></span>
@@ -199,8 +202,8 @@
             <i class="fas fa-check-circle"></i>
           </div>
         </button>
+        <hr>
       </div>
-      <hr>
       <div id="artykul8" class="article-link" data-tags="piłka-nożna" data-date="2024-01-10T19:24" onclick="zobacz('artykul8')">
         <h3><a href="?artykul=artykul8">ZASKAKUJĄCY TRANSFER BYŁEGO GWIAZDORA EKSTRAKLASY. ⚽</a></h3>
         <span class="hover-bar"></span>
@@ -220,8 +223,8 @@
             <i class="fas fa-check-circle"></i>
           </div>
         </button>
+        <hr>
       </div>
-      <hr>
       <div id="artykul7" class="article-link" data-tags="piłka-nożna" data-date="2024-01-10T18:58" onclick="zobacz('artykul7')">
         <h3><a href="?artykul=artykul7">SZYMAŃSKI! ON JEST NIEMOŻLIWY! 🔥</a></h3>
         <span class="hover-bar"></span>
@@ -246,8 +249,8 @@
             <i class="fas fa-check-circle"></i>
           </div>
         </button>
+        <hr>
       </div>      
-      <hr>
       <div id="artykul6" class="article-link" data-tags="piłka-nożna" data-date="2024-01-10T15:01" onclick="zobacz('artykul6')">
         <h3><a href="?artykul=artykul6">ZNAMY SKŁAD NA MŚ. 6 DEBIUTANTÓW I ZASKOCZENIE. 🤾</a></h3>
         <span class="hover-bar"></span>
@@ -284,8 +287,8 @@
             <i class="fas fa-check-circle"></i>
           </div>
         </button>
+        <hr>
       </div>      
-      <hr>
       <div id="artykul5" class="article-link" data-tags="piłka-nożna" data-date="2024-01-09T14:45" onclick="zobacz('artykul5')">
         <h3><a href="?artykul=artykul5">JADON SANCHO WRACA DO BORUSSI! 🤯</a></h3>
         <span class="hover-bar"></span>
@@ -308,9 +311,9 @@
           <div class="sukces-icon">
             <i class="fas fa-check-circle"></i>
           </div>
-        </button>
+        </button>    
+        <hr>
       </div>      
-      <hr>
       <div id="artykul4" class="article-link" data-tags="piłka-nożna" data-date="2024-01-10T19:35" onclick="zobacz('artykul4')">
         <h3><a href="?artykul=artykul4">GERARD PIQUE TRENEREM? 🧓</a></h3>
         <span class="hover-bar"></span>
@@ -331,8 +334,8 @@
             <i class="fas fa-check-circle"></i>
           </div>
         </button>
+        <hr>
       </div>      
-      <hr>
       <div id="artykul3" class="article-link" data-tags="sportwy-zimowe, skoki-narciarskie" data-date="2024-01-09T14" onclick="zobacz('artykul3')">
         <h3><a href="?artykul=artykul3">WIELKI POWRÓT, ZNAMY KADRĘ NA POLSKI TURNIEJ! ⛷️</a></h3>
         <span class="hover-bar"></span>
@@ -352,8 +355,8 @@
             <i class="fas fa-check-circle"></i>
           </div>
         </button>
+        <hr>
       </div>      
-      <hr>
       <div id="artykul2" class="article-link" data-tags="piłka-nożna" data-date="2024-01-08T11:32" onclick="zobacz('artykul2')">
         <h3><a href="?artykul=artykul2">ŁUKASZ KACZMAREK KOMENTUJE KRYTYKĘ NA LEWANDOWSKIEGO. 🏐</a></h3>
         <span class="hover-bar"></span>
@@ -375,8 +378,8 @@
             <i class="fas fa-check-circle"></i>
           </div>
         </button>
+        <hr>
       </div>      
-      <hr>
       <div id="artykul1" class="article-link" data-tags="piłka-nożna" data-date="2023-12-24T21:08" onclick="zobacz('artykul1')">
         <h3><a href="?artykul=artykul1">HE IS BACK! 🎙️</a></h3>
         <span class="hover-bar"></span>
