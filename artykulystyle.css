@@ -6,7 +6,7 @@ body {
   flex-direction: column;
   min-height: 100vh;
   scrollbar-width: thin;
-  scrollbar-color: #4CAF50 #f0f0f0;
+  scrollbar-color: #7de5ee #f0f0f0;
 }
 
 p {
@@ -312,7 +312,7 @@ img.placeholder {
 
 .custom-scrollbar {
   scrollbar-width: thin;
-  scrollbar-color: #4CAF50 #f0f0f0;
+  scrollbar-color: #7de5ee #f0f0f0;
 }
 
 .custom-scrollbar::-webkit-scrollbar {
@@ -320,7 +320,7 @@ img.placeholder {
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background-color: #4CAF50;
+  background-color: #7de5ee;
   transition: background-color 0.3s, border-radius 0.3s, transform 0.3s;
 }
 
@@ -435,6 +435,8 @@ header {
   text-align: center;
   padding: 10px;
   margin: 0;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 nav ul {
@@ -463,7 +465,12 @@ nav a {
   margin-left: auto;
   padding: 10px;
   border: none;
-  cursor: pointer;
+  transition: color 0.8s ease, background-color 0.8s ease, margin-left 0.8s ease;
+}
+
+.profil-button:hover {
+  color: #7de5ee;
+
 }
 
 .search-li {
@@ -476,9 +483,15 @@ nav a {
   margin-left: auto;
   padding: 10px;
   border: none;
-  cursor: pointer;
   margin-left: 1150px;
   font-size: 14px;
+  transition: color 0.8s ease, background-color 0.8s ease, margin-left 0.8s ease;
+}
+
+.search-icon:hover {
+  color: #7de5ee;
+  background-color: transparent;
+  margin-left: 1150px;
 }
 
 .nav-search-form {
@@ -492,7 +505,7 @@ nav a {
   background-color: #fff;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   border-radius: 5px;
-  padding: 10px;
+  padding: 8px;
   margin-left: 900px;
 }
 
@@ -517,12 +530,14 @@ nav a {
   border: none;
   padding: 5px;
   cursor: pointer;
-  background-color: #63be66;
+  background-color: #000000;
+  border-radius: 5px;
+  transition: background-color 0.8s ease; /* Dodanie wolniejszej animacji */
 }
 
 /* Efekt najechania na przycisk */
 .nav-search-form button:hover {
-  background-color: #72ce75; /* Zmiana koloru tła po najechaniu myszką */
+  background-color: #313131; /* Zmiana koloru tła po najechaniu myszką */
 }
 
 @keyframes fadeIn {
@@ -541,8 +556,8 @@ nav ul li a {
 }
 
 nav ul li a:hover {
-  background-color: #4CAF50;
-  color: #fff;
+  background-color: #9cecf4;
+  color: #000000;
 }
 
 nav ul li a:hover::before {
@@ -632,8 +647,8 @@ nav ul li a:hover::before {
 }
 
 .subpanel a:hover {
-  background-color: #4CAF50;
-  color: #fff;
+  background-color: #9cecf4;
+  color: #000000;
 }
 
 #main-article {
@@ -673,7 +688,7 @@ h3 a {
   left: -100%;
   width: 200%;
   height: 2px;
-  background: linear-gradient(to right, transparent 30%, #00ff00, transparent 70%);
+  background: linear-gradient(to right, transparent 30%, #d3ffd3, transparent 70%);
   transition: left 0.3s ease-in-out;
 }
 
@@ -694,8 +709,8 @@ hr {
   top: 0;
   left: 0;
   width: 0;
-  height: 2px;
-  background-color: #00ff00;
+  height: 5px;
+  background-color: #97eaf1;
   transition: width 0.7s ease-in-out;
 }
 
@@ -751,7 +766,7 @@ hr {
 
 #latest-articles-list li:hover,
 #popular-articles-list li:hover {
-  background-color: #d3ffd3; /* Jaśniejsze tło */
+  background-color: #c5fbff; /* Jaśniejsze tło */
   border-radius: 10px;
   margin: 5px;
 }
@@ -772,7 +787,7 @@ hr {
 }
 
 #article-tags li a:hover {
-  color: #4CAF50; /* Zmiana koloru tekstu na zielony podczas najechania */
+  color: #16cedb; /* Zmiana koloru tekstu na zielony podczas najechania */
 }
 
 #article-tags li a {
@@ -780,7 +795,7 @@ hr {
 }
 
 #article-tags li:hover {
-  background-color: #d3ffd3;
+  background-color: #c5fbff;
   border-radius: 4px;
 }
 
@@ -969,7 +984,7 @@ footer {
 }
 
 #article-tags li:hover {
-  background-color: #d3ffd3;
+  background-color: #c5fbff;
 }
 
 .scroll-to-top {
@@ -985,6 +1000,15 @@ footer {
   font-size: 16px;
   width: 20px;
   height: 20px;
+  transition: background-color 0.5s ease, transform 0.2s ease;
+}
+
+.scroll-to-top:hover {
+  background-color: #7de5ee;
+}
+
+.scroll-to-top:active {
+  transform: scale(1.2);
 }
 
 .scroll-to-top i {
@@ -995,11 +1019,17 @@ footer {
   position: relative;
   margin-top: 20px;
   right: 140px;
+  cursor: pointer;
 }
 
 #filter-icon {
   cursor: pointer;
   font-size: 20px;
+  transition: transform 0.8s ease;
+}
+
+#filter-icon.rotate {
+  transform: rotate(180deg);
 }
 
 #sort-menu {
@@ -1017,12 +1047,110 @@ footer {
 #sort-menu div {
   cursor: pointer;
   padding: 5px;
+  transition: background-color 0.3s ease, border-radius 0.3s ease;
 }
 
 #sort-menu div:hover {
   background-color: #f0f0f0;
+  border-radius: 5px;
 }
 
 #sort-menu.active { /* Zmiana .sort-menu na #sort-menu */
   display: flex; /* Zmiana display: block; */
+}
+
+#sort-menu .option {
+  cursor: pointer;
+  padding: 5px;
+  transition: background-color 0.8s ease; /* Dodanie animacji dla zmiany koloru tła */
+}
+
+#sort-menu .selected {
+  background-color: #f0f0f0; /* Kolor tła dla wybranego elementu */
+  border-radius: 5px;
+  text-decoration: underline; /* Podkreślenie tekstu */
+}
+
+@media only screen and (max-width: 768px) {
+  body {
+    font-size: 14px; /* Zmniejsz rozmiar czcionki dla lepszej czytelności */
+  }
+
+  header {
+    padding: 10px; /* Dostosuj odstępy nagłówka na małych ekranach */
+    width: 100%; /* Wypełnij całą szerokość ekranu */
+    box-sizing: border-box; /* Uwzględnij padding i border w całkowitej szerokości */
+  }
+
+  #menu {
+    background-color: #303542;
+    display: flex;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    height: 160vh; /* Zmiana na 90vh */
+    flex-direction: column; /* Zmień układ nawigacji na kolumnowy */
+  }
+  
+  #menu-container {
+    position: fixed;
+    color: #fff;
+    z-index: 1000;
+    flex-direction: column; /* Zmień układ nawigacji na kolumnowy */
+    display: none;
+    transition: transform 0.3s ease-in-out;
+    transform: translateY(-100%);
+    opacity: 0;
+    width: 100%;
+    height: auto; /* Zmiana na auto */
+    overflow-y: auto; /* Dodane przewijanie pionowe */
+    overflow-x: hidden; /* Ukrycie przewijania poziomego */
+  }
+
+  #projects-sectionmenu,
+  #tags-sectionmenu {
+    border-right: 0
+  }
+  
+
+  nav {
+    display: none; /* Ukryj nawigację na małych ekranach */
+  }
+
+  nav ul {
+    flex-direction: column; /* Zmień układ nawigacji na kolumnowy */
+    align-items: stretch; /* Rozciągnij elementy nawigacji na szerokość */
+  }
+
+  nav li {
+    margin-right: 0; /* Usuń marginesy dla elementów nawigacji */
+  }
+
+  nav a {
+    width: 100%; /* Wypełnij całą szerokość dostępnej przestrzeni */
+    box-sizing: border-box; /* Uwzględnij padding i border w całkowitej szerokości */
+    display: block; /* Każdy link jako blok, aby zajął całą dostępną szerokość */
+    padding: 10px; /* Dodaj odstępy dla linków */
+    margin-bottom: 5px; /* Dodaj odstępy między linkami */
+  }
+
+  .profil-button {
+    margin-left: 0; /* Usuń marginesy dla przycisku profilu */
+  }
+
+  .search-icon {
+    margin-left: 0; /* Usuń marginesy dla ikony wyszukiwania */
+  }
+
+  .nav-search-form {
+    margin-left: 0; /* Usuń marginesy dla formularza wyszukiwania */
+  }
+
+  .nav-search-form input {
+    width: calc(100% - 20px); /* Ustaw szerokość inputu, uwzględniając padding */
+    box-sizing: border-box; /* Uwzględnij padding w całkowitej szerokości */
+  }
+
+  .nav-search-form button {
+    width: 20px; /* Ustaw szerokość przycisku na 20px */
+  }
 }
