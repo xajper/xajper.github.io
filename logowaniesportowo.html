@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+    integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA=="
+    crossorigin="anonymous"/>
+    <link rel="icon" href="ikonkalogowaniesportowo.ico" type="image/x-icon">
+    <title>Panel Logowania</title>
+    <link rel="stylesheet" href="logowaniesportowo.css">
+    <script defer src="logowaniesportowoscript.js"></script>
+</head>
+
+<body>
+  <div class="login-container">
+    <div class="login-form">
+      <h2>Logowanie</h2>
+      <form>
+        <label for="username">Nazwa użytkownika:</label>
+        <input type="text" id="username" name="username" required>
+
+        <label for="password">Hasło:</label>
+        <div class="password-toggle">
+          <input type="password" id="password" name="password" required>
+          <i class="fas fa-eye-slash toggle-icon" onclick="togglePassword()"></i>
+        </div>
+
+        <button type="submit">Zaloguj się</button>
+      </form>
+
+      <div class="register-link">
+        Nie masz konta? <a href="#">Zarejestruj się!</a>
+      </div>
+
+      <div class="social-buttons">
+        <div class="social-button">
+          <i class="fab fa-google google-icon"></i>
+        </div>
+        <div class="social-button">
+          <i class="fab fa-facebook facebook-icon"></i>
+        </div>
+      </div>
+    </div>
+    <div class="soccer-image"></div>
+  </div>
+</body>
+
+</html>

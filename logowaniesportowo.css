@@ -1,0 +1,201 @@
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: #f0f0f0;
+  }
+
+  .login-container {
+    display: flex;
+    max-width: 600px;
+    width: 100%;
+    background-color: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  }
+
+  .login-form {
+    flex: 1;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .login-form h2 {
+    margin-bottom: 20px;
+    color: #333;
+    font-size: 24px;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 300px;
+  }
+
+  label {
+    margin-bottom: 8px;
+    color: #555;
+    font-size: 14px;
+  }
+
+  input {
+    padding: 10px;
+    margin-bottom: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+  }
+
+  .password-toggle {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  #password {
+    width: calc(100% - 10px);
+  }
+
+  .toggle-icon {
+    position: absolute;
+    right: -10px;
+    cursor: pointer;
+    padding: 20px;
+    align-items: center;
+    bottom: 6px;
+  }
+
+  button {
+    padding: 12px;
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+  }
+
+  button:hover {
+    background-color: #45a049;
+  }
+
+  .register-link {
+    margin-top: 16px;
+    font-size: 14px;
+    color: #333;
+    text-align: center;
+  }
+
+  .register-link a {
+    color: #4CAF50;
+    text-decoration: none;
+    font-weight: bold;
+  }
+
+  .social-buttons {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+  }
+
+  .social-button {
+    cursor: pointer;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    color: #333;
+    font-size: 16px;
+    transition: background-color 0.3s;
+  }
+
+  .social-button i {
+      align-items: center;
+  }
+
+  .social-button:hover {
+    background-color: #eee;
+  }
+
+  .google-icon {
+    color: #DB4437;
+  }
+
+  .facebook-icon {
+    color: #1877F2;
+  }
+
+  .soccer-image {
+    flex: 1;
+    background: url('ZDJECIALOGOWANIE/zdjecielogin1.jpg') center/cover no-repeat;
+    animation: changeImage 12s infinite;
+  }
+
+  @keyframes changeImage {
+    0% { background: url('ZDJECIALOGOWANIE/zdjecielogin1.jpg') center/cover no-repeat; }
+    8.33% { background: url('ZDJECIALOGOWANIE/zdjecielogin2.jpg') center/cover no-repeat; }
+    16.66% { background: url('ZDJECIALOGOWANIE/zdjecielogin3.jpg') center/cover no-repeat; }
+    25% { background: url('ZDJECIALOGOWANIE/zdjecielogin4.jpg') center/cover no-repeat; }
+    33.33% { background: url('ZDJECIALOGOWANIE/zdjecielogin5.jpg') center/cover no-repeat; }
+    41.66% { background: url('ZDJECIALOGOWANIE/zdjecielogin6.jpg') center/cover no-repeat; }
+    50% { background: url('ZDJECIALOGOWANIE/zdjecielogin7.jpg') center/cover no-repeat; }
+    58.33% { background: url('ZDJECIALOGOWANIE/zdjecielogin8.jpg') center/cover no-repeat; }
+    66.66% { background: url('ZDJECIALOGOWANIE/zdjecielogin9.jpg') center/cover no-repeat; }
+    75% { background: url('ZDJECIALOGOWANIE/zdjecielogin10.jpg') center/cover no-repeat; }
+    83.33% { background: url('ZDJECIALOGOWANIE/zdjecielogin11.jpg') center/cover no-repeat; }
+    91.66% { background: url('ZDJECIALOGOWANIE/zdjecielogin12.jpg') center/cover no-repeat; }
+    100% { background: url('ZDJECIALOGOWANIE/zdjecielogin1.jpg') center/cover no-repeat; }
+  }
+
+  label {
+    width: 150px;
+    display: inline-block;
+  }
+
+
+  @media (max-width: 600px) {
+    .login-container {
+      flex-direction: column; /* Zmiana kierunku układu na kolumnę */
+      max-width: 100%;
+    }
+  
+    .login-form {
+      padding: 20px; /* Zmniejszenie wewnętrznego odstępu */
+    }
+  
+    #password {
+      width: calc(100% - 10px); /* Ustawienie szerokości pola hasła z uwzględnieniem miejsca na ikonkę zmiany widoczności */
+    }
+  
+    .password-toggle {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+  
+    .toggle-icon {
+      position: absolute;
+      right: -10px;
+      cursor: pointer;
+      padding: 20px;
+      align-items: center;
+      bottom: 6px;
+      margin-left: -10px;
+    }
+  
+    .soccer-image {
+      order: 2;
+    }
+  }
