@@ -465,11 +465,11 @@ function checkImageLoaded(img) {
     checkImageLoaded(images[i]);
 }
 
-function udostepnij(artykulId, event) {
+function udostepnij(artykulId, event, button) {
     event.stopPropagation(); // Zapobiega propagacji zdarzenia do elementów nadrzędnych
 
-    var button = document.querySelector('.udostepnij-button');
-    var sukcesIcon = document.querySelector('.sukces-icon');
+    // Znajdź elementy wewnątrz klikniętego przycisku
+    var sukcesIcon = button.querySelector('.sukces-icon');
 
     // Symulacja udostępniania
     button.classList.add('clicked');
@@ -483,8 +483,8 @@ function udostepnij(artykulId, event) {
         sukcesIcon.style.opacity = 0;
     }, 1500);
 
-    // Pobierz aktualny URL strony
-    var currentUrl = window.location.href;
+    // Pobierz aktualny URL strony i dostosuj go do artykulId
+    var currentUrl = window.location.href.split('?')[0] + '?artykul=' + artykulId;
 
     // Skopiuj URL do schowka
     copyToClipboard(currentUrl);
