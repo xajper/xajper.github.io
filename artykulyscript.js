@@ -463,30 +463,7 @@ function checkImageLoaded(img) {
   for (let i = 0; i < images.length; i++) {
     // wywołanie funkcji dla każdego obrazu
     checkImageLoaded(images[i]);
-  }
-
-document.addEventListener("DOMContentLoaded", function () {
-    // Pobierz przycisk i zaciemnione tło
-    var profilButton = document.getElementById("profilButton");
-    var overlaylogin = document.querySelector(".overlaylogin");
-
-    // Dodaj obsługę zdarzenia dla kliknięcia przycisku
-    profilButton.addEventListener("click", function () {
-      // Pobierz panel
-      var profilePanel = document.querySelector(".profile-panel");
-
-      // Pokaż zaciemnione tło i panel
-      overlaylogin.style.display = "block";
-      profilePanel.style.display = "block";
-
-      // Dodaj obsługę kliknięcia na zaciemnione tło
-      overlaylogin.addEventListener("click", function () {
-        // Ukryj zaciemnione tło i panel po kliknięciu na tło
-        overlaylogin.style.display = "none";
-        profilePanel.style.display = "none";
-      });
-    });
-});
+}
 
 function udostepnij(artykulId, event) {
     event.stopPropagation(); // Zapobiega propagacji zdarzenia do elementów nadrzędnych
@@ -497,12 +474,27 @@ function udostepnij(artykulId, event) {
     // Symulacja udostępniania
     button.classList.add('clicked');
     setTimeout(function () {
-      button.classList.remove('clicked');
+        button.classList.remove('clicked');
     }, 800);
 
     // Symulacja sukcesu
     sukcesIcon.style.opacity = 1;
     setTimeout(function () {
-      sukcesIcon.style.opacity = 0;
+        sukcesIcon.style.opacity = 0;
     }, 1500);
-  }
+
+    // Pobierz aktualny URL strony
+    var currentUrl = window.location.href;
+
+    // Skopiuj URL do schowka
+    copyToClipboard(currentUrl);
+}
+
+function copyToClipboard(text) {
+    var tempInput = document.createElement('input');
+    tempInput.value = text;
+    document.body.appendChild(tempInput);
+    tempInput.select();
+    document.execCommand('copy');
+    document.body.removeChild(tempInput);
+}
