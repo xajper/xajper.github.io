@@ -990,3 +990,39 @@ footer {
 .scroll-to-top i {
   margin: 0;
 }
+
+.sort-filter-container {
+  position: relative;
+  margin-top: 20px;
+  right: 140px;
+}
+
+#filter-icon {
+  cursor: pointer;
+  font-size: 20px;
+}
+
+#sort-menu {
+  position: absolute;
+  top: 30px;
+  left: 10px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  padding: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  display: none;
+  flex-direction: column;
+}
+
+#sort-menu div {
+  cursor: pointer;
+  padding: 5px;
+}
+
+#sort-menu div:hover {
+  background-color: #f0f0f0;
+}
+
+#sort-menu.active { /* Zmiana .sort-menu na #sort-menu */
+  display: flex; /* Zmiana display: block; */
+}
