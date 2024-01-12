@@ -27,7 +27,7 @@
             <button type="submit">Szukaj</button>
           </form>
         </li>
-        <div id="searchResults">
+        <div id="searchResults"></div>
         </div>
         <a href="logowaniesportowo.html" class="profil-button" id="profilButton">
           <i class="fas fa-user"></i>
@@ -140,10 +140,12 @@
 
   <div class="container">
     <div class="sort-filter-container">
-      <div id="filter-icon" onclick="toggleSortMenu()"><i class="fas fa-sort-amount-up"></i></div>
+      <div id="filter-icon" onclick="toggleSortMenu(this)">
+        <i class="fas fa-sort-amount-up"></i>
+      </div>
       <div id="sort-menu">
-        <div onclick="sortArticles('newest')">Najnowsze</div>
-        <div onclick="sortArticles('oldest')">Najstarsze</div>
+        <div class="option selected" onclick="sortArticles('newest')">Najnowsze</div>
+        <div class="option" onclick="sortArticles('oldest')">Najstarsze</div>
       </div>
     </div>
     <article id="main-article">
