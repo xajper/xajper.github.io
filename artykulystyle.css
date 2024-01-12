@@ -27,9 +27,10 @@ p {
   color: #ffffff;
   background-color: transparent;
   margin-left: auto;
-  padding: 10px;
+  padding: 15px; /* Zwiększenie odstępu wewnątrz przycisku */
   border: none;
   cursor: pointer;
+  font-size: 14px;
 }
 
 .save-button {
@@ -477,6 +478,7 @@ nav a {
   border: none;
   cursor: pointer;
   margin-left: 1150px;
+  font-size: 14px;
 }
 
 .nav-search-form {
