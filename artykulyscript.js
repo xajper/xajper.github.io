@@ -504,3 +504,30 @@ document.getElementById('searchInput').addEventListener('input', function() {
 
     document.getElementById('searchResults').innerText = 'Wyniki wyszukiwania dla: ' + searchQuery;
 });
+
+function sortArticles(order) {
+    var articlesContainer = document.getElementById('main-article');
+    var articles = articlesContainer.getElementsByClassName('article-link');
+
+    var sortedArticles = Array.from(articles).sort(function (a, b) {
+      var dateA = new Date(a.getAttribute('data-date'));
+      var dateB = new Date(b.getAttribute('data-date'));
+
+      if (order === 'newest') {
+        return dateB - dateA;
+      } else if (order === 'oldest') {
+        return dateA - dateB;
+      }
+    });
+
+    articlesContainer.innerHTML = '';
+
+    sortedArticles.forEach(function (article) {
+      articlesContainer.appendChild(article.cloneNode(true));
+    });
+}
+
+function toggleSortMenu() {
+    var sortMenu = document.getElementById('sort-menu');
+    sortMenu.classList.toggle('active');
+}
