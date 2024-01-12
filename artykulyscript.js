@@ -509,6 +509,14 @@ function sortArticles(order) {
     var articlesContainer = document.getElementById('main-article');
     var articles = articlesContainer.getElementsByClassName('article-link');
 
+    var options = document.querySelectorAll('#sort-menu .option');
+    options.forEach(function (opt) {
+      opt.classList.remove('selected');
+    });
+  
+    // Dodaj klasę selected tylko do klikniętego elementu
+    event.target.classList.add('selected');
+
     var sortedArticles = Array.from(articles).sort(function (a, b) {
       var dateA = new Date(a.getAttribute('data-date'));
       var dateB = new Date(b.getAttribute('data-date'));
@@ -527,7 +535,8 @@ function sortArticles(order) {
     });
 }
 
-function toggleSortMenu() {
+function toggleSortMenu(element) {
     var sortMenu = document.getElementById('sort-menu');
     sortMenu.classList.toggle('active');
+    element.classList.toggle('rotate');
 }
