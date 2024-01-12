@@ -498,3 +498,9 @@ function copyToClipboard(text) {
     document.execCommand('copy');
     document.body.removeChild(tempInput);
 }
+
+document.getElementById('searchInput').addEventListener('input', function() {
+    var searchQuery = document.getElementById('searchInput').value;
+
+    document.getElementById('searchResults').innerText = 'Wyniki wyszukiwania dla: ' + searchQuery;
+});
