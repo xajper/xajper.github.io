@@ -456,49 +456,71 @@ nav a {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Styl dla formularza wyszukiwania */
+.profil-button {
+  color: #ffffff;
+  background-color: transparent;
+  margin-left: auto;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+}
+
+.search-li {
+  margin-right: 10px;
+}
+
+.search-icon {
+  color: #ffffff;
+  background-color: transparent;
+  margin-left: auto;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+  margin-left: 1150px;
+}
+
 .nav-search-form {
   position: fixed;
-  top: 10px;
-  right: 10px;
+  transform: translate(50%, -50%);
   opacity: 0;
   visibility: hidden;
-  transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+  transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out, transform 0.5s ease-in-out;
   display: flex;
-  align-items: center;
+  align-items: center; /* Zachowaj centrowanie względem osi Y */
   background-color: #fff;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   border-radius: 5px;
   padding: 10px;
+  margin-left: 900px;
 }
 
 .nav-search-form.active {
   opacity: 1;
   visibility: visible;
+  transform: translate(0, -50%);
 }
 
-/* Styl dla inputa w formularzu */
 .nav-search-form input {
-  width: 100%; /* Szerokość 100% w formularzu */
-  padding: 8px; /* Wewnętrzny odstęp inputa */
-  margin-right: 10px; /* Odstęp od przycisku */
-  border: 1px solid #ddd; /* Grubość i kolor obramowania */
-  border-radius: 3px; /* Zaokrąglenie rogów */
+  color: #000000;
+  background-color: transparent;
+  border: none;
+  padding: 5px;
+  cursor: pointer;
+  margin-right: 10px; /* Dodaj margines po prawej stronie */
 }
 
-/* Styl dla przycisku w formularzu */
 .nav-search-form button {
-  background-color: #4CAF50; /* Kolor tła przycisku */
-  color: #fff; /* Kolor tekstu przycisku */
-  border: none; /* Usunięcie obramowania przycisku */
-  padding: 8px 15px; /* Wewnętrzny odstęp przycisku */
-  border-radius: 3px; /* Zaokrąglenie rogów */
+  color: #ffffff;
+  background-color: transparent;
+  border: none;
+  padding: 5px;
   cursor: pointer;
+  background-color: #63be66;
 }
 
 /* Efekt najechania na przycisk */
 .nav-search-form button:hover {
-  background-color: #63be66; /* Zmiana koloru tła po najechaniu myszką */
+  background-color: #72ce75; /* Zmiana koloru tła po najechaniu myszką */
 }
 
 @keyframes fadeIn {
@@ -531,7 +553,6 @@ nav ul li a:hover::before {
   background-image: repeating-linear-gradient(45deg, #fff, #fff 10px, transparent 10px, transparent 20px);
   z-index: -1;
 }
-
 .button-section {
   display: inline-block;
   padding: 0px 20px;
@@ -646,10 +667,10 @@ h3 a {
 .article-title::before {
   content: '';
   position: absolute;
-  top: 10px; /* Przesunięcie paska o 10px od góry */
+  top: 10px;
   left: -100%;
   width: 200%;
-  height: 2px; /* Wysokość paska */
+  height: 2px;
   background: linear-gradient(to right, transparent 30%, #00ff00, transparent 70%);
   transition: left 0.3s ease-in-out;
 }
@@ -662,12 +683,16 @@ h3 a {
   width: 100%;
 }
 
+hr {
+  margin-top: 40px;
+}
+
 .hover-bar {
   position: absolute;
   top: 0;
   left: 0;
   width: 0;
-  height: 2px; /* Wysokość paska */
+  height: 2px;
   background-color: #00ff00;
   transition: width 0.7s ease-in-out;
 }
@@ -676,7 +701,6 @@ h3 a {
   background-color: #f0f0f0;
   border: 1px dashed #333;
 }
-
 
 .container p em {
   font-style: italic;
