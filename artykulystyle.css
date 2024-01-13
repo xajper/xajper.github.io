@@ -1196,6 +1196,14 @@ footer {
     padding: 0 5%;
     flex-wrap: wrap;
   }
+
+  #sport-section {
+    width: max-content;
+  }
+
+  #header {
+    width: max-content;
+  }
   
   #latest-articles-list,
   #popular-articles-list,
