@@ -1201,7 +1201,18 @@ footer {
   }
 
   #main-article {
-    font-size: 18px;
+    width: 100%;
+    margin: 0;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    padding: 15px;
+    box-sizing: border-box;
+    flex-wrap: wrap;
+  }
+
+  #main-article img {
+    max-width: 100%; /* Skaluj obraz, aby się dostosował do szerokości kontenera */
+    height: auto; /* Dostosuj wysokość proporcjonalnie */
+    overflow: hidden; /* Ukryj nadmiarowy obszar obrazu, który wystaje poza kontener */
   }
 
   #winter-sports:hover .subpanel {
