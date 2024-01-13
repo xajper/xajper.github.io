@@ -7,6 +7,7 @@ body {
   min-height: 100vh;
   scrollbar-width: thin;
   scrollbar-color: #7de5ee #f0f0f0;
+  min-width: 320px;
 }
 
 p {
@@ -1177,18 +1178,25 @@ footer {
   .sidebar,
   #latest-articles-list,
   #popular-articles-list,
-  #article-tags {
+  #article-tags,
+  #main-article {
     width: 100%;
     margin-bottom: 10px;
     padding: 15px;
     box-sizing: border-box;
   }
-
+  
+  #latest-articles-list ul {
+    display: flex;
+    flex-direction: column;
+  }
+  
   .container {
     flex-direction: column;
     padding: 0 5%;
+    flex-wrap: wrap;
   }
-
+  
   #latest-articles-list,
   #popular-articles-list,
   #article-tags {
@@ -1199,7 +1207,7 @@ footer {
     padding: 15px;
     box-sizing: border-box;
   }
-
+  
   #main-article {
     width: 100%;
     margin: 0;
@@ -1208,9 +1216,9 @@ footer {
     box-sizing: border-box;
     flex-wrap: wrap;
   }
-
+  
   #main-article img {
-    max-width: 100%; /* Skaluj obraz, aby się dostosował do szerokości kontenera */
+    max-width: 100%; /* Ustaw maksymalną szerokość obrazu na 100% */
     height: auto; /* Dostosuj wysokość proporcjonalnie */
     overflow: hidden; /* Ukryj nadmiarowy obszar obrazu, który wystaje poza kontener */
   }
