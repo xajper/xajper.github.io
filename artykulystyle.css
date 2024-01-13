@@ -1189,6 +1189,17 @@ footer {
     padding: 0 5%;
   }
 
+  #latest-articles-list,
+  #popular-articles-list,
+  #article-tags {
+    width: 100%;
+    left: 50%;
+    margin-bottom: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    padding: 15px;
+    box-sizing: border-box;
+  }
+
   #main-article {
     font-size: 18px;
   }
