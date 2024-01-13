@@ -1072,14 +1072,83 @@ footer {
 }
 
 @media only screen and (max-width: 768px) {
-  body {
-    font-size: 14px; /* Zmniejsz rozmiar czcionki dla lepszej czytelności */
+  .profil-button {
+    color: #ffffff;
+    background-color: transparent;
+    margin-left: auto;
+    padding: 10px;
+    border: none;
+    transition: color 0.8s ease, background-color 0.8s ease, margin-left 0.8s ease;
+  }
+
+  .search-icon {
+    color: #ffffff;
+    background-color: transparent;
+    margin-left: auto;
+    padding: 10px;
+    border: none;
+    font-size: 14px;
+    transition: color 0.8s ease, background-color 0.8s ease, margin-left 0.8s ease;
   }
 
   header {
-    padding: 10px; /* Dostosuj odstępy nagłówka na małych ekranach */
-    width: 100%; /* Wypełnij całą szerokość ekranu */
-    box-sizing: border-box; /* Uwzględnij padding i border w całkowitej szerokości */
+    overflow-x: auto; /* Dodaj przewijanie poziome */
+    overflow-y: hidden; /* Ukryj przewijanie pionowe */
+    white-space: nowrap; /* Zapobiegnij zawijaniu tekstu */
+    transition: transform 0.3s ease-in-out; /* Dodaj animację transformacji */
+  }
+
+  nav {
+    display: flex;
+    flex-wrap: nowrap; /* Zapobiegnij zawijaniu elementów nav */
+    -webkit-overflow-scrolling: touch; /* Dodaj płynne przewijanie na niektórych urządzeniach iOS */
+  }
+
+  ul {
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+    display: flex;
+  }
+
+  li {
+    margin-right: 15px; /* Dodaj odstęp między elementami listy */
+  }
+
+  article {
+    margin: 10px 0; /* Add margin to the individual articles if needed */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  }
+
+  .nav-search-form {
+    margin-left: 0; /* Usuń margines dla formularza wyszukiwania */
+  }
+
+  .nav-search-form.active {
+    transform: translate(0, -50%);
+  }
+
+  .scroll-to-top {
+    right: 10px; /* Dostosuj położenie przycisku powrotu do góry na małych ekranach */
+  }
+
+  .sort-filter-container {
+    right: 10px; /* Dostosuj położenie kontenera sortowania/filtrowania na małych ekranach */
+  }
+
+  #filter-icon.rotate {
+    transform: rotate(90deg); /* Zmiana kąta obrotu ikony filtra na 90 stopni */
+  }
+
+  #sort-menu {
+    top: 50px; /* Dostosuj położenie menu sortowania na małych ekranach /
+    left: 0; / Wyśrodkuj menu sortowania na szerokość ekranu /
+    width: 100%; / Wypełnij całą szerokość ekranu */
+  }
+
+  .subpanel {
+    position: static;
+    display: none;
   }
 
   #menu {
@@ -1090,7 +1159,7 @@ footer {
     height: 160vh; /* Zmiana na 90vh */
     flex-direction: column; /* Zmień układ nawigacji na kolumnowy */
   }
-  
+
   #menu-container {
     position: fixed;
     color: #fff;
@@ -1106,51 +1175,101 @@ footer {
     overflow-x: hidden; /* Ukrycie przewijania poziomego */
   }
 
-  #projects-sectionmenu,
-  #tags-sectionmenu {
-    border-right: 0
-  }
-  
-
-  nav {
-    display: none; /* Ukryj nawigację na małych ekranach */
+  .article-link:hover .article-title::before {
+    left: 0; /* Zmiana animacji wypełniania dla linków artykułów */
   }
 
-  nav ul {
-    flex-direction: column; /* Zmień układ nawigacji na kolumnowy */
-    align-items: stretch; /* Rozciągnij elementy nawigacji na szerokość */
+  .article-link:hover .hover-bar {
+    width: 100%; /* Zmiana szerokości hover-bar po najechaniu myszką */
   }
 
-  nav li {
-    margin-right: 0; /* Usuń marginesy dla elementów nawigacji */
+  .container {
+    flex-direction: column;
+    padding: 0 5%; /* Adjust the left and right padding of the container */
   }
 
-  nav a {
+  .sidebar {
+    width: 100%; /* Wypełnij całą szerokość ekranu /
+    margin-right: 0; / Usuń marginesy dla paska bocznego na małych ekranach */
+  }
+
+  #latest-articles-list li a,
+  #popular-articles-list li a {
+    display: block;
+    padding: 5px;
+    text-decoration: none;
+    color: black;
+  }
+
+  #main-article,
+  #latest-articles-list,
+  #popular-articles-list,
+  #article-tags {
+    width: 100%; /* Ustaw szerokość na 100% */
+    margin: 10px 0;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    padding: 15px; /* Dodaj wewnętrzny odstęp */
+    box-sizing: border-box; /* Ustaw box-sizing na border-box, aby uwzględnić padding w szerokości */
+  }
+
+  #main-article {
+    font-size: 18px; /* Dostosuj rozmiar czcionki dla głównego artykułu */
+  }
+
+  #latest-articles-list,
+  #popular-articles-list,
+  #article-tags {
+    font-size: 16px; /* Dostosuj rozmiar czcionki dla list artykułów i tagów */
+  }
+
+  #winter-sports:hover .subpanel {
+    display: none; /* Ukryj subpanel po najechaniu myszką na sekcję winter-sports */
+  }
+
+  .button-section {
+    padding: 10px; /* Dostosuj odstępy sekcji przycisków na małych ekranach */
+  }
+
+  .button {
+    width: 100%; /* Wypełnij całą szerokość dostępnej przestrzeni /
+    margin-bottom: 10px; / Dodaj odstęp między przyciskami */
+  }
+
+  .button::before {
+    left: -50%; /* Poprawa animacji dla przycisków na małych ekranach */
+  }
+
+  .newsletter,
+  .about-us {
+    margin-right: 0;
+    flex-basis: 100%;
+  }
+
+  .newsletter form {
     width: 100%; /* Wypełnij całą szerokość dostępnej przestrzeni */
-    box-sizing: border-box; /* Uwzględnij padding i border w całkowitej szerokości */
-    display: block; /* Każdy link jako blok, aby zajął całą dostępną szerokość */
-    padding: 10px; /* Dodaj odstępy dla linków */
-    margin-bottom: 5px; /* Dodaj odstępy między linkami */
   }
 
-  .profil-button {
-    margin-left: 0; /* Usuń marginesy dla przycisku profilu */
+  .newsletter input[type="email"] {
+    width: calc(100% - 20px); /* Wypełnij całą szerokość dostępnej przestrzeni z uwzględnieniem paddingu */
   }
 
-  .search-icon {
-    margin-left: 0; /* Usuń marginesy dla ikony wyszukiwania */
+  .newsletter button {
+    width: 100%; /* Wypełnij całą szerokość dostępnej przestrzeni */
   }
 
-  .nav-search-form {
-    margin-left: 0; /* Usuń marginesy dla formularza wyszukiwania */
+  footer {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 100%; /* Make the footer span the entire width */
   }
 
-  .nav-search-form input {
-    width: calc(100% - 20px); /* Ustaw szerokość inputu, uwzględniając padding */
-    box-sizing: border-box; /* Uwzględnij padding w całkowitej szerokości */
+  .footer-heading {
+    text-align: center;
+    margin-bottom: 10px;
   }
 
-  .nav-search-form button {
-    width: 20px; /* Ustaw szerokość przycisku na 20px */
+  #article-tags ul {
+    justify-content: flex-start;
   }
 }
