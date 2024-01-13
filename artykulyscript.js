@@ -418,15 +418,17 @@ document.addEventListener('DOMContentLoaded', function () {
 function toggleMenu() {
     var overlay = document.getElementById("menu-overlay");
     var menuContainer = document.getElementById("menu-container");
+    var menuIcon = document.getElementById("menu-icon");
 
     if (overlay.style.display === "block" || menuContainer.style.display === "block") {
         overlay.style.display = "none";
-        menuContainer.classList.remove("active"); /* Usuń klasę .active z menu */
+        menuContainer.classList.remove("active");
+        menuIcon.classList.remove("fa-times"); /* Usuń klasę .fa-times */
 
     } else {
         overlay.style.display = "block";
-        menuContainer.classList.add("active"); /* Dodaj klasę .active do menu */
-
+        menuContainer.classList.add("active");
+        menuIcon.classList.add("fa-times"); /* Dodaj klasę .fa-times do ikony */
     }
 }
 
