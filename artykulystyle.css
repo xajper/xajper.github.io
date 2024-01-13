@@ -1072,36 +1072,27 @@ footer {
 }
 
 @media only screen and (max-width: 768px) {
-  .profil-button {
-    color: #ffffff;
-    background-color: transparent;
-    margin-left: auto;
-    padding: 10px;
-    border: none;
-    transition: color 0.8s ease, background-color 0.8s ease, margin-left 0.8s ease;
-  }
-
+  .profil-button,
   .search-icon {
     color: #ffffff;
     background-color: transparent;
     margin-left: auto;
     padding: 10px;
     border: none;
-    font-size: 14px;
     transition: color 0.8s ease, background-color 0.8s ease, margin-left 0.8s ease;
   }
 
   header {
-    overflow-x: auto; /* Dodaj przewijanie poziome */
-    overflow-y: hidden; /* Ukryj przewijanie pionowe */
-    white-space: nowrap; /* Zapobiegnij zawijaniu tekstu */
-    transition: transform 0.3s ease-in-out; /* Dodaj animację transformacji */
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+    transition: transform 0.3s ease-in-out;
   }
 
   nav {
     display: flex;
-    flex-wrap: nowrap; /* Zapobiegnij zawijaniu elementów nav */
-    -webkit-overflow-scrolling: touch; /* Dodaj płynne przewijanie na niektórych urządzeniach iOS */
+    flex-wrap: nowrap;
+    -webkit-overflow-scrolling: touch;
   }
 
   ul {
@@ -1112,16 +1103,16 @@ footer {
   }
 
   li {
-    margin-right: 15px; /* Dodaj odstęp między elementami listy */
+    margin-right: 15px;
   }
 
   article {
-    margin: 10px 0; /* Add margin to the individual articles if needed */
+    margin: 10px 0;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   }
 
   .nav-search-form {
-    margin-left: 0; /* Usuń margines dla formularza wyszukiwania */
+    margin-left: 0;
   }
 
   .nav-search-form.active {
@@ -1129,21 +1120,21 @@ footer {
   }
 
   .scroll-to-top {
-    right: 10px; /* Dostosuj położenie przycisku powrotu do góry na małych ekranach */
+    right: 10px;
   }
 
   .sort-filter-container {
-    right: 10px; /* Dostosuj położenie kontenera sortowania/filtrowania na małych ekranach */
+    right: 10px;
   }
 
   #filter-icon.rotate {
-    transform: rotate(90deg); /* Zmiana kąta obrotu ikony filtra na 90 stopni */
+    transform: rotate(90deg);
   }
 
   #sort-menu {
-    top: 50px; /* Dostosuj położenie menu sortowania na małych ekranach /
-    left: 0; / Wyśrodkuj menu sortowania na szerokość ekranu /
-    width: 100%; / Wypełnij całą szerokość ekranu */
+    top: 50px;
+    left: 0;
+    width: 100%;
   }
 
   .subpanel {
@@ -1156,87 +1147,67 @@ footer {
     display: flex;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     width: 100%;
-    height: 160vh; /* Zmiana na 90vh */
-    flex-direction: column; /* Zmień układ nawigacji na kolumnowy */
+    height: 160vh;
+    flex-direction: column;
   }
 
   #menu-container {
     position: fixed;
     color: #fff;
     z-index: 1000;
-    flex-direction: column; /* Zmień układ nawigacji na kolumnowy */
+    flex-direction: column;
     display: none;
     transition: transform 0.3s ease-in-out;
     transform: translateY(-100%);
     opacity: 0;
     width: 100%;
-    height: auto; /* Zmiana na auto */
-    overflow-y: auto; /* Dodane przewijanie pionowe */
-    overflow-x: hidden; /* Ukrycie przewijania poziomego */
+    height: auto;
+    overflow-y: auto;
+    overflow-x: hidden;
   }
 
   .article-link:hover .article-title::before {
-    left: 0; /* Zmiana animacji wypełniania dla linków artykułów */
+    left: 0;
   }
 
   .article-link:hover .hover-bar {
-    width: 100%; /* Zmiana szerokości hover-bar po najechaniu myszką */
+    width: 100%;
+  }
+
+  .sidebar,
+  #latest-articles-list,
+  #popular-articles-list,
+  #article-tags {
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 15px;
+    box-sizing: border-box;
   }
 
   .container {
     flex-direction: column;
-    padding: 0 5%; /* Adjust the left and right padding of the container */
-  }
-
-  .sidebar {
-    width: 100%; /* Wypełnij całą szerokość ekranu /
-    margin-right: 0; / Usuń marginesy dla paska bocznego na małych ekranach */
-  }
-
-  #latest-articles-list li a,
-  #popular-articles-list li a {
-    display: block;
-    padding: 5px;
-    text-decoration: none;
-    color: black;
-  }
-
-  #main-article,
-  #latest-articles-list,
-  #popular-articles-list,
-  #article-tags {
-    width: 100%; /* Ustaw szerokość na 100% */
-    margin: 10px 0;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    padding: 15px; /* Dodaj wewnętrzny odstęp */
-    box-sizing: border-box; /* Ustaw box-sizing na border-box, aby uwzględnić padding w szerokości */
+    padding: 0 5%;
   }
 
   #main-article {
-    font-size: 18px; /* Dostosuj rozmiar czcionki dla głównego artykułu */
-  }
-
-  #latest-articles-list,
-  #popular-articles-list,
-  #article-tags {
-    font-size: 16px; /* Dostosuj rozmiar czcionki dla list artykułów i tagów */
+    font-size: 18px;
   }
 
   #winter-sports:hover .subpanel {
-    display: none; /* Ukryj subpanel po najechaniu myszką na sekcję winter-sports */
+    display: none;
   }
 
   .button-section {
-    padding: 10px; /* Dostosuj odstępy sekcji przycisków na małych ekranach */
+    padding: 10px;
   }
 
   .button {
-    width: 100%; /* Wypełnij całą szerokość dostępnej przestrzeni /
-    margin-bottom: 10px; / Dodaj odstęp między przyciskami */
+    width: 100%;
+    margin-bottom: 10px;
   }
 
   .button::before {
-    left: -50%; /* Poprawa animacji dla przycisków na małych ekranach */
+    left: -50%;
   }
 
   .newsletter,
@@ -1246,22 +1217,22 @@ footer {
   }
 
   .newsletter form {
-    width: 100%; /* Wypełnij całą szerokość dostępnej przestrzeni */
+    width: 100%;
   }
 
   .newsletter input[type="email"] {
-    width: calc(100% - 20px); /* Wypełnij całą szerokość dostępnej przestrzeni z uwzględnieniem paddingu */
+    width: calc(100% - 20px);
   }
 
   .newsletter button {
-    width: 100%; /* Wypełnij całą szerokość dostępnej przestrzeni */
+    width: 100%;
   }
 
   footer {
     flex-direction: column;
     align-items: center;
     text-align: center;
-    width: 100%; /* Make the footer span the entire width */
+    width: 100%;
   }
 
   .footer-heading {
