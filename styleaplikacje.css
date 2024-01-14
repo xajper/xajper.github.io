@@ -7,7 +7,7 @@ body {
     margin: 0;
     font-family: 'Roboto', sans-serif;
     background-color: #ffffff;
-    overflow: hidden;
+    overflow: auto;
 }
 
 .tiles-container {
@@ -15,7 +15,7 @@ body {
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    margin: 20px; /* zmniejszenie marginesu dla responsywności */
+    margin: 20px;
 }
 
 .tile {
