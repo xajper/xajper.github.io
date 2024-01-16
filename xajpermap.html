@@ -90,26 +90,6 @@
             </div>
           </div>
         </section>
-        
-        <script>
-            let select = document.getElementById("select");
-            let list = document.getElementById("list");
-            let selectText = document.getElementById("selectText");
-            let inputfield = document.getElementById("inputfield");
-
-            let options = document.getElementsByClassName("options");
-
-            select.onclick = function(){
-                list.classList.toggle("open");
-            }
-
-            for(option of options){
-                optin.onclick = function(){
-                    selectText.innerHTML = this.innerHTML;
-                    inputfield.ariaPlaceholder = "Szukaj w: " + selectText.innerHTML;
-                }
-            }
-        </script>
 
     <section class="features" id="mapy">
       <div class="max-width">
@@ -172,46 +152,6 @@
               </div>
             
               <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-              <script>
-                  function subscribe() {
-                    var subscriberEmail = document.getElementById("subscriberEmail").value;
-                  
-                    if (validateEmail(subscriberEmail)) {
-                      var apiKey = "30c52150b5d196e8eb54fd7536ead5a2";
-                      var domain = "sandbox4fe1b92cee9e462895383bc6c826e422.mailgun.org";
-                      var mailgunUrl = "https://api.mailgun.net/v3/" + domain + "/messages";
-                      var data = {
-                        from: "Mailgun Sandbox <postmaster@" + domain + ">",
-                        to: subscriberEmail,
-                        subject: "Hello Subscriber",
-                        text: "Congratulations, you've subscribed to our newsletter!",
-                      };
-                  
-                      $.ajax({
-                        type: "POST",
-                        url: mailgunUrl,
-                        data: data,
-                        dataType: "json",
-                        headers: {
-                          Authorization: "Basic " + btoa("api:" + apiKey),
-                        },
-                        success: function (response) {
-                          console.log("Wiadomość wysłana!", response);
-                        },
-                        error: function (error) {
-                          console.log("Błąd podczas wysyłania wiadomości", error);
-                        },
-                      });
-                    } else {
-                      console.log("Błędny adres e-mail");
-                    }
-                  }
-                  
-                  function validateEmail(email) {
-                    var re = /\S+@\S+\.\S+/;
-                    return re.test(email);
-                  }
-              </script>
         </section>
     
         <footer>
@@ -219,32 +159,6 @@
             Stworzone przez <a href="index.html" target="_blank" style="color: white;">Xajper</a><br/><span class="far fa-copyright"></span> Wszelkie Prawa Zastrzeżone
           </span>
         </footer>
-
-        <script>
-              function subscribe() {
-                const subscriberEmail = document.getElementById("subscriberEmail").value;
-            
-                // Wykonaj ewentualną walidację tutaj
-            
-                // Wysyłaj wiadomość e-mail za pomocą Email.js
-                const templateParams = {
-                  to_email: subscriberEmail,
-                  subject: "Nowy subskrybent",
-                  body: `Nowy subskrybent o adresie e-mail: ${subscriberEmail}`,
-                };
-            
-                emailjs.send("service_your_emailjs_service_id", "template_your_emailjs_template_id", templateParams)
-                  .then(function(response) {
-                    console.log("Email wysłany pomyślnie:", response);
-                    // Wyświetl komunikat potwierdzający dla użytkownika
-                    alert("Dziękuję za subskrypcję! Sprawdź swoją pocztę e-mail w celu potwierdzenia.");
-                  }, function(error) {
-                    console.error("Error wysyłanie email:", error);
-                    // Wyświetl komunikat błędu dla użytkownika
-                    alert("Ups! Coś poszło nie tak. Spróbuj ponownie później.");
-                  });
-              }
-        </script>
 
         <script src="./aos/aos.js"></script>
     
