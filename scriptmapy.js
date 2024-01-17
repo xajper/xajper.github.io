@@ -160,49 +160,49 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
-let likeCount = 0;
-let dislikeCount = 0;
+let likeCounts = {};
+let dislikeCounts = {};
 
-function toggleLike(element) {
-    const likeCountElement = document.getElementById("like-count");
-    const likeOverlay = document.getElementById("like-overlay");
+function toggleLike(element, articleId) {
+    const likeCountElement = document.getElementById(`like-count-${articleId}`);
+    const likeOverlay = document.getElementById(`like-overlay-${articleId}`);
+
+    if (!likeCounts[articleId]) {
+        likeCounts[articleId] = 0;
+    }
 
     element.classList.toggle("liked");
 
     if (element.classList.contains("liked")) {
-        likeCount++;
-        showLikeAnimation(likeOverlay, "+1");
+        likeCounts[articleId]++;
+        showReactionAnimation(likeOverlay, "+1");
     } else {
-        likeCount--;
-        showLikeAnimation(likeOverlay, "-1");
+        likeCounts[articleId]--;
+        showReactionAnimation(likeOverlay, "-1");
     }
 
-    likeCountElement.textContent = likeCount;
+    likeCountElement.textContent = likeCounts[articleId];
 }
 
-function toggleDislike(element) {
-    const dislikeCountElement = document.getElementById("dislike-count");
-    const dislikeOverlay = document.getElementById("dislike-overlay");
+function toggleDislike(element, articleId) {
+    const dislikeCountElement = document.getElementById(`dislike-count-${articleId}`);
+    const dislikeOverlay = document.getElementById(`dislike-overlay-${articleId}`);
+
+    if (!dislikeCounts[articleId]) {
+        dislikeCounts[articleId] = 0;
+    }
 
     element.classList.toggle("disliked");
 
     if (element.classList.contains("disliked")) {
-        dislikeCount++;
-        showDislikeAnimation(dislikeOverlay, "-1");
+        dislikeCounts[articleId]++;
+        showReactionAnimation(dislikeOverlay, "-1");
     } else {
-        dislikeCount--;
-        showDislikeAnimation(dislikeOverlay, "+1");
+        dislikeCounts[articleId]--;
+        showReactionAnimation(dislikeOverlay, "+1");
     }
 
-    dislikeCountElement.textContent = dislikeCount;
-}
-
-function showLikeAnimation(overlay, text) {
-    showReactionAnimation(overlay, text);
-}
-
-function showDislikeAnimation(overlay, text) {
-    showReactionAnimation(overlay, text);
+    dislikeCountElement.textContent = dislikeCounts[articleId];
 }
 
 function showReactionAnimation(overlay, text) {
