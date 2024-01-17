@@ -12,6 +12,20 @@ body {
     align-items: center;
     justify-content: flex-start;
     min-height: 100vh;
+    overflow-x: hidden;
+}
+
+body::-webkit-scrollbar {
+    width: 12px; /* szerokość scrollbara */
+}
+
+body::-webkit-scrollbar-thumb {
+    background-color: #888; /* kolor suwaka */
+    border-radius: 8px; /* zaokrąglenie suwaka */
+}
+
+body::-webkit-scrollbar-track {
+    background-color: rgba(0, 0, 0, 0.1); /* kolor tła scrollbara */
 }
 
 .body-container {
@@ -142,31 +156,56 @@ header {
     display: block;
 }
 
+h3 {
+    position: absolute;
+    top: 1px;
+    margin-top: 10px;
+    right: 5px;
+    margin-right: 10px;
+}
+
 .articles-list {
-    display: none;
-    position: fixed;
-    top: 0;
+    display: flex;
+    position: relative;
+    bottom: 0;
     left: 0;
     width: 100vw;
-    height: 100vh;
-    background-color: rgba(0, 0, 0, 0.5);
+    height: 50vh;
     justify-content: center;
     align-items: center;
-    z-index: 1002;
+    z-index: 1;
+    overflow-y: auto;
+    transition: height 0.5s;
+}
+
+.articles-list.active {
+    height: 150vh;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .articles-list article {
     display: block;
     margin: 10px;
-    padding: 10px; /* Zmniejszenie wewnętrznego odstępu */
+    padding: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     border-radius: 5px;
-    width: 40%;
+    width: 30%;
     text-align: center;
     position: relative;
     z-index: 101;
     background-color: #EBEDF2;
     color: #000;
+    animation: fadeInUp 0.5s ease;
 }
 
 header h1 {
@@ -244,7 +283,7 @@ a {
 
 .category-btn.pvp {
     font-weight: bold;
-    background-color: #FFFF00;
+    background-color: #19c5d8;
 }
 
 .category-btn.fabularne {
@@ -358,6 +397,7 @@ a:hover {
     background-color: #f1f1f1;
     box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease-in-out;
+    z-index: 2;
 }
 
 .btnprzycisk {
@@ -625,9 +665,9 @@ a:hover {
 
 .image-gallery img {
     width: 100%;
-    max-width: 200px;
+    max-width: 150px;
     height: auto;
-    margin-right: 10px;
+    margin: 30px;
     margin-bottom: 10px;
     border-radius: 5px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
@@ -860,6 +900,7 @@ a:hover {
 }
 
 .tags-section {
+    display: none;
     position: fixed;
     top: 50%;
     right: 10px;
@@ -901,4 +942,27 @@ a:hover {
     border-top: 1px solid #ccc;
     width: 95%;
     margin: 10px auto;
+}
+
+.tags-toggle {
+    position: fixed;
+    z-index: 9998;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    background-color: transparent;
+    border: none;
+    padding: 10px;
+    font-size: 20px;
+    color: #ffffff;
+}
+
+.tags-toggle:hover {
+    color: #90eaf5;
+}
+
+header img {
+    width: 384px;
+    height: 216px;
 }
