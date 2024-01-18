@@ -74,10 +74,9 @@ document.addEventListener("DOMContentLoaded", function () {
   
       articlesList.style.display = 'flex';
       overlay.classList.add('active');
-      listaMapButton.style.visibility = 'hidden';  // Ukryj przycisk
-      listaMapButton.style.opacity = '0';  // Ustaw przezroczystość na 0
-  
-      // Po 2 sekundach przywróć widoczność i przezroczystość przycisku
+      listaMapButton.style.visibility = 'hidden';
+      listaMapButton.style.opacity = '0';
+
       setTimeout(() => {
         listaMapButton.style.visibility = 'visible';
         listaMapButton.style.opacity = '1';
@@ -210,7 +209,7 @@ function showReactionAnimation(overlay, text) {
     overlay.style.display = "block";
     setTimeout(() => {
         overlay.style.display = "none";
-    }, 1000); // Change the duration to 1000 milliseconds (1 second)
+    }, 1000);
 }
 
 function closeImageModal() {
@@ -338,28 +337,24 @@ function closeLoginModal() {
     document.getElementById('loginModal').classList.remove('show');
 }
 
-// Funkcja, która przełącza widoczność sekcji tagów i zmienia ikonę strzałki
 function toggleTags() {
     var tagsSection = document.getElementById("tags-section");
     var tagsToggleIcon = document.getElementById("tags-toggle-icon");
 
-    // Sprawdź, czy sekcja tagów ma klasę "visible"
     var isTagsVisible = tagsSection.classList.contains("visible");
 
-    // Zmiana widoczności i klasy w zależności od obecności klasy "visible"
     if (!isTagsVisible) {
-        // Jeśli nie ma klasy "visible", dodaj ją, zmień ikonę i uruchom animację
+
         tagsSection.classList.add("visible");
         tagsToggleIcon.style.transform = "rotate(180deg)";
-        tagsToggleIcon.style.transition = "transform 0.5s ease"; // Animacja trwa 0.5 sekundy
+        tagsToggleIcon.style.transition = "transform 0.5s ease";
     } else {
-        // Jeśli jest klasa "visible", usuń ją, przywróć pierwotny obrót ikony i uruchom animację
+
         tagsSection.classList.remove("visible");
         tagsToggleIcon.style.transform = "rotate(0deg)";
-        tagsToggleIcon.style.transition = "transform 0.5s ease"; // Animacja trwa 0.5 sekundy
+        tagsToggleIcon.style.transition = "transform 0.5s ease";
     }
 }
-
 
 document.addEventListener("DOMContentLoaded", function () {
     var listaMapButton = document.querySelector('.category-btn.listamap');
@@ -412,14 +407,12 @@ document.addEventListener("DOMContentLoaded", function() {
     const overlay = document.getElementById("overlay");
 
     buttonPobierz.addEventListener("click", function() {
-        // Po kliknięciu przycisku "Pobierz", pokazuje overlay
+
         overlay.style.display = "flex";
 
-        // Symulacja procesu pobierania (możesz dostosować do rzeczywistej logiki pobierania)
         simulateDownloadProcess();
     });
 
-    // Symulacja procesu pobierania (możesz dostosować do rzeczywistej logiki pobierania)
     function simulateDownloadProcess() {
         const progressBar = document.querySelector(".bar span");
         let progress = 0;
@@ -429,11 +422,11 @@ document.addEventListener("DOMContentLoaded", function() {
             progressBar.style.width = `${progress}%`;
 
             if (progress === 100) {
-                // Po zakończeniu pobierania ukrywa overlay
+
                 overlay.style.display = "none";
                 clearInterval(downloadInterval);
             }
-        }, 100); // Interwał dla symulacji postępu pobierania
+        }, 100);
     }
 });
 
@@ -451,7 +444,7 @@ function startDownload() {
         if (progress >= 100) {
             clearInterval(intervalId);
             doneIcon.style.display = 'block';
-            // Po zakończeniu pobierania przekieruj na stronę mapy.html
+
             setTimeout(function () {
                 window.location.href = 'mapy.html';
             }, 1000);
