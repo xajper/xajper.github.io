@@ -16,7 +16,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const articleTags = document.querySelectorAll('#article-tags li a');
 
-    // Definiuj zmienne maxWidth i maxHeight
     const maxWidth = 250;
     const maxHeight = 250;
 
@@ -67,7 +66,6 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
 
-        // Dodaj poniższe linie kodu, aby zdefiniować selectedTags
         const selectedTags = Array.from(document.querySelectorAll('#tag-options input[type="checkbox"]:checked'))
             .map(checkbox => checkbox.value);
 
@@ -76,13 +74,11 @@ document.addEventListener('DOMContentLoaded', function () {
         const articleTags = selectedTags.join(', ');
         const articleImage = articleImageInput.files[0];
 
-        // Walidacja pól
         if (!articleTitle || !articleContent || !articleTags || !articleImage) {
             notify('Wypełnij wszystkie wymagane pola (tytuł, opis, tagi, zdjęcie, kod).', 'error');
             return;
         }
 
-        // Zaktualizuj sposób tworzenia formattedDate
         const currentDate = new Date();
         const hours = currentDate.getHours().toString().padStart(2, '0');
         const minutes = currentDate.getMinutes().toString().padStart(2, '0');
@@ -190,11 +186,11 @@ document.addEventListener('DOMContentLoaded', function () {
     sportsCategories.forEach(category => {
         category.addEventListener('click', function (event) {
             event.preventDefault();
-            const selectedCategory = category.textContent.toUpperCase(); // Lub dowolna inna konwersja na wielkie litery
+            const selectedCategory = category.textContent.toUpperCase();
             const articles = document.querySelectorAll('#main-article div');
 
             articles.forEach(article => {
-                const articleCategories = article.querySelector('p:nth-child(3)').textContent.toUpperCase(); // Lub dowolna inna konwersja na wielkie litery
+                const articleCategories = article.querySelector('p:nth-child(3)').textContent.toUpperCase();
 
                 if (articleCategories.includes(selectedCategory)) {
                     article.style.display = 'block';
@@ -253,20 +249,16 @@ document.getElementById('search-form').addEventListener('submit', function (even
 
     var searchTerm = document.getElementById('search-input').value.toLowerCase();
 
-    // Pobieramy wszystkie artykuły
     var articles = document.querySelectorAll('.article-link');
 
-    // Iterujemy przez artykuły i sprawdzamy, czy tytuł lub treść zawierają wpisane zapytanie
     articles.forEach(function (article) {
         var title = article.querySelector('h3 a').textContent.toLowerCase();
         var content = article.querySelector('p').textContent.toLowerCase();
-        
-        // Sprawdzamy, czy wszystkie słowa z zapytania są zawarte w tytule lub treści
+
         var allWordsPresent = searchTerm.split(' ').every(function (word) {
             return title.includes(word) || content.includes(word);
         });
 
-        // Jeśli wszystkie słowa są obecne, pokazujemy artykuł, w przeciwnym razie ukrywamy
         if (allWordsPresent) {
             article.style.display = 'block';
         } else {
@@ -293,31 +285,24 @@ window.addEventListener('scroll', function () {
   });
 
   document.addEventListener('DOMContentLoaded', function () {
-    // Funkcja obsługująca zdarzenie submit formularza newslettera
     function handleNewsletterForm(event) {
-      event.preventDefault(); // Zapobiegnij domyślnej akcji formularza (przesłania)
-  
-      // Pobierz wartość wprowadzoną przez użytkownika
+      event.preventDefault();
+
       const emailInput = document.querySelector('.newsletter input[type="email"]');
       const emailAddress = emailInput.value;
-  
-      // Sprawdź, czy wprowadzony adres e-mail jest poprawny
+
       if (isValidEmail(emailAddress)) {
-        // Tutaj dodaj kod do wysłania adresu e-mail na serwer
         subscribeToNewsletter(emailAddress);
       } else {
-        // Jeśli adres e-mail jest nieprawidłowy, możesz wyświetlić odpowiedni komunikat błędu
         alert('Proszę wprowadzić poprawny adres e-mail.');
       }
     }
-  
-    // Funkcja sprawdzająca poprawność adresu e-mail
+
     function isValidEmail(email) {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       return emailRegex.test(email);
     }
-  
-    // Funkcja do wysyłania adresu e-mail na serwer
+
     function subscribeToNewsletter(email) {
       fetch('/subscribe', {
         method: 'POST',
@@ -328,7 +313,6 @@ window.addEventListener('scroll', function () {
       })
         .then(response => response.json())
         .then(data => {
-          // Obsłuż odpowiedź serwera
           alert(data.success || data.error);
         })
         .catch(error => {
@@ -336,8 +320,7 @@ window.addEventListener('scroll', function () {
           alert('Wystąpił błąd podczas subskrypcji newslettera.');
         });
     }
-  
-    // Dodaj nasłuchiwanie na zdarzenie submit formularza newslettera
+
     const newsletterForm = document.querySelector('.newsletter form');
     if (newsletterForm) {
       newsletterForm.addEventListener('submit', handleNewsletterForm);
@@ -355,39 +338,28 @@ function getParameterByName(name, url) {
 }
 
 function scrollToArticle(articleId) {
-    // Pobierz element artykułu na podstawie jego identyfikatora
     var articleElement = document.getElementById(articleId);
 
-    // Sprawdź, czy element został znaleziony
     if (articleElement) {
-        // Ustaw właściwość 'scrollIntoView' na true, aby przewinąć do elementu
         articleElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 }
 
-// Funkcja obsługująca kliknięcie na link do artykułu
 function zobacz(articleId) {
-    // Wywołaj funkcję przewijania do artykułu
     scrollToArticle(articleId);
 
-    // Dodaj dowolną dodatkową logikę, która ma być wykonana po kliknięciu na artykuł
     console.log('Wybrany artykuł:', articleId);
 
-    // Pobierz aktualny adres URL
     var currentUrl = window.location.href;
 
-    // Ustaw parametr w adresie URL na aktualnie wybrany artykuł
     window.location.href = currentUrl.split('?')[0] + '?artykul=' + articleId;
 }
 
-// Sprawdź, czy w adresie URL znajduje się parametr artykul
 window.onload = function () {
     var currentArticle = getParameterByName('artykul');
     if (currentArticle) {
-        // Zaznacz aktualny artykuł
         document.getElementById(currentArticle).classList.add('selected');
-        
-        // Przewiń do aktualnego artykułu po załadowaniu strony
+
         scrollToArticle(currentArticle);
     }
 };
@@ -423,12 +395,12 @@ function toggleMenu() {
     if (overlay.style.display === "block" || menuContainer.style.display === "block") {
         overlay.style.display = "none";
         menuContainer.classList.remove("active");
-        menuIcon.classList.remove("fa-times"); /* Usuń klasę .fa-times */
+        menuIcon.classList.remove("fa-times");
 
     } else {
         overlay.style.display = "block";
         menuContainer.classList.add("active");
-        menuIcon.classList.add("fa-times"); /* Dodaj klasę .fa-times do ikony */
+        menuIcon.classList.add("fa-times");
     }
 }
 
@@ -442,53 +414,45 @@ document.getElementById('saveButton').addEventListener('click', function() {
 let minDuration = 500;
 let startTime = Date.now();
 
-// funkcja, która sprawdza, czy minęły 2 sekundy
 function checkImageLoaded(img) {
-    // pobranie aktualnego czasu
+
     let now = Date.now();
-    // sprawdzenie, czy minęły 2 sekundy od załadowania strony
+
     if (now - startTime >= minDuration) {
-      // usunięcie klasy placeholder z elementu img
+
       img.classList.remove("placeholder");
     } else {
-      // ponowne wywołanie funkcji po 100 milisekundach
+
       setTimeout(function() {
         checkImageLoaded(img);
       }, 100);
     }
   }
 
-  // pobranie wszystkich obrazów na stronie
   let images = document.querySelectorAll("img");
 
-  // pętla, która iteruje po wszystkich obrazach
   for (let i = 0; i < images.length; i++) {
-    // wywołanie funkcji dla każdego obrazu
+
     checkImageLoaded(images[i]);
 }
 
 function udostepnij(artykulId, event, button) {
-    event.stopPropagation(); // Zapobiega propagacji zdarzenia do elementów nadrzędnych
+    event.stopPropagation();
 
-    // Znajdź elementy wewnątrz klikniętego przycisku
     var sukcesIcon = button.querySelector('.sukces-icon');
 
-    // Symulacja udostępniania
     button.classList.add('clicked');
     setTimeout(function () {
         button.classList.remove('clicked');
     }, 800);
 
-    // Symulacja sukcesu
     sukcesIcon.style.opacity = 1;
     setTimeout(function () {
         sukcesIcon.style.opacity = 0;
     }, 1500);
 
-    // Pobierz aktualny URL strony i dostosuj go do artykulId
     var currentUrl = window.location.href.split('?')[0] + '?artykul=' + artykulId;
 
-    // Skopiuj URL do schowka
     copyToClipboard(currentUrl);
 }
 
@@ -515,8 +479,7 @@ function sortArticles(order) {
     options.forEach(function (opt) {
       opt.classList.remove('selected');
     });
-  
-    // Dodaj klasę selected tylko do klikniętego elementu
+
     event.target.classList.add('selected');
 
     var sortedArticles = Array.from(articles).sort(function (a, b) {
