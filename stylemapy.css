@@ -4,15 +4,18 @@ body {
     background-color: #333;
     color: #fff;
     background-image: url('tło.jpg');
-    background-size: cover;
-    margin: 0;
-    padding: 0;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    min-height: 100vh;
     overflow-x: hidden;
+}
+
+html {
+    scroll-behavior: smooth;
 }
 
 body::-webkit-scrollbar {
@@ -117,7 +120,7 @@ body::-webkit-scrollbar-track {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(51, 51, 51, 0.5); /* Przykładowa przezroczystość */
+    background-color: rgba(51, 51, 51, 0.5);
     display: none;
     z-index: 1000;
 }
@@ -126,6 +129,22 @@ header {
     text-align: center;
     margin-bottom: 20px;
     color: #F2F2F2;
+    position: relative;
+    top: 80px;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+header:hover {
+    transform: scale(1.05);
+}
+
+header:active {
+    transform: scale(0.9);
+}
+
+header img {
+    width: 640px;
+    height: 360px;
 }
 
 .category-btn:hover {
@@ -164,22 +183,43 @@ h3 {
     margin-right: 10px;
 }
 
+.article-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.read-more-btn {
+    text-decoration: none;
+    color: #3498db;
+    font-weight: bold;
+    border: none;
+    background-color: transparent; /* Set the background color to transparent */
+    transition: color 0.3s, border 0.3s, background-color 0.3s; /* Add background-color transition */
+}
+
+.read-more-btn:hover {
+    text-decoration: underline;
+    color: #3498db;
+    font-weight: bold;
+    border: none;
+    background-color: transparent; /* Set the background color to transparent */
+}
+
 .articles-list {
     display: flex;
     position: relative;
     bottom: 0;
     left: 0;
     width: 100vw;
-    height: 50vh;
     justify-content: center;
     align-items: center;
     z-index: 1;
-    overflow-y: auto;
     transition: height 0.5s;
 }
 
 .articles-list.active {
-    height: 150vh;
+    height: 100vh;
 }
 
 @keyframes fadeInUp {
@@ -197,13 +237,13 @@ h3 {
     display: block;
     margin: 10px;
     padding: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
     border-radius: 5px;
     width: 30%;
     text-align: center;
     position: relative;
     z-index: 101;
-    background-color: #EBEDF2;
+    background-color: #ffffff;
     color: #000;
     animation: fadeInUp 0.5s ease;
 }
@@ -364,7 +404,7 @@ h1 {
 }
 
 h2 {
-    color: #008080;
+    color: #000000;
 }
 
 p {
@@ -401,8 +441,8 @@ a:hover {
 }
 
 .btnprzycisk {
-    background-color: #4CAF50;
-    color: white;
+    background-color: #F7F7F7;
+    color: #000000;
     padding: 10px 15px;
     margin: 0 5px;
     border: none;
@@ -412,11 +452,13 @@ a:hover {
 }
 
 .btnprzycisk.active {
-    background-color: #45a049;
+    background-color: #FBC040;
+    color: #F7F7F7;
 }
 
 .btnprzycisk:hover {
-    background-color: #45a049;
+    background-color: white;
+    color: #FBC040;
 }
 
 .btn {
@@ -468,6 +510,19 @@ a:hover {
     cursor: pointer;
     transition: color 0.3s;
 }
+
+.fa-thumbs-up:hover {
+    color: #4CAF50;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.fa-thumbs-down:hover {
+    color: red;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
 
 .fa-thumbs-up.liked {
     color: #4CAF50;
@@ -640,11 +695,38 @@ a:hover {
 .author-download-section {
     display: flex;
     justify-content: space-between;
-    align-items: flex-end;
+    align-items: baseline;
+}
+
+.author-download-section p .author-link {
+    text-decoration: none;
+    color: #000000;
+    border-bottom: 1px solid transparent;
+    border: none;
+    margin: 0; /* Dodaj to, aby usunąć marginesy od lewej i prawej strony */
+    padding: 0; /* Dodaj to, aby usunąć wewnętrzne wcięcia */
+}
+
+.author-download-section p .author-link:hover {
+    text-decoration: underline;
+    background: none;
 }
 
 .author-download-section p {
     margin: 0;
+}
+
+.author-download-section p a {
+    text-decoration: none;
+    color: #000000;
+    border: none;
+    transition: border-bottom-color 0.3s, text-decoration 0.3s;
+}
+
+.author-download-section p a:hover {
+    text-decoration: underline;
+    background: none;
+
 }
 
 .download-section {
@@ -652,8 +734,25 @@ a:hover {
     align-items: center;
 }
 
-.download-section img {
-    margin-left: 10px;
+.btn-download {
+    background-color: #4CAF50;
+    color: white;
+    padding: 8px 15px;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+    transition: background-color 0.3s, transform 0.3s;
+    display: flex;
+    align-items: center;
+}
+
+.btn-download i {
+    margin-right: 5px;
+}
+
+.btn-download:hover {
+    background-color: #45a049;
+    transform: scale(1.05);
 }
 
 .image-gallery {
@@ -663,12 +762,15 @@ a:hover {
     margin-top: 20px;
 }
 
+.image-gallery {
+    display: flex;
+    justify-content: center;
+}
+
 .image-gallery img {
     width: 100%;
-    max-width: 150px;
-    height: auto;
-    margin: 30px;
-    margin-bottom: 10px;
+    max-width: 180px;
+    margin: 0 5px 10px 5px;
     border-radius: 5px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s;
@@ -905,15 +1007,22 @@ a:hover {
     top: 50%;
     right: 10px;
     transform: translateY(-50%);
-    width: calc(33.33% - 20px); /* 1/3 szerokości strony z odstępami */
-    background-color: rgba(51, 51, 51, 0.8); /* Przezroczyste tło */
+    width: calc(33.33% - 20px);
+    background-color: rgba(51, 51, 51, 0.8);
     padding: 10px;
     border: 2px solid #fff;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     display: flex;
     flex-direction: column;
-    align-items: center; /* Przyciski będą teraz na środku */
+    align-items: center;
+    transition: opacity 0.5s ease; /* Dodaj animację dla płynności widoczności */
+    opacity: 0; /* Ustaw początkową przezroczystość na 0 */
+}
+
+.tags-section.visible {
+    opacity: 1; /* Po dodaniu klasy visible, ustaw przezroczystość na 1 */
+    z-index: 5;
 }
 
 .tags-section h2 {
@@ -956,13 +1065,23 @@ a:hover {
     padding: 10px;
     font-size: 20px;
     color: #ffffff;
+    transition: color 0.5s;
 }
 
 .tags-toggle:hover {
-    color: #90eaf5;
+    color: #8b8a8a;
+    transition: color 0.5s;
 }
 
-header img {
-    width: 384px;
-    height: 216px;
+.buttonpobierz {
+    background-color: #303030;
+    border: 0;
+    outline: 0;
+    width: 120px;
+    line-height: 36px;
+    color: white;
+    font-size: 0.85em;
+    text-transform: uppercase;
+    border-radius: 30px;
+    cursor: pointer;
 }
