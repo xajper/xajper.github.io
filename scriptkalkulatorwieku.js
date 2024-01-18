@@ -10,8 +10,8 @@ function calculateAge() {
     const ageInMinutes = ageInSeconds / 60;
     const ageInHours = ageInMinutes / 60;
     const ageInDays = ageInHours / 24;
-    const ageInMonths = ageInDays / 30.44; // average month length
-    const ageInYears = ageInDays / 365.25; // average year length
+    const ageInMonths = ageInDays / 30.44; 
+    const ageInYears = ageInDays / 365.25; 
 
     const years = Math.floor(ageInYears);
     const months = Math.floor((ageInYears - years) * 12);
@@ -20,7 +20,7 @@ function calculateAge() {
     const resultMessage = `Twój wiek to ${years} lat, ${months} miesięcy i ${days} dni.`;
     resultDiv.innerText = resultMessage;
 
-    // Sprawdź, czy dzisiaj są urodziny użytkownika
+    
     const isBirthday = birthdate.getDate() === today.getDate() && birthdate.getMonth() === today.getMonth();
     if (isBirthday) {
         playConfettiAnimation();
