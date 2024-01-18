@@ -259,18 +259,8 @@ function openModalPA() {
         "» lub gdy grasz na serwerze ze znajomym, daj sobie i koledze uprawnienia operatora serwera.<br>" +
         "» Masz jakieś pytania lub pojawił się bug? Napisz do mnie na dc (Xajper), na moim serwerze discord lub w komentarzach pod tą mapą.";
 
-    const mapOcenaHTML = `
-        <h2>Oceny Użytkowników</h2>
-        <span class="fa fa-star checked"></span>
-        <span class="fa fa-star checked"></span>
-        <span class="fa fa-star checked"></span>
-        <span class="fa fa-star checked"></span>
-        <span class="fa fa-star checked"></span>
-        <p>Średnia 5,0 na podstawie 1 oceny</p>`;
-
     document.getElementById("mapTitle").innerText = mapTitle;
     document.getElementById("mapDescription").innerHTML = mapDescription;
-    document.getElementById("mapocena").innerHTML = mapOcenaHTML;
 
     const myModal = document.getElementById("myModal");
     myModal.style.display = "flex";
@@ -292,15 +282,6 @@ function openModalCE() {
         "Jest to system który wynagradza cię za czas spędzony na ARENIE. Nagrody są różne (od golda, refów do różnych potek).<br>" +
 
         "Chcesz dowiedzieć się co zawiera aktualizacja? Pobierz mapę i się przekonaj!";
-
-    document.getElementById("mapocena").innerHTML = `
-        <h2>Oceny Użytkowników</h2>
-        <span class="fa fa-star checked"></span>
-        <span class="fa fa-star checked"></span>
-        <span class="fa fa-star checked"></span>
-        <span class="fa fa-star checked"></span>
-        <span class="fa fa-star checked"></span>
-        <p>Średnia 5,0 na podstawie 1 oceny</p>`;
 
     document.getElementById("myModal").style.display = "flex";
     setTimeout(function () {
@@ -359,22 +340,25 @@ function closeLoginModal() {
 
 // Funkcja, która przełącza widoczność sekcji tagów i zmienia ikonę strzałki
 function toggleTags() {
-    // Pobierz elementy sekcji tagów i przycisku przełączania
     var tagsSection = document.getElementById("tags-section");
-    var tagsToggle = document.getElementById("tags-toggle");
     var tagsToggleIcon = document.getElementById("tags-toggle-icon");
-  
-    // Sprawdź, czy sekcja tagów jest widoczna
-    if (tagsSection.style.display === "none") {
-      // Jeśli nie, ustaw jej styl na flex i zmień ikonę strzałki na górę
-      tagsSection.style.display = "flex";
-      tagsToggleIcon.className = "fas fa-arrow-right";
+
+    // Sprawdź, czy sekcja tagów ma klasę "visible"
+    var isTagsVisible = tagsSection.classList.contains("visible");
+
+    // Zmiana widoczności i klasy w zależności od obecności klasy "visible"
+    if (!isTagsVisible) {
+        // Jeśli nie ma klasy "visible", dodaj ją, zmień ikonę i uruchom animację
+        tagsSection.classList.add("visible");
+        tagsToggleIcon.style.transform = "rotate(180deg)";
+        tagsToggleIcon.style.transition = "transform 0.5s ease"; // Animacja trwa 0.5 sekundy
     } else {
-      // Jeśli tak, ustaw jej styl na none i zmień ikonę strzałki na dół
-      tagsSection.style.display = "none";
-      tagsToggleIcon.className = "fas fa-arrow-left";
+        // Jeśli jest klasa "visible", usuń ją, przywróć pierwotny obrót ikony i uruchom animację
+        tagsSection.classList.remove("visible");
+        tagsToggleIcon.style.transform = "rotate(0deg)";
+        tagsToggleIcon.style.transition = "transform 0.5s ease"; // Animacja trwa 0.5 sekundy
     }
-  }
+}
 
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -415,3 +399,62 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 });
+
+var header = document.querySelector ("header");
+var articlesList = document.getElementById ("articles-list");
+
+header.addEventListener ("click", function () {
+  articlesList.scrollIntoView ({behavior: "smooth"});
+});
+
+document.addEventListener("DOMContentLoaded", function() {
+    const buttonPobierz = document.querySelector(".buttonpobierz");
+    const overlay = document.getElementById("overlay");
+
+    buttonPobierz.addEventListener("click", function() {
+        // Po kliknięciu przycisku "Pobierz", pokazuje overlay
+        overlay.style.display = "flex";
+
+        // Symulacja procesu pobierania (możesz dostosować do rzeczywistej logiki pobierania)
+        simulateDownloadProcess();
+    });
+
+    // Symulacja procesu pobierania (możesz dostosować do rzeczywistej logiki pobierania)
+    function simulateDownloadProcess() {
+        const progressBar = document.querySelector(".bar span");
+        let progress = 0;
+
+        const downloadInterval = setInterval(function() {
+            progress += 1;
+            progressBar.style.width = `${progress}%`;
+
+            if (progress === 100) {
+                // Po zakończeniu pobierania ukrywa overlay
+                overlay.style.display = "none";
+                clearInterval(downloadInterval);
+            }
+        }, 100); // Interwał dla symulacji postępu pobierania
+    }
+});
+
+function startDownload() {
+    var progressBar = document.querySelector('.progress .bar span');
+    var completionText = document.querySelector('.progress .completion');
+    var doneIcon = document.getElementById("done");
+
+    var progress = 0;
+    var intervalId = setInterval(function () {
+        progress += 1;
+        progressBar.style.width = progress + '%';
+        completionText.innerHTML = progress + '%';
+
+        if (progress >= 100) {
+            clearInterval(intervalId);
+            doneIcon.style.display = 'block';
+            // Po zakończeniu pobierania przekieruj na stronę mapy.html
+            setTimeout(function () {
+                window.location.href = 'mapy.html';
+            }, 1000);
+        }
+    }, 50);
+}
