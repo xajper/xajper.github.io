@@ -74,10 +74,10 @@ document.addEventListener("DOMContentLoaded", function () {
   
       articlesList.style.display = 'flex';
       overlay.classList.add('active');
-      listaMapButton.style.visibility = 'hidden';  
-      listaMapButton.style.opacity = '0';  
-        
-      
+      listaMapButton.style.visibility = 'hidden';  // Ukryj przycisk
+      listaMapButton.style.opacity = '0';  // Ustaw przezroczystość na 0
+  
+      // Po 2 sekundach przywróć widoczność i przezroczystość przycisku
       setTimeout(() => {
         listaMapButton.style.visibility = 'visible';
         listaMapButton.style.opacity = '1';
@@ -210,7 +210,7 @@ function showReactionAnimation(overlay, text) {
     overlay.style.display = "block";
     setTimeout(() => {
         overlay.style.display = "none";
-    }, 1000); 
+    }, 1000); // Change the duration to 1000 milliseconds (1 second)
 }
 
 function closeImageModal() {
@@ -251,7 +251,7 @@ function openModalPA() {
         "» Party Activities jest mojego autorstwa i została stworzona dla maksymalnie DWÓCH graczy na wersję 1.19.4+!<br>" +
         "» Gier jest PONAD 20 i na pewno każdy znajdzie coś dla siebie! Budowa tej mapy zajęła mi sporo czasu i włożyłem w nią sporo pracy, więc byłbym wdzięczny gdybyś ocenił ją zostawiając diaxa pod spodem.<br>" +
         "» Możesz wbić na mój serwer discord gdzie uzyskasz dużo informacji o przedpremierowych mapach!<br>" +
-        "» Zaglądnij również na mój kanał na yt gdzie pokazuję jak tworzyć mapy. (https:
+        "» Zaglądnij również na mój kanał na yt gdzie pokazuję jak tworzyć mapy. (https://discord.gg/QCnXbND9UZ)<br><br>" +
         "<strong>WAŻNE INFORMACJE:</strong><br>" +
         "» NIE klikaj wiadomości Wyjście [KLIKNIJ] do byle jakiej minigry, każda wiadomość jest indywidualna i przystosowana do każdej gry z osobna!!!<br>" +
         "» Jeśli jakimś cudem zepsujesz mapę, pobierz ją jeszcze raz!<br>" +
@@ -338,25 +338,25 @@ function closeLoginModal() {
     document.getElementById('loginModal').classList.remove('show');
 }
 
-
+// Funkcja, która przełącza widoczność sekcji tagów i zmienia ikonę strzałki
 function toggleTags() {
     var tagsSection = document.getElementById("tags-section");
     var tagsToggleIcon = document.getElementById("tags-toggle-icon");
 
-    
+    // Sprawdź, czy sekcja tagów ma klasę "visible"
     var isTagsVisible = tagsSection.classList.contains("visible");
 
-    
+    // Zmiana widoczności i klasy w zależności od obecności klasy "visible"
     if (!isTagsVisible) {
-        
+        // Jeśli nie ma klasy "visible", dodaj ją, zmień ikonę i uruchom animację
         tagsSection.classList.add("visible");
         tagsToggleIcon.style.transform = "rotate(180deg)";
-        tagsToggleIcon.style.transition = "transform 0.5s ease"; 
+        tagsToggleIcon.style.transition = "transform 0.5s ease"; // Animacja trwa 0.5 sekundy
     } else {
-        
+        // Jeśli jest klasa "visible", usuń ją, przywróć pierwotny obrót ikony i uruchom animację
         tagsSection.classList.remove("visible");
         tagsToggleIcon.style.transform = "rotate(0deg)";
-        tagsToggleIcon.style.transition = "transform 0.5s ease"; 
+        tagsToggleIcon.style.transition = "transform 0.5s ease"; // Animacja trwa 0.5 sekundy
     }
 }
 
@@ -412,14 +412,14 @@ document.addEventListener("DOMContentLoaded", function() {
     const overlay = document.getElementById("overlay");
 
     buttonPobierz.addEventListener("click", function() {
-        
+        // Po kliknięciu przycisku "Pobierz", pokazuje overlay
         overlay.style.display = "flex";
 
-        
+        // Symulacja procesu pobierania (możesz dostosować do rzeczywistej logiki pobierania)
         simulateDownloadProcess();
     });
 
-    
+    // Symulacja procesu pobierania (możesz dostosować do rzeczywistej logiki pobierania)
     function simulateDownloadProcess() {
         const progressBar = document.querySelector(".bar span");
         let progress = 0;
@@ -429,11 +429,11 @@ document.addEventListener("DOMContentLoaded", function() {
             progressBar.style.width = `${progress}%`;
 
             if (progress === 100) {
-                
+                // Po zakończeniu pobierania ukrywa overlay
                 overlay.style.display = "none";
                 clearInterval(downloadInterval);
             }
-        }, 100); 
+        }, 100); // Interwał dla symulacji postępu pobierania
     }
 });
 
@@ -451,7 +451,7 @@ function startDownload() {
         if (progress >= 100) {
             clearInterval(intervalId);
             doneIcon.style.display = 'block';
-            
+            // Po zakończeniu pobierania przekieruj na stronę mapy.html
             setTimeout(function () {
                 window.location.href = 'mapy.html';
             }, 1000);
