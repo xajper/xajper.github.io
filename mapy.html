@@ -13,8 +13,9 @@
 
 <body>    
         <div class="overlay" id="overlay"></div>
-        <header>
-            <img src="baner.png" alt="XAJPERMAP Banner">
+
+        <header href="#lista">
+            <img src="baner1.3.png" alt="XAJPERMAP BANER">
         </header>
 
         <div class="tags-section" id="tags-section">
@@ -27,7 +28,7 @@
         </div>
     
         <div class="tags-toggle" id="tags-toggle" onclick="toggleTags()">
-            <span id="tags-toggle-icon" class="fas fa-arrow-left"></span>
+            <span id="tags-toggle-icon" class="fa-solid fa-angles-left prev"></span>
         </div>
     
         <div class="sidebar" id="sidebar">
@@ -45,7 +46,7 @@
             </div>
             
             <div class="sidebar-footer">
-                <a href="#" onclick="openLoginModal()">Konto <i class="fa fa-user"></i></a>
+                <a href="#" onclick="openLoginModal()">Konto <i class="fa fa-user" style="font-size: 20px;"></i></a>
             </div>
         </div>
 
@@ -67,9 +68,8 @@
         <div id="articles-list" class="articles-list active">
                     <article id="pvp">
                         <h2>Clicker Evolved</h2>
-                        <h3><i class="fa fa-hashtag" style="font-size: 1em;"></i>1</h3>
-                        <p>Cześć! Przychodzę do was z kolejną mapą pt. Clicker Evolved...</p>
-                        <a href="#clickerevolved" onclick="openModalCE()">Czytaj więcej</a>
+                        <h3><i class="fa fa-hashtag" style="font-size: 17px;"></i>1</h3>
+                        <p>Cześć! Przychodzę do was z kolejną mapą pt. Clicker Evolved...<a href="#clickerevolved" onclick="openModalCE()" class="read-more-btn">Czytaj więcej</a></p>
             
                         <div class="reaction-container">
                             <div class="reaction-overlay like-overlay" id="like-overlay-1">+1</div>
@@ -86,26 +86,18 @@
                             <img class="myImages" onclick="openImageModal('clicker_evolved_1.jpg')" src="clicker_evolved_1.jpg" alt="Clicker Evolved 1/2">
                             <img class="myImages" onclick="openImageModal('clicker_evolved_2.jpg')" src="clicker_evolved_2.jpg" alt="Clicker Evolved 2/2">
                         </div>
-        
+
                         <div class="author-download-section">
-                            <p>Autor: <a href="index.html">Xajper</a></p>
-                            
-                            <div class="download-section">
-                                <a href="ClickerEvolved.zip" class="btn-download" download="ClickerEvolved.zip">
-                                    <i class="fa fa-download"></i>Pobierz
-                                </a>
-                            </div>
+                            <p><strong>Autor:</strong> <a href="index.html" class="author-link">Xajper</a></p><p><strong>Wersja:</strong> 1.19+</p>
+                            <a href="pobieranie.html" class="buttonpobierz" download="ClickerEvolved.zip">Pobierz</a>
                         </div>
                     </article>
 
                     <article id="popularne">
                         <h2>Party Activities</h2>
-                        <h3><i class="fa fa-hashtag" style="font-size: 1em;"></i>2</h3>
-                        <p>Witaj! Mapa którą obecnie widzisz jest zbiorem różnych minigier...</p>
-                        <h2 id="article-title-0"></h2>
-                        <p id="article-content-0"></p>
-                        <a href="#partyactivities" onclick="openModalPA()">Czytaj więcej</a>
-            
+                        <h3><i class="fa fa-hashtag" style="font-size: 17px;"></i>2</h3>
+                        <p>Witaj! Mapa którą obecnie widzisz jest zbiorem różnych minigier...<a href="#partyactivities" onclick="openModalPA()" class="read-more-btn">Czytaj więcej</a></p>
+
                         <div class="reaction-container">
                             <div class="reaction-overlay like-overlay" id="like-overlay-2">+1</div>
                             <i onclick="toggleLike(this, 2)" class="fa fa-thumbs-up"></i>
@@ -121,23 +113,17 @@
                             <img class="myImages" onclick="openImageModal('clicker_evolved_1.jpg')" src="party_activities_1.jpg" alt="Party Activities 1/2">
                             <img class="myImages" onclick="openImageModal('clicker_evolved_2.jpg')" src="party_activities_2.jpg" alt="Party Activities 2/2">
                         </div>
-        
+      
                         <div class="author-download-section">
-                            <p>Autor: <a href="index.html">Xajper</a></p>
-                            
-                            <div class="download-section">
-                                <a href="Party Activities.zip" class="btn-download" download="Party Activities.zip">
-                                    <i class="fa fa-download"></i>Pobierz
-                                </a>
-                            </div>
+                            <p><strong>Autor:</strong> <a href="index.html" class="author-link">Xajper</a></p><p><strong>Wersja:</strong> 1.19+</p>
+                            <a href="pobieranie.html" class="buttonpobierz" download="Party Activities.zip">Pobierz</a>
                         </div>
                     </article>
             
                     <article id="nowe">
                         <h2>Ostatnia Twierdza</h2>
-                        <h3><i class="fa fa-hashtag" style="font-size: 1em;"></i>3</h3>
-                        <p>...</p>
-                        <a href="#ostatniatwierdza" onclick="openModalOT()">Czytaj więcej</a>
+                        <h3><i class="fa fa-hashtag" style="font-size: 17px;"></i>3</h3>
+                        <p>Witaj! Przed tobą mapa, której tamatyką jest Tower Defense. Wcielasz się w rolę...<a href="#ostatniatwierdza" onclick="openModalOT()" class="read-more-btn">Czytaj więcej</a></p>
             
                         <div class="reaction-container">
                             <div class="reaction-overlay like-overlay" id="like-overlay-3">+1</div>
@@ -148,6 +134,12 @@
                             <div class="reaction-overlay dislike-overlay" id="dislike-overlay-3">-1</div>
                             <i onclick="toggleDislike(this, 3)" class="fa fa-thumbs-down"></i>
                             <span class="reaction-count" id="dislike-count-3">0</span>
+                        </div>
+
+                        <div class="author-download-section">
+                            <p><strong>Autor:</strong> <a href="index.html" class="author-link">Xajper</a></p>
+                            <p><strong>Wersja:</strong> 1.19+</p>
+                            <a href="pobieranie.html" class="buttonpobierz" onclick="startDownload()">Pobierz</a>
                         </div>
                     </article>
         </div>
@@ -170,7 +162,6 @@
             <div class="modal-contentmap">
                 <h2 id="mapTitle">Tytuł Mapy</h2>
                 <p id="mapDescription">Opis Mapy</p>
-                <h2 id="mapocena">Oceny Użytkowników</h2>
             </div>
         </div>
 
