@@ -13,7 +13,6 @@ document.addEventListener("DOMContentLoaded", function () {
         const backgroundColor = `rgb(${redValue}, ${greenValue}, ${blueValue})`;
         colorBox.style.backgroundColor = backgroundColor;
 
-        // Update copy input value
         copyInput.value = backgroundColor;
     }
 
