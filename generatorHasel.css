@@ -35,9 +35,13 @@ h1 {
     margin-right: 10px;
 }
 
-#generateButton {
+.button {
     padding: 10px 20px;
     font-size: 16px;
+    margin-right: 10px;
+}
+
+#generateButton {
     background-color: #3498db;
     color: #fff;
     border: none;
@@ -51,8 +55,6 @@ h1 {
 }
 
 #copyButton {
-    padding: 10px 20px;
-    font-size: 16px;
     background-color: #2ecc71;
     color: #fff;
     border: none;
@@ -63,4 +65,20 @@ h1 {
 
 #copyButton:hover {
     background-color: #27ae60;
+}
+
+@media (min-width: 601px) {
+    .password-container {
+        flex-direction: row;
+        justify-content: center;
+    }
+
+    #password {
+        margin-bottom: 0;
+        margin-right: 10px;
+    }
+
+    .button {
+        margin-bottom: 0;
+    }
 }
