@@ -1,5 +1,4 @@
 function generatePassword() {
-    // Logika generowania hasła (możesz dostosować według potrzeb)
     const passwordLength = 12;
     const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     let password = "";
@@ -9,13 +8,20 @@ function generatePassword() {
         password += charset[randomIndex];
     }
 
-    // Aktualizacja wartości pola input
     document.getElementById("password").value = password;
 }
 
 function copyPassword() {
-    // Kopiowanie hasła do schowka
     const passwordField = document.getElementById("password");
     passwordField.select();
-    document.execCommand("copy");
+    
+    try {
+        document.execCommand("copy");
+        setTimeout(() => {
+            document.querySelector('.containerkopiuj input').checked = false;
+        }, 1000);
+    } catch (err) {
+        console.error("Błąd kopiowania do schowka: ", err);
+        alert("Niestety, nie udało się skopiować do schowka.");
+    }
 }
