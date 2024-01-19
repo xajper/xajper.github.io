@@ -8,6 +8,59 @@ body {
     background-color: #f4f4f4;
 }
 
+.containerkopiuj {
+    --color: #a5a5b0;
+    --size: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    cursor: pointer;
+    font-size: var(--size);
+    user-select: none;
+    fill: var(--color);
+    margin-right: 10px;
+    right: -10px;
+  }
+  
+  .containerkopiuj .clipboard {
+    position: absolute;
+    animation: keyframes-fill .5s;
+  }
+  
+  .containerkopiuj .clipboard-check {
+    position: absolute;
+    display: none;
+    animation: keyframes-fill .5s;
+  }
+
+  .containerkopiuj input:checked ~ .clipboard {
+    display: none;
+  }
+  
+  .containerkopiuj input:checked ~ .clipboard-check {
+    display: block;
+  }
+
+  .containerkopiuj input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+  }
+
+  @keyframes keyframes-fill {
+    0% {
+      transform: rotate(0deg) scale(0);
+      opacity: 0;
+    }
+  
+    50% {
+      transform: rotate(-10deg) scale(1.2);
+    }
+  }
+
 .container {
     text-align: center;
     background-color: #fff;
