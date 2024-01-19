@@ -1,175 +1,1117 @@
-<!DOCTYPE html>
-<html lang="pl">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="ikonkastronymapy.ico" type="image/x-icon">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <script src="scriptmapy.js"></script>
-    <link rel="stylesheet" href="stylemapy.css">
-    <title>XajperMAP</title>
-</head>
+body {
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    background-color: #333;
+    color: #fff;
+    background-image: url('tło.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    overflow-x: hidden;
+}
 
-<body>    
-        <div class="overlay" id="overlay"></div>
+html {
+    scroll-behavior: smooth;
+}
 
-        <header href="#lista">
-            <img src="baner1.3.png" alt="XAJPERMAP BANER">
-        </header>
+body::-webkit-scrollbar {
+    width: 12px; /* szerokość scrollbara */
+}
 
-        <div class="tags-section" id="tags-section">
-            <h2>TAGI</h2>
-            <button class="category-btn nowe"><img src="nowe.png" alt="NOWE">NOWE</button>
-            <button class="category-btn popularne"><img src="popularne.jpg" alt="POPULARNE">POPULARNE</button>
-            <button class="category-btn pvp"><img src="pvp.jpg" alt="PVP">PVP</button>
-            <button class="category-btn fabularne"><img src="fabularne.jpg" alt="FABULARNE">FABULARNE</button>
-            <button class="category-btn przygodowe"><img src="przygodowe.jpg" alt="PRZYGODOWE">PRZYGODOWE</button>
-        </div>
+body::-webkit-scrollbar-thumb {
+    background-color: #888; /* kolor suwaka */
+    border-radius: 8px; /* zaokrąglenie suwaka */
+}
+
+body::-webkit-scrollbar-track {
+    background-color: rgba(0, 0, 0, 0.1); /* kolor tła scrollbara */
+}
+
+.body-container {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.button-container {
+  position: relative;
+  margin-top: 10vh;
+}
+
+.animated-button.clicked {
+  background-color: #fff;
+  color: #3498db;
+}
+
+.animated-button.clicked:hover {
+  background-color: #3498db;
+  color: #fff;
+}
+
+.animated-button {
+  display: inline-block;
+  padding: 15px 30px;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  border-radius: 5px;
+  overflow: hidden;
+  position: relative;
+  background-color: #3498db;
+  color: #fff;
+  border: 2px solid #3498db;
+  transition: background 0.3s, color 0.3s, transform 0.3s;
+}
     
-        <div class="tags-toggle" id="tags-toggle" onclick="toggleTags()">
-            <span id="tags-toggle-icon" class="fa-solid fa-angles-left prev"></span>
-        </div>
-    
-        <div class="sidebar" id="sidebar">
-            <a href="index.html">O mnie</a>
-            <a href="xajperteam.html">Xajper Team</a>
-            <a href="xajperbot.html">XajperBOT</a>
-            <a href="xajpermap.html">XajperMAP</a>
-            <a href="stroneserwera.html">PixelParadise</a>
+.animated-button:hover {
+  background-color: #fff;
+  color: #3498db;
+}
 
-            <hr class="separator">
-            
-            <div class="search-bar" id="searchbar">
-                <input type="text" class="search-input" id="search-input" placeholder="Szukaj..." oninput="filterArticles()">
-                <button class="search-btn" onclick="performSearch()"><i class="fa fa-search"></i></button>
-            </div>
-            
-            <div class="sidebar-footer">
-                <a href="#" onclick="openLoginModal()">Konto <i class="fa fa-user" style="font-size: 20px;"></i></a>
-            </div>
-        </div>
+.animated-button:before {
+  background-color: #2980b9;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 0;
+  border-radius: 50%;
+  z-index: 1;
+  transition: height 0.3s, width 0.3s;
+}
 
-        <div class="navbar" onclick="toggleSidebar()">
-            <div id="sword" class="animated-sword" onclick="animateSword()"></div>
-        </div>
+.animated-button:hover:before {
+  width: 100%;
+  height: 100%;
+}
+
+.fireworks {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #3498db;
+  animation: fireworks-animation 1s ease-out;
+}
+
+@keyframes fireworks-animation {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(20);
+    opacity: 0;
+  }
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(51, 51, 51, 0.5);
+    display: none;
+    z-index: 1000;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #F2F2F2;
+    position: relative;
+    top: 80px;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+header:hover {
+    transform: scale(1.05);
+}
+
+header:active {
+    transform: scale(0.9);
+}
+
+header img {
+    width: 640px;
+    height: 360px;
+}
+
+.category-btn:hover {
+    background-color: #0A0B0D;
+    color: #EBEBF2;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.category-btn {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    margin: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s, color 0.3s, box-shadow 0.3s;
+    position: relative;
+}
+
+.category-btn.active {
+    transform: translateY(5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    background-color: #0A0B0D;
+    color: #EBEBF2;
+}
+
+.overlay.active {
+    display: block;
+}
+
+h3 {
+    position: absolute;
+    top: 1px;
+    margin-top: 10px;
+    right: 5px;
+    margin-right: 10px;
+}
+
+.article-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.read-more-btn {
+    text-decoration: none;
+    color: #3498db;
+    font-weight: bold;
+    border: none;
+    background-color: transparent; /* Set the background color to transparent */
+    transition: color 0.3s, border 0.3s, background-color 0.3s; /* Add background-color transition */
+}
+
+.read-more-btn:hover {
+    text-decoration: underline;
+    color: #3498db;
+    font-weight: bold;
+    border: none;
+    background-color: transparent; /* Set the background color to transparent */
+}
+
+.articles-list {
+    display: flex;
+    position: relative;
+    bottom: 0;
+    left: 0;
+    width: 100vw;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+    transition: height 0.5s;
+}
+
+.articles-list.active {
+    height: 100vh;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.articles-list article {
+    display: block;
+    margin: 10px;
+    padding: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+    border-radius: 5px;
+    width: 30%;
+    text-align: center;
+    position: relative;
+    z-index: 101;
+    background-color: #ffffff;
+    color: #000;
+    animation: fadeInUp 0.5s ease;
+}
+
+header h1 {
+    color: white;
+    transition: color 0.3s; 
+}
+
+.dirt-background {
+  background: url('dirt_texture.jpg');
+}
+
+h1,
+h2,
+p,
+a {
+    margin: 0;
+    padding: 0;
+}
+
+@keyframes leafAnimation {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+    100% { transform: translateY(0); }
+}
+
+@keyframes fireAnimation {
+    0% { box-shadow: 0 0 10px #FF0000; }
+    50% { box-shadow: 0 0 20px #FF4500, 0 0 40px #FFD700; }
+    100% { box-shadow: 0 0 10px #FF0000; }
+}
+
+.category-btn img {
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+}
+
+.category-btn i {
+    margin-right: 5px;
+}
+
+.category-btn.nowe img {
+    content: url('nowe.png');
+}
+
+.category-btn.popularne img {
+    content: url('popularne.jpg');
+}
+
+.category-btn.pvp img {
+    content: url('pvp.jpg');
+}
+
+.category-btn.fabularne img {
+    content: url('fabularne.jpg');
+}
+
+.category-btn.przygodowe img {
+    content: url('przygodowe.jpg');
+}
+
+.categories-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    font-weight: bold;
+    margin: 20px;
+}
+
+.category-btn.listamap {
+    font-weight: bold;
+    background-color: white;
+}
+
+.category-btn.pvp {
+    font-weight: bold;
+    background-color: #19c5d8;
+}
+
+.category-btn.fabularne {
+    font-weight: bold;
+    background-color: #0000FF;
+}
+
+.category-btn.przygodowe {
+    font-weight: bold;
+    background-color: #800080;
+}
+
+.category-btn.nowe {
+    font-weight: bold;
+    background-color: #4CAF50;
+    animation: leafAnimation 2s infinite ease-in-out;
+}
+
+.category-btn.popularne {
+    font-weight: bold;
+    background-color: #FF0000;
+    animation: fireAnimation 2s infinite ease-in-out;
+}
+
+#profile-btn {
+    background-color: #FFFF00;
+    color: #333;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    display: block;
+    margin: 0 auto;
+    text-decoration: none;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+#profile-btn:hover {
+    background-color: #CCCC00;
+    color: #fff;
+}
+
+.download-section {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.btn-download {
+    background-color: #4CAF50;
+    color: white;
+    padding: 8px 15px;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+    transition: background-color 0.3s, transform 0.3s;
+    display: flex;
+    align-items: center;
+}
+
+.btn-download i {
+    margin-right: 5px;
+}
+
+.btn-download:hover {
+    background-color: #45a049;
+    transform: scale(1.05);
+}
+
+header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+h1 {
+    color: #008080;
+}
+
+h2 {
+    color: #000000;
+}
+
+p {
+    margin-bottom: 10px;
+}
+
+a {
+    color: #008080;
+    text-decoration: none;
+    display: inline-block;
+    border: 1px solid #008080;
+    padding: 5px 10px;
+    border-radius: 3px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+a:hover {
+    background-color: #008080;
+    color: #fff;
+}
+
+#myDIV {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    padding: 20px;
+    background-color: #f1f1f1;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease-in-out;
+    z-index: 2;
+}
+
+.btnprzycisk {
+    background-color: #F7F7F7;
+    color: #000000;
+    padding: 10px 15px;
+    margin: 0 5px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.btnprzycisk.active {
+    background-color: #FBC040;
+    color: #F7F7F7;
+}
+
+.btnprzycisk:hover {
+    background-color: white;
+    color: #FBC040;
+}
+
+.btn {
+    background-color: DodgerBlue;
+    border: none;
+    color: white;
+    padding: 12px 30px;
+    cursor: pointer;
+    font-size: 20px;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.btn:hover {
+    background-color: RoyalBlue;
+    transform: scale(1.05);
+}
+
+.reaction-container {
+    display: inline-block;
+    position: relative;
+    margin-right: 10px;
+}
+
+.reaction-overlay {
+    display: none;
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #4CAF50;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 3px;
+    font-size: 14px;
+}
+
+.like-overlay {
+    background-color: #4CAF50;
+}
+
+.dislike-overlay {
+    background-color: red;
+}
+
+.fa-thumbs-up,
+.fa-thumbs-down {
+    font-size: 24px;
+    color: #808080;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.fa-thumbs-up:hover {
+    color: #4CAF50;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.fa-thumbs-down:hover {
+    color: red;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+
+.fa-thumbs-up.liked {
+    color: #4CAF50;
+}
+.fa-thumbs-down.disliked {
+    color: red;
+}
     
-        <div id="loginModal" class="modal-login">
-            <div class="modal-login-content">
-                <span class="close-login" onclick="closeLoginModal()">&times;</span>
-                <form class="login-form">
-                    <input type="text" class="login-input" placeholder="Login" required>
-                    <input type="password" class="login-input" placeholder="Hasło" required>
-                    <button type="submit" class="login-btn">Zaloguj się</button>
-                </form>
-            </div>
-        </div>
-    
-        <div id="articles-list" class="articles-list active">
-                    <article id="pvp">
-                        <h2>Clicker Evolved</h2>
-                        <h3><i class="fa fa-hashtag" style="font-size: 17px;"></i>1</h3>
-                        <p>Cześć! Przychodzę do was z kolejną mapą pt. Clicker Evolved...<a href="#clickerevolved" onclick="openModalCE()" class="read-more-btn">Czytaj więcej</a></p>
-            
-                        <div class="reaction-container">
-                            <div class="reaction-overlay like-overlay" id="like-overlay-1">+1</div>
-                            <i onclick="toggleLike(this, 1)" class="fa fa-thumbs-up"></i>
-                            <span class="reaction-count" id="like-count-1">0</span>
-                        </div>
-                        <div class="reaction-container">
-                            <div class="reaction-overlay dislike-overlay" id="dislike-overlay-1">-1</div>
-                            <i onclick="toggleDislike(this, 1)" class="fa fa-thumbs-down"></i>
-                            <span class="reaction-count" id="dislike-count-1">0</span>
-                        </div>
+#imageModal {
+    display: none;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh; /* Ustawienie wysokości na 100vh */
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 1002;
+}
         
-                        <div class="image-gallery">
-                            <img class="myImages" onclick="openImageModal('clicker_evolved_1.jpg')" src="clicker_evolved_1.jpg" alt="Clicker Evolved 1/2">
-                            <img class="myImages" onclick="openImageModal('clicker_evolved_2.jpg')" src="clicker_evolved_2.jpg" alt="Clicker Evolved 2/2">
-                        </div>
+.modal-content img {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    margin-right: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s;
+    cursor: pointer;
+}
 
-                        <div class="author-download-section">
-                            <p><strong>Autor:</strong> <a href="index.html" class="author-link">Xajper</a></p><p><strong>Wersja:</strong> 1.19+</p>
-                            <a href="pobieranie.html" class="buttonpobierz" onclick="startDownload()" download="ClickerEvolved.zip">Pobierz</a>
-                        </div>
-                    </article>
+.modal-content {
+    color: #000;
+    padding: 20px;
+    opacity: 0;
+    transition: opacity 0.3s, transform 0.3s;
+    max-width: 75%;
+    margin: 0;
+}
 
-                    <article id="popularne">
-                        <h2>Party Activities</h2>
-                        <h3><i class="fa fa-hashtag" style="font-size: 17px;"></i>2</h3>
-                        <p>Witaj! Mapa którą obecnie widzisz jest zbiorem różnych minigier...<a href="#partyactivities" onclick="openModalPA()" class="read-more-btn">Czytaj więcej</a></p>
+.modal-contentmap {
+    color: #000;
+    padding: 20px;
+    opacity: 0;
+    transition: opacity 0.3s, transform 0.3s;
+    max-width: 75%;
+    margin: 0;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
 
-                        <div class="reaction-container">
-                            <div class="reaction-overlay like-overlay" id="like-overlay-2">+1</div>
-                            <i onclick="toggleLike(this, 2)" class="fa fa-thumbs-up"></i>
-                            <span class="reaction-count" id="like-count-2">0</span>
-                        </div>
-                        <div class="reaction-container">
-                            <div class="reaction-overlay dislike-overlay" id="dislike-overlay-2">-1</div>
-                            <i onclick="toggleDislike(this, 2)" class="fa fa-thumbs-down"></i>
-                            <span class="reaction-count" id="dislike-count-2">0</span>
-                        </div>                        
+.modal-contentmap h2,
+.modal-contentmap p,
+.modal-contentmap .bar-container,
+.modal-contentmap .image-gallery,
+.modal-content h2,
+.modal-content p,
+.modal-content .bar-container,
+.modal-content .image-gallery {
+    width: 100%;
+    box-sizing: border-box;
+}
 
-                        <div class="image-gallery">
-                            <img class="myImages" onclick="openImageModal('clicker_evolved_1.jpg')" src="party_activities_1.jpg" alt="Party Activities 1/2">
-                            <img class="myImages" onclick="openImageModal('clicker_evolved_2.jpg')" src="party_activities_2.jpg" alt="Party Activities 2/2">
-                        </div>
-      
-                        <div class="author-download-section">
-                            <p><strong>Autor:</strong> <a href="index.html" class="author-link">Xajper</a></p><p><strong>Wersja:</strong> 1.19+</p>
-                            <a href="pobieranie.html" class="buttonpobierz" onclick="startDownload()" download="Party Activities.zip">Pobierz</a>
-                        </div>
-                    </article>
-            
-                    <article id="nowe">
-                        <h2>Ostatnia Twierdza</h2>
-                        <h3><i class="fa fa-hashtag" style="font-size: 17px;"></i>3</h3>
-                        <p>Witaj! Przed tobą mapa, której tamatyką jest Tower Defense. Wcielasz się w rolę...<a href="#ostatniatwierdza" onclick="openModalOT()" class="read-more-btn">Czytaj więcej</a></p>
-            
-                        <div class="reaction-container">
-                            <div class="reaction-overlay like-overlay" id="like-overlay-3">+1</div>
-                            <i onclick="toggleLike(this, 3)" class="fa fa-thumbs-up"></i>
-                            <span class="reaction-count" id="like-count-3">0</span>
-                        </div>
-                        <div class="reaction-container">
-                            <div class="reaction-overlay dislike-overlay" id="dislike-overlay-3">-1</div>
-                            <i onclick="toggleDislike(this, 3)" class="fa fa-thumbs-down"></i>
-                            <span class="reaction-count" id="dislike-count-3">0</span>
-                        </div>
+.modal.show .modal-content {
+    opacity: 1;
+    transform: translateY(0);
+}
 
-                        <div class="image-gallery">
-                            <img class="myImages" onclick="openImageModal('ostatnia_twierdza_1.png')" src="ostatnia_twierdza_1.png" alt="Ostatnia Twierdza 1/2">
-                            <img class="myImages" onclick="openImageModal('ostatnia_twierdza_2.png')" src="ostatnia_twierdza_2.png" alt="Ostatnia Twierdza 2/2">
-                        </div>
+.modal.show .modal-contentmap {
+    opacity: 1;
+    transform: translateY(0);
+}
 
-                        <div class="author-download-section">
-                            <p><strong>Autor:</strong> <a href="index.html" class="author-link">Xajper</a></p>
-                            <p><strong>Wersja:</strong> 1.20.4+</p>
-                            <a href="pobieranie.html" class="buttonpobierz" onclick="startDownload()">Pobierz</a>
-                        </div>
-                    </article>
-        </div>
+.close {
+    position: absolute;
+    top: 15px;
+    right: 35px;
+    color: #f1f1f1;
+    font-size: 40px;
+    font-weight: bold;
+    transition: 0.3s;
+    z-index: 1005;
+}
 
-        <div id="imageModal" class="modal">
-            <span class="close" onclick="closeImageModal()">&times;</span>
-            <img class="modal-content" id="modalImage">
-        </div>
+* {
+    box-sizing: border-box;
+}
 
-        <div id="myDIV" class="dirt-background">
-          <button class="btnprzycisk active">1</button>
-          <button class="btnprzycisk">2</button>
-          <button class="btnprzycisk">3</button>
-          <button class="btnprzycisk">4</button>
-          <button class="btnprzycisk">5</button>
-        </div>
-    
-        <div id="myModal" class="modal">
-            <span class="close" onclick="closeModal()">&times;</span>
-            <div class="modal-contentmap">
-                <h2 id="mapTitle">Tytuł Mapy</h2>
-                <p id="mapDescription">Opis Mapy</p>
-            </div>
-        </div>
+.heading {
+    font-size: 25px;
+    margin-right: 25px;
+}
 
-</body>
+.fa {
+    font-size: 25px;
+}
 
-</html>
+.checked {
+    color: orange;
+}
+
+.side {
+    float: left;
+    width: 15%;
+    margin-top: 10px;
+}
+
+.middle {
+    float: left;
+    width: 70%;
+    margin-top: 10px;
+}
+
+.right {
+    text-align: right;
+}
+
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.bar-container {
+    width: 100%;
+    background-color: #f1f1f1;
+    text-align: center;
+    color: white;
+}
+
+.checked {
+    color: orange;
+}
+
+.bar-5 {
+    width: 60%;
+    height: 18px;
+    background-color: #04AA6D;
+}
+
+.bar-4 {
+    width: 30%;
+    height: 18px;
+    background-color: #2196F3;
+}
+
+.bar-3 {
+    width: 10%;
+    height: 18px;
+    background-color: #00bcd4;
+}
+
+.bar-2 {
+    width: 4%;
+    height: 18px;
+    background-color: #ff9800;
+}
+
+.bar-1 {
+    width: 15%;
+    height: 18px;
+    background-color: #f44336;
+}
+
+.author-download-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+}
+
+.author-download-section p .author-link {
+    text-decoration: none;
+    color: #000000;
+    border-bottom: 1px solid transparent;
+    border: none;
+    margin: 0; /* Dodaj to, aby usunąć marginesy od lewej i prawej strony */
+    padding: 0; /* Dodaj to, aby usunąć wewnętrzne wcięcia */
+}
+
+.author-download-section p .author-link:hover {
+    text-decoration: underline;
+    background: none;
+}
+
+.author-download-section p {
+    margin: 0;
+}
+
+.author-download-section p a {
+    text-decoration: none;
+    color: #000000;
+    border: none;
+    transition: border-bottom-color 0.3s, text-decoration 0.3s;
+}
+
+.author-download-section p a:hover {
+    text-decoration: underline;
+    background: none;
+
+}
+
+.download-section {
+    display: flex;
+    align-items: center;
+}
+
+.btn-download {
+    background-color: #4CAF50;
+    color: white;
+    padding: 8px 15px;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+    transition: background-color 0.3s, transform 0.3s;
+    display: flex;
+    align-items: center;
+}
+
+.btn-download i {
+    margin-right: 5px;
+}
+
+.btn-download:hover {
+    background-color: #45a049;
+    transform: scale(1.05);
+}
+
+.image-gallery {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.image-gallery {
+    display: flex;
+    justify-content: center;
+}
+
+.image-gallery img {
+    width: 100%;
+    max-width: 180px;
+    margin: 0 5px 10px 5px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s;
+    cursor: pointer;
+}
+
+.image-gallery img:hover {
+    transform: scale(1.1);
+}
+
+.container {
+    display: flex;
+}
+
+.sidebar-footer {
+    padding: 10px;
+    text-align: center;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+
+.sidebar-footer a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.sidebar-footer a i {
+    margin-left: 5px;
+}
+
+.navbar {
+    background-color: transparent;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    cursor: pointer;
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    z-index: 11;
+    transition: 0.3s;
+}
+
+.animated-sword {
+    width: 50px;
+    height: 50px;
+    background-image: url('diamond_sword.jpg');
+    background-size: cover;
+    transition: transform 0.3s;
+    cursor: pointer;
+    z-index: 12;
+}
+
+.animated-sword:hover {
+    transform: scale(1.2) rotate(360deg);
+}
+
+.clicked {
+    transform: scale(1.2) rotate(360deg);
+}
+
+.sidebar {
+    height: 100vh;
+    width: 0;
+    position: fixed;
+    z-index: 10;
+    top: 0;
+    left: 0;
+    background-color: #333;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    color: white;
+}
+
+.sidebar a {
+    padding: 10px;
+    text-decoration: none;
+    font-size: 18px;
+    color: white;
+    display: block;
+    transition: 0.3s;
+    position: relative;
+    text-align: center;
+    overflow: hidden; /* Nowa linia */
+    margin-bottom: 5px; /* Nowa linia - odstęp pomiędzy przyciskami */
+    border: none; /* Nowa linia - usuwa border */
+}
+
+.sidebar a:hover {
+    background-color: #555;
+}
+
+.sidebar a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 0;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.1);
+    transition: width 0.3s; /* Zmiana */
+}
+
+.sidebar a:hover::after {
+    width: 100%;
+}
+
+.menu-btn {
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.search-bar {
+    margin-top: 10px;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    width: calc(100% - 50px);
+    background-color: #333;
+}
+
+.search-input {
+    flex-grow: 1;
+    padding: 5px;
+    margin-right: 10px;
+    border: none;
+    border-radius: 3px;
+}
+
+.search-btn {
+    padding: 5px 10px;
+    background-color: #008080;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.search-btn i {
+    font-size: 18px;
+}
+
+#loginModal {
+    display: none;
+}
+
+.modal-login {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50%;
+    max-width: 500px;
+    background-color: #fefefe;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+}
+
+.modal-login-content {
+    padding: 20px;
+    border-radius: 5px;
+    opacity: 0;
+    transition: opacity 0.3s, transform 0.3s;
+    max-width: 100%;
+    margin: auto;
+}
+
+.modal-login.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.close-login {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    color: #f1f1f1;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.close-login:hover {
+    color: #666;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.login-input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    font-size: 16px;
+}
+
+.login-btn {
+    background-color: #008080;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 3px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.login-btn:hover {
+    background-color: #006666;
+}
+
+.tags-section {
+    display: none;
+    position: fixed;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    width: calc(33.33% - 20px);
+    background-color: rgba(51, 51, 51, 0.8);
+    padding: 10px;
+    border: 2px solid #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: opacity 0.5s ease; /* Dodaj animację dla płynności widoczności */
+    opacity: 0; /* Ustaw początkową przezroczystość na 0 */
+}
+
+.tags-section.visible {
+    opacity: 1; /* Po dodaniu klasy visible, ustaw przezroczystość na 1 */
+    z-index: 5;
+}
+
+.tags-section h2 {
+    color: #fff;
+    margin-bottom: 10px;
+    margin-left: 5px; /* Dodany odstęp od lewej krawędzi */
+    align-self: flex-start; /* Napis będzie na górze */
+}
+
+.tags-section button {
+    margin: 5px;
+    padding: 8px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    color: #fff;
+    transition: background-color 0.3s, transform 0.3s, color 0.3s, box-shadow 0.3s;
+}
+
+.tags-section button:hover {
+    background-color: #555;
+}
+
+.separator {
+    border-top: 1px solid #ccc;
+    width: 95%;
+    margin: 10px auto;
+}
+
+.tags-toggle {
+    position: fixed;
+    z-index: 9998;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    background-color: transparent;
+    border: none;
+    padding: 10px;
+    font-size: 20px;
+    color: #ffffff;
+    transition: color 0.5s;
+}
+
+.tags-toggle:hover {
+    color: #8b8a8a;
+    transition: color 0.5s;
+}
+
+.author-download-section .buttonpobierz {
+    position: relative;
+    overflow: hidden;
+    height: 2rem;
+    padding: 0 2rem;
+    border-radius: 1.5rem;
+    background: #3d3a4e;
+    background-size: 400%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+  
+.author-download-section .buttonpobierz:hover::before {
+    transform: scaleX(1);
+}
+
+.author-download-section .buttonpobierz-content {
+    position: relative;
+    z-index: 1;
+}
+  
+.author-download-section .buttonpobierz::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: scaleX(0);
+    transform-origin: 0 50%;
+    width: 100%;
+    height: inherit;
+    border-radius: inherit;
+    background: linear-gradient(
+      82.3deg,
+      rgba(150, 93, 233, 1) 10.8%,
+      rgba(99, 88, 238, 1) 94.3%
+    );
+    transition: all 0.475s;
+}
