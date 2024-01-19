@@ -27,7 +27,9 @@ function copyToClipboard() {
     
     try {
         document.execCommand("copy");
-        alert("Skopiowano do schowka!");
+        setTimeout(() => {
+            document.querySelector('.containerkopiuj input').checked = false;
+        }, 1000);
     } catch (err) {
         console.error("Błąd kopiowania do schowka: ", err);
         alert("Niestety, nie udało się skopiować do schowka.");
