@@ -288,6 +288,23 @@ function openModalCE() {
     }, 10);
 }
 
+function openModalOT() {
+    const mapTitle = "Ostatnia Twierdza";
+    const mapDescription = "Witaj!<br><br>" +
+        "Przed tobą mapa, której tamatyką jest Tower Defense.<br>" +
+        "Wcielasz się w rolę Sebosława, który jako jedyny pozostał na placu boju...<br><br>" +
+        "<em>Imperium Turbolechitów upada! Wojska wycofały się spod Kijowa... Ale tam, nad Dnieprem pozostał ktoś... dzielny wój Sebosław. To on pozostał na stanowisku, aby chronić kraj przed zagrożeniem, ze strony nieumarłych, dowodzonych przez Czarnoksiężnika Tusmerkekusa!</em><br>";
+
+    document.getElementById("mapTitle").innerText = mapTitle;
+    document.getElementById("mapDescription").innerHTML = mapDescription;
+
+    const myModal = document.getElementById("myModal");
+    myModal.style.display = "flex";
+    setTimeout(function () {
+        myModal.classList.add("show");
+    }, 10);
+}
+
 function closeModal() {
     document.getElementById("myModal").classList.remove("show");
     setTimeout(function () {
