@@ -528,6 +528,7 @@ nav a {
 }
 
 .wyniki-button {
+  position: relative;
   color: #ffffff;
   background-color: transparent;
   margin-left: auto;
@@ -542,6 +543,47 @@ nav a {
   color: #7de5ee;
 
 }
+
+.symulator-button {
+  position: relative;
+  color: #ffffff;
+  background-color: transparent;
+  margin-left: auto;
+  padding: 15px;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  transition: color 0.8s ease, background-color 0.8s ease, margin-left 0.8s ease;
+}
+
+.symulator-button:hover {
+  color: #7de5ee;
+}
+
+.tooltip {
+  position: absolute;
+  top: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #333;
+  color: #fff;
+  padding: 5px;
+  border-radius: 3px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.symulator-button:hover .tooltip {
+  opacity: 1;
+  visibility: visible;
+}
+
+.wyniki-button:hover .tooltip {
+  opacity: 1;
+  visibility: visible;
+}
+
 
 .search-li {
   margin-right: 10px;
