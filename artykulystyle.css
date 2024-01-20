@@ -8,6 +8,7 @@ body {
   scrollbar-width: thin;
   scrollbar-color: #7de5ee #f0f0f0;
   min-width: 320px;
+  overflow-x: hidden;
 }
 
 .burger {
