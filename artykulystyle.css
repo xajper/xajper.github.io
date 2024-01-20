@@ -512,6 +512,7 @@ nav a {
 }
 
 .profil-button {
+  position: relative;
   color: #ffffff;
   background-color: transparent;
   margin-left: auto;
@@ -584,6 +585,10 @@ nav a {
   visibility: visible;
 }
 
+.profil-button:hover .tooltip {
+  opacity: 1;
+  visibility: visible;
+}
 
 .search-li {
   margin-right: 10px;
