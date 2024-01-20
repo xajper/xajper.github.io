@@ -9,18 +9,19 @@
   <title>Sportowo.pl</title>
 </head>
 <body class="custom-scrollbar custom-scrollbar-bottom">
-    <div id="menu-overlay"></div>
+    <div id="menu-overlay"><label class="burger" for="burger">
+      <input type="checkbox" id="burger">
+      <span></span>
+      <span></span>
+      <span></span>
+    </label></div>
 
     <div id="notification-section"></div>
+
     <section id="sport-section">
         <h2>Sportowo - Artykuły Sportowe</h2>
-        <div id="menu-button">
-          <label class="burger" for="burger">
-            <input type="checkbox" id="burger" onclick="toggleMenu()">
-            <span></span>
-            <span></span>
-            <span></span>
-          </label>      
+        <div id="menu-button" onclick="toggleMenu()">
+          <i id="menu-icon" class="fas fa-bars"></i>
         </div>
         <div>
           <a href="#szukaj" id="search-icon" class="search-icon">
@@ -156,12 +157,102 @@
       </div>
     </div>
     <article id="main-article">
+      <div id="artykul23" class="article-link" data-tags="piłka-nożna" data-date="2024-01-20T13:08" onclick="zobacz('artykul23')">
+        <h3><a href="?artykul=artykul23">ALEŻ POWRÓT! ❗</a></h3>
+        <span class="hover-bar"></span>
+        <p>Po 18 latach Ivan Perisić powrócił do Hajduka Split, z nadzieją na zdobycie tytułu. Skrzydłowy jest wypożyczony z Tottenhamu Hotspur do końca sezonu. Nie wystąpi jednak na razie, ponieważ ma kontuzję. W sobotę Hajduk Split zmierzy się w meczu towarzyskim ze Śląskiem Wrocław, liderem PKO Ekstraklasy, bez jego udziału.</p>
+        <img class="placeholder" src="SPORTOWO-ZDJECIA/artykul23.jpg" alt="ZDJĘCIE">
+        <p><i class="fas fa-hashtag"></i> Tagi: #piłka nożna</p>
+        <p><i class="far fa-clock"></i> Data publikacji: 20.01.2024 | 13:08</p>
+        <p><i class="far fa-user"></i> Autor: Xajper</p>
+        <button class="save-button" id="saveButton">
+          <i class="fas fa-bookmark"></i>
+          <div class="fireworks"></div>
+        </button>
+        <button class="udostepnij-button" onclick="udostepnij('artykul23', event, this)">
+          <i class="fas fa-share"></i>
+          <div class="fireworks"></div>
+          <div class="sukces-icon">
+            <i class="fas fa-check-circle"></i>
+          </div>
+        </button>
+        <hr>
+      </div>
+      <div id="artykul22" class="article-link" data-tags="piłka-nożna e-sport" data-date="2024-01-20T12:59" onclick="zobacz('artykul22')">
+        <h3><a href="?artykul=artykul22">ORGANIZACJA BYŁEGO ZAWODNIKA UNITED WYKUPIŁA POLAKÓW! 👀</a></h3>
+        <span class="hover-bar"></span>
+        <p>Hiszpańska organizacja "<em>Rebels Gaming</em>" znana głównie z gry League of Legends założona w 2021 przez Davida De Gee, 12 stycznia wykupiła 4️ polskich graczy counter strike'a i zakontraktowała jednego za darmo do swojej nowo powstałej sekcji CS 2. Na streamie emerytowanego gracza Counter Strike'a Grzegorza "<em>SZPERO</em>" Dziamałka były bramkarz Manchesteru United napisał "<em>yessssssssss!</em>" na koncie "<em>ddg_rebels</em>".</p>
+        <p><strong>Zawodnicy, którzy przeszli do hiszpańskiej organizacji to:</strong></p>
+        <p>- Mariusz "casey" Jarząb (<em>wcześniej bez drużyny</em>)</p>
+        <p>- Alan "Flayy" Krupa (<em>PALOMA</em>)</p>
+        <p>- Kamil "Kisserek" Banak (<em>PALOMA</em>)</p>
+        <p>- Patryk "Olimp" Woźniak (<em>PALOMA</em>)</p>
+        <p>- Rafał "sNx" Snopek (<em>PALOMA</em>)</p>
+        <img class="placeholder" src="SPORTOWO-ZDJECIA/artykul22.jpg" alt="ZDJĘCIE">
+        <p><i class="fas fa-hashtag"></i> Tagi: #piłka nożna, #e-sport</p>
+        <p><i class="far fa-clock"></i> Data publikacji: 20.01.2024 | 12:59</p>
+        <p><i class="far fa-user"></i> Autor: Xajper</p>
+        <button class="save-button" id="saveButton">
+          <i class="fas fa-bookmark"></i>
+          <div class="fireworks"></div>
+        </button>
+        <button class="udostepnij-button" onclick="udostepnij('artykul22', event, this)">
+          <i class="fas fa-share"></i>
+          <div class="fireworks"></div>
+          <div class="sukces-icon">
+            <i class="fas fa-check-circle"></i>
+          </div>
+        </button>
+        <hr>
+      </div>
+      <div id="artykul21" class="article-link" data-tags="piłka-nożna" data-date="2024-01-20T12:53" onclick="zobacz('artykul21')">
+        <h3><a href="?artykul=artykul21">MATIJA POPOVIĆ W NOWYM KLUBIE! ⚽</a></h3>
+        <span class="hover-bar"></span>
+        <p>Matija Popović przeszedł badania lekarskie jako nowy zawodnik Napoli. Włoski klub podpisał długoterminowy kontrakt z serbskim talentem urodzonym w 2006 roku.</p>
+        <img class="placeholder" src="SPORTOWO-ZDJECIA/artykul21.jpg" alt="ZDJĘCIE">
+        <p><i class="fas fa-hashtag"></i> Tagi: #piłka nożna</p>
+        <p><i class="far fa-clock"></i> Data publikacji: 20.01.2024 | 12:53</p>
+        <p><i class="far fa-user"></i> Autor: Xajper</p>
+        <button class="save-button" id="saveButton">
+          <i class="fas fa-bookmark"></i>
+          <div class="fireworks"></div>
+        </button>
+        <button class="udostepnij-button" onclick="udostepnij('artykul21', event, this)">
+          <i class="fas fa-share"></i>
+          <div class="fireworks"></div>
+          <div class="sukces-icon">
+            <i class="fas fa-check-circle"></i>
+          </div>
+        </button>
+        <hr>
+      </div>
+      <div id="artykul20" class="article-link" data-tags="piłka-nożna" data-date="2024-01-20T12:49" onclick="zobacz('artykul20')">
+        <h3><a href="?artykul=artykul20">CITY SIĘ DOIGRAŁO! 💰</a></h3>
+        <span class="hover-bar"></span>
+        <p>Manchester City zostało oskarżone o złamanie aż 115przepisów związanych z finansowaniem klubu!</p>
+        <img class="placeholder" src="SPORTOWO-ZDJECIA/artykul20.jpg" alt="ZDJĘCIE">
+        <p><i class="fas fa-hashtag"></i> Tagi: #piłka nożna</p>
+        <p><i class="far fa-clock"></i> Data publikacji: 20.01.2024 | 12:49</p>
+        <p><i class="far fa-user"></i> Autor: Xajper</p>
+        <button class="save-button" id="saveButton">
+          <i class="fas fa-bookmark"></i>
+          <div class="fireworks"></div>
+        </button>
+        <button class="udostepnij-button" onclick="udostepnij('artykul20', event, this)">
+          <i class="fas fa-share"></i>
+          <div class="fireworks"></div>
+          <div class="sukces-icon">
+            <i class="fas fa-check-circle"></i>
+          </div>
+        </button>
+        <hr>
+      </div>
       <div id="artykul19" class="article-link" data-tags="sportwy-zimowe, skoki-narciarskie" data-date="2024-01-18T15:23" onclick="zobacz('artykul19')">
         <h3><a href="?artykul=artykul19">POZNALIŚMY SKŁAD NA ZAKOPANEM! ⛷️</a></h3>
         <span class="hover-bar"></span>
         <p>Na Wielkiej Krokwi w Zakopanem odbędzie się Puchar Świata w skokach narciarskich. Thomas Thurnbichler postawił na: Kamila Stocha, Piotra Żyłę, Dawida Kubackiego, Macieja Kota, Aleksandra Zniszczoła, Klemensa Murańkę, Andrzeja Stękałę i Pawła Wąska.</p>
         <img class="placeholder" src="SPORTOWO-ZDJECIA/artykul19.jpg" alt="ZDJĘCIE">
-        <p><i class="fas fa-hashtag"></i> Tagi: Tagi: #sportwy zimowe, #skoki narciarskie</p>
+        <p><i class="fas fa-hashtag"></i> Tagi: #sportwy zimowe, #skoki narciarskie</p>
         <p><i class="far fa-clock"></i> Data publikacji: 18.01.2024 | 15:23</p>
         <p><i class="far fa-user"></i> Autor: Xajper</p>
         <button class="save-button" id="saveButton">
@@ -593,9 +684,9 @@
             <section id="latest-articles-list">
               <h2>OSTATNIE</h2>
               <ul>
-                <li><a href="?artykul=artykul19">POZNALIŚMY SKŁAD... ⛷️</a></li>
-                <li><a href="?artykul=artykul18">HURKACZ ZALICZYŁ... 🎾</a></li>
-                <li><a href="?artykul=artykul17">PEWNE ZWYCIĘSTWO... 🤾‍♂️</a></li>
+                <li><a href="?artykul=artykul23">ALEŻ POWRÓT! ❗</a></li>
+                <li><a href="?artykul=artykul22">ORGANIZACJA BYŁEGO... 👀</a></li>
+                <li><a href="?artykul=artykul21">MATIJA POPOVIĆ... ⚽</a></li>
               </ul>
             </section>
 
