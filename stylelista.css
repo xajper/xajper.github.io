@@ -1,0 +1,211 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+body {
+    font-family: 'Roboto', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f2f2f2;
+}
+
+nav {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 0;
+}
+
+.underline {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: #62daf6;
+    transition: width 0.3s ease-in-out;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+#closeButton {
+    background-color: #62daf6;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    height: 20px;
+    top: 0;
+    right: 0;
+    font-size: 10px;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+#closeButton:hover {
+    background-color: #92ebff;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.back-button {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    margin-top: 10px;
+}
+
+.commands-header {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.commands-header i.fas.fa-fire {
+    color: rgb(250, 82, 21);
+}
+
+h1 {
+    margin: 0;
+    color: #62daf6;
+    justify-content: center;
+}
+
+#navbar {
+    display: flex;
+    margin-top: 10px;
+    justify-content: center;
+}
+
+#navbar a {
+    color: white;
+    text-decoration: none;
+    margin-right: 20px;
+    position: relative;
+}
+
+#navbar a:hover {
+    color: #92ebff;
+}
+
+a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 16px;
+    transition: color 0.3s;
+}
+
+a:hover {
+    color: #92ebff;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    cursor: pointer;
+    padding: 15px;
+    margin: 10px 0;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s;
+    border-top-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+li:hover {
+    background-color: #f2f2f2;
+}
+
+li.active {
+    background-color: #62daf6;
+    border-bottom: 2px solid #fff;
+}
+
+.hidden {
+    display: none;
+}
+
+#detailsContainer {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-top-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+.test-tag {
+    background-color: #62daf6;
+    color: white;
+    padding: 2px 5px;
+    border-radius: 3px;
+    font-size: 0.8em;
+}
+
+.test-tag:hover {
+    text-decoration: underline;
+}
+
+::-webkit-scrollbar {
+    width: 12px;
+}
+
+::-webkit-scrollbar-track {
+    background-color: #333;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #62daf6;
+    border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: #92ebff;
+}
+
+#scrollToTopBtn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #62daf6;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+    cursor: pointer;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+#scrollToTopBtn:hover {
+    background-color: #92ebff;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width: 600px) {
+    #navbar {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #navbar a {
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+
+    .commands-header {
+        display: none;
+    }
+
+    .back-button {
+        display: none;
+    }
+}
