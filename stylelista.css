@@ -11,6 +11,7 @@ nav {
     background-color: #333;
     color: #fff;
     padding: 10px 0;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2); /* Dodany cień od dołu */
 }
 
 .underline {
@@ -26,7 +27,9 @@ nav {
 .container {
     max-width: 800px;
     margin: 0 auto;
+    justify-content: center;
 }
+
 
 #closeButton {
     background-color: #62daf6;
@@ -68,8 +71,9 @@ nav {
 h1 {
     margin: 0;
     color: #62daf6;
+    display: flex;
     justify-content: center;
-}
+  }
 
 #navbar {
     display: flex;
@@ -106,8 +110,8 @@ ul {
 
 li {
     cursor: pointer;
-    padding: 15px;
-    margin: 10px 0;
+    padding: 10px;
+    margin: 8px 0;
     background-color: #fff;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: background-color 0.3s;
@@ -167,31 +171,34 @@ li.active {
 }
 
 #scrollToTopBtn {
-  cursor: pointer;
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  background-color: #92ebff;
-  color: #fff;
-  padding: 10px;
-  border: none;
-  border-radius: 50%;
-  font-size: 16px;
-  width: 20px;
-  height: 20px;
-  transition: background-color 0.5s ease, transform 0.2s ease;
+    cursor: pointer;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #92ebff;
+    color: #fff;
+    padding: 10px;
+    border: none;
+    border-radius: 50%;
+    font-size: 16px;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.5s ease, transform 0.2s ease;
 }
-
+  
 #scrollToTopBtn:hover {
-    background-color: #7de5ee;
+background-color: #7de5ee;
 }
-
+  
 #scrollToTopBtn:active {
-  transform: scale(1.2);
+transform: scale(1.2);
 }
-
+  
 #scrollToTopBtn i {
-  margin: 0;
+margin: 0;
 }
 
 @media (max-width: 600px) {
@@ -203,6 +210,13 @@ li.active {
     #navbar a {
         margin-right: 0;
         margin-bottom: 10px;
+    }
+
+    h1 {
+        margin: 0;
+        color: #62daf6;
+        display: flex;
+        justify-content: center;
     }
 
     .commands-header {
