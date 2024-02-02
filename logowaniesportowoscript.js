@@ -79,6 +79,8 @@ function login() {
           const user_name = snapshot.val().full_name;
 
           alert('Zalogowano się jako ' + user_name + '!');
+
+          showProfileConfigButton();
         })
         .catch(function (error) {
           console.error('Error retrieving user data:', error);
@@ -137,3 +139,58 @@ function togglePassword() {
   }
 }
 
+function showProfileConfigButton() {
+  const profileConfigButton = document.querySelector('.profile-config_btn');
+  if (profileConfigButton) {
+    profileConfigButton.style.display = 'block';
+    openProfileModal();
+  }
+}
+
+function openProfileModal() {
+  const overlay = document.getElementById('overlay');
+  const profileModal = document.getElementById('profileModal');
+
+  overlay.style.display = 'block';
+  profileModal.style.display = 'block';
+}
+
+function closeProfileModal() {
+  const overlay = document.getElementById('overlay');
+  const profileModal = document.getElementById('profileModal');
+
+  overlay.style.display = 'none';
+  profileModal.style.display = 'none';
+}
+
+function updateProfile() {
+  const newPassword = document.getElementById('newPassword').value;
+  const newName = document.getElementById('newName').value;
+
+  if (newPassword) {
+    const user = auth.currentUser;
+
+    user.updatePassword(newPassword)
+      .then(function () {
+        alert('Hasło zaktualizowane pomyślnie!');
+      })
+      .catch(function (error) {
+        alert('Error podczas zmiany hasła: ' + error.message);
+      });
+  }
+
+  if (newName) {
+    const user = auth.currentUser;
+
+    user.updateProfile({
+      displayName: newName
+    })
+      .then(function () {
+        alert('Nazwa zaktualizowana pomyślnie!');
+      })
+      .catch(function (error) {
+        alert('Error podczas zmiany nazwy: ' + error.message);
+      });
+  }
+
+}
