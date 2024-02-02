@@ -8,6 +8,8 @@ var firebaseConfig = {
   appId: "1:823759230798:web:c1c33fa4c443d9f7c8701f"
 };
 
+var avatarSelectedFromDiv = false;
+
 firebase.initializeApp(firebaseConfig);
 
 const auth = firebase.auth()
@@ -72,10 +74,27 @@ function login() {
       var user_data = {
         last_login: Date.now()
       };
+
       database_ref.update(user_data);
 
       database_ref.once('value')
         .then(function (snapshot) {
+          const avatarPath = snapshot.val().avatar;
+          const avatarUrl = avatarPath ? `sportowoavatary/${avatarPath}` : 'sportowoavatary/avatar0.png';
+
+          const logoContainer = document.getElementById('logo_container');
+          if (logoContainer) {
+            logoContainer.style.width = '80px';
+            logoContainer.style.height = '80px';
+            logoContainer.style.backgroundImage = `url('${avatarUrl}')`;
+            logoContainer.style.backgroundSize = 'cover';
+            logoContainer.style.backgroundPosition = 'center';
+            logoContainer.style.backgroundRepeat = 'no-repeat';
+            logoContainer.style.border = '1px solid #F7F7F8';
+            logoContainer.style.filter = 'drop-shadow(0px 0.5px 0.5px #EFEFEF) drop-shadow(0px 1px 0.5px rgba(239, 239, 239, 0.5))';
+            logoContainer.style.borderRadius = '11px';
+          }
+
           const user_name = snapshot.val().full_name;
 
           alert('Zalogowano się jako ' + user_name + '!');
@@ -83,7 +102,7 @@ function login() {
           showProfileConfigButton();
         })
         .catch(function (error) {
-          console.error('Error retrieving user data:', error);
+          console.error('Error:', error);
         });
     })
     .catch(function (error) {
@@ -140,19 +159,20 @@ function togglePassword() {
 }
 
 function showProfileConfigButton() {
-  const profileConfigButton = document.querySelector('.profile-config_btn');
+  const profileConfigButton = document.getElementById('profile-config_btn');
   if (profileConfigButton) {
     profileConfigButton.style.display = 'block';
-    openProfileModal();
   }
 }
 
 function openProfileModal() {
   const overlay = document.getElementById('overlay');
   const profileModal = document.getElementById('profileModal');
+  const profileConfigButton = document.getElementById('profile-config_btn');
 
   overlay.style.display = 'block';
   profileModal.style.display = 'block';
+  profileConfigButton.style.display = 'block';
 }
 
 function closeProfileModal() {
@@ -166,6 +186,9 @@ function closeProfileModal() {
 function updateProfile() {
   const newPassword = document.getElementById('newPassword').value;
   const newName = document.getElementById('newName').value;
+  const newAvatarInput = document.getElementById('avatar_input');
+  const avatarInput = newAvatarInput.files[0];
+  const logoContainer = document.getElementById('logo_container');
 
   if (newPassword) {
     const user = auth.currentUser;
@@ -175,7 +198,7 @@ function updateProfile() {
         alert('Hasło zaktualizowane pomyślnie!');
       })
       .catch(function (error) {
-        alert('Error podczas zmiany hasła: ' + error.message);
+        alert('Błąd podczas aktualizacji hasła: ' + error.message);
       });
   }
 
@@ -189,8 +212,30 @@ function updateProfile() {
         alert('Nazwa zaktualizowana pomyślnie!');
       })
       .catch(function (error) {
-        alert('Error podczas zmiany nazwy: ' + error.message);
+        alert('Błąd podczas aktualizacji nazwy: ' + error.message);
       });
   }
 
+  if (avatarInput && !avatarSelectedFromDiv) {
+    const reader = new FileReader();
+
+    reader.onload = function (e) {
+      logoContainer.style.backgroundImage = `url('${e.target.result}')`;
+    };
+
+    reader.readAsDataURL(avatarInput);
+
+    const user = auth.currentUser;
+
+    database.ref('users/' + user.uid).update({ avatar: avatarInput.name })
+      .then(function () {
+        alert('Avatar zaktualizowany pomyślnie!');
+        
+        avatarSelectedFromDiv = false;
+
+      })
+      .catch(function (error) {
+        alert('Błąd podczas aktualizacji avatara: ' + error.message);
+      });
+  }
 }
