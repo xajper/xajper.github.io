@@ -44,7 +44,6 @@ auth.createUserWithEmailAndPassword(email, password)
 
   database_ref.child('users/' + user.uid).set(user_data)
 
-  // DOne
   alert('Zarejestrowano poprawnie!')
 })
 .catch(function(error) {
@@ -56,36 +55,41 @@ auth.createUserWithEmailAndPassword(email, password)
 })
 }
 
-function login () {
-email = document.getElementById('email_field').value
-password = document.getElementById('password_field').value
+function login() {
+  const email = document.getElementById('email_field').value;
+  const password = document.getElementById('password_field').value;
 
-if (validate_email(email) == false || validate_password(password) == false) {
-  alert('Niepoprawne hasło lub email!')
-  return
-}
-
-auth.signInWithEmailAndPassword(email, password)
-.then(function() {
-  var user = auth.currentUser
-
-  var database_ref = database.ref()
-
-  var user_data = {
-    last_login : Date.now()
+  if (validate_email(email) == false || validate_password(password) == false) {
+    alert('Niepoprawne hasło lub email!');
+    return;
   }
 
-  database_ref.child('users/' + user.uid).update(user_data)
+  auth.signInWithEmailAndPassword(email, password)
+    .then(function () {
+      const user = auth.currentUser;
+      const database_ref = database.ref('users/' + user.uid);
 
-  alert('Zalogowano!')
+      var user_data = {
+        last_login: Date.now()
+      };
+      database_ref.update(user_data);
 
-})
-.catch(function(error) {
-  var error_code = error.code
-  var error_message = error.message
+      database_ref.once('value')
+        .then(function (snapshot) {
+          const user_name = snapshot.val().full_name;
 
-  alert(error_message)
-})
+          alert('Zalogowano się jako ' + user_name + '!');
+        })
+        .catch(function (error) {
+          console.error('Error retrieving user data:', error);
+        });
+    })
+    .catch(function (error) {
+      var error_code = error.code;
+      var error_message = error.message;
+
+      alert(error_message);
+    });
 }
 
 function validate_email(email) {
