@@ -85,7 +85,7 @@ input {
   cursor: pointer;
   padding: 20px;
   align-items: center;
-  bottom: 12px;
+  bottom: 13px;
 }
 
 button {
@@ -355,16 +355,16 @@ label {
 
 @media (max-width: 600px) {
   .login-container {
-    flex-direction: column; /* Zmiana kierunku układu na kolumnę */
+    flex-direction: column;
     max-width: 100%;
   }
 
   .login-form {
-    padding: 20px; /* Zmniejszenie wewnętrznego odstępu */
+    padding: 20px;
   }
 
   #password {
-    width: calc(100% - 10px); /* Ustawienie szerokości pola hasła z uwzględnieniem miejsca na ikonkę zmiany widoczności */
+    width: calc(100% - 10px);
   }
 
   .password-toggle {
@@ -379,8 +379,7 @@ label {
     cursor: pointer;
     padding: 20px;
     align-items: center;
-    bottom: 6px;
-    margin-left: -10px;
+    bottom: 13px;
   }
 
   .soccer-image {
