@@ -14,6 +14,7 @@
     <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-storage.js"></script>
 </head>
 
 <body>
@@ -26,25 +27,42 @@
   <div class="modal" id="profileModal">
     <div class="modal-content">
       <span class="close" onclick="closeProfileModal()">&times;</span>
-
-      <label for="newPassword">Nowe Hasło:</label>
+  
+      <label for="newPassword">
+        <i class="fas fa-lock"></i> Nowe Hasło:
+      </label>
       <input type="password" id="newPassword" name="newPassword">
   
-      <label for="newName">Nowa Nazwa:</label>
+      <label for="newName">
+        <i class="fas fa-user"></i> Nowa Nazwa:
+      </label>
       <input type="text" id="newName" name="newName">
   
-      <button onclick="updateProfile()">Zapisz zmiany</button>
+      <label for="newAvatar">
+        <i class="fas fa-image"></i> Nowy Avatar:
+      </label>
+      <label class="custom-file-input" for="avatar_input">
+        Wybierz plik
+      </label>
+      <input type="file" accept="image/*" id="avatar_input">
+  
+      <button onclick="updateProfile()">
+        <i class="fas fa-save"></i> Zapisz zmiany
+      </button>
     </div>
   </div>
 
   <div class="login-container">
     <form class="form_container">
 
-      <button onclick="openProfileModal()" title="Konfiguracja Profilu" class="profile-config_btn">
-        <span>Konfiguracja Profilu</span>
-      </button>
+      <div id="header">
+        <div id="logo_container" class="logo_container"></div>
+      
+        <button onclick="openProfileModal()" id="profile-config_btn" title="Konfiguracja Profilu" class="profile-config_btn">
+          <i class="fas fa-cogs"></i>
+        </button>
+      </div>
 
-      <div class="logo_container"></div>
       <div class="title_container">
         <p class="title">Zaloguj się</p>
         <span class="subtitle">Zaloguj się i zyskaj więcej!</span>
