@@ -17,12 +17,33 @@
 </head>
 
 <body>
+  <div class="overlay" id="overlay"></div>
+
   <a href="sportowo.html" class="back-button">
     <i class="fas fa-arrow-left"></i> Powrót
   </a>
 
+  <div class="modal" id="profileModal">
+    <div class="modal-content">
+      <span class="close" onclick="closeProfileModal()">&times;</span>
+
+      <label for="newPassword">Nowe Hasło:</label>
+      <input type="password" id="newPassword" name="newPassword">
+  
+      <label for="newName">Nowa Nazwa:</label>
+      <input type="text" id="newName" name="newName">
+  
+      <button onclick="updateProfile()">Zapisz zmiany</button>
+    </div>
+  </div>
+
   <div class="login-container">
     <form class="form_container">
+
+      <button onclick="openProfileModal()" title="Konfiguracja Profilu" class="profile-config_btn">
+        <span>Konfiguracja Profilu</span>
+      </button>
+
       <div class="logo_container"></div>
       <div class="title_container">
         <p class="title">Zaloguj się</p>
