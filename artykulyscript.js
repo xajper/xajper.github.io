@@ -505,3 +505,31 @@ function toggleSortMenu(element) {
     sortMenu.classList.toggle('active');
     element.classList.toggle('rotate');
 }
+
+function toggleComments() {
+    var commentsSection = document.getElementById('comments-section');
+    commentsSection.classList.toggle('show');
+}
+
+function zobacz(id) {
+    var article = document.getElementById(id);
+    var overlay = document.getElementById('overlay');
+    var overlayTitle = document.getElementById('overlay-title');
+    var overlayText = document.getElementById('overlay-text');
+    var overlayTags = document.getElementById('overlay-tags');
+    var overlayAuthor = document.getElementById('overlay-author');
+    var overlayTime = document.getElementById('overlay-time');
+
+    overlayTitle.textContent = article.querySelector('h3 a')?.textContent || '';
+    overlayText.textContent = article.querySelector('p')?.textContent || '';
+    overlayTags.textContent = article.querySelector('p:nth-child(5)')?.textContent || '';
+    overlayAuthor.textContent = article.querySelector('p:nth-child(7)')?.textContent || '';
+    overlayTime.textContent = article.querySelector('p:nth-child(8)')?.textContent || '';
+
+    overlay.style.display = 'flex';
+}
+
+function closeOverlay() {
+    var overlay = document.getElementById('overlay');
+    overlay.style.display = 'none';
+}
