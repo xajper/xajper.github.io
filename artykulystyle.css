@@ -885,13 +885,12 @@ nav ul li a:hover::before {
 }
 
 #main-article {
-  flex-basis: 60%;
+  flex-basis: 25%;
 }
 
 .container {
-  /* Nowy kontener dla wszystkich sekcji */
   display: flex;
-  max-width: 1200px; /* Dostosuj szerokość kontenera do swoich preferencji */
+  max-width: 1200px;
   width: 100%;
   margin: auto;
 }
@@ -971,11 +970,10 @@ hr {
 #popular-articles-list,
 #article-tags {
   background-color: #fff;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   margin-bottom: 20px;
   padding: 20px;
-  flex-basis: 30%;
-  text-align: left; /* Dodano tekst na lewo */
+  text-align: left;
 }
 
 #latest-articles-list h2,
@@ -1002,7 +1000,7 @@ hr {
 
 #latest-articles-list li:hover,
 #popular-articles-list li:hover {
-  background-color: #c5fbff; /* Jaśniejsze tło */
+  background-color: #c5fbff;
   border-radius: 10px;
   margin: 5px;
 }
@@ -1456,9 +1454,9 @@ footer {
   }
   
   #main-article img {
-    max-width: 100%; /* Ustaw maksymalną szerokość obrazu na 100% */
-    height: auto; /* Dostosuj wysokość proporcjonalnie */
-    overflow: hidden; /* Ukryj nadmiarowy obszar obrazu, który wystaje poza kontener */
+    max-width: 100%;
+    height: auto;
+    overflow: hidden;
   }
 
   #winter-sports:hover .subpanel {
