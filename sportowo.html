@@ -16,6 +16,38 @@
       <span></span>
     </label></div>
 
+    <div id="overlay" class="overlay">
+      <button onclick="toggleComments()">Pokaż Komentarze</button>
+      <div id="overlay-content">
+        <div id="main-info">
+          <h3 id="overlay-title"></h3>
+          <p id="overlay-text"></p>
+          <p id="overlay-tags"><i class="fas fa-hashtag"></i></p>
+          <p id="overlay-author"><i class="fas fa-user"></i></p>
+          <p id="overlay-time"><i class="fas fa-clock"></i></p>
+        </div>
+        <div id="comments-section">
+          <h4>Komentarze</h4>
+          <div class="container">
+            <form id="comments">
+              <div class="mb-3">
+                <label for="name" class="form-label">Nazwa</label>
+                <input id="name" name="name" type="text" class="form-control" autocomplete="off">
+              </div>
+              <div class="mb-3">
+                <label for="comment" class="form-label">Napisz komentarz</label>
+                <textarea id="comment" name="comment" class="form-control"></textarea>
+              </div>
+              <button class="btn btn-outline-primary">Prześlij</button>
+            </form>
+          </div>
+          <div class="container cont">
+          </div>
+        </div>
+      </div>
+      <span class="close-overlay" id="close-btn" onclick="closeOverlay()">&times;</span>
+    </div>
+    
     <div id="notification-section"></div>
 
     <section id="sport-section">
@@ -163,543 +195,80 @@
       </div>
     </div>
     <article id="main-article">
-      <div id="artykul23" class="article-link" data-tags="piłka-nożna" data-date="2024-01-20T13:08" onclick="zobacz('artykul23')">
-        <h3><a href="?artykul=artykul23">ALEŻ POWRÓT! ❗</a></h3>
+      <div id="artykul2" class="article-link" data-tags="piłka-nożna" data-date="2024-01-20T13:08" onclick="zobacz('artykul2')">
+        <h3 style="display: none;"><a href="?artykul=artykul2">ALEŻ POWRÓT!</a></h3>
         <span class="hover-bar"></span>
-        <p>Po 18 latach Ivan Perisić powrócił do Hajduka Split, z nadzieją na zdobycie tytułu. Skrzydłowy jest wypożyczony z Tottenhamu Hotspur do końca sezonu. Nie wystąpi jednak na razie, ponieważ ma kontuzję. W sobotę Hajduk Split zmierzy się w meczu towarzyskim ze Śląskiem Wrocław, liderem PKO Ekstraklasy, bez jego udziału.</p>
-        <img class="placeholder" src="SPORTOWO-ZDJECIA/artykul23.jpg" alt="ZDJĘCIE">
-        <p><i class="fas fa-hashtag"></i> Tagi: #piłka nożna</p>
-        <p><i class="far fa-clock"></i> Data publikacji: 20.01.2024 | 13:08</p>
-        <p><i class="far fa-user"></i> Autor: Xajper</p>
+        <p style="display: none;">Po 18 latach Ivan Perisić powrócił do Hajduka Split, z nadzieją na zdobycie tytułu. Skrzydłowy jest wypożyczony z Tottenhamu Hotspur do końca sezonu. Nie wystąpi jednak na razie, ponieważ ma kontuzję. W sobotę Hajduk Split zmierzy się w meczu towarzyskim ze Śląskiem Wrocław, liderem PKO Ekstraklasy, bez jego udziału.</p>
+        <div class="image-container">
+            <img class="placeholder" src="SPORTOWO-ZDJECIA/artykul2.jpg" alt="ZDJĘCIE">
+            <div class="image-title">
+                <h3><a href="?artykul=artykul2">ALEŻ POWRÓT!</a></h3>
+            </div>
+        </div>
+        <p style="display: none;"><i class="fas fa-hashtag"></i> #piłka nożna</p>
+        <p style="display: none;"><i class="far fa-clock"></i> 20.01.2024 | 13:08</p>
+        <p style="display: none;"><i class="far fa-user" id="author"></i> Xajper</p>
         <button class="save-button" id="saveButton">
-          <i class="fas fa-bookmark"></i>
-          <div class="fireworks"></div>
+            <i class="fas fa-bookmark"></i>
+            <div class="fireworks"></div>
         </button>
-        <button class="udostepnij-button" onclick="udostepnij('artykul23', event, this)">
-          <i class="fas fa-share"></i>
-          <div class="fireworks"></div>
-          <div class="sukces-icon">
-            <i class="fas fa-check-circle"></i>
-          </div>
+        <button class="udostepnij-button" onclick="udostepnij('artykul2', this)">
+            <i class="fas fa-share"></i>
+            <div class="fireworks"></div>
+            <div class="sukces-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
         </button>
         <hr>
       </div>
-      <div id="artykul22" class="article-link" data-tags="piłka-nożna e-sport" data-date="2024-01-20T12:59" onclick="zobacz('artykul22')">
-        <h3><a href="?artykul=artykul22">ORGANIZACJA BYŁEGO ZAWODNIKA UNITED WYKUPIŁA POLAKÓW! 👀</a></h3>
+      <div id="artykul1" class="article-link" data-tags="piłka-nożna" data-date="2024-01-20T12:59" onclick="zobacz('artykul1')">
+        <h3 style="display: none;"><a href="?artykul=artykul1">ORGANIZACJA BYŁEGO ZAWODNIKA UNITED WYKUPIŁA POLAKÓW!</a></h3>
         <span class="hover-bar"></span>
-        <p>Hiszpańska organizacja "<em>Rebels Gaming</em>" znana głównie z gry League of Legends założona w 2021 przez Davida De Gee, 12 stycznia wykupiła 4️ polskich graczy counter strike'a i zakontraktowała jednego za darmo do swojej nowo powstałej sekcji CS 2. Na streamie emerytowanego gracza Counter Strike'a Grzegorza "<em>SZPERO</em>" Dziamałka były bramkarz Manchesteru United napisał "<em>yessssssssss!</em>" na koncie "<em>ddg_rebels</em>".</p>
-        <p><strong>Zawodnicy, którzy przeszli do hiszpańskiej organizacji to:</strong></p>
-        <p>- Mariusz "casey" Jarząb (<em>wcześniej bez drużyny</em>)</p>
-        <p>- Alan "Flayy" Krupa (<em>PALOMA</em>)</p>
-        <p>- Kamil "Kisserek" Banak (<em>PALOMA</em>)</p>
-        <p>- Patryk "Olimp" Woźniak (<em>PALOMA</em>)</p>
-        <p>- Rafał "sNx" Snopek (<em>PALOMA</em>)</p>
-        <img class="placeholder" src="SPORTOWO-ZDJECIA/artykul22.jpg" alt="ZDJĘCIE">
-        <p><i class="fas fa-hashtag"></i> Tagi: #piłka nożna, #e-sport</p>
-        <p><i class="far fa-clock"></i> Data publikacji: 20.01.2024 | 12:59</p>
-        <p><i class="far fa-user"></i> Autor: Xajper</p>
+        <p style="display: none;">Hiszpańska organizacja "<em>Rebels Gaming</em>" znana głównie z gry League of Legends założona w 2021 przez Davida De Gee, 12 stycznia wykupiła 4️ polskich graczy counter strike'a i zakontraktowała jednego za darmo do swojej nowo powstałej sekcji CS 2. Na streamie emerytowanego gracza Counter Strike'a Grzegorza "<em>SZPERO</em>" Dziamałka były bramkarz Manchesteru United napisał "<em>yessssssssss!</em>" na koncie "<em>ddg_rebels</em>".</p>
+        <p style="display: none;"><strong>Zawodnicy, którzy przeszli do hiszpańskiej organizacji to:</strong></p>
+        <p style="display: none;">- Mariusz "casey" Jarząb (<em>wcześniej bez drużyny</em>)</p>
+        <p style="display: none;">- Alan "Flayy" Krupa (<em>PALOMA</em>)</p>
+        <p style="display: none;">- Kamil "Kisserek" Banak (<em>PALOMA</em>)</p>
+        <p style="display: none;">- Patryk "Olimp" Woźniak (<em>PALOMA</em>)</p>
+        <p style="display: none;">- Rafał "sNx" Snopek (<em>PALOMA</em>)</p>
+        <div class="image-container">
+            <img class="placeholder" src="SPORTOWO-ZDJECIA/artykul1.jpg" alt="ZDJĘCIE">
+            <div class="image-title">
+                <h3><a href="?artykul=artykul1">ORGANIZACJA BYŁEGO...</a></h3>
+            </div>
+        </div>
+        <p style="display: none;"><i class="fas fa-hashtag"></i> #piłka nożna, #e-sport</p>
+        <p style="display: none;"><i class="far fa-clock"></i> 20.01.2024 | 12:59</p>
+        <p style="display: none;"><i class="far fa-user" id="author"></i> Xajper</p>
         <button class="save-button" id="saveButton">
-          <i class="fas fa-bookmark"></i>
-          <div class="fireworks"></div>
+            <i class="fas fa-bookmark"></i>
+            <div class="fireworks"></div>
         </button>
-        <button class="udostepnij-button" onclick="udostepnij('artykul22', event, this)">
-          <i class="fas fa-share"></i>
-          <div class="fireworks"></div>
-          <div class="sukces-icon">
-            <i class="fas fa-check-circle"></i>
-          </div>
+        <button class="udostepnij-button" onclick="udostepnij('artykul1', this)">
+            <i class="fas fa-share"></i>
+            <div class="fireworks"></div>
+            <div class="sukces-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
         </button>
         <hr>
-      </div>
-      <div id="artykul21" class="article-link" data-tags="piłka-nożna" data-date="2024-01-20T12:53" onclick="zobacz('artykul21')">
-        <h3><a href="?artykul=artykul21">MATIJA POPOVIĆ W NOWYM KLUBIE! ⚽</a></h3>
-        <span class="hover-bar"></span>
-        <p>Matija Popović przeszedł badania lekarskie jako nowy zawodnik Napoli. Włoski klub podpisał długoterminowy kontrakt z serbskim talentem urodzonym w 2006 roku.</p>
-        <img class="placeholder" src="SPORTOWO-ZDJECIA/artykul21.jpg" alt="ZDJĘCIE">
-        <p><i class="fas fa-hashtag"></i> Tagi: #piłka nożna</p>
-        <p><i class="far fa-clock"></i> Data publikacji: 20.01.2024 | 12:53</p>
-        <p><i class="far fa-user"></i> Autor: Xajper</p>
-        <button class="save-button" id="saveButton">
-          <i class="fas fa-bookmark"></i>
-          <div class="fireworks"></div>
-        </button>
-        <button class="udostepnij-button" onclick="udostepnij('artykul21', event, this)">
-          <i class="fas fa-share"></i>
-          <div class="fireworks"></div>
-          <div class="sukces-icon">
-            <i class="fas fa-check-circle"></i>
-          </div>
-        </button>
-        <hr>
-      </div>
-      <div id="artykul20" class="article-link" data-tags="piłka-nożna" data-date="2024-01-20T12:49" onclick="zobacz('artykul20')">
-        <h3><a href="?artykul=artykul20">CITY SIĘ DOIGRAŁO! 💰</a></h3>
-        <span class="hover-bar"></span>
-        <p>Manchester City zostało oskarżone o złamanie aż 115przepisów związanych z finansowaniem klubu!</p>
-        <img class="placeholder" src="SPORTOWO-ZDJECIA/artykul20.jpg" alt="ZDJĘCIE">
-        <p><i class="fas fa-hashtag"></i> Tagi: #piłka nożna</p>
-        <p><i class="far fa-clock"></i> Data publikacji: 20.01.2024 | 12:49</p>
-        <p><i class="far fa-user"></i> Autor: Xajper</p>
-        <button class="save-button" id="saveButton">
-          <i class="fas fa-bookmark"></i>
-          <div class="fireworks"></div>
-        </button>
-        <button class="udostepnij-button" onclick="udostepnij('artykul20', event, this)">
-          <i class="fas fa-share"></i>
-          <div class="fireworks"></div>
-          <div class="sukces-icon">
-            <i class="fas fa-check-circle"></i>
-          </div>
-        </button>
-        <hr>
-      </div>
-      <div id="artykul19" class="article-link" data-tags="sportwy-zimowe, skoki-narciarskie" data-date="2024-01-18T15:23" onclick="zobacz('artykul19')">
-        <h3><a href="?artykul=artykul19">POZNALIŚMY SKŁAD NA ZAKOPANEM! ⛷️</a></h3>
-        <span class="hover-bar"></span>
-        <p>Na Wielkiej Krokwi w Zakopanem odbędzie się Puchar Świata w skokach narciarskich. Thomas Thurnbichler postawił na: Kamila Stocha, Piotra Żyłę, Dawida Kubackiego, Macieja Kota, Aleksandra Zniszczoła, Klemensa Murańkę, Andrzeja Stękałę i Pawła Wąska.</p>
-        <img class="placeholder" src="SPORTOWO-ZDJECIA/artykul19.jpg" alt="ZDJĘCIE">
-        <p><i class="fas fa-hashtag"></i> Tagi: #sportwy zimowe, #skoki narciarskie</p>
-        <p><i class="far fa-clock"></i> Data publikacji: 18.01.2024 | 15:23</p>
-        <p><i class="far fa-user"></i> Autor: Xajper</p>
-        <button class="save-button" id="saveButton">
-          <i class="fas fa-bookmark"></i>
-          <div class="fireworks"></div>
-        </button>
-        <button class="udostepnij-button" onclick="udostepnij('artykul19', event, this)">
-          <i class="fas fa-share"></i>
-          <div class="fireworks"></div>
-          <div class="sukces-icon">
-            <i class="fas fa-check-circle"></i>
-          </div>
-        </button>
-        <hr>
-      </div>
-      <div id="artykul18" class="article-link" data-tags="tenis" data-date="2024-01-18T15:20" onclick="zobacz('artykul18')">
-        <h3><a href="?artykul=artykul18">HURKACZ ZALICZYŁ COMEBACK I WYGRAŁ! 🎾</a></h3>
-        <span class="hover-bar"></span>
-        <p>W 2 rundzie Australian Open, turnieju wielkoszlemowego, Hubert Hurkacz wygrał z Jakubem Mensikiem 6:7 (9-11), 6:1, 5:7, 6:1, 6:3. Jego następnym rywalem będzie Francuz Ugo Humbert.</p>
-        <img class="placeholder" src="SPORTOWO-ZDJECIA/artykul18.jpg" alt="ZDJĘCIE">
-        <p><i class="fas fa-hashtag"></i> Tagi: #tenis</p>
-        <p><i class="far fa-clock"></i> Data publikacji: 18.01.2024 | 15:20</p>
-        <p><i class="far fa-user"></i> Autor: Xajper</p>
-        <button class="save-button" id="saveButton">
-          <i class="fas fa-bookmark"></i>
-          <div class="fireworks"></div>
-        </button>
-        <button class="udostepnij-button" onclick="udostepnij('artykul18', event, this)">
-          <i class="fas fa-share"></i>
-          <div class="fireworks"></div>
-          <div class="sukces-icon">
-            <i class="fas fa-check-circle"></i>
-          </div>
-        </button>
-        <hr>
-      </div>
-      <div id="artykul17" class="article-link" data-tags="piłka-ręczna" data-date="2024-01-15T19:43" onclick="zobacz('artykul17')">
-        <h3><a href="?artykul=artykul17">PEWNE ZWYCIĘSTWO NA POŻEGNANIE! 🤾‍♂️</a></h3>
-        <span class="hover-bar"></span>
-        <p>Taką Polskę chcemy oglądać! Nasi szczypiorniści udanie pożegnali się z mistrzostwami Europy. Biało-czerwoni pokonali w poniedziałek nieprzewidywalną reprezentację Wysp Owczych [która zremisowała z Norwegią (kandydatem do mistrzostwa)] 32:28i zakończyła rywalizację w grupie D na 3. miejscu.</p>
-        <img class="placeholder" src="SPORTOWO-ZDJECIA/artykul17.jpg" alt="ZDJĘCIE">
-        <p><i class="fas fa-hashtag"></i> Tagi: #piłka ręczna</p>
-        <p><i class="far fa-clock"></i> Data publikacji: 15.01.2024 | 19:43</p>
-        <p><i class="far fa-user"></i> Autor: Xajper</p>
-        <button class="save-button" id="saveButton">
-          <i class="fas fa-bookmark"></i>
-          <div class="fireworks"></div>
-        </button>
-        <button class="udostepnij-button" onclick="udostepnij('artykul17', event, this)">
-          <i class="fas fa-share"></i>
-          <div class="fireworks"></div>
-          <div class="sukces-icon">
-            <i class="fas fa-check-circle"></i>
-          </div>
-        </button>
-        <hr>
-      </div>
-      <div id="artykul16" class="article-link" data-tags="kolarstwo" data-date="2024-01-14T18:33" onclick="zobacz('artykul16')">
-        <h3><a href="?artykul=artykul16">POLACY NISZCZĄ RYWALI! 🥈</a></h3>
-        <span class="hover-bar"></span>
-        <p>Mateusz Rudyk ma powody do dumy z występu na europejskich mistrzostwach w kolarstwie torowym w Apeldoorn. Polak zgarnął 3 medale na tej imprezie, w tym dwa srebrne. Jeden z nich zdobył w keirinie, a drugi w sprincie indywidualnym. Do tego dołożył brąz w sprincie drużynowym!</p>
-        <img class="placeholder" src="SPORTOWO-ZDJECIA/artykul16.jpg" alt="ZDJĘCIE">
-        <p><i class="fas fa-hashtag"></i> Tagi: #kolarstwo</p>
-        <p><i class="far fa-clock"></i> Data publikacji: 14.01.2024 | 18:33</p>
-        <p><i class="far fa-user"></i> Autor: Xajper</p>
-        <button class="save-button" id="saveButton">
-          <i class="fas fa-bookmark"></i>
-          <div class="fireworks"></div>
-        </button>
-        <button class="udostepnij-button" onclick="udostepnij('artykul16', event, this)">
-          <i class="fas fa-share"></i>
-          <div class="fireworks"></div>
-          <div class="sukces-icon">
-            <i class="fas fa-check-circle"></i>
-          </div>
-        </button>
-        <hr>
-      </div>
-      <div id="artykul15" class="article-link" data-tags="piłka-nożna" data-date="2024-01-13T14:48" onclick="zobacz('artykul15')">
-        <h3><a href="?artykul=artykul15">MŁODY POLSKI TALENT ROZCHWYTYWANY! 🔥</a></h3>
-        <span class="hover-bar"></span>
-        <p>Karol Borys to 17-letni talent z Śląska Wrocław, który ma oferty z wielu klubów z Europy. “<em>The Guardian</em>” uznał go za jednego z najlepszych piłkarzy rocznika 2006. Poprowadził Polskę U17 do półfinału ME i mundialu w Indonezji.</p>
-        <p>Fiorentina zaproponowała za niego ponad milion euro, lecz Śląsk chce więcej.</p>
-        <p>W Holandii Borysa pożądają takie kluby jak Ajax, PSV czy Feyenoord.</p>
-        <p>W Anglii Borys był na testach medycznych w Manchesterze United i zagrał mecz w U17. Hull City złożyło ofertę, ale Śląsk ją odrzucił. Przepisy utrudniają transfer Polaków do Anglii. Borys musiałby być wypożyczony.</p>
-        <p>Girona również walczy o względny polskiego zawodnika.</p>
-        <p>- "<em>Zmiana otoczenia będzie najlepszym krokiem dla Karola Borysa, żeby rozwinął się jeszcze bardziej. Ma ogromny potencjał, ale musi popracować nad fizycznością. Jest zainteresowanie klubów z Zachodu. Oficjalnej oferty jeszcze nie ma. Karol musi zdecydować, jaki kraj za nim najbardziej przemawia i jaka ścieżka go interesuje. (...) Myśleliśmy nad wypożyczeniem, ale raczej skłaniamy się ku transferowi definitywnemu, z dobrymi procentami, żeby zabezpieczyć się na przyszłość. (...) Trener Jacek Magiera ma bardzo dobrze zabezpieczony środek pola. Ściągamy nowego zawodnika do tej formacji. Na ten moment Karol będzie miał bardzo trudno, żeby wywalczyć sobie miejsce w podstawowym składzie. A czy w wieku 17-18 lat nie grać jest dobrze? Myślę, że nie. Lepiej dla jego rozwoju zmienić otoczenie.</em>" – powiedział w rozmowie z "<em>Kanałem Sportowym</em>" prezes Śląska Wrocław, Patryk Załęczny 📖</p>
-        <img class="placeholder" src="SPORTOWO-ZDJECIA/artykul15.jpg" alt="ZDJĘCIE">
-        <p><i class="fas fa-hashtag"></i> Tagi: #piłka nożna</p>
-        <p><i class="far fa-clock"></i> Data publikacji: 13.01.2024 | 14:48</p>
-        <p><i class="far fa-user"></i> Autor: Xajper</p>
-        <button class="save-button" id="saveButton">
-          <i class="fas fa-bookmark"></i>
-          <div class="fireworks"></div>
-        </button>
-        <button class="udostepnij-button" onclick="udostepnij('artykul15', event, this)">
-          <i class="fas fa-share"></i>
-          <div class="fireworks"></div>
-          <div class="sukces-icon">
-            <i class="fas fa-check-circle"></i>
-          </div>
-        </button>
-        <hr>
-      </div>
-      <div id="artykul14" class="article-link" data-tags="siatkówka" data-date="2024-01-13T12:41" onclick="zobacz('artykul14')">
-        <h3><a href="?artykul=artykul14">KUREK WRACA DO FORMY! 🏐</a></h3>
-        <span class="hover-bar"></span>
-        <p>Bartosz Kurek nie zwalnia tempa! W kolejnym meczu tego sezonu znowu zapewnił Wolfdogs Nagoya pewne zwycięstwo w japońskiej lidze. Jego zespół wygrał 3:0 z drużyną JTEKT Stings, której trenerem jest Mieszko Gogol, a Polak zdobył aż 17 punktów.</p>    
-        <img class="placeholder" src="SPORTOWO-ZDJECIA/artykul14.jpg" alt="ZDJĘCIE">
-        <p><i class="fas fa-hashtag"></i> Tagi: #siatkówka</p>
-        <p><i class="far fa-clock"></i> Data publikacji: 13.01.2024 | 12:41</p>
-        <p><i class="far fa-user"></i> Autor: Xajper</p>
-        <button class="save-button" id="saveButton">
-          <i class="fas fa-bookmark"></i>
-          <div class="fireworks"></div>
-        </button>
-        <button class="udostepnij-button" onclick="udostepnij('artykul14', event, this)">
-          <i class="fas fa-share"></i>
-          <div class="fireworks"></div>
-          <div class="sukces-icon">
-            <i class="fas fa-check-circle"></i>
-          </div>
-        </button>
-        <hr>
-      </div>
-      <div id="artykul13" class="article-link" data-tags="piłka-nożna" data-date="2024-01-13T12:07" onclick="zobacz('artykul13')">
-        <h3><a href="?artykul=artykul13">AL HILAL ROBI ZAKUPY. 💰</a></h3>
-        <span class="hover-bar"></span>
-        <p>Według Fabrizio Romano, Al-Hilal chce ściągnąć Renana Lodiego z Olympique Marsylia. Renan Lodi latem za 13 milionów euro przeniósł się z Atlético Madryt do OM, gdzie podpisał umowę obowiązującą do końca czerwca 2028 roku. Mówił niedawno, że zamierza ją dotrzymać i może kiedyś wrócić do Athletico Paranaense. Jednak Matteo Moretto donosi, że Brazylijczyk 🇧🇷 może już w zimie zmienić klub. Jego celem jest Arabia Saudyjska. Al-Hilal negocjuje z OM transfer lewego defensora za około 20 milionów euro.</p>    
-        <img class="placeholder" src="SPORTOWO-ZDJECIA/artykul13.jpg" alt="ZDJĘCIE">
-        <p><i class="fas fa-hashtag"></i> Tagi: #piłka nożna</p>
-        <p><i class="far fa-clock"></i> Data publikacji: 13.01.2024 | 12:07</p>
-        <p><i class="far fa-user"></i> Autor: Xajper</p>
-        <button class="save-button" id="saveButton">
-          <i class="fas fa-bookmark"></i>
-          <div class="fireworks"></div>
-        </button>
-        <button class="udostepnij-button" onclick="udostepnij('artykul13', event, this)">
-          <i class="fas fa-share"></i>
-          <div class="fireworks"></div>
-          <div class="sukces-icon">
-            <i class="fas fa-check-circle"></i>
-          </div>
-        </button>
-        <hr>
-      </div>
-      <div id="artykul12" class="article-link" data-tags="piłka-nożna" data-date="2024-01-12T17:58" onclick="zobacz('artykul12')">
-        <h3><a href="?artykul=artykul12">PROBLEMY NEWCASTLE. 🏥 </a></h3>
-        <span class="hover-bar"></span>
-        <p>Złe wieści dla Newcastle, kolejna kontuzja Joelintona będzie pauzowała przez 6 tygodni.</p>    
-        <img class="placeholder" src="SPORTOWO-ZDJECIA/artykul12.jpg" alt="ZDJĘCIE">
-        <p><i class="fas fa-hashtag"></i> Tagi: #piłka nożna</p>
-        <p><i class="far fa-clock"></i> Data publikacji: 12.01.2024 | 17:58</p>
-        <p><i class="far fa-user"></i> Autor: Xajper</p>
-        <button class="save-button" id="saveButton">
-          <i class="fas fa-bookmark"></i>
-          <div class="fireworks"></div>
-        </button>
-        <button class="udostepnij-button" onclick="udostepnij('artykul12', event, this)">
-          <i class="fas fa-share"></i>
-          <div class="fireworks"></div>
-          <div class="sukces-icon">
-            <i class="fas fa-check-circle"></i>
-          </div>
-        </button>
-        <hr>
-      </div>
-      <div id="artykul11" class="article-link" data-tags="piłka-nożna" data-date="2024-01-12T09:20" onclick="zobacz('artykul11')">
-        <h3><a href="?artykul=artykul11">MILIK BOHATEREM! ⚽</a></h3>
-        <span class="hover-bar"></span>
-        <p>Arkadiusz Milik zdobył hat-tricka dla Juventusu, prowadząc go do półfinału Coppa Italia. Zdobył go w zaledwie 48 minut spotkania przeciwko Frosinone. Pierwszą bramkę zdobył z rzutu karnego, drugą po doskonałym dośrodkowaniu z lewego skrzydła, a trzecią po błędzie defensywy przeciwnika. Arkadiusz zdobył miałby na swoim koncie cztery trafienia, lecz sygnalizacja spalonego przez VAR pozbawiła go bramki, Juventus zakończył mecz zwycięstwem 4:0.</p>    
-        <img class="placeholder" src="SPORTOWO-ZDJECIA/artykul11.jpg" alt="ZDJĘCIE">
-        <p><i class="fas fa-hashtag"></i> Tagi: #piłka nożna</p>
-        <p><i class="far fa-clock"></i> Data publikacji: 12.01.2024 | 09:20</p>
-        <p><i class="far fa-user"></i> Autor: Xajper</p>
-        <button class="save-button" id="saveButton">
-          <i class="fas fa-bookmark"></i>
-          <div class="fireworks"></div>
-        </button>
-        <button class="udostepnij-button" onclick="udostepnij('artykul11', event, this)">
-          <i class="fas fa-share"></i>
-          <div class="fireworks"></div>
-          <div class="sukces-icon">
-            <i class="fas fa-check-circle"></i>
-          </div>
-        </button>
-        <hr>
-      </div>
-      <div id="artykul10" class="article-link" data-tags="piłka-ręczna" data-date="2024-01-12T09:11" onclick="zobacz('artykul10')">
-        <h3><a href="?artykul=artykul10">POLSKA PRZEGRYWA PIERWSZY GRUPOWY MECZ. 🤾</a></h3>
-        <span class="hover-bar"></span>
-        <p>Polska nie sprawiła sensacji. W pierwszej potyczce mistrzostw Europy w piłce ręcznej uległa w Berlinie Norwegii, która była zdecydowanym faworytem, 21:32. W sobotnim meczu grupowym podopieczni Marcina Lijewskiego będą walczyć o pierwsze punkty z Słowenią, która pokonała na otwarcie turnieju Wyspy Owcze 32:29.</p>    
-        <img class="placeholder" src="SPORTOWO-ZDJECIA/artykul10.jpg" alt="ZDJĘCIE">
-        <p><i class="fas fa-hashtag"></i> Tagi: #piłka ręczna</p>
-        <p><i class="far fa-clock"></i> Data publikacji: 12.01.2024 | 09:11</p>
-        <p><i class="far fa-user"></i> Autor: Xajper</p>
-        <button class="save-button" id="saveButton">
-          <i class="fas fa-bookmark"></i>
-          <div class="fireworks"></div>
-        </button>
-        <button class="udostepnij-button" onclick="udostepnij('artykul10', event, this)">
-          <i class="fas fa-share"></i>
-          <div class="fireworks"></div>
-          <div class="sukces-icon">
-            <i class="fas fa-check-circle"></i>
-          </div>
-        </button>
-        <hr>
-      </div>
-      <div id="artykul9" class="article-link" data-tags="tenis" data-date="2024-01-12T09:07" onclick="zobacz('artykul9')">
-        <h3><a href="?artykul=artykul9">HURKACZ POZNAŁ PIERWSZEGO RYZWALA! 🎾</a></h3>
-        <span class="hover-bar"></span>
-        <p>Hubert Hurkacz poznał swojego pierwszego przeciwnika w wielkoszlemowym Australian Open. Polak, który jest z Wrocławia, zmaga się na początku z Australijczykiem Omarem Jasiką, który jest na 341. pozycji w rankingu ATP. Co ciekawe, Jasika miał kiedyś przerwę w karierze, ponieważ znaleziono u niego kokainę.</p>    
-        <img class="placeholder" src="SPORTOWO-ZDJECIA/artykul9.jpg" alt="ZDJĘCIE">
-        <p><i class="fas fa-hashtag"></i> Tagi: #tenis</p>
-        <p><i class="far fa-clock"></i> Data publikacji: 12.01.2024 | 09:07</p>
-        <p><i class="far fa-user"></i> Autor: Xajper</p>
-        <button class="save-button" id="saveButton">
-          <i class="fas fa-bookmark"></i>
-          <div class="fireworks"></div>
-        </button>
-        <button class="udostepnij-button" onclick="udostepnij('artykul9', event, this)">
-          <i class="fas fa-share"></i>
-          <div class="fireworks"></div>
-          <div class="sukces-icon">
-            <i class="fas fa-check-circle"></i>
-          </div>
-        </button>
-        <hr>
-      </div>
-      <div id="artykul8" class="article-link" data-tags="piłka-nożna" data-date="2024-01-10T19:24" onclick="zobacz('artykul8')">
-        <h3><a href="?artykul=artykul8">ZASKAKUJĄCY TRANSFER BYŁEGO GWIAZDORA EKSTRAKLASY. ⚽</a></h3>
-        <span class="hover-bar"></span>
-        <p>Fedor Cernych swego czasu był jedną z największych gwiazd Jagielloni Białystok i Ekstraklasy. Do Polski trafił z Białorusi, z Dniepru Mogilevo. Dobrą postawą w Górniku Łęczna zapracował na transfer do Dumy Podlasia, gdzie osiągnął swój szczyt. W sezonie 2016/17 zdobył 13 bramek i zaliczył 9 asyst, dzięki czemu za 400 tysięcy euro trafił do Dynama Moskwa. Od tego momentu zaczął się zjazd 88-krotnego reprezentanta Litwy. Był wypożyczony do Orenburga, a ostatecznie wrócił do Jagielloni. Jedynie pojedynczymi występami nawiązywał do dawnej formy i ostatecznie w styczniu 2023 roku trafił do AEL-u Limassol. Po sezonie w cypryjskim klubie przeszedł do... indyjskiego zespołu Kerala Blasters. Będzie tam jednym z trzech piłkarzy z Europy, obok Czarnogórca Milosa Drincicia oraz mającego francuskie i australijskie obywatelstwo Jaushua Sotirio. Trenerem Keraly jest Serb, Ivan Vukomanović.</p>    
-        <img class="placeholder" src="SPORTOWO-ZDJECIA/artykul8.jpg" alt="ZDJĘCIE">
-        <p><i class="fas fa-hashtag"></i> Tagi: #piłka nożna</p>
-        <p><i class="far fa-clock"></i> Data publikacji: 10.01.2024 | 19:24</p>
-        <p><i class="far fa-user"></i> Autor: Ksaveriusz</p>
-        <button class="save-button" id="saveButton">
-          <i class="fas fa-bookmark"></i>
-          <div class="fireworks"></div>
-        </button>
-        <button class="udostepnij-button" onclick="udostepnij('artykul8', event, this)">
-          <i class="fas fa-share"></i>
-          <div class="fireworks"></div>
-          <div class="sukces-icon">
-            <i class="fas fa-check-circle"></i>
-          </div>
-        </button>
-        <hr>
-      </div>
-      <div id="artykul7" class="article-link" data-tags="piłka-nożna" data-date="2024-01-10T18:58" onclick="zobacz('artykul7')">
-        <h3><a href="?artykul=artykul7">SZYMAŃSKI! ON JEST NIEMOŻLIWY! 🔥</a></h3>
-        <span class="hover-bar"></span>
-        <p>Sebastian Szymański gra kapitalny sezon, potwierdził to w obecnie trwającym meczu. W zaledwie 4 minuty zdobył gola i zaliczył dwie asysty! A to dopiero w pierwszej połowie, druga zaraz się rozpocznie.</p>
-        <p><strong>STATYSTYKI ZAWODNIKA:</strong> <em>(transfermarkt)</em></p>  
-        <p>Mecze: 31 🏟️</p>
-        <p>Gole: 12 ⚽ </p>
-        <p>Asysty: 13 🅰️</p>
-        <img class="placeholder" src="SPORTOWO-ZDJECIA/artykul7.jpg" alt="ZDJĘCIE">
-        <p><i class="fas fa-hashtag"></i> Tagi: #piłka nożna</p>
-        <p><i class="far fa-clock"></i> Data publikacji: 10.01.2024 | 18:58</p>
-        <p><i class="far fa-user"></i> Autor: Xajper</p>
-        <button class="save-button" id="saveButton">
-          <i class="fas fa-bookmark"></i>
-          <div class="fireworks"></div>
-        </button>
-        <button class="udostepnij-button" onclick="udostepnij('artykul7', event, this)">
-          <i class="fas fa-share"></i>
-          <div class="fireworks"></div>
-          <div class="sukces-icon">
-            <i class="fas fa-check-circle"></i>
-          </div>
-        </button>
-        <hr>
-      </div>      
-      <div id="artykul6" class="article-link" data-tags="piłka-nożna" data-date="2024-01-10T15:01" onclick="zobacz('artykul6')">
-        <h3><a href="?artykul=artykul6">ZNAMY SKŁAD NA MŚ. 6 DEBIUTANTÓW I ZASKOCZENIE. 🤾</a></h3>
-        <span class="hover-bar"></span>
-        <p>W środę Marcin Lijewski, selekcjoner reprezentacji Polski piłkarzy ręcznych, ogłosił 18-osobowy skład na rozpoczynające się mistrzostwa Europy. Zabrakło w nim między innymi świetnego bramkarza - Adama Morawskiego.</p>
-        <p> - "<em>Gramy w Berlinie i w każdej chwili możemy powołać kogoś z listy rezerwowej.</em>" – zaznaczył Marcin Wichary, odpowiadając na pytanie czemu nie 3 powołania dla bramkarzy (trener bramkarzy). 📖</p>
-        <p>Wcześniej kontuzje wykluczyły z gry w mistrzostwach obrotowego Patryka Walczaka oraz prawoskrzydłowego Arkadiusza Morytę. 🏥</p>
-        <p><strong>SKŁAD:</strong></p>
-        <p class="akapit">Bramkarze: 🥅</p>
-        <p class="akapit">Mateusz Kornecki (ThSV Eisenach, Niemcy), Jakub Skrzyniarz (Bidasoa Irun, Hiszpania)</p>
-        <p class="akapit">Lewoskrzydłowi: 🪽</p>
-        <p class="akapit">Mikołaj Czapliński (Torrelavega BM, Hiszpania), Przemysław Urbaniak (Arged Rebud KPR Ostrovia Ostrów Wlkp.)</p>
-        <p class="akapit">Lewi rozgrywający: 🪄 </p>
-        <p class="akapit">Ariel Pietrasik (Kadetten Schaffhausen, Szwajcaria), Damian Przytuła (Górnik Zabrze), Szymon Sićko (Industria Kielce)</p>
-        <p class="akapit">Środkowi rozgrywający: 🪄 </p>
-        <p class="akapit">Piotr Jędraszczyk (Corotop Gwardia Opole), Michał Olejniczak (Industria Kielce), Paweł Paterek (KGHM Chrobry Głogów)</p>
-        <p class="akapit">Prawi rozgrywający: 🪄 </p>
-        <p class="akapit">Michał Daszek (Orlen Wisła Płock), Jakub Powarzyński (Energa Wybrzeże Gdańsk)</p>
-        <p class="akapit">Prawoskrzydłowi: 🪽</p>
-        <p class="akapit">Mateusz Kosmala (MMTS Kwidzyn), Jakub Szyszko (Górnik Zabrze)</p>
-        <p class="akapit">Obrotowi: 🛡️ </p>
-        <p class="akapit">Bartłomiej Bis (HSC Coburg 2000, Niemcy), Dawid Dawydzik (Orlen Wisła Płock), Maciej Gębala (SC DHfK Lipsk, Niemcy), Kamil Syprzak (Paris Saint-Germain HB, Francja)</p>
-        <img class="placeholder" src="SPORTOWO-ZDJECIA/artykul6.jpg" alt="ZDJĘCIE">
-        <p><i class="fas fa-hashtag"></i> Tagi: #piłka nożna</p>
-        <p><i class="far fa-clock"></i> Data publikacji: 10.01.2024 | 15:01</p>
-        <p><i class="far fa-user"></i> Autor: Xajper</p>
-        <button class="save-button" id="saveButton">
-          <i class="fas fa-bookmark"></i>
-          <div class="fireworks"></div>
-        </button>
-        <button class="udostepnij-button" onclick="udostepnij('artykul6', event, this)">
-          <i class="fas fa-share"></i>
-          <div class="fireworks"></div>
-          <div class="sukces-icon">
-            <i class="fas fa-check-circle"></i>
-          </div>
-        </button>
-        <hr>
-      </div>      
-      <div id="artykul5" class="article-link" data-tags="piłka-nożna" data-date="2024-01-09T14:45" onclick="zobacz('artykul5')">
-        <h3><a href="?artykul=artykul5">JADON SANCHO WRACA DO BORUSSI! 🤯</a></h3>
-        <span class="hover-bar"></span>
-        <p>Wielki powrót! Sancho do końca sezonu ma grać dla Borussi Dortmund - przekazuje Fabrizio Romano. 23-letni piłkarz zmarnował ostatnie miesiące. Na starcie sezonu wszedł w konflikt z Erikiem ten Hagiem, który wykluczył go z kadry. Anglik zagrał tylko 3 razy. Po raz ostatni wystąpił na murawie w sierpniu.</p>
-        <p><strong>STATYSTYKI ZAWODNIKA:</strong> <em>(transfermarkt)</em></p>  
-        <p>Mecze: 3 🏟️</p>
-        <p>Gole: 0 ⚽ </p>
-        <p>Asysty: 0 🅰️</p>
-        <img class="placeholder" src="SPORTOWO-ZDJECIA/artykul5.jpg" alt="ZDJĘCIE">
-        <p><i class="fas fa-hashtag"></i> Tagi: #piłka nożna</p>
-        <p><i class="far fa-clock"></i> Data publikacji: 09.01.2024 | 14:45</p>
-        <p><i class="far fa-user"></i> Autor: Xajper</p>
-        <button class="save-button" id="saveButton">
-          <i class="fas fa-bookmark"></i>
-          <div class="fireworks"></div>
-        </button>
-        <button class="udostepnij-button" onclick="udostepnij('artykul5', event, this)">
-          <i class="fas fa-share"></i>
-          <div class="fireworks"></div>
-          <div class="sukces-icon">
-            <i class="fas fa-check-circle"></i>
-          </div>
-        </button>    
-        <hr>
-      </div>      
-      <div id="artykul4" class="article-link" data-tags="piłka-nożna" data-date="2024-01-10T19:35" onclick="zobacz('artykul4')">
-        <h3><a href="?artykul=artykul4">GERARD PIQUE TRENEREM? 🧓</a></h3>
-        <span class="hover-bar"></span>
-        <p>Były piłkarz Barcelony ogłosił za pośrednictwem mediów społecznościowych, że wraca do futbolu.</p>
-        <p>- <em>"Jest nowy rok i po dokładnym przemyśleniu sprawy, zdecydowałem się wrócić do futbolu. Bardzo za nim tęsknię. Tym razem nie będzie to w roli piłkarza, tylko trenera. Więcej szczegółów podam na koniec tygodnia." 📖</em></p>
-        <img class="placeholder" src="SPORTOWO-ZDJECIA/artykul4.jpg" alt="ZDJĘCIE">
-        <p><i class="fas fa-hashtag"></i> Tagi: #piłka nożna</p>
-        <p><i class="far fa-clock"></i> Data publikacji: 10.01.2024 | 19:35</p>
-        <p><i class="far fa-user"></i> Autor: Xajper</p>
-        <button class="save-button" id="saveButton">
-          <i class="fas fa-bookmark"></i>
-          <div class="fireworks"></div>
-        </button>
-        <button class="udostepnij-button" onclick="udostepnij('artykul4', event, this)">
-          <i class="fas fa-share"></i>
-          <div class="fireworks"></div>
-          <div class="sukces-icon">
-            <i class="fas fa-check-circle"></i>
-          </div>
-        </button>
-        <hr>
-      </div>      
-      <div id="artykul3" class="article-link" data-tags="sportwy-zimowe, skoki-narciarskie" data-date="2024-01-09T14" onclick="zobacz('artykul3')">
-        <h3><a href="?artykul=artykul3">WIELKI POWRÓT, ZNAMY KADRĘ NA POLSKI TURNIEJ! ⛷️</a></h3>
-        <span class="hover-bar"></span>
-        <p>Skład na wiślański etap Polskiego Turnieju został ogłoszony we wtorek przez Polski Związek Narciarski. W kwalifikacjach wystąpi dziewięciu reprezentantów Polski. Wśród nich znajdziemy Klemensa Murańkę, a także Macieja Kota, Dawida Kubackiego, Andrzeja Stękałę, Kamila Stocha, Pawła Wąska, Jakuba Wolnego, Aleksandra Zniszczoła i Piotra Żyłę. 9️⃣</p>
-        <img src="SPORTOWO-ZDJECIA/artykul3.jpg" alt="ZDJĘCIE">
-        <p><i class="fas fa-hashtag"></i> Tagi: #sportwy zimowe, #skoki narciarskie</p>
-        <p><i class="far fa-clock"></i> Data publikacji: 09.01.2024 | 14:55</p>
-        <p><i class="far fa-user"></i> Autor: Xajper</p>
-        <button class="save-button" id="saveButton">
-          <i class="fas fa-bookmark"></i>
-          <div class="fireworks"></div>
-        </button>
-        <button class="udostepnij-button" onclick="udostepnij('artykul3', event, this)">
-          <i class="fas fa-share"></i>
-          <div class="fireworks"></div>
-          <div class="sukces-icon">
-            <i class="fas fa-check-circle"></i>
-          </div>
-        </button>
-        <hr>
-      </div>      
-      <div id="artykul2" class="article-link" data-tags="piłka-nożna" data-date="2024-01-08T11:32" onclick="zobacz('artykul2')">
-        <h3><a href="?artykul=artykul2">ŁUKASZ KACZMAREK KOMENTUJE KRYTYKĘ NA LEWANDOWSKIEGO. 🏐</a></h3>
-        <span class="hover-bar"></span>
-        <p>Reprezentant Polski w siatkówce w rozmowie z Kanałem Sportowym:</p>
-        <p>- "<em>Ma słabszy sezon i ludzie się od niego odwracają. Nie podoba mi się to. Tyle zrobił dla kraju, że to naprawdę niesamowite. Był, jest i będzie naszą wizytówką.</em>"</p>
-        <p>- "<em>Każdy kraj chciałby mieć taką ikonę sportu.</em>" 📖</p>
-        <img class="placeholder" src="SPORTOWO-ZDJECIA/artykul2.jpg" alt="ZDJĘCIE">
-        <p><i class="fas fa-hashtag"></i> Tagi: #piłka nożna</p>
-        <p><i class="far fa-clock"></i> Data publikacji: 08.01.2024 | 11:32</p>
-        <p><i class="far fa-user"></i> Autor: Xajper</p>
-        <button class="save-button" id="saveButton">
-          <i class="fas fa-bookmark"></i>
-          <div class="fireworks"></div>
-        </button>
-        <button class="udostepnij-button" onclick="udostepnij('artykul2', event, this)">
-          <i class="fas fa-share"></i>
-          <div class="fireworks"></div>
-          <div class="sukces-icon">
-            <i class="fas fa-check-circle"></i>
-          </div>
-        </button>
-        <hr>
-      </div>      
-      <div id="artykul1" class="article-link" data-tags="piłka-nożna" data-date="2023-12-24T21:08" onclick="zobacz('artykul1')">
-        <h3><a href="?artykul=artykul1">HE IS BACK! 🎙️</a></h3>
-        <span class="hover-bar"></span>
-        <p>To już oficjalnie, Dariusz Szpakowski wraca! Nowy prezes telewizji polskiej - Tomasz Sygut - poinformował, że komentator wraca do TVP SPORT. Szpakowski ponownie będzie komentował mecze, dodatkowo Sportowe Fakty donoszą, że legendarny komentator zasiądzie również na stanowisku doradcy Jakuba Kwiatkowskiego - nowego dyrektora TVP SPORT. 🔥</p>
-        <img class="placeholder" src="SPORTOWO-ZDJECIA/artykul1.jpg" alt="ZDJĘCIE">
-        <p><i class="fas fa-hashtag"></i> Tagi: #piłka nożna</p>
-        <p><i class="far fa-clock"></i> Data publikacji: 24.12.2023 | 21:08</p>
-        <p><i class="far fa-user"></i> Autor: Xajper</p>
-        <button class="save-button" id="saveButton">
-          <i class="fas fa-bookmark"></i>
-          <div class="fireworks"></div>
-        </button>
-        <button class="udostepnij-button" onclick="udostepnij('artykul1', event, this)">
-          <i class="fas fa-share"></i>
-          <div class="fireworks"></div>
-          <div class="sukces-icon">
-            <i class="fas fa-check-circle"></i>
-          </div>
-        </button>
-      </div>      
+      </div>  
     </article>
     
     <div class="sidebar">
             <section id="latest-articles-list">
               <h2>OSTATNIE</h2>
               <ul>
-                <li><a href="?artykul=artykul23">ALEŻ POWRÓT! ❗</a></li>
-                <li><a href="?artykul=artykul22">ORGANIZACJA BYŁEGO... 👀</a></li>
-                <li><a href="?artykul=artykul21">MATIJA POPOVIĆ... ⚽</a></li>
+                <li><a href="?artykul=artykul2">ALEŻ POWRÓT! ❗</a></li>
+                <li><a href="?artykul=artykul1">ORGANIZACJA BYŁEGO... 👀</a></li>
+                <li><a href="">...</a></li>
               </ul>
             </section>
 
             <section id="popular-articles-list">
                 <h2>POPULARNE</h2>
                 <ul>
-                    <li><a href="#">...</a></li>
+                    <li><a href="">...</a></li>
                 </ul>
             </section>
 
