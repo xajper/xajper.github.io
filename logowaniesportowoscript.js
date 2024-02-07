@@ -15,6 +15,40 @@ firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth()
 const database = firebase.database()
 
+auth.onAuthStateChanged(user => {
+  if (user) {
+      // Jeśli użytkownik jest zalogowany, zapisz informacje do localStorage
+      localStorage.setItem('loggedInUser', JSON.stringify(user));
+  } else {
+      // Jeśli użytkownik się wyloguje, usuń informacje z localStorage
+      localStorage.removeItem('loggedInUser');
+  }
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+  checkUserAuthentication();
+});
+
+function checkUserAuthentication() {
+  const user = JSON.parse(localStorage.getItem('loggedInUser'));
+
+  if (user && (user.email === 'xajperminecraftyt@gmail.com' || user.email === 'KsaverX@interia.pl')) {
+      // Ustaw widoczność odpowiednich elementów na stronie (dodaj swoje odpowiednie operacje)
+      const addArticleBtn = document.getElementById('add-article-btn');
+      const articleForm = document.getElementById('article-form');
+      const deleteArticleBtn = document.getElementById('delete-article-btn');
+
+      addArticleBtn.style.display = 'block';
+
+      if (user.email === 'xajperminecraftyt@gmail.com' || user.email === 'KsaverX@interia.pl') {
+          articleForm.style.display = 'block';
+      } else {
+          articleForm.style.display = 'none';
+          deleteArticleBtn.style.display = 'none';
+      }
+  }
+}
+
 function register () {
 
 email = document.getElementById('email_field').value
