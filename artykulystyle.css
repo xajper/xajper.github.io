@@ -125,13 +125,6 @@ body {
   margin-bottom: 5px;
 }
 
-#comments textarea,
-#comments input {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 10px;
-}
-
 .btn-outline-primary {
   background-color: transparent;
   color: #3498db;
