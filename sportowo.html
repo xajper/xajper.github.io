@@ -5,6 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <link rel="stylesheet" href="artykulystyle.css">
+  
+  <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-database.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-storage.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-firestore.js"></script>
+
   <link rel="icon" href="ikonkastrony.ico" type="image/x-icon">
   <title>Sportowo.pl</title>
 </head>
@@ -17,7 +24,7 @@
     </label></div>
 
     <div id="overlay" class="overlay">
-      <button onclick="toggleComments()">Pokaż Komentarze</button>
+      <button id="comments-toggle-btn" onclick="toggleComments()">Pokaż Komentarze</button>
       <div id="overlay-content">
         <div id="main-info">
           <h3 id="overlay-title"></h3>
@@ -78,9 +85,10 @@
           <i class="fas fa-laptop"></i>
           <span class="tooltip">Symulator</span>
         </a>
-        <button class="add-article-btn" id="add-article-btn" style="display: none;">
-            <i class="fas fa-plus"></i> DODAJ ARTYKUŁ
+        <button class="add-article-btn" id="add-article-btn">
+          <i class="fas fa-plus"></i>
         </button>
+      
     </section>
 
     <div id="menu-container" class="menu-container">
@@ -127,38 +135,54 @@
     </div>
 
     <div id="article-form" style="display: none;">
-        <h2>Dodaj nowy artykuł</h2>
-        <form>
-          <label for="article-title">Tytuł:</label>
-          <input type="text" id="article-title" name="article-title" required>
+      <h2>DODAJ NOWY ARTYKUŁ</h2>
+      <form>
+        <label for="article-title">TYTUŁ:</label>
+        <input type="text" id="article-title" name="article-title" required oninput="this.value = this.value.toUpperCase()">
+        
+        <label for="article-content">TREŚĆ:</label>
+        <textarea id="article-content" name="article-content" required></textarea>
+        
+        <label for="article-image">ZDJĘCIE:</label>
+        <input type="file" id="article-image" accept="image/*">
+        
+        <button type="button" id="tag-checkboxes-btn"><i class="fas fa-hashtag"></i> Tagi</button>
+        <div id="tag-checkboxes" style="display: none;">
+          <label>WYBIERZ TAGI:</label>
+          <div id="tag-options"></div>
+        </div>
+        <hr>
+        <button type="button" id="publish-btn" onclick="addArticle()"><i class="fas fa-check"></i> Opublikuj artykuł</button>
+        <button type="button" id="podglad-btn" onclick="previewArticle()"><i class="fas fa-eye"></i> Podgląd</button>
+        <button type="button" id="cancel-btn" onclick="cancelArticle()"><i class="fas fa-times"></i> Anuluj</button>
+        <hr>
+        <button type="button" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Wyloguj</button>     
+      </form>
+    </div>    
     
-          <label for="article-content">Treść:</label>
-          <textarea id="article-content" name="article-content" required></textarea>
+    <div id="edit-article-form" style="display: none;">
+      <h2>EDYTUJ ARTYKUŁ</h2>
+      <form>
+        <label for="edited-article-title">TYTUŁ:</label>
+        <input type="text" id="edited-article-title" name="edited-article-title" required oninput="this.value = this.value.toUpperCase()">
+        
+        <label for="edited-article-content">TREŚĆ:</label>
+        <textarea id="edited-article-content" name="edited-article-content" required></textarea>
+        
+        <label for="edited-article-image">ZDJĘCIE:</label>
+        <input type="file" id="edited-article-image" accept="image/*">
+        <hr>
+        <button type="button" onclick="saveEditedArticle('${doc.id}')"><i class="fas fa-check"></i> Zapisz zmiany</button>
+        <button type="button" onclick="cancelEdit()"><i class="fas fa-times"></i> Anuluj</button>
 
-          <label for="article-image">Zdjęcie:</label>
-          <input type="file" id="article-image" accept="image/*">    
-    
-          <button type="button" id="tag-checkboxes-btn">Dodaj Tagi</button>
-          <div id="tag-checkboxes" style="display: none;">
-            <label>Wybierz tagi:</label>
-            <div id="tag-options"></div>
-          </div>
-    
-          <label for="verification-code">Kod weryfikacyjny:</label>
-          <input type="text" id="verification-code" name="verification-code" required>
-    
-          <button type="button" id="publish-btn">Opublikuj artykuł</button>
-          <button type="button" id="podglad-btn">Podgląd</button>
-          <button type="button" id="cancel-btn">Anuluj</button>
-        </form>
+      </form>
     </div>
 
     <div id="preview-section" style="display: none;">
-        <h2>Podgląd artykułu</h2>
-        <div id="preview-content">
-        </div>
+      <h2>Podgląd artykułu</h2>
+      <div id="preview-content"></div>
     </div>
-    
+
     <header>
     <nav>
       <ul>
@@ -195,73 +219,14 @@
       </div>
     </div>
     <article id="main-article">
-      <div id="artykul2" class="article-link" data-tags="piłka-nożna" data-date="2024-01-20T13:08" onclick="zobacz('artykul2')">
-        <h3 style="display: none;"><a href="?artykul=artykul2">ALEŻ POWRÓT!</a></h3>
-        <span class="hover-bar"></span>
-        <p style="display: none;">Po 18 latach Ivan Perisić powrócił do Hajduka Split, z nadzieją na zdobycie tytułu. Skrzydłowy jest wypożyczony z Tottenhamu Hotspur do końca sezonu. Nie wystąpi jednak na razie, ponieważ ma kontuzję. W sobotę Hajduk Split zmierzy się w meczu towarzyskim ze Śląskiem Wrocław, liderem PKO Ekstraklasy, bez jego udziału.</p>
-        <div class="image-container">
-            <img class="placeholder" src="SPORTOWO-ZDJECIA/artykul2.jpg" alt="ZDJĘCIE">
-            <div class="image-title">
-                <h3><a href="?artykul=artykul2">ALEŻ POWRÓT!</a></h3>
-            </div>
-        </div>
-        <p style="display: none;"><i class="fas fa-hashtag"></i> #piłka nożna</p>
-        <p style="display: none;"><i class="far fa-clock"></i> 20.01.2024 | 13:08</p>
-        <p style="display: none;"><i class="far fa-user" id="author"></i> Xajper</p>
-        <button class="save-button" id="saveButton">
-            <i class="fas fa-bookmark"></i>
-            <div class="fireworks"></div>
-        </button>
-        <button class="udostepnij-button" onclick="udostepnij('artykul2', this)">
-            <i class="fas fa-share"></i>
-            <div class="fireworks"></div>
-            <div class="sukces-icon">
-                <i class="fas fa-check-circle"></i>
-            </div>
-        </button>
-        <hr>
-      </div>
-      <div id="artykul1" class="article-link" data-tags="piłka-nożna" data-date="2024-01-20T12:59" onclick="zobacz('artykul1')">
-        <h3 style="display: none;"><a href="?artykul=artykul1">ORGANIZACJA BYŁEGO ZAWODNIKA UNITED WYKUPIŁA POLAKÓW!</a></h3>
-        <span class="hover-bar"></span>
-        <p style="display: none;">Hiszpańska organizacja "<em>Rebels Gaming</em>" znana głównie z gry League of Legends założona w 2021 przez Davida De Gee, 12 stycznia wykupiła 4️ polskich graczy counter strike'a i zakontraktowała jednego za darmo do swojej nowo powstałej sekcji CS 2. Na streamie emerytowanego gracza Counter Strike'a Grzegorza "<em>SZPERO</em>" Dziamałka były bramkarz Manchesteru United napisał "<em>yessssssssss!</em>" na koncie "<em>ddg_rebels</em>".</p>
-        <p style="display: none;"><strong>Zawodnicy, którzy przeszli do hiszpańskiej organizacji to:</strong></p>
-        <p style="display: none;">- Mariusz "casey" Jarząb (<em>wcześniej bez drużyny</em>)</p>
-        <p style="display: none;">- Alan "Flayy" Krupa (<em>PALOMA</em>)</p>
-        <p style="display: none;">- Kamil "Kisserek" Banak (<em>PALOMA</em>)</p>
-        <p style="display: none;">- Patryk "Olimp" Woźniak (<em>PALOMA</em>)</p>
-        <p style="display: none;">- Rafał "sNx" Snopek (<em>PALOMA</em>)</p>
-        <div class="image-container">
-            <img class="placeholder" src="SPORTOWO-ZDJECIA/artykul1.jpg" alt="ZDJĘCIE">
-            <div class="image-title">
-                <h3><a href="?artykul=artykul1">ORGANIZACJA BYŁEGO...</a></h3>
-            </div>
-        </div>
-        <p style="display: none;"><i class="fas fa-hashtag"></i> #piłka nożna, #e-sport</p>
-        <p style="display: none;"><i class="far fa-clock"></i> 20.01.2024 | 12:59</p>
-        <p style="display: none;"><i class="far fa-user" id="author"></i> Xajper</p>
-        <button class="save-button" id="saveButton">
-            <i class="fas fa-bookmark"></i>
-            <div class="fireworks"></div>
-        </button>
-        <button class="udostepnij-button" onclick="udostepnij('artykul1', this)">
-            <i class="fas fa-share"></i>
-            <div class="fireworks"></div>
-            <div class="sukces-icon">
-                <i class="fas fa-check-circle"></i>
-            </div>
-        </button>
-        <hr>
-      </div>  
+
     </article>
     
     <div class="sidebar">
             <section id="latest-articles-list">
               <h2>OSTATNIE</h2>
               <ul>
-                <li><a href="?artykul=artykul2">ALEŻ POWRÓT! ❗</a></li>
-                <li><a href="?artykul=artykul1">ORGANIZACJA BYŁEGO... 👀</a></li>
-                <li><a href="">...</a></li>
+
               </ul>
             </section>
 
