@@ -1,239 +1,656 @@
-document.addEventListener('DOMContentLoaded', function () {
-    const overlay = document.getElementById('overlay');
+const firebaseConfigArtykuly = {
+    apiKey: "AIzaSyBWOYsHghiKRepKMFRKMX6U4hf2A8A2QuM",
+    authDomain: "sportowo-20862.firebaseapp.com",
+    databaseURL: "https://sportowo-20862-default-rtdb.firebaseio.com",
+    projectId: "sportowo-20862",
+    storageBucket: "sportowo-20862.appspot.com",
+    messagingSenderId: "823759230798",
+    appId: "1:823759230798:web:b879d346fabf4045c8701f"
+};
+
+firebase.initializeApp(firebaseConfigArtykuly);
+const db = firebase.firestore();
+const auth = firebase.auth();
+
+auth.onAuthStateChanged(user => {
     const addArticleBtn = document.getElementById('add-article-btn');
     const articleForm = document.getElementById('article-form');
-    const publishBtn = document.getElementById('publish-btn');
-    const cancelBtn = document.getElementById('cancel-btn');
-    const podgladBtn = document.getElementById('podglad-btn');
-    const articleTitleInput = document.getElementById('article-title');
-    const articleContentInput = document.getElementById('article-content');
-    const articleImageInput = document.getElementById('article-image');
-    const previewSection = document.getElementById('preview-section');
-    const mainArticleSection = document.getElementById('main-article');
-    const tagOptionsContainer = document.getElementById('tag-options');
-    const tagCheckboxes = document.getElementById('tag-checkboxes');
-    const tagCheckboxesBtn = document.getElementById('tag-checkboxes-btn');
+    const deleteArticleBtn = document.getElementById('delete-article-btn');
+    const editArticleBtn = document.getElementById('edit-article-btn');
 
-    const articleTags = document.querySelectorAll('#article-tags li a');
+    if (user) {
+        // Jeśli użytkownik jest zalogowany, sprawdź jego adres e-mail
+        const allowedEmails = ['xajperminecraftyt@gmail.com', 'KsaverX@interia.pl'];
 
-    const maxWidth = 250;
-    const maxHeight = 250;
+        if (allowedEmails.includes(user.email)) {
+            // Jeśli adres e-mail jest na liście dozwolonych, pokaż przycisk addArticleBtn
+            addArticleBtn.style.display = 'block';
 
-    articleTags.forEach(tag => {
-        const checkbox = document.createElement('input');
-        checkbox.type = 'checkbox';
-        checkbox.id = 'tag-' + tag.textContent.toLowerCase();
-        checkbox.value = tag.textContent.toLowerCase();
-    
-        const label = document.createElement('label');
-        label.setAttribute('for', 'tag-' + tag.textContent.toLowerCase());
-        label.textContent = tag.textContent;
-    
-        tagOptionsContainer.appendChild(checkbox);
-        tagOptionsContainer.appendChild(label);
-    });
-
-    articleTitleInput.addEventListener('input', updatePreview);
-    articleContentInput.addEventListener('input', updatePreview);
-    articleImageInput.addEventListener('change', updatePreview);
-
-    podgladBtn.addEventListener('click', function () {
-        overlay.style.display = 'block';
-        previewSection.style.display = 'block';
-    });
-
-    addArticleBtn.addEventListener('click', function () {
-        overlay.style.display = 'block';
-        articleForm.style.display = 'block';
-    });
-
-    overlay.addEventListener('click', function () {
-        overlay.style.display = 'none';
-        articleForm.style.display = 'none';
-        previewSection.style.display = 'none';
-    });
-
-    cancelBtn.addEventListener('click', function () {
-        overlay.style.display = 'none';
-        articleForm.style.display = 'none';
-        previewSection.style.display = 'none';
-    });
-
-    publishBtn.addEventListener('click', function () {
-        const verificationCode = document.getElementById('verification-code').value;
-        if (verificationCode !== '8716A4') {
-            notify('Nieprawidłowy kod weryfikacyjny. Spróbuj ponownie.', 'error');
-            return;
-        }
-
-        const selectedTags = Array.from(document.querySelectorAll('#tag-options input[type="checkbox"]:checked'))
-            .map(checkbox => checkbox.value);
-
-        const articleTitle = articleTitleInput.value;
-        const articleContent = articleContentInput.value;
-        const articleTags = selectedTags.join(', ');
-        const articleImage = articleImageInput.files[0];
-
-        if (!articleTitle || !articleContent || !articleTags || !articleImage) {
-            notify('Wypełnij wszystkie wymagane pola (tytuł, opis, tagi, zdjęcie, kod).', 'error');
-            return;
-        }
-
-        const currentDate = new Date();
-        const hours = currentDate.getHours().toString().padStart(2, '0');
-        const minutes = currentDate.getMinutes().toString().padStart(2, '0');
-        const seconds = currentDate.getSeconds().toString().padStart(2, '0');
-        const formattedDate = `${hours}:${minutes}:${seconds}`;
-
-        if (articleImage) {
-            const image = new Image();
-            const canvas = document.createElement('canvas');
-            const ctx = canvas.getContext('2d');
-
-            image.src = URL.createObjectURL(articleImage);
-
-            image.onload = function () {
-                let newWidth = image.width;
-                let newHeight = image.height;
-
-                if (image.width > maxWidth || image.height > maxHeight) {
-                    const aspectRatio = image.width / image.height;
-
-                    if (image.width > maxWidth) {
-                        newWidth = maxWidth;
-                        newHeight = maxWidth / aspectRatio;
-                    }
-
-                    if (newHeight > maxHeight) {
-                        newHeight = maxHeight;
-                        newWidth = maxHeight * aspectRatio;
-                    }
-                }
-
-                canvas.width = newWidth;
-                canvas.height = newHeight;
-
-                ctx.drawImage(image, 0, 0, newWidth, newHeight);
-
-                clearFormInputs(selectedTags);
-                appendNewArticle(articleTitle, articleContent, selectedTags, canvas.toDataURL('image/jpeg'), formattedDate);
-
-                notify('Artykuł opublikowany!', 'success');
-            };
+            if (user.email === 'xajperminecraftyt@gmail.com' || user.email === 'KsaverX@interia.pl') {
+                // Jeśli użytkownik to Xajper, pokaż formularz artykułu
+            } else {
+                // Jeśli użytkownik to inny dziennikarz, ukryj formularz artykułu
+                articleForm.style.display = 'none';
+                deleteArticleBtn.style.display = 'none';
+                editArticleBtn.style.display = 'none';
+            }
         } else {
-            clearFormInputs(selectedTags);
-            appendNewArticle(articleTitle, articleContent, selectedTags, null, formattedDate);
-
-            notify('Artykuł opublikowany!', 'success');
+            // Jeśli adres e-mail nie jest na liście dozwolonych, ukryj przycisk addArticleBtn
+            addArticleBtn.style.display = 'none';
+            articleForm.style.display = 'none';
+            deleteArticleBtn.style.display = 'none';
+            editArticleBtn.style.display = 'none';
         }
-    });
-
-    tagCheckboxesBtn.addEventListener('click', function () {
-        tagCheckboxes.style.display = tagCheckboxes.style.display === 'none' ? 'block' : 'none';
-    });
-
-    tagOptionsContainer.addEventListener('change', function () {
-        updatePreview();
-    });
-
-    function updatePreview() {
-        const title = articleTitleInput.value;
-        const content = articleContentInput.value;
-        const tags = Array.from(document.querySelectorAll('#tag-options input[type="checkbox"]:checked'))
-            .map(checkbox => "#" + checkbox.value)
-            .join(', ');
-        const image = articleImageInput.files[0];
-
-        const previewHTML = `
-            <h3>${title}</h3>
-            <p>${content}</p>
-            <p>Tagi: ${tags}</p>
-            ${image ? `<img src="${URL.createObjectURL(image)}" alt="ZDJĘCIE">` : ''}
-        `;
-
-        previewSection.innerHTML = previewHTML;
-    }
-
-    function notify(message, type) {
-        const notificationSection = document.getElementById('notification-section');
-        const notification = document.createElement('div');
-        notification.className = 'notification ' + type;
-        notification.innerHTML = message;
-
-        notification.style.animation = 'fadeInOut 3s ease-in-out';
-
-        notificationSection.appendChild(notification);
-
-        setTimeout(function () {
-            notification.remove();
-        }, 5000);
-    }
-
-    function clearFormInputs(selectedTags) {
-        articleTitleInput.value = '';
-        articleContentInput.value = '';
-        articleImageInput.value = '';
-        selectedTags.forEach(tag => {
-            document.getElementById('tag-' + tag).checked = false;
-        });
-
-        overlay.style.display = 'none';
+    } else {
+        // Jeśli użytkownik nie jest zalogowany, ukryj przycisk addArticleBtn
+        addArticleBtn.style.display = 'none';
         articleForm.style.display = 'none';
-        previewSection.style.display = 'none';
-    }
-
-    const sportsCategories = document.querySelectorAll('.nav-sports-categories a');
-    sportsCategories.forEach(category => {
-        category.addEventListener('click', function (event) {
-            event.preventDefault();
-            const selectedCategory = category.textContent.toUpperCase();
-            const articles = document.querySelectorAll('#main-article div');
-
-            articles.forEach(article => {
-                const articleCategories = article.querySelector('p:nth-child(3)').textContent.toUpperCase();
-
-                if (articleCategories.includes(selectedCategory)) {
-                    article.style.display = 'block';
-                } else {
-                    article.style.display = 'none';
-                }
-            });
-        });
-    });
-
-    function appendNewArticle(title, content, tags, imageSrc = null, formattedDate) {
-        const newArticle = document.createElement('div');
-        tags = tags.map(tag => "#" + tag).join(', ');
-        newArticle.innerHTML = `
-            <h3>${title}</h3>
-            <p>${content}</p>
-            <p>Tagi: ${tags}</p>
-            ${imageSrc ? `<img src="${imageSrc}" alt="ZDJĘCIE">` : ''}
-            <p>Data publikacji: ${formattedDate}</p>
-            <hr>
-        `;
-
-        mainArticleSection.insertBefore(newArticle, mainArticleSection.firstChild);
-
-        const latestArticlesList = document.getElementById('latest-articles-list');
-        const articleItems = latestArticlesList.querySelectorAll('li');
-
-        const newArticleItem = document.createElement('li');
-        const newArticleLink = document.createElement('a');
-        newArticleLink.href = '#';
-
-        newArticleLink.textContent = title;
-
-        newArticleItem.appendChild(newArticleLink);
-
-        latestArticlesList.querySelector('ul').insertBefore(newArticleItem, latestArticlesList.querySelector('ul').firstChild);
-
-        if (articleItems.length >= 3) {
-            const oldestArticle = articleItems[2];
-            oldestArticle.remove();
-        }
+        deleteArticleBtn.style.display = 'none';
+        editArticleBtn.style.display = 'none';
     }
 });
+
+const addArticleBtn = document.getElementById('add-article-btn');
+const articleForm = document.getElementById('article-form');
+const loginForm = document.getElementById('login-form');
+const publishBtn = document.getElementById('publish-btn');
+const logoutBtn = document.getElementById('logout-btn');
+const deleteArticleBtn = document.getElementById('delete-article-btn');
+const editArticleBtn = document.getElementById('edit-article-btn');
+
+const articlesContainer = document.getElementById('main-article');
+const loadMoreBtn = document.getElementById('load-more-btn');
+let currentBatch = 5; // Number of articles to load initially
+const batchIncrement = 5; // Number of articles to load on each "Load More" click
+
+document.addEventListener('DOMContentLoaded', function () {
+    checkUserAuthentication();
+    displayLatestArticles();
+    displayArticles();
+});
+
+addArticleBtn.addEventListener('click', () => {
+    // Sprawdzamy, czy użytkownik jest zalogowany
+    const user = auth.currentUser;
+
+    if (user && (user.email === 'xajperminecraftyt@gmail.com' || user.email === 'KsaverX@interia.pl')) {
+        // Jeśli użytkownik jest zalogowany i to jest konto Xajpera, wywołujemy funkcję dodawania artykułu
+        articleForm.style.display = 'block';
+    } else {
+        // Jeśli użytkownik nie jest zalogowany lub to nie jest konto Xajpera, wywołujemy funkcję logowania
+        loginUser();
+    }
+});
+
+logoutBtn.addEventListener('click', () => {
+    auth.signOut()
+        .then(() => {
+            articleForm.style.display = 'none';
+            addArticleBtn.style.display = 'block';
+            document.getElementById('article-title').value = '';
+            document.getElementById('article-content').value = '';
+            document.getElementById('article-image').value = '';
+
+            displayMessage('Wylogowano pomyślnie!', 'success');
+
+            location.reload();
+        })
+        .catch((error) => {
+            console.error('Błąd podczas wylogowywania:', error);
+        });
+});
+
+function loginUser() {
+    const email = prompt('Proszę podać swój email:');
+    const password = prompt('Proszę podać swoje hasło:');
+
+    if (validate_email(email) && validate_password(password)) {
+        auth.signInWithEmailAndPassword(email, password)
+            .then(() => {
+                articleForm.style.display = 'block';
+                displayMessage('Zalogowano pomyślnie!', 'success');
+            })
+            .catch((error) => {
+                displayMessage('Nieprawidłowy email lub hasło. Nie udało się zalogować.', 'danger');
+                console.error('Błąd podczas logowania:', error);
+                articleForm.style.display = 'none';
+            });
+    } else {
+        displayMessage('Nieprawidłowy email lub hasło. Nie udało się zalogować.', 'danger');
+    }
+}
+
+function checkUserAuthentication() {
+    const user = JSON.parse(localStorage.getItem('loggedInUser'));
+
+    if (user && (user.email === 'xajperminecraftyt@gmail.com' || user.email === 'KsaverX@interia.pl')) {
+        // Ustaw widoczność odpowiednich elementów na stronie (dodaj swoje odpowiednie operacje)
+        const addArticleBtn = document.getElementById('add-article-btn');
+        const articleForm = document.getElementById('article-form');
+        const deleteArticleBtn = document.getElementById('delete-article-btn');
+        const editArticleBtn = document.getElementById('edit-article-btn');
+
+        addArticleBtn.style.display = 'block';
+
+        if (user.email === 'xajperminecraftyt@gmail.com' || user.email === 'KsaverX@interia.pl') {
+
+        } else {
+            articleForm.style.display = 'none';
+            deleteArticleBtn.style.display = 'none';
+            editArticleBtn.style.display = 'none';
+        }
+    }
+}
+
+function cancelArticle() {
+    articleForm.style.display = 'none';
+    document.getElementById('preview-section').style.display = 'none';
+}
+
+function displayMessage(message, type) {
+    const messageContainer = document.createElement('div');
+    messageContainer.className = `alert alert-${type}`;
+    messageContainer.textContent = message;
+
+    document.body.insertBefore(messageContainer, document.body.firstChild);
+
+    setTimeout(() => {
+        messageContainer.remove();
+    }, 3000);
+}
+
+function addArticle() {
+    const addArticleBtn = document.getElementById('add-article-btn');
+    addArticleBtn.disabled = true;
+
+    const title = document.getElementById('article-title').value;
+    const content = document.getElementById('article-content').value;
+    const imageInput = document.getElementById('article-image');
+    const selectedTags = getSelectedTags();
+
+    if (selectedTags.length === 0) {
+        displayMessage('Proszę wybrać co najmniej jeden tag.', 'danger');
+        addArticleBtn.disabled = false;
+        return;
+    }
+
+    if (imageInput.files.length > 0) {
+        const imageFile = imageInput.files[0];
+
+        const storageRef = firebase.storage().ref('article_images/' + imageFile.name);
+        const uploadTask = storageRef.put(imageFile);
+
+        uploadTask.on(
+            'state_changed',
+            (snapshot) => {
+                // Obsługa postępu ładowania
+                const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                // Aktualizacja widoku postępu ładowania
+                displayMessage(`Dodawanie komentarza: ${progress.toFixed(2)}%`, 'warning');
+            },
+            (error) => {
+                console.error('Error: ', error);
+                displayMessage('Błąd podczas ładowania obrazu.', 'danger');
+                addArticleBtn.disabled = false;
+            },
+            () => {
+                uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
+                    // Sprawdź, czy artykuł o takim samym tytule już istnieje
+                    db.collection('articles')
+                        .where('title', '==', title)
+                        .get()
+                        .then((querySnapshot) => {
+                            if (querySnapshot.empty) {
+                                getNextArticleNumber()
+                                    .then(({ nextNumber, addedArticleId }) => {
+                                        db.collection('articles')
+                                            .add({
+                                                title: title,
+                                                content: content,
+                                                image: downloadURL,
+                                                tags: selectedTags,
+                                                date: new Date().toISOString(),
+                                                author: 'Xajper',
+                                                articleId: addedArticleId,
+                                            })
+                                            .then(() => {
+                                                document.getElementById('article-title').value = '';
+                                                document.getElementById('article-content').value = '';
+                                                imageInput.value = '';
+
+                                                displayMessage('Artykuł dodany pomyślnie!', 'success');
+                                                addArticleBtn.disabled = false;
+                                                displayArticles();
+                                            })
+                                            .catch((error) => {
+                                                console.error('Error: ', error);
+                                                displayMessage('Błąd podczas dodawania artykułu.', 'danger');
+                                                addArticleBtn.disabled = false;
+                                            });
+                                    })
+                                    .catch((error) => {
+                                        console.error('Error: ', error);
+                                        displayMessage('Błąd podczas dodawania artykułu.', 'danger');
+                                        addArticleBtn.disabled = false;
+                                    });
+                            } else {
+                                displayMessage('Artykuł o takim tytule już istnieje', 'danger');
+                                addArticleBtn.disabled = false;
+                            }
+                        })
+                        .catch((error) => {
+                            console.error('Error: ', error);
+                            displayMessage('Błąd podczas sprawdzania istniejącego artykułu.', 'danger');
+                            addArticleBtn.disabled = false;
+                        });
+                });
+            }
+        );
+    } else {
+        displayMessage('Proszę wybrać plik graficzny.', 'danger');
+        addArticleBtn.disabled = false;
+    }
+}
+
+function previewArticle() {
+    const title = document.getElementById('article-title').value;
+    const content = document.getElementById('article-content').value;
+    const selectedTags = getSelectedTags();
+
+    const previewSection = document.getElementById('preview-section');
+    const previewContent = document.getElementById('preview-content');
+    previewContent.innerHTML = `<h3>${title}</h3><p>${content}</p><p>Tags: ${selectedTags.join(', ')}</p>`;
+    previewSection.style.display = 'block';
+}
+
+function getNextArticleNumber() {
+    return new Promise((resolve, reject) => {
+        db.collection('articles')
+            .orderBy('articleId', 'desc')
+            .limit(1)
+            .get()
+            .then((querySnapshot) => {
+                let nextNumber = 1;
+
+                if (!querySnapshot.empty) {
+                    const lastArticle = querySnapshot.docs[0].data();
+                    const lastNumber = parseInt(lastArticle.articleId) || 0;
+                    nextNumber = lastNumber + 1;
+                }
+
+                const addedArticleId = getNextArticleId(nextNumber);
+                resolve({ nextNumber, addedArticleId });
+            })
+            .catch((error) => {
+                reject(error);
+            });
+    });
+}
+
+function getNextArticleId(articleNumber) {
+    return `${articleNumber}`;
+}
+
+function displayArticles() {
+    const mainArticle = document.getElementById('main-article');
+    mainArticle.classList.add('loading');
+
+    const loadMoreBtn = document.getElementById('load-more-btn');
+
+    const loadingText = document.createElement('div');
+    loadingText.id = 'loading-text';
+    loadingText.style.fontSize = '1.2em';
+    loadingText.style.color = '#333';
+    loadingText.style.position = 'fixed';
+    loadingText.style.top = '50%';
+    loadingText.style.left = '50%';
+    loadingText.style.transform = 'translate(-50%, -50%)';
+    mainArticle.appendChild(loadingText);
+
+    let loadingAnimation = 0;
+
+    function updateLoadingText() {
+        loadingText.textContent = 'Wczytywanie artykułów' + '.'.repeat(loadingAnimation % 4);
+        loadingAnimation++;
+    }
+
+    auth.onAuthStateChanged(user => {
+        db.collection('articles')
+            .orderBy('date', 'desc')
+            .limit(currentBatch)
+            .get()
+            .then((querySnapshot) => {
+                mainArticle.innerHTML = '';
+                mainArticle.classList.remove('loading');
+
+                querySnapshot.forEach((doc) => {
+                    const articleElement = document.createElement('div');
+                    articleElement.setAttribute('id', doc.id);
+                    articleElement.className = 'article-link';
+                    articleElement.setAttribute('data-tags', doc.data().tags.join(', '));
+                    articleElement.setAttribute('data-date', doc.data().date);
+
+                    const imageUrl = doc.data().image;
+
+                    articleElement.innerHTML = `
+                        <h3 style="display: none;"><a href="?artykul=${doc.id}">${doc.data().title}</a></h3>
+                        <span class="hover-bar"></span>
+                        <p style="display: none;">${doc.data().content}</p>
+                        <div class="image-container">
+                            <img class="placeholder" src="${imageUrl}" alt="ZDJĘCIE">
+                            <div class="image-title">
+                                <h3><a href="javascript:void(0);" onclick="zobacz('${doc.id}', '${doc.data().articleId}')">${doc.data().title}</a></h3>
+                            </div>
+                        </div>
+                        <p style="display: none;"><i class="fas fa-hashtag"></i> ${doc.data().tags.join(', ')}</p>
+                        <p><i class="far fa-clock"></i> ${formatTimestamp(doc.data().date)}</p>
+                        <p style="display: none;"><i class="far fa-user" id="author">${doc.data().author}</i></p>
+                        <button class="save-button" id="saveButton">
+                            <i class="fas fa-bookmark"></i>
+                            <div class="fireworks"></div>
+                        </button>
+                            <button class="udostepnij-button" onclick="udostepnij('${doc.id}', event, this)">
+                            <i class="fas fa-share"></i>
+                            <div class="fireworks"></div>
+                            <div class="sukces-icon">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                        </button>
+                        ${user && (user.email === 'xajperminecraftyt@gmail.com' || user.email === 'KsaverX@interia.pl') ? `<button class="delete-button" onclick="deleteArticle('${doc.id}')"><i class="fas fa-trash"></i></button>` : ''}
+
+                        </button>
+                        ${user && (user.email === 'xajperminecraftyt@gmail.com' || user.email === 'KsaverX@interia.pl') ? `<button class="edit-button" onclick="editArticle('${doc.id}')"><i class="fas fa-hand"></i></button>` : ''}
+                        <hr>
+                    `;
+
+                    articlesContainer.appendChild(articleElement);
+                });
+
+                // Add the "Load More" button after all articles have been processed
+                articlesContainer.innerHTML += `<button class="load-more-btn" id="load-more-btn" onclick="loadMoreArticles()">Załaduj więcej</button>`;
+
+                // Check if loadMoreBtn is not null before accessing its style property
+                if (loadMoreBtn) {
+                    loadMoreBtn.style.display = querySnapshot.size >= currentBatch ? 'block' : 'none';
+                }
+            })
+            .catch((error) => {
+                console.error('Error: ', error);
+                mainArticle.innerHTML = 'Błąd ładowania artykułów';
+                mainArticle.classList.remove('loading');
+            })
+            .finally(() => {
+                clearInterval(loadingInterval);
+            });
+    });
+
+    // Update loading text every 500 milliseconds
+    const loadingInterval = setInterval(updateLoadingText, 500);
+    updateLoadingText();  // Initial loading text
+}
+
+function loadMoreArticles() {
+    currentBatch += batchIncrement;
+    displayArticles();
+}
+
+function editArticle(articleId) {
+    console.log(articleId);  // Dodaj tę linię
+    const articleRef = db.collection('articles').doc(articleId);
+  
+    // Pobierz referencje do elementów formularza
+    const editedTitleInput = document.getElementById('edited-article-title');
+    const editedContentInput = document.getElementById('edited-article-content');
+    const editedImageInput = document.getElementById('edited-article-image');
+  
+    articleRef.get()
+      .then((doc) => {
+        if (doc.exists) {
+          // Ustaw wartości pól formularza na aktualne wartości artykułu
+          editedTitleInput.value = doc.data().title;
+          editedContentInput.value = doc.data().content;
+          // Możesz dodać inne pola, jeśli są dostępne w formularzu
+  
+          // Wyświetl formularz edycji
+          displayEditForm();
+        } else {
+          console.log('Artykuł nie istnieje');
+        }
+      })
+      .catch((error) => {
+        console.error('Błąd podczas pobierania artykułu:', error);
+      });
+}
+  
+function displayEditForm() {
+    // Ukryj formularz dodawania artykułu
+    document.getElementById('article-form').style.display = 'none';
+  
+    // Pobierz referencje do elementów formularza edycji
+    const editForm = document.getElementById('edit-article-form');
+  
+    // Wyświetl formularz edycji
+    editForm.style.display = 'block';
+}
+  
+function saveEditedArticle(articleId) {
+    const editedTitle = document.getElementById('edited-article-title').value;
+    const editedContent = document.getElementById('edited-article-content').value;
+    const editedImageInput = document.getElementById('edited-article-image');
+
+    const selectedTags = getSelectedTags(); // Pobierz zaznaczone tagi (jeśli używasz tej funkcji w swoim kodzie)
+
+    if (editedTitle && editedContent) {
+        const articleRef = db.collection('articles').doc(articleId);
+
+        // Sprawdź, czy dokument istnieje przed próbą aktualizacji
+        articleRef.get()
+            .then((doc) => {
+                if (doc.exists) {
+                    const updateData = {
+                        title: editedTitle,
+                        content: editedContent,
+                        tags: selectedTags // Dodaj aktualizację tagów, jeśli to potrzebne w Twoim przypadku
+                    };
+
+                    if (editedImageInput.files.length > 0) {
+                        const editedImageFile = editedImageInput.files[0];
+
+                        const storageRef = firebase.storage().ref('article_images/' + editedImageFile.name);
+                        const uploadTask = storageRef.put(editedImageFile);
+
+                        uploadTask.on(
+                            'state_changed',
+                            (snapshot) => {
+                                // Obsługa postępu ładowania, jeśli potrzebujesz
+                            },
+                            (error) => {
+                                console.error('Error: ', error);
+                                displayMessage('Błąd podczas ładowania obrazu.', 'danger');
+                            },
+                            () => {
+                                uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
+                                    updateData.image = downloadURL;
+
+                                    // Zaktualizuj dokument tylko jeśli nadal istnieje
+                                    articleRef.update(updateData)
+                                        .then(() => {
+                                            displayMessage('Artykuł został zaktualizowany pomyślnie!', 'success');
+                                            displayArticles(); // Odśwież listę artykułów po zapisie zmian
+                                            cancelEdit(); // Anuluj edycję po zapisie zmian
+                                        })
+                                        .catch((error) => {
+                                            console.error('Error: ', error);
+                                            displayMessage('Błąd podczas zapisywania edytowanego artykułu.', 'danger');
+                                        });
+                                });
+                            }
+                        );
+                    } else {
+                        // Jeśli nie edytowano obrazu, zaktualizuj tylko dane tekstowe
+                        articleRef.update(updateData)
+                            .then(() => {
+                                displayMessage('Artykuł został zaktualizowany pomyślnie!', 'success');
+                                displayArticles(); // Odśwież listę artykułów po zapisie zmian
+                                cancelEdit(); // Anuluj edycję po zapisie zmian
+                            })
+                            .catch((error) => {
+                                console.error('Error: ', error);
+                                displayMessage('Błąd podczas zapisywania edytowanego artykułu.', 'danger');
+                            });
+                    }
+                } else {
+                    console.log('Artykuł nie istnieje');
+                    displayMessage('Artykuł nie istnieje w bazie danych.', 'danger');
+                }
+            })
+            .catch((error) => {
+                console.error('Błąd podczas pobierania artykułu:', error);
+            });
+    } else {
+        displayMessage('Tytuł i treść artykułu są wymagane.', 'danger');
+    }
+}
+
+function cancelEdit() {
+    const articleEditForm = document.getElementById('edit-article-form');
+
+    if (articleEditForm) {
+        articleEditForm.style.display = 'none';
+    } else {
+        console.error("Element 'edit-article-form' nie został znaleziony.");
+    }
+}
+
+function deleteArticle(articleId) {
+    const user = auth.currentUser;
+
+    if (user && (user.email === 'xajperminecraftyt@gmail.com' || user.email === 'KsaverX@interia.pl')) {
+        const confirmed = confirm('Czy na pewno chcesz usunąć ten artykuł?');
+
+        if (confirmed) {
+            db.collection('articles').doc(articleId).delete()
+                .then(() => {
+                    displayMessage('Artykuł usunięty pomyślnie!', 'success');
+                    displayArticles();
+                })
+                .catch((error) => {
+                    console.error('Error: ', error);
+                });
+        }
+    } else {
+        console.error('Brak uprawnień do usunięcia artykułu.');
+    }
+}
+
+function formatTimestamp(timestamp) {
+    const date = new Date(timestamp);
+    return `${date.toLocaleDateString()} | ${date.toLocaleTimeString()}`;
+}
+
+function displayLatestArticles() {
+    const latestArticlesList = document.getElementById('latest-articles-list').getElementsByTagName('ul')[0];
+
+    db.collection('articles')
+        .orderBy('date', 'desc')
+        .limit(3)
+        .get()
+        .then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+                const li = document.createElement('li');
+                const a = document.createElement('a');
+
+                const addedArticleId = doc.data().addedArticleId || ''; // Sprawdzamy, czy addedArticleId istnieje w dokumencie
+
+                a.href = `?artykul=${addedArticleId}`;
+                a.textContent = doc.data().title;
+
+                // Dodaj tutaj funkcję articleaddedit, przekazując odpowiednie wartości
+                a.onclick = function (event) {
+                    event.preventDefault();
+                    zobacz(addedArticleId, doc.data().articleId);
+                    articleaddedit(addedArticleId); // Dodaj funkcję articleaddedit
+                };
+
+                li.appendChild(a);
+                latestArticlesList.appendChild(li);
+            });
+        })
+        .catch((error) => {
+            console.error('Error: ', error);
+        });
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+    const tagLinks = document.querySelectorAll('#article-tags li a');
+
+    tagLinks.forEach(tagLink => {
+        tagLink.addEventListener('click', function (event) {
+            event.preventDefault();
+
+            showTagOptions();
+        });
+    });
+
+    const tagCheckboxesBtn = document.getElementById('tag-checkboxes-btn');
+    tagCheckboxesBtn.addEventListener('click', function () {
+        showTagOptions();
+    });
+});
+
+function showTagOptions() {
+    const tagCheckboxes = document.getElementById('tag-checkboxes');
+    const tagOptions = document.getElementById('tag-options');
+
+    const availableTags = [
+        'NOWE', 'INNE', 'POPULARNE', 'KOLARSTWO', 'E-SPORT', 'PIŁKA NOŻNA', 'LEKKOATLETYKA',
+        'TENIS', 'KOSZYKÓWKA', 'SIATKÓWKA', 'PIŁKA RĘCZNA', 'PŁYWANIE', 'ŻUŻEL', 'SPORTY ZIMOWE',
+        'SKOKI NARCIARSKIE', 'BIEGI NARCAIRSKIE', 'BIATHLON', 'HOKEJ'
+    ];
+
+    tagOptions.innerHTML = '';
+
+    availableTags.forEach(tag => {
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.name = 'tags';
+        checkbox.value = tag;
+
+        const label = document.createElement('label');
+        label.appendChild(checkbox);
+        label.appendChild(document.createTextNode(tag));
+
+        tagOptions.appendChild(label);
+    });
+
+    tagCheckboxes.style.display = 'block';
+}
+
+function getSelectedTags() {
+    const selectedTags = [];
+    const checkboxes = document.querySelectorAll('#tag-options input[name="tags"]:checked');
+    
+    checkboxes.forEach(checkbox => {
+        selectedTags.push(checkbox.value);
+    });
+
+    return selectedTags;
+}
+
+function validate_email(email) {
+    const expression = /^[^@]+@\w+(\.\w+)+\w$/;
+    return expression.test(email);
+}
+
+function validate_password(password) {
+    return password.length >= 6;
+}
+
+
+
+
+
+
 
 function scrollToTop() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -336,33 +753,6 @@ function getParameterByName(name, url) {
     if (!results[2]) return '';
     return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
-
-function scrollToArticle(articleId) {
-    var articleElement = document.getElementById(articleId);
-
-    if (articleElement) {
-        articleElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-}
-
-function zobacz(articleId) {
-    scrollToArticle(articleId);
-
-    console.log('Wybrany artykuł:', articleId);
-
-    var currentUrl = window.location.href;
-
-    window.location.href = currentUrl.split('?')[0] + '?artykul=' + articleId;
-}
-
-window.onload = function () {
-    var currentArticle = getParameterByName('artykul');
-    if (currentArticle) {
-        document.getElementById(currentArticle).classList.add('selected');
-
-        scrollToArticle(currentArticle);
-    }
-};
 
 document.addEventListener('DOMContentLoaded', function () {
     const tagLinks = document.querySelectorAll('#article-tags li a');
@@ -508,11 +898,39 @@ function toggleSortMenu(element) {
 
 function toggleComments() {
     var commentsSection = document.getElementById('comments-section');
-    commentsSection.classList.toggle('show');
+    var commentsToggleBtn = document.getElementById('comments-toggle-btn');
+  
+    if (commentsSection.style.display === 'none' || commentsSection.style.display === '') {
+      commentsSection.style.display = 'block';
+      commentsToggleBtn.textContent = 'Ukryj Komentarze';
+    } else {
+      commentsSection.style.display = 'none';
+      commentsToggleBtn.textContent = 'Pokaż Komentarze';
+    }
 }
 
-function zobacz(id) {
-    var article = document.getElementById(id);
+document.addEventListener('DOMContentLoaded', function () {
+    var articleIdParam = getParameterByName('artykul');
+
+    if (articleIdParam) {
+        scrollToArticle(articleIdParam);
+    }
+});
+
+function getParameterByName(name, url) {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
+}
+
+function zobacz(articleId, addedArticleId) {
+    scrollToArticle(articleId);
+
+    var article = document.getElementById(articleId);
     var overlay = document.getElementById('overlay');
     var overlayTitle = document.getElementById('overlay-title');
     var overlayText = document.getElementById('overlay-text');
@@ -520,14 +938,51 @@ function zobacz(id) {
     var overlayAuthor = document.getElementById('overlay-author');
     var overlayTime = document.getElementById('overlay-time');
 
-    overlayTitle.textContent = article.querySelector('h3 a')?.textContent || '';
-    overlayText.textContent = article.querySelector('p')?.textContent || '';
-    overlayTags.textContent = article.querySelector('p:nth-child(5)')?.textContent || '';
-    overlayAuthor.textContent = article.querySelector('p:nth-child(7)')?.textContent || '';
-    overlayTime.textContent = article.querySelector('p:nth-child(8)')?.textContent || '';
+    // Pobierz dane z elementów artykułu
+    var title = article.querySelector('h3 a')?.textContent || '';
+    var content = article.querySelector('p')?.textContent || '';
+    var tags = article.querySelector('p:nth-child(5)')?.textContent || '';
+    var author = article.querySelector('p:nth-child(7)')?.textContent || '';
+    var time = article.querySelector('p:nth-child(6)')?.textContent || '';
 
-    overlay.style.display = 'flex';
+    // Ustaw teksty w overlay
+    overlayTitle.textContent = title;
+    overlayText.textContent = content;
+    overlayTags.innerHTML = `<i class="fas fa-hashtag"></i> ${tags}`;
+    overlayAuthor.innerHTML = `<i class="far fa-user"></i> ${author}`;
+    overlayTime.innerHTML = `<i class="far fa-clock"></i> ${time}`;
+
+    // Aktualizuj adres URL
+    var url = window.location.href.split('?')[0] + '?artykul=' + addedArticleId;
+    history.pushState({}, '', url);
+
+    // Wyświetl overlay
+    overlay.style.display = 'block';
 }
+
+window.addEventListener('popstate', function (event) {
+    var overlay = document.getElementById('overlay');
+
+    if (overlay.style.display === 'block') {
+        overlay.style.display = 'none';
+    }
+});
+
+function scrollToArticle(articleId) {
+    var articleElement = document.getElementById(articleId);
+
+    if (articleElement) {
+        articleElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+}
+
+window.onload = function () {
+    var currentArticle = getParameterByName('artykul');
+    if (currentArticle) {
+        document.getElementById(currentArticle).classList.add('selected');
+        scrollToArticle(currentArticle);
+    }
+};
 
 function closeOverlay() {
     var overlay = document.getElementById('overlay');
