@@ -33,22 +33,16 @@
           <p id="overlay-author"><i class="fas fa-user"></i></p>
           <p id="overlay-time"><i class="fas fa-clock"></i></p>
         </div>
-        <div id="comments-section">
-          <h4>Komentarze</h4>
-          <div class="container">
+          <div id="comments-section">
+            <h4 class="mt-3 text-center border-bottom pb-2">Komentarze</h4>
             <form id="comments">
-              <div class="mb-3">
-                <label for="name" class="form-label">Nazwa</label>
-                <input id="name" name="name" type="text" class="form-control" autocomplete="off">
-              </div>
-              <div class="mb-3">
-                <label for="comment" class="form-label">Napisz komentarz</label>
-                <textarea id="comment" name="comment" class="form-control"></textarea>
-              </div>
-              <button class="btn btn-outline-primary">Prześlij</button>
+                <div class="mb-3">
+                    <label for="comment" class="form-label">Napisz komentarz</label>
+                    <textarea placeholder="Oceń artykuł..." id="comment" name="comment" class="form-control"></textarea>
+                </div>
+                <button class="btn btn-outline-primary">Prześlij <i class="fas fa-arrow-right"></i></button>
+                <div id="commentsList" class="container cont"></div>
             </form>
-          </div>
-          <div class="container cont">
           </div>
         </div>
       </div>
@@ -135,20 +129,19 @@
     </div>
 
     <div id="article-form" style="display: none;">
-      <h2>DODAJ NOWY ARTYKUŁ</h2>
+      <h2><i class="fas fa-plus"></i> DODAJ NOWY ARTYKUŁ</h2>
       <form>
-        <label for="article-title">TYTUŁ:</label>
+        <label for="article-title">📖 TYTUŁ:</label>
         <input type="text" id="article-title" name="article-title" required oninput="this.value = this.value.toUpperCase()">
         
-        <label for="article-content">TREŚĆ:</label>
+        <label for="article-content">📝 TREŚĆ:</label>
         <textarea id="article-content" name="article-content" required></textarea>
         
-        <label for="article-image">ZDJĘCIE:</label>
+        <label for="article-image">📷 ZDJĘCIE:</label>
         <input type="file" id="article-image" accept="image/*">
         
-        <button type="button" id="tag-checkboxes-btn"><i class="fas fa-hashtag"></i> Tagi</button>
+        <button type="button" id="tag-checkboxes-btn"><i class="fas fa-hashtag"></i> TAGI</button>
         <div id="tag-checkboxes" style="display: none;">
-          <label>WYBIERZ TAGI:</label>
           <div id="tag-options"></div>
         </div>
         <hr>
@@ -161,15 +154,15 @@
     </div>    
     
     <div id="edit-article-form" style="display: none;">
-      <h2>EDYTUJ ARTYKUŁ</h2>
+      <h2><i class="fas fa-pencil-alt"></i> EDYTUJ ARTYKUŁ</h2>
       <form>
-        <label for="edited-article-title">TYTUŁ:</label>
+        <label for="edited-article-title">📖 TYTUŁ:</label>
         <input type="text" id="edited-article-title" name="edited-article-title" required oninput="this.value = this.value.toUpperCase()">
         
-        <label for="edited-article-content">TREŚĆ:</label>
+        <label for="edited-article-content">📝 TREŚĆ:</label>
         <textarea id="edited-article-content" name="edited-article-content" required></textarea>
         
-        <label for="edited-article-image">ZDJĘCIE:</label>
+        <label for="edited-article-image">📷 ZDJĘCIE:</label>
         <input type="file" id="edited-article-image" accept="image/*">
         <hr>
         <button type="button" onclick="saveEditedArticle('${doc.id}')"><i class="fas fa-check"></i> Zapisz zmiany</button>
@@ -223,12 +216,10 @@
     </article>
     
     <div class="sidebar">
-            <section id="latest-articles-list">
+            <div id="latest-articles-list">
               <h2>OSTATNIE</h2>
-              <ul>
-
-              </ul>
-            </section>
+              <ul></ul>
+            </div>
 
             <section id="popular-articles-list">
                 <h2>POPULARNE</h2>
