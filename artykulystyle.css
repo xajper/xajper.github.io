@@ -55,79 +55,95 @@ body {
 #overlay {
   display: none;
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.7);
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  box-shadow: 0 0 100px rgba(0, 0, 0, 0.3);
+  z-index: 9999;
+  width: 80%;
+  padding: 20px;
+  height: 80%;
+  box-sizing: border-box;
+}
+
+#overlay button {
+  background-color: #3498db;
+  color: #fff;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+#overlay button:hover {
+  background-color: #2980b9;
 }
 
 #overlay-content {
-  background: #f8f9fa;
-  padding: 20px;
-  width: 90%;
-  height: 80%;
   display: flex;
-  border-radius: 10px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+  flex-direction: column;
 }
 
 #main-info {
-  flex: 1;
-  text-align: center;
-  color: #000;
+  margin-bottom: 20px;
+}
+
+#main-info h3 {
+  font-size: 24px;
+}
+
+#main-info p {
+  margin: 5px 0;
 }
 
 #comments-section {
+  border-top: 1px solid #ddd;
+  padding-top: 20px;
   display: none;
-  flex: 1;
-  padding-left: 20px;
-  border-left: 2px solid #000;
-  transition: width 0.3s ease;
 }
 
-#comments-section.show {
-  display: flex;
-  width: 300px;
+#close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  font-size: 24px;
+  color: #666;
+}
+
+#comments-section h4 {
+  font-size: 20px;
 }
 
 .container {
   margin-top: 20px;
 }
 
-.close-overlay {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  font-size: 1.5em;
-  color: #ffffff; /* Black text color for close button */
+#comments label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+#comments textarea,
+#comments input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.btn-outline-primary {
+  background-color: transparent;
+  color: #3498db;
+  border: 1px solid #3498db;
+  padding: 10px 20px;
   cursor: pointer;
-}
-
-form {
-  margin-top: 20px;
-}
-
-.form-label {
-  font-weight: bold;
-  color: #000; /* Black text color for form labels */
-}
-
-.btn {
-  cursor: pointer;
-  background-color: #007bff;
-  color: #fff;
-  border: 1px solid #007bff;
-  padding: 5px 10px;
   border-radius: 5px;
 }
 
-.btn:hover {
-  background-color: #0056b3;
-  border-color: #0056b3;
+.btn-outline-primary:hover {
+  background-color: #3498db;
+  color: #fff;
 }
 
 .burger input {
@@ -237,6 +253,18 @@ p {
   }
 }
 
+@keyframes pulseedit {
+  0% {
+    box-shadow: 0 0 0 0 rgba(179, 253, 31);
+  }
+  70% {
+    box-shadow: 0 0 0 15px rgba(255, 215, 0, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 215, 0, 0);
+  }
+}
+
 .save-button.clicked {
   animation: clickAnimation 0.8s ease;
 }
@@ -283,6 +311,119 @@ p {
   animation: pulseshare 0.8s ease;
 }
 
+.delete-button {
+  position: absolute;
+  bottom: 10px;
+  right: 80px;
+  background-color: transparent;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease, color 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  border-radius: 5px;
+}
+
+.delete-button i {
+  color: #fd1f1f;
+}
+
+.delete-button:hover i {
+  color: #ff3131;
+}
+
+.delete-button:hover {
+  background-color: transparent;
+  animation: pulsesharered 0.8s ease;
+}
+
+.edit-button {
+  position: absolute;
+  bottom: 10px;
+  right: 105px;
+  background-color: transparent;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease, color 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  border-radius: 5px;
+}
+
+.edit-button i {
+  color: #b3fd1f;
+}
+
+.edit-button:hover i {
+  color: #b3fd1f;
+}
+
+.edit-button:hover {
+  background-color: transparent;
+  animation: pulseedit 0.8s ease;
+}
+
+#edit-article-form {
+  display: none;
+  width: 75%;
+  max-width: 800px;
+  padding: 20px;
+  box-sizing: border-box;
+  background-color: #fff;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+}
+
+
+#edit-article-form h2 {
+  margin-bottom: 20px;
+}
+
+#edit-article-form form {
+  width: 100%;
+  max-width: 400px;
+}
+
+#edit-article-form label {
+  display: block;
+  margin-top: 10px;
+}
+
+#edit-article-form input,
+#edit-article-form textarea,
+#edit-article-form button {
+  width: 100%;
+  margin-top: 5px;
+}
+
+#edit-article-form button {
+  background-color: #4caf50;
+  color: white;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+}
+
+#edit-article-form button:hover {
+  background-color: #45a049;
+}
+
+#edit-article-form hr {
+  margin: 20px 0;
+  border: 0;
+  border-top: 1px solid #ddd;
+}
+
 .sukces-button {
   background-color: transparent;
   border: none;
@@ -306,6 +447,19 @@ p {
 .sukces-icon i {
   font-size: 24px;
 }
+
+@keyframes pulsesharered {
+  0% {
+    box-shadow: 0 0 0 0 rgba(255, 12, 12, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 15px rgba(52, 152, 219, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(52, 152, 219, 0);
+  }
+}
+
 
 @keyframes pulseshare {
   0% {
@@ -506,8 +660,56 @@ img.placeholder {
   transform: scaleY(0.5);
 }
 
-#tag-checkboxes {
-  margin-top: 10px;
+#article-form {
+  display: none;
+  width: 75%;
+  max-width: 800px; /* Ogranicz szerokość formularza */
+  padding: 20px;
+  box-sizing: border-box;
+  background-color: #fff;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+}
+
+#article-form h2 {
+  font-size: 1.5em;
+  margin-bottom: 15px;
+}
+
+#article-form label {
+  display: block;
+  margin-bottom: 8px;
+}
+
+#article-form input,
+#article-form textarea,
+#article-form button {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  box-sizing: border-box;
+}
+
+#article-form textarea {
+  resize: vertical;
+}
+
+#article-form button {
+  cursor: pointer;
+  background-color: #4caf50;
+  color: #fff;
+  border: none;
+  padding: 12px 20px;
+  font-size: 1em;
+  transition: background-color 0.3s ease;
+}
+
+#article-form button:hover {
+  background-color: #45a049;
 }
 
 #tag-options {
@@ -516,7 +718,28 @@ img.placeholder {
 }
 
 #tag-options label {
-  margin-right: 10px;
+  flex: 1 0 calc(33.3333% - 10px); /* Ustaw szerokość dla każdego tagu w liście */
+  margin: 5px;
+}
+
+#preview-section {
+  display: none;
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+#preview-section h2 {
+  font-size: 1.5em;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+#preview-content {
+  font-size: 1em;
+  color: #555;
 }
 
 #notification-section {
@@ -568,16 +791,42 @@ img.placeholder {
   padding: 10px;
 }
 
+.alert {
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+
+.alert-danger {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+}
+
+.alert-success {
+    color: #155724;
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+}
+
+.alert-warning {
+    color: #856404;
+    background-color: #fff3cd;
+    border-color: #ffeeba;
+}
+
 .add-article-btn {
-  background-color: #4CAF50;
+  background-color: #3498db;
   color: #fff;
   border: none;
   padding: 10px;
   cursor: pointer;
-  text-align: right;
-  transition: background-color 0.3s ease, transform 0.2s ease; /* Dodano transform do animacji */
-  margin-left: auto; /* Ustawienie przycisku na prawo od reszty */
-  margin-right: 10px; /* Lekki odstęp od granicy */
+  text-align: center;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  margin-left: auto;
+  margin-right: 10px;
+  border-radius: 25%;
 }
 
 .add-article-btn:hover,
@@ -885,7 +1134,8 @@ nav ul li a:hover::before {
 }
 
 #main-article {
-  flex-basis: 25%;
+  flex-basis: 50%;
+  margin-right: 20px;
 }
 
 .container {
@@ -970,10 +1220,11 @@ hr {
 #popular-articles-list,
 #article-tags {
   background-color: #fff;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   margin-bottom: 20px;
   padding: 20px;
   text-align: left;
+  flex-basis: 25%;
 }
 
 #latest-articles-list h2,
@@ -983,6 +1234,11 @@ hr {
   color: #000;
 }
 
+#overlay-tags,
+#overlay-author,
+#overlay-time {
+    margin-top: 10px;/
+}
 
 #latest-articles-list li,
 #popular-articles-list li {
@@ -1033,18 +1289,6 @@ hr {
   border-radius: 4px;
 }
 
-#article-form {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: #fff;
-  padding: 20px;
-  border: 1px solid #ccc;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  z-index: 5;
-}
-
 #preview-section {
   position: fixed;
   top: 50%;
@@ -1092,7 +1336,8 @@ hr {
 
 #podglad-btn:hover,
 #publish-btn:hover,
-#cancel-btn:hover {
+#cancel-btn:hover,
+#logout-btn {
   background-color: #ffffff;
   color: #000000;
 }
@@ -1106,6 +1351,62 @@ article {
   padding: 20px;
   background-color: #fff;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+#main-article.loading::before {
+  content: '';
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.7);
+  z-index: 9999;
+  text-align: center;
+}
+
+#main-article.loading::after {
+  content: 'Wczytywanie artykułów...';
+  display: inline-block;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 1.2em;
+  color: #333;
+  z-index: 10000;
+}
+
+.load-more-btn {
+  width: 130px;
+  height: 40px;
+  font-size: 1.1em;
+  cursor: pointer;
+  background-color: #171717;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  transition: all .4s;
+  display: block;
+  margin: 20px auto;
+
+}
+ 
+.load-more-btn:hover {
+  border-radius: 5px;
+  transform: translateY(-10px);
+  box-shadow: 0 7px 0 -2px #2843cb,
+   0 15px 0 -4px #39a2db,
+   0 16px 10px -3px #39a2db;
+}
+ 
+.load-more-btn:active {
+  transition: all 0.2s;
+  transform: translateY(-5px);
+  box-shadow: 0 2px 0 -2px #f85959,
+   0 8px 0 -4px #39a2db,
+   0 12px 10px -3px #39a2db;
 }
 
 footer {
