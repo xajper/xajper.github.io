@@ -12,6 +12,9 @@ firebase.initializeApp(firebaseConfigArtykuly);
 const db = firebase.firestore();
 const auth = firebase.auth();
 
+
+const database1 = firebase.database();
+
 auth.onAuthStateChanged(user => {
     const addArticleBtn = document.getElementById('add-article-btn');
     const articleForm = document.getElementById('article-form');
@@ -68,6 +71,21 @@ document.addEventListener('DOMContentLoaded', function () {
     displayLatestArticles();
     displayArticles();
 });
+
+document.addEventListener('DOMContentLoaded', function () {
+    var articleIdParam = getParameterByName('artykul');
+
+    if (articleIdParam) {
+        scrollToArticle(articleIdParam);
+    }
+    
+    var currentArticle = getParameterByName('artykul');
+    if (currentArticle) {
+        document.getElementById(currentArticle).classList.add('selected');
+        scrollToArticle(currentArticle);
+    }
+});
+
 
 addArticleBtn.addEventListener('click', () => {
     // Sprawdzamy, czy użytkownik jest zalogowany
@@ -221,6 +239,7 @@ function addArticle() {
                                                 displayMessage('Artykuł dodany pomyślnie!', 'success');
                                                 addArticleBtn.disabled = false;
                                                 displayArticles();
+                                                displayLatestArticles();
                                             })
                                             .catch((error) => {
                                                 console.error('Error: ', error);
@@ -477,6 +496,7 @@ function saveEditedArticle(articleId) {
                                         .then(() => {
                                             displayMessage('Artykuł został zaktualizowany pomyślnie!', 'success');
                                             displayArticles(); // Odśwież listę artykułów po zapisie zmian
+                                            displayLatestArticles();
                                             cancelEdit(); // Anuluj edycję po zapisie zmian
                                         })
                                         .catch((error) => {
@@ -492,6 +512,7 @@ function saveEditedArticle(articleId) {
                             .then(() => {
                                 displayMessage('Artykuł został zaktualizowany pomyślnie!', 'success');
                                 displayArticles(); // Odśwież listę artykułów po zapisie zmian
+                                displayLatestArticles();
                                 cancelEdit(); // Anuluj edycję po zapisie zmian
                             })
                             .catch((error) => {
@@ -533,6 +554,7 @@ function deleteArticle(articleId) {
                 .then(() => {
                     displayMessage('Artykuł usunięty pomyślnie!', 'success');
                     displayArticles();
+                    displayLatestArticles();
                 })
                 .catch((error) => {
                     console.error('Error: ', error);
@@ -560,16 +582,22 @@ function displayLatestArticles() {
                 const li = document.createElement('li');
                 const a = document.createElement('a');
 
-                const addedArticleId = doc.data().addedArticleId || ''; // Sprawdzamy, czy addedArticleId istnieje w dokumencie
+                const addedArticleId = doc.data().addedArticleId || '';
+                const articleId = `${doc.id}`;
 
-                a.href = `?artykul=${addedArticleId}`;
+                a.href = `?artykul=${articleId}`;
                 a.textContent = doc.data().title;
 
                 // Dodaj tutaj funkcję articleaddedit, przekazując odpowiednie wartości
                 a.onclick = function (event) {
                     event.preventDefault();
-                    zobacz(addedArticleId, doc.data().articleId);
-                    articleaddedit(addedArticleId); // Dodaj funkcję articleaddedit
+
+                    // Set id attribute on the li element based on doc.id
+                    if (!document.getElementById(articleId)) {
+                        li.setAttribute('id', articleId);
+                    }
+
+                    zobacz(doc.id, doc.data().articleId);
                 };
 
                 li.appendChild(a);
@@ -587,23 +615,35 @@ document.addEventListener('DOMContentLoaded', function () {
     tagLinks.forEach(tagLink => {
         tagLink.addEventListener('click', function (event) {
             event.preventDefault();
-
             showTagOptions();
         });
     });
 
     const tagCheckboxesBtn = document.getElementById('tag-checkboxes-btn');
     tagCheckboxesBtn.addEventListener('click', function () {
-        showTagOptions();
+        toggleTagOptionsVisibility();
     });
 });
 
-function showTagOptions() {
+function toggleTagOptionsVisibility() {
     const tagCheckboxes = document.getElementById('tag-checkboxes');
     const tagOptions = document.getElementById('tag-options');
 
+    if (tagCheckboxes.style.display === 'block') {
+        tagCheckboxes.style.display = 'none';
+        tagOptions.style.display = 'none';
+    } else {
+        tagCheckboxes.style.display = 'block';
+        tagOptions.style.display = 'flex';
+        updateTagOptions();
+    }
+}
+
+function updateTagOptions() {
+    const tagOptions = document.getElementById('tag-options');
+
     const availableTags = [
-        'NOWE', 'INNE', 'POPULARNE', 'KOLARSTWO', 'E-SPORT', 'PIŁKA NOŻNA', 'LEKKOATLETYKA',
+        'INNE', 'KOLARSTWO', 'E-SPORT', 'PIŁKA NOŻNA', 'LEKKOATLETYKA',
         'TENIS', 'KOSZYKÓWKA', 'SIATKÓWKA', 'PIŁKA RĘCZNA', 'PŁYWANIE', 'ŻUŻEL', 'SPORTY ZIMOWE',
         'SKOKI NARCIARSKIE', 'BIEGI NARCAIRSKIE', 'BIATHLON', 'HOKEJ'
     ];
@@ -622,8 +662,6 @@ function showTagOptions() {
 
         tagOptions.appendChild(label);
     });
-
-    tagCheckboxes.style.display = 'block';
 }
 
 function getSelectedTags() {
@@ -645,6 +683,346 @@ function validate_email(email) {
 function validate_password(password) {
     return password.length >= 6;
 }
+
+
+const form = document.getElementById('comments');
+const div = document.querySelector('.cont');
+const commentsInfo = document.getElementById('commentsInfo');
+const commentTextArea = form.querySelector('textarea');
+
+form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const user = auth.currentUser;
+
+    if (user) {
+        try {
+            const name = await getNameFromEmail(user.email);
+
+            await db.collection('comments').add({
+                name: name,
+                comment: commentTextArea.value,
+                userId: user.uid,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                upvotes: 0,
+                downvotes: 0
+            });
+            addPointsToUser(user.uid, 5);
+            displayMessage('Komentarz został dodany, otrzymałeś +5 punktów! Odśwież stronę żeby zobaczyć komentarz.', 'success');
+
+            commentTextArea.value = '';
+        } catch (error) {
+            console.error('Błąd podczas dodawania komentarza:', error);
+            displayMessage('Wystąpił błąd podczas dodawania komentarza.', 'danger');
+        }
+    } else {
+        displayMessage('Najpierw musisz się zalogować, aby dodać komentarz.', 'warning');
+    }
+});
+
+function addPointsToUser(userId, pointsToAdd) {
+    const userRef = database1.ref('users/' + userId);
+
+    userRef.transaction((user) => {
+        if (user) {
+            user.points = (user.points || 0) + pointsToAdd;
+        }
+        return user;
+    }, (error, committed, snapshot) => {
+        if (error) {
+            console.error('Błąd podczas dodawania punktów do użytkownika:', error);
+        } else if (committed) {
+            console.log('Punkty zostały dodane do użytkownika!');
+        }
+    });
+}
+
+function addPointsToUser(userId, pointsToAdd) {
+    const userRef = database1.ref('users/' + userId);
+
+    userRef.transaction((user) => {
+        if (user) {
+            user.points = (user.points || 0) + pointsToAdd;
+        }
+        return user;
+    }, (error, committed, snapshot) => {
+        if (error) {
+            console.error('Błąd podczas dodawania punktów do użytkownika:', error);
+        } else if (committed) {
+            console.log('Punkty zostały dodane do użytkownika!');
+        }
+    });
+}
+
+function showButtons(userId) {
+    const commentsInfoElement = document.getElementById('commentsInfo');
+    const commentsListElement = document.getElementById('commentsList');
+
+    db.collection('comments').onSnapshot(snapshot => {
+        const commentsExist = snapshot.size > 0;
+
+        if (commentsExist) {
+            commentsInfoElement.textContent = '';
+            commentsListElement.innerHTML = '';
+
+            snapshot.forEach(doc => {
+                const commentUserId = doc.data().userId;
+                renderList(doc, commentUserId === userId);
+            });
+        } else {
+            commentsInfoElement.textContent = 'Brak komentarzy';
+        }
+    });
+}
+
+function hideButtons() {
+    const commentsInfoElement = document.getElementById('commentsInfo');
+    const commentsListElement = document.getElementById('commentsList');
+
+    db.collection('comments').onSnapshot(snapshot => {
+        const commentsExist = snapshot.size > 0;
+
+        if (commentsExist) {
+            snapshot.forEach(doc => {
+                renderList(doc, false);
+            });
+        } else {
+            commentsInfoElement.textContent = 'Brak komentarzy';
+            commentsListElement.innerHTML = '';
+        }
+    });
+}
+
+function renderList(doc, showButtons) {
+    var main_div = document.createElement('div');
+    var card_body = document.createElement('div');
+    var name = document.createElement('h5');
+    var comment = document.createElement('p');
+    var timestamp = document.createElement('small');
+    var editButton = document.createElement('button');
+    var deleteButton = document.createElement('button');
+    var upvoteButton = document.createElement('button');
+    var downvoteButton = document.createElement('button');
+    var upvoteCount = document.createElement('span');
+    var downvoteCount = document.createElement('span');
+
+    main_div.setAttribute('class', 'card mt-3');
+    card_body.setAttribute('class', 'card-body');
+    name.setAttribute('class', 'card-title');
+    comment.setAttribute('class', 'card-text');
+    timestamp.setAttribute('class', 'text-muted');
+    editButton.setAttribute('class', 'btn btn-primary btn-edit');
+    deleteButton.setAttribute('class', 'btn btn-danger btn-delete');
+    upvoteButton.setAttribute('class', 'btn btn-success btn-upvote');
+    downvoteButton.setAttribute('class', 'btn btn-danger btn-downvote');
+
+    upvoteCount.setAttribute('class', 'upvote-count');
+    downvoteCount.setAttribute('class', 'downvote-count');
+
+    name.textContent = doc.data().name;
+    comment.textContent = doc.data().comment;
+    timestamp.textContent = ' ' + formatTimestamp(doc.data().timestamp);
+    editButton.innerHTML = 'Edytuj <i class="fas fa-pencil-alt"></i>';
+    deleteButton.innerHTML = 'Usuń <i class="fas fa-trash"></i>';
+    upvoteButton.innerHTML = '<i class="fas fa-thumbs-up"></i>';
+    downvoteButton.innerHTML = '<i class="fas fa-thumbs-down"></i>';
+    upvoteCount.textContent = doc.data().upvotes;
+    downvoteCount.textContent = doc.data().downvotes;
+
+    card_body.appendChild(name);
+    card_body.appendChild(comment);
+    card_body.appendChild(timestamp);
+
+    var clockIcon = document.createElement('i');
+    clockIcon.setAttribute('class', 'fas fa-clock');
+    timestamp.insertBefore(clockIcon, timestamp.firstChild);
+
+    card_body.appendChild(upvoteButton);
+    card_body.appendChild(upvoteCount);
+    card_body.appendChild(downvoteButton);
+    card_body.appendChild(downvoteCount);
+
+    if (showButtons) {
+        if (isAuthor) {
+            editButton.addEventListener('click', () => {
+                editComment(doc.id, doc.data().comment);
+            });
+            deleteButton.addEventListener('click', () => {
+                confirmDeleteComment(doc.id);
+            });
+
+            card_body.appendChild(editButton);
+            card_body.appendChild(deleteButton);
+        }
+    }
+
+    main_div.appendChild(card_body);
+    div.appendChild(main_div);
+}
+
+function editComment(commentId, currentComment) {
+    const newComment = prompt('Edytuj komentarz:', currentComment);
+
+    if (newComment !== null) {
+        db.collection('comments').doc(commentId).update({
+            comment: newComment
+        }).then(() => {
+            console.log('Komentarz został zaktualizowany!');
+            location.reload();
+        }).catch((error) => {
+            console.error('Błąd podczas aktualizacji komentarza:', error);
+        });
+    }
+}
+
+function subtractPointsOnDelete(userId, pointsToSubtract) {
+    const userRef = database1.ref('users/' + userId);
+
+    userRef.transaction((user) => {
+        if (user) {
+            user.points = (user.points || 0) - pointsToSubtract;
+        }
+        return user;
+    }, (error, committed, snapshot) => {
+        if (error) {
+            console.error('Błąd podczas odejmowania punktów od użytkownika:', error);
+        } else if (committed) {
+            console.log('Punkty zostały odjęte od użytkownika!');
+        }
+    });
+}
+
+function confirmDeleteComment(commentId) {
+    const confirmDelete = confirm('Czy na pewno chcesz usunąć ten komentarz?');
+
+    if (confirmDelete) {
+        deleteComment(commentId);
+    }
+}
+
+function deleteComment(commentId) {
+    db.collection('comments').doc(commentId).get().then((doc) => {
+        if (doc.exists) {
+            const userId = doc.data().userId;
+            subtractPointsOnDelete(userId, 5);
+        }
+        return db.collection('comments').doc(commentId).delete();
+    }).then(() => {
+        console.log('Komentarz został usunięty!');
+        location.reload();
+    }).catch((error) => {
+        console.error('Błąd podczas usuwania komentarza:', error);
+    });
+}
+
+function handleVote(commentId, voteType) {
+    const user = auth.currentUser;
+
+    if (user) {
+        const voteField = voteType === 'upvote' ? 'upvotes' : 'downvotes';
+
+        db.collection('comments').doc(commentId).collection('votes').doc(user.uid).get()
+            .then((voteDoc) => {
+                if (voteDoc.exists) {
+                    const currentVote = voteDoc.data().voteType;
+
+                    if (currentVote === voteType) {
+                        subtractVotePoint(commentId, user.uid, voteType);
+                    } else {
+                        updateVote(commentId, user.uid, voteType);
+                    }
+                } else {
+                    addVote(commentId, user.uid, voteType);
+                }
+            }).catch((error) => {
+                console.error('Błąd podczas sprawdzania głosu:', error);
+            });
+    } else {
+        alert('Musisz być zalogowany, aby oddać głos.');
+    }
+}
+
+function addVote(commentId, userId, voteType) {
+    db.collection('comments').doc(commentId).collection('votes').doc(userId).set({
+        voteType: voteType
+    }).then(() => {
+        addPointsOnVote(userId, 1);
+        console.log('Głos został dodany!');
+    }).catch((error) => {
+        console.error('Błąd podczas dodawania głosu:', error);
+    });
+}
+
+function updateVote(commentId, userId, voteType) {
+    db.collection('comments').doc(commentId).collection('votes').doc(userId).update({
+        voteType: voteType
+    }).then(() => {
+        console.log('Głos został zaktualizowany!');
+    }).catch((error) => {
+        console.error('Błąd podczas aktualizacji głosu:', error);
+    });
+}
+
+function subtractVotePoint(commentId, userId, voteType) {
+    db.collection('comments').doc(commentId).collection('votes').doc(userId).delete()
+        .then(() => {
+            subtractPointsOnVote(userId, 1);
+            console.log('Głos został usunięty!');
+        }).catch((error) => {
+            console.error('Błąd podczas usuwania głosu:', error);
+        });
+}
+
+function subtractPointsOnVote(userId, pointsToSubtract) {
+    const userRef = database1.ref('users/' + userId);
+
+    userRef.transaction((user) => {
+        if (user) {
+            user.points = (user.points || 0) - pointsToSubtract;
+        }
+        return user;
+    }, (error, committed, snapshot) => {
+        if (error) {
+            console.error('Błąd podczas odejmowania punktów od użytkownika:', error);
+        } else if (committed) {
+            console.log('Punkty zostały odjęte od użytkownika!');
+        }
+    });
+}
+
+async function getNameFromEmail(email) {
+    try {
+        const userDoc = await db.collection('users').where('email', '==', email).get();
+        if (!userDoc.empty) {
+            return userDoc.docs[0].data().full_name;
+        } else {
+            return email;
+        }
+    } catch (error) {
+        console.error('Błąd podczas pobierania nazwy użytkownika:', error);
+        return email;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -931,6 +1309,12 @@ function zobacz(articleId, addedArticleId) {
     scrollToArticle(articleId);
 
     var article = document.getElementById(articleId);
+    
+    if (!article) {
+        console.error(`Artykuł z ID: ${articleId} nie znaleziony.`);
+        return;
+    }
+
     var overlay = document.getElementById('overlay');
     var overlayTitle = document.getElementById('overlay-title');
     var overlayText = document.getElementById('overlay-text');
@@ -973,6 +1357,19 @@ function scrollToArticle(articleId) {
 
     if (articleElement) {
         articleElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } else {
+        // If the element is not found, query Firestore for the article
+        db.collection('articles').doc(articleId).get()
+            .then((doc) => {
+                if (doc.exists) {
+                    zobacz(doc.id, doc.data().articleId);
+                } else {
+                    console.error('Artykuł nie znaleziony:', articleId);
+                }
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
     }
 }
 
