@@ -12,7 +12,6 @@ firebase.initializeApp(firebaseConfigArtykuly);
 const db = firebase.firestore();
 const auth = firebase.auth();
 
-
 const database1 = firebase.database();
 
 auth.onAuthStateChanged(user => {
@@ -63,8 +62,8 @@ const editArticleBtn = document.getElementById('edit-article-btn');
 
 const articlesContainer = document.getElementById('main-article');
 const loadMoreBtn = document.getElementById('load-more-btn');
-let currentBatch = 5; // Number of articles to load initially
-const batchIncrement = 5; // Number of articles to load on each "Load More" click
+let currentBatch = 5;
+const batchIncrement = 5;
 
 document.addEventListener('DOMContentLoaded', function () {
     checkUserAuthentication();
@@ -78,12 +77,17 @@ document.addEventListener('DOMContentLoaded', function () {
     if (articleIdParam) {
         scrollToArticle(articleIdParam);
     }
-    
+
     var currentArticle = getParameterByName('artykul');
     if (currentArticle) {
         document.getElementById(currentArticle).classList.add('selected');
-        scrollToArticle(currentArticle);
     }
+
+    window.onload = function () {
+        if (currentArticle) {
+            scrollToArticle(currentArticle);
+        }
+    };
 });
 
 
@@ -1358,7 +1362,6 @@ function scrollToArticle(articleId) {
     if (articleElement) {
         articleElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
     } else {
-        // If the element is not found, query Firestore for the article
         db.collection('articles').doc(articleId).get()
             .then((doc) => {
                 if (doc.exists) {
@@ -1372,14 +1375,6 @@ function scrollToArticle(articleId) {
             });
     }
 }
-
-window.onload = function () {
-    var currentArticle = getParameterByName('artykul');
-    if (currentArticle) {
-        document.getElementById(currentArticle).classList.add('selected');
-        scrollToArticle(currentArticle);
-    }
-};
 
 function closeOverlay() {
     var overlay = document.getElementById('overlay');
