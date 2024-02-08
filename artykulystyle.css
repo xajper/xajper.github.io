@@ -728,15 +728,15 @@ img.placeholder {
 }
 
 #tag-options label {
-  flex: 1 0 calc(33.3333% - 10px); /* Ustaw szerokość dla każdego tagu w liście */
+  flex: 1 0 calc(33.3333% - 10px);
   margin: 5px;
 }
 
 #tag-checkboxes {
   display: grid;
-  margin-top: 10px; /* Dostosuj wartość margin-top według potrzeb */
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Automatycznie dostosuj do szerokości okna, minimalna szerokość 200px */
-  gap: 10px; /* Odstęp między checkboxami */
+  margin-top: 10px;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 10px;
 }
 
 #close-preview-btn {
