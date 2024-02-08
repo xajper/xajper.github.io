@@ -732,6 +732,13 @@ img.placeholder {
   margin: 5px;
 }
 
+#tag-checkboxes {
+  display: grid;
+  margin-top: 10px; /* Dostosuj wartość margin-top według potrzeb */
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Automatycznie dostosuj do szerokości okna, minimalna szerokość 200px */
+  gap: 10px; /* Odstęp między checkboxami */
+}
+
 #close-preview-btn {
   position: absolute;
   top: 10px;
