@@ -422,7 +422,7 @@ function displayArticles() {
                         </div>
                         <p style="display: none;"><i class="fas fa-hashtag"></i> ${doc.data().tags.join(', ')}</p>
                         <p><i class="far fa-clock"></i> ${formatTimestamp(doc.data().date)}</p>
-                        <p style="display: none;"><i class="far fa-user" id="author">${doc.data().author}</i></p>
+                        <p style="display: none;"><i class="fas fa-user" id="author">${doc.data().author}</i></p>
                         <button class="save-button" id="saveButton">
                             <i class="fas fa-bookmark"></i>
                             <div class="fireworks"></div>
@@ -1199,8 +1199,8 @@ function zobacz(articleId, addedArticleId) {
     overlayTitle.textContent = title;
     overlayText.innerHTML = content;
     overlayTags.innerHTML = `<i style="margin-top: 25px;" class="fas fa-hashtag"></i> ${tags}`;
-    overlayAuthor.innerHTML = `<i class="far fa-user"></i> ${author}`;
-    overlayTime.innerHTML = `<i class="far fa-clock"></i> ${time}`;
+    overlayAuthor.innerHTML = `<i class="fas fa-user"></i> ${author}`;
+    overlayTime.innerHTML = `<i class="fas fa-clock"></i> ${time}`;
 
     // Aktualizuj adres URL
     var url = window.location.href.split('?')[0] + '?artykul=' + addedArticleId;
