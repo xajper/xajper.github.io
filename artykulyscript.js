@@ -463,38 +463,37 @@ function displayArticles() {
     updateLoadingText();  // Initial loading text
 }
 
-
 function loadMoreArticles() {
     currentBatch += batchIncrement;
     displayArticles();
 }
 
 function editArticle(articleId) {
-    console.log(articleId);  // Dodaj tę linię
+    console.log(articleId);
     const articleRef = db.collection('articles').doc(articleId);
-  
+
     // Pobierz referencje do elementów formularza
     const editedTitleInput = document.getElementById('edited-article-title');
     const editedContentInput = document.getElementById('edited-article-content');
     const editedImageInput = document.getElementById('edited-article-image');
-  
+
     articleRef.get()
-      .then((doc) => {
-        if (doc.exists) {
-          // Ustaw wartości pól formularza na aktualne wartości artykułu
-          editedTitleInput.value = doc.data().title;
-          editedContentInput.value = doc.data().content;
-          // Możesz dodać inne pola, jeśli są dostępne w formularzu
-  
-          // Wyświetl formularz edycji
-          displayEditForm();
-        } else {
-          console.log('Artykuł nie istnieje');
-        }
-      })
-      .catch((error) => {
-        console.error('Błąd podczas pobierania artykułu:', error);
-      });
+        .then((doc) => {
+            if (doc.exists) {
+                // Ustaw wartości pól formularza na aktualne wartości artykułu
+                editedTitleInput.value = doc.data().title;
+                editedContentInput.value = doc.data().content;
+                // Możesz dodać inne pola, jeśli są dostępne w formularzu
+
+                // Wyświetl formularz edycji
+                displayEditForm();
+            } else {
+                console.log('Artykuł nie istnieje');
+            }
+        })
+        .catch((error) => {
+            console.error('Błąd podczas pobierania artykułu:', error);
+        });
 }
   
 function displayEditForm() {
@@ -512,25 +511,23 @@ function saveEditedArticle(articleId) {
     const editedTitle = document.getElementById('edited-article-title').value;
     const editedContent = document.getElementById('edited-article-content').value;
     const editedImageInput = document.getElementById('edited-article-image');
-
-    const selectedTags = getSelectedTags(); // Pobierz zaznaczone tagi (jeśli używasz tej funkcji w swoim kodzie)
+    const selectedTags = getSelectedTags();
 
     if (editedTitle && editedContent) {
-        const articleRef = db.collection('articles').doc(articleId);
-
-        // Sprawdź, czy dokument istnieje przed próbą aktualizacji
-        articleRef.get()
-            .then((doc) => {
-                if (doc.exists) {
+        db.collection('articles')
+            .where('articleId', '==', articleId)
+            .get()
+            .then((querySnapshot) => {
+                if (!querySnapshot.empty) {
+                    const articleDoc = querySnapshot.docs[0];
                     const updateData = {
                         title: editedTitle,
                         content: editedContent,
-                        tags: selectedTags // Dodaj aktualizację tagów, jeśli to potrzebne w Twoim przypadku
+                        tags: selectedTags
                     };
 
                     if (editedImageInput.files.length > 0) {
                         const editedImageFile = editedImageInput.files[0];
-
                         const storageRef = firebase.storage().ref('article_images/' + editedImageFile.name);
                         const uploadTask = storageRef.put(editedImageFile);
 
@@ -548,12 +545,12 @@ function saveEditedArticle(articleId) {
                                     updateData.image = downloadURL;
 
                                     // Zaktualizuj dokument tylko jeśli nadal istnieje
-                                    articleRef.update(updateData)
+                                    articleDoc.ref.update(updateData)
                                         .then(() => {
                                             displayMessage('Artykuł został zaktualizowany pomyślnie!', 'success');
-                                            displayArticles(); // Odśwież listę artykułów po zapisie zmian
+                                            displayArticles();
                                             displayLatestArticles();
-                                            cancelEdit(); // Anuluj edycję po zapisie zmian
+                                            cancelEdit();
                                         })
                                         .catch((error) => {
                                             console.error('Error: ', error);
@@ -564,12 +561,12 @@ function saveEditedArticle(articleId) {
                         );
                     } else {
                         // Jeśli nie edytowano obrazu, zaktualizuj tylko dane tekstowe
-                        articleRef.update(updateData)
+                        articleDoc.ref.update(updateData)
                             .then(() => {
                                 displayMessage('Artykuł został zaktualizowany pomyślnie!', 'success');
-                                displayArticles(); // Odśwież listę artykułów po zapisie zmian
+                                displayArticles();
                                 displayLatestArticles();
-                                cancelEdit(); // Anuluj edycję po zapisie zmian
+                                cancelEdit();
                             })
                             .catch((error) => {
                                 console.error('Error: ', error);
