@@ -1082,7 +1082,13 @@ function udostepnij(artykulId, event, button) {
 
     var currentUrl = window.location.href.split('?')[0] + '?artykul=' + artykulId;
 
+    // Copy to clipboard
     copyToClipboard(currentUrl);
+
+    updateViewsCount(artykulId);
+
+    // Update URL without page reload
+    history.pushState({}, '', currentUrl);
 }
 
 function copyToClipboard(text) {
