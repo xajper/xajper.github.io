@@ -688,6 +688,50 @@ function validate_password(password) {
     return password.length >= 6;
 }
 
+function formatText(style) {
+    const contentTextArea = document.getElementById('article-content');
+    const start = contentTextArea.selectionStart;
+    const end = contentTextArea.selectionEnd;
+    const selectedText = contentTextArea.value.substring(start, end);
+
+    switch (style) {
+        case 'bold':
+            contentTextArea.value = contentTextArea.value.substring(0, start) +
+                '**' + selectedText + '**' +
+                contentTextArea.value.substring(end);
+            break;
+        case 'italic':
+            contentTextArea.value = contentTextArea.value.substring(0, start) +
+                '*' + selectedText + '*' +
+                contentTextArea.value.substring(end);
+            break;
+        case 'underline':
+            contentTextArea.value = contentTextArea.value.substring(0, start) +
+                '__' + selectedText + '__' +
+                contentTextArea.value.substring(end);
+            break;
+        case 'strikethrough':
+            contentTextArea.value = contentTextArea.value.substring(0, start) +
+                '~~' + selectedText + '~~' +
+                contentTextArea.value.substring(end);
+            break;
+    }
+
+    contentTextArea.focus();
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 const form = document.getElementById('comments');
 const div = document.querySelector('.cont');
@@ -1328,14 +1372,17 @@ function zobacz(articleId, addedArticleId) {
 
     // Pobierz dane z elementów artykułu
     var title = article.querySelector('h3 a')?.textContent || '';
-    var content = article.querySelector('div')?.innerHTML || ''; // Zmiana na innerHTML
+    var content = article.querySelector('div')?.innerHTML || '';
     var tags = article.querySelector('p:nth-child(5)')?.textContent || '';
     var author = article.querySelector('p:nth-child(7)')?.textContent || '';
     var time = article.querySelector('p:nth-child(6)')?.textContent || '';
     
+    content = content.replace(/\n/g, '<br>');
+    content = applyTextFormatting(content);
+
     // Ustaw teksty w overlay
     overlayTitle.textContent = title;
-    overlayText.innerHTML = content; // Zmieniono na innerHTML
+    overlayText.innerHTML = content;
     overlayTags.innerHTML = `<i class="fas fa-hashtag"></i> ${tags}`;
     overlayAuthor.innerHTML = `<i class="far fa-user"></i> ${author}`;
     overlayTime.innerHTML = `<i class="far fa-clock"></i> ${time}`;
@@ -1347,6 +1394,17 @@ function zobacz(articleId, addedArticleId) {
     // Wyświetl overlay
     overlay.style.display = 'block';
 }
+
+function applyTextFormatting(text) {
+    // Dodaj inne zastępowania dla formatowań tekstu
+    text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>'); // Pogrubienie
+    text = text.replace(/\*(.*?)\*/g, '<em>$1</em>'); // Kursywa
+    text = text.replace(/__(.*?)__/g, '<u>$1</u>'); // Podkreślenie
+    text = text.replace(/~~(.*?)~~/g, '<s>$1</s>'); // Przekreślenie
+
+    return text;
+}
+
 window.addEventListener('popstate', function (event) {
     var overlay = document.getElementById('overlay');
 
