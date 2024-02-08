@@ -1,1850 +1,1264 @@
-body {
-  font-family: 'Arial', sans-serif;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  scrollbar-width: thin;
-  scrollbar-color: #7de5ee #f0f0f0;
-  min-width: 320px;
-  overflow-x: hidden;
+const firebaseConfigArtykuly = {
+    apiKey: "AIzaSyBWOYsHghiKRepKMFRKMX6U4hf2A8A2QuM",
+    authDomain: "sportowo-20862.firebaseapp.com",
+    databaseURL: "https://sportowo-20862-default-rtdb.firebaseio.com",
+    projectId: "sportowo-20862",
+    storageBucket: "sportowo-20862.appspot.com",
+    messagingSenderId: "823759230798",
+    appId: "1:823759230798:web:b879d346fabf4045c8701f"
+};
+
+firebase.initializeApp(firebaseConfigArtykuly);
+const db = firebase.firestore();
+const auth = firebase.auth();
+
+const database1 = firebase.database();
+
+auth.onAuthStateChanged(user => {
+    const addArticleBtn = document.getElementById('add-article-btn');
+    const articleForm = document.getElementById('article-form');
+    const deleteArticleBtn = document.getElementById('delete-article-btn');
+    const editArticleBtn = document.getElementById('edit-article-btn');
+
+    if (user) {
+        // Jeśli użytkownik jest zalogowany, sprawdź jego adres e-mail
+        const allowedEmails = ['xajperminecraftyt@gmail.com', 'KsaverX@interia.pl'];
+
+        if (allowedEmails.includes(user.email)) {
+            // Jeśli adres e-mail jest na liście dozwolonych, pokaż przycisk addArticleBtn
+            addArticleBtn.style.display = 'block';
+
+            if (user.email === 'xajperminecraftyt@gmail.com' || user.email === 'KsaverX@interia.pl') {
+                // Jeśli użytkownik to Xajper, pokaż formularz artykułu
+            } else {
+                // Jeśli użytkownik to inny dziennikarz, ukryj formularz artykułu
+                articleForm.style.display = 'none';
+                deleteArticleBtn.style.display = 'none';
+                editArticleBtn.style.display = 'none';
+            }
+        } else {
+            // Jeśli adres e-mail nie jest na liście dozwolonych, ukryj przycisk addArticleBtn
+            addArticleBtn.style.display = 'none';
+            articleForm.style.display = 'none';
+            deleteArticleBtn.style.display = 'none';
+            editArticleBtn.style.display = 'none';
+        }
+    } else {
+        // Jeśli użytkownik nie jest zalogowany, ukryj przycisk addArticleBtn
+        addArticleBtn.style.display = 'none';
+        articleForm.style.display = 'none';
+        deleteArticleBtn.style.display = 'none';
+        editArticleBtn.style.display = 'none';
+    }
+});
+
+const addArticleBtn = document.getElementById('add-article-btn');
+const articleForm = document.getElementById('article-form');
+const loginForm = document.getElementById('login-form');
+const publishBtn = document.getElementById('publish-btn');
+const logoutBtn = document.getElementById('logout-btn');
+const deleteArticleBtn = document.getElementById('delete-article-btn');
+const editArticleBtn = document.getElementById('edit-article-btn');
+
+const articlesContainer = document.getElementById('main-article');
+const loadMoreBtn = document.getElementById('load-more-btn');
+let currentBatch = 5;
+const batchIncrement = 5;
+
+document.addEventListener('DOMContentLoaded', function () {
+    checkUserAuthentication();
+    displayArticles();
+    displayLatestArticles();
+    displayPopularArticles();
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+    var articleIdParam = getParameterByName('artykul');
+
+    if (articleIdParam) {
+        scrollToArticle(articleIdParam);
+    }
+
+    var currentArticle = getParameterByName('artykul');
+    if (currentArticle) {
+        document.getElementById(currentArticle).classList.add('selected');
+    }
+
+    window.onload = function () {
+        if (currentArticle) {
+            scrollToArticle(currentArticle);
+        }
+    };
+});
+
+
+addArticleBtn.addEventListener('click', () => {
+    // Sprawdzamy, czy użytkownik jest zalogowany
+    const user = auth.currentUser;
+
+    if (user && (user.email === 'xajperminecraftyt@gmail.com' || user.email === 'KsaverX@interia.pl')) {
+        // Jeśli użytkownik jest zalogowany i to jest konto Xajpera, wywołujemy funkcję dodawania artykułu
+        articleForm.style.display = 'block';
+    } else {
+        // Jeśli użytkownik nie jest zalogowany lub to nie jest konto Xajpera, wywołujemy funkcję logowania
+        loginUser();
+    }
+});
+
+logoutBtn.addEventListener('click', () => {
+    auth.signOut()
+        .then(() => {
+            articleForm.style.display = 'none';
+            addArticleBtn.style.display = 'block';
+            document.getElementById('article-title').value = '';
+            document.getElementById('article-content').value = '';
+            document.getElementById('article-image').value = '';
+
+            displayMessage('Wylogowano pomyślnie!', 'success');
+
+            location.reload();
+        })
+        .catch((error) => {
+            console.error('Błąd podczas wylogowywania:', error);
+        });
+});
+
+function loginUser() {
+    const email = prompt('Proszę podać swój email:');
+    const password = prompt('Proszę podać swoje hasło:');
+
+    if (validate_email(email) && validate_password(password)) {
+        auth.signInWithEmailAndPassword(email, password)
+            .then(() => {
+                articleForm.style.display = 'block';
+                displayMessage('Zalogowano pomyślnie!', 'success');
+            })
+            .catch((error) => {
+                displayMessage('Nieprawidłowy email lub hasło. Nie udało się zalogować.', 'danger');
+                console.error('Błąd podczas logowania:', error);
+                articleForm.style.display = 'none';
+            });
+    } else {
+        displayMessage('Nieprawidłowy email lub hasło. Nie udało się zalogować.', 'danger');
+    }
+}
+
+function checkUserAuthentication() {
+    const user = JSON.parse(localStorage.getItem('loggedInUser'));
+
+    if (user && (user.email === 'xajperminecraftyt@gmail.com' || user.email === 'KsaverX@interia.pl')) {
+        // Ustaw widoczność odpowiednich elementów na stronie (dodaj swoje odpowiednie operacje)
+        const addArticleBtn = document.getElementById('add-article-btn');
+        const articleForm = document.getElementById('article-form');
+        const deleteArticleBtn = document.getElementById('delete-article-btn');
+        const editArticleBtn = document.getElementById('edit-article-btn');
+
+        addArticleBtn.style.display = 'block';
+
+        if (user.email === 'xajperminecraftyt@gmail.com' || user.email === 'KsaverX@interia.pl') {
+
+        } else {
+            articleForm.style.display = 'none';
+            deleteArticleBtn.style.display = 'none';
+            editArticleBtn.style.display = 'none';
+        }
+    }
+}
+
+function getCurrentTimestamp() {
+    return new Date().toISOString();
+}
+
+function getAuthor() {
+    // Tutaj możesz dostarczyć logiczne pobieranie autora, np. zalogowanego użytkownika itp.
+    return 'Autor';
+}
+
+function cancelArticle() {
+    articleForm.style.display = 'none';
+    document.getElementById('preview-section').style.display = 'none';
+}
+
+function displayMessage(message, type) {
+    const messageContainer = document.createElement('div');
+    messageContainer.className = `alert alert-${type}`;
+    messageContainer.textContent = message;
+
+    document.body.insertBefore(messageContainer, document.body.firstChild);
+
+    setTimeout(() => {
+        messageContainer.remove();
+    }, 3000);
+}
+
+function addArticle() {
+    const addArticleBtn = document.getElementById('add-article-btn');
+    addArticleBtn.disabled = true;
+
+    const title = document.getElementById('article-title').value;
+    let content = document.getElementById('article-content').value;
+    const imageInput = document.getElementById('article-image');
+    const selectedTags = getSelectedTags();
+
+    // Zamień znaki nowej linii na tagi <br> w HTML
+    content = content.split('\n').join('<br>');
+
+    if (selectedTags.length === 0) {
+        displayMessage('Proszę wybrać co najmniej jeden tag.', 'danger');
+        addArticleBtn.disabled = false;
+        return;
+    }
+
+    if (imageInput.files.length > 0) {
+        const imageFile = imageInput.files[0];
+
+        const storageRef = firebase.storage().ref('article_images/' + imageFile.name);
+        const uploadTask = storageRef.put(imageFile);
+
+        uploadTask.on(
+            'state_changed',
+            (snapshot) => {
+                const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                displayMessage(`Dodawanie komentarza: ${progress.toFixed(2)}%`, 'warning');
+            },
+            (error) => {
+                console.error('Error: ', error);
+                displayMessage('Błąd podczas ładowania obrazu.', 'danger');
+                addArticleBtn.disabled = false;
+            },
+            () => {
+                uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
+                    db.collection('articles')
+                        .where('title', '==', title)
+                        .get()
+                        .then((querySnapshot) => {
+                            if (querySnapshot.empty) {
+                                getNextArticleNumber()
+                                    .then(({ nextNumber, addedArticleId }) => {
+                                        db.collection('articles')
+                                            .doc(addedArticleId)
+                                            .set({
+                                                title: title,
+                                                content: content,
+                                                image: downloadURL,
+                                                tags: selectedTags,
+                                                date: new Date().toISOString(),
+                                                author: 'Xajper',
+                                                articleId: addedArticleId,
+                                                views: 0,
+                                            })
+                                            .then(() => {
+                                                // Dodaj komentarz do artykułu
+                                                const commentText = 'Mamy nadzieję że artykuł wam się spodobał';
+                                                addCommentToArticle(addedArticleId, commentText);
+
+                                                document.getElementById('article-title').value = '';
+                                                document.getElementById('article-content').value = '';
+                                                imageInput.value = '';
+
+                                                displayMessage('Artykuł dodany pomyślnie!', 'success');
+                                                addArticleBtn.disabled = false;
+                                                displayArticles();
+                                                displayLatestArticles();
+                                            })
+                                            .catch((error) => {
+                                                console.error('Error: ', error);
+                                                displayMessage('Błąd podczas dodawania artykułu.', 'danger');
+                                                addArticleBtn.disabled = false;
+                                            });
+                                    })
+                                    .catch((error) => {
+                                        console.error('Error: ', error);
+                                        displayMessage('Błąd podczas dodawania artykułu.', 'danger');
+                                        addArticleBtn.disabled = false;
+                                    });
+                            } else {
+                                displayMessage('Artykuł o takim tytule już istnieje', 'danger');
+                                addArticleBtn.disabled = false;
+                            }
+                        })
+                        .catch((error) => {
+                            console.error('Error: ', error);
+                            displayMessage('Błąd podczas sprawdzania istniejącego artykułu.', 'danger');
+                            addArticleBtn.disabled = false;
+                        });
+                });
+            }
+        );
+    } else {
+        displayMessage('Proszę wybrać plik graficzny.', 'danger');
+        addArticleBtn.disabled = false;
+    }
+}
+
+function previewArticle() {
+    const titleElement = document.getElementById('article-title');
+    const contentElement = document.getElementById('article-content');
+
+    if (!titleElement || !contentElement) {
+        console.error('Nie można znaleźć elementów article-title lub article-content.');
+        return;
+    }
+
+    const title = titleElement.value;
+    const content = parseContent(contentElement.value); // Nowa funkcja do przetwarzania treści
+    const selectedTags = getSelectedTags();
+
+    const previewSection = document.getElementById('preview-section');
+    const previewContent = document.getElementById('preview-content');
+
+    if (!previewSection || !previewContent) {
+        console.error('Nie można znaleźć elementów preview-section lub preview-content.');
+        return;
+    }
+
+    // Wygeneruj HTML z wybranymi tagami
+    const tagsHtml = selectedTags.map(tag => `<span class="tag">${tag}</span>`).join('');
+
+    previewContent.innerHTML = `
+        <h3>${title}</h3>
+        <div class="preview-article-content">${content}</div>
+        <p>${tagsHtml}</p>
+    `;
+
+    previewSection.style.display = 'block';
+}
+
+function parseContent(content) {
+    // Przetwarzanie treści artykułu
+    const formattedContent = content
+        .replace(/(?:\r\n|\r|\n)/g, '<br>') // Zamień nowe linie na tagi <br>
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') // Pogrubienie
+        .replace(/__(.*?)__/g, '<u>$1</u>') // Podkreślenie
+        .replace(/\*(.*?)\*/g, '<em>$1</em>') // Kursywa
+        .replace(/~~(.*?)~~/g, '<del>$1</del>'); // Przekreślenie
+
+    return formattedContent;
+}
+
+function closePreview() {
+    const previewSection = document.getElementById('preview-section');
+    previewSection.style.display = 'none';
+}
+
+function getNextArticleNumber() {
+    return new Promise((resolve, reject) => {
+        db.collection('articles')
+            .orderBy('articleId', 'desc')
+            .limit(1)
+            .get()
+            .then((querySnapshot) => {
+                let nextNumber = 1;
+
+                if (!querySnapshot.empty) {
+                    const lastArticle = querySnapshot.docs[0].data();
+                    const lastNumber = parseInt(lastArticle.articleId) || 0;
+                    nextNumber = lastNumber + 1;
+                }
+
+                const addedArticleId = getNextArticleId(nextNumber);
+                resolve({ nextNumber, addedArticleId });
+            })
+            .catch((error) => {
+                reject(error);
+            });
+    });
+}
+
+function getNextArticleId(articleNumber) {
+    return `${articleNumber}`;
+}
+
+function displayArticles() {
+    const mainArticle = document.getElementById('main-article');
+    mainArticle.classList.add('loading');
+
+    const loadMoreBtn = document.getElementById('load-more-btn');
+
+    const loadingText = document.createElement('div');
+    loadingText.id = 'loading-text';
+    loadingText.style.fontSize = '1.2em';
+    loadingText.style.color = '#333';
+    loadingText.style.position = 'fixed';
+    loadingText.style.top = '50%';
+    loadingText.style.left = '50%';
+    loadingText.style.transform = 'translate(-50%, -50%)';
+    mainArticle.appendChild(loadingText);
+
+    let loadingAnimation = 0;
+
+    function updateLoadingText() {
+        loadingText.textContent = 'Wczytywanie artykułów' + '.'.repeat(loadingAnimation % 4);
+        loadingAnimation++;
+    }
+
+    auth.onAuthStateChanged(user => {
+        db.collection('articles')
+            .orderBy('date', 'desc')
+            .limit(currentBatch)
+            .get()
+            .then((querySnapshot) => {
+                mainArticle.innerHTML = '';
+                mainArticle.classList.remove('loading');
+
+                querySnapshot.forEach((doc) => {
+                    const articleElement = document.createElement('div');
+                    articleElement.setAttribute('id', doc.id);
+                    articleElement.className = 'article-link';
+                    articleElement.setAttribute('data-tags', doc.data().tags.join(', '));
+                    articleElement.setAttribute('data-date', doc.data().date);
+            
+                    const imageUrl = doc.data().image;
+            
+                    articleElement.innerHTML = `
+                        <h3 style="display: none;"><a href="?artykul=${doc.id}">${doc.data().title}</a></h3>
+                        <span class="hover-bar"></span>
+                        <div class="content" style="display: none;">${doc.data().content.replace(/\n/g, '<br>')}</div>
+                        <div class="image-container">
+                            <img class="placeholder" src="${imageUrl}" alt="ZDJĘCIE">
+                            <div class="image-title">
+                                <h3><a href="javascript:void(0);" onclick="zobacz('${doc.id}', '${doc.data().articleId}')">${doc.data().title}</a></h3>
+                            </div>
+                        </div>
+                        <p style="display: none;"><i class="fas fa-hashtag"></i> ${doc.data().tags.join(', ')}</p>
+                        <p><i class="far fa-clock"></i> ${formatTimestamp(doc.data().date)}</p>
+                        <p style="display: none;"><i class="far fa-user" id="author">${doc.data().author}</i></p>
+                        <button class="save-button" id="saveButton">
+                            <i class="fas fa-bookmark"></i>
+                            <div class="fireworks"></div>
+                        </button>
+                        <button class="udostepnij-button" onclick="udostepnij('${doc.id}', event, this)">
+                            <i class="fas fa-share"></i>
+                            <div class="fireworks"></div>
+                            <div class="sukces-icon">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                        </button>
+                        ${user && (user.email === 'xajperminecraftyt@gmail.com' || user.email === 'KsaverX@interia.pl') ? `<button class="delete-button" onclick="deleteArticle('${doc.id}')"><i class="fas fa-trash"></i></button>` : ''}
+                        ${user && (user.email === 'xajperminecraftyt@gmail.com' || user.email === 'KsaverX@interia.pl') ? `<button class="edit-button" onclick="editArticle('${doc.id}')"><i class="fas fa-hand"></i></button>` : ''}
+                        <hr>
+                    `;
+            
+                    articlesContainer.appendChild(articleElement);
+                });
+
+                // Add the "Load More" button after all articles have been processed
+                articlesContainer.innerHTML += `<button class="load-more-btn" id="load-more-btn" onclick="loadMoreArticles()">Załaduj więcej</button>`;
+
+                // Check if loadMoreBtn is not null before accessing its style property
+                if (loadMoreBtn) {
+                    loadMoreBtn.style.display = querySnapshot.size >= currentBatch ? 'block' : 'none';
+                }
+            })
+            .catch((error) => {
+                console.error('Error: ', error);
+                mainArticle.innerHTML = 'Błąd ładowania artykułów';
+                mainArticle.classList.remove('loading');
+            })
+            .finally(() => {
+                clearInterval(loadingInterval);
+            });
+    });
+
+    // Update loading text every 500 milliseconds
+    const loadingInterval = setInterval(updateLoadingText, 500);
+    updateLoadingText();  // Initial loading text
+}
+
+function loadMoreArticles() {
+    currentBatch += batchIncrement;
+    displayArticles();
+}
+
+function editArticle(articleId) {
+    console.log(articleId);
+    const articleRef = db.collection('articles').doc(articleId);
+
+    // Pobierz referencje do elementów formularza
+    const editedTitleInput = document.getElementById('edited-article-title');
+    const editedContentInput = document.getElementById('edited-article-content');
+    const editedImageInput = document.getElementById('edited-article-image');
+
+    articleRef.get()
+        .then((doc) => {
+            if (doc.exists) {
+                // Ustaw wartości pól formularza na aktualne wartości artykułu
+                editedTitleInput.value = doc.data().title;
+                editedContentInput.value = doc.data().content;
+                // Możesz dodać inne pola, jeśli są dostępne w formularzu
+
+                // Wyświetl formularz edycji
+                displayEditForm();
+            } else {
+                console.log('Artykuł nie istnieje');
+            }
+        })
+        .catch((error) => {
+            console.error('Błąd podczas pobierania artykułu:', error);
+        });
 }
-
-.image-container {
-  position: relative;
-  overflow: hidden;
-  border-radius: 10px;
-}
-
-.placeholder {
-  width: 100%;
-  height: auto;
-  border-radius: 10px;
-}
-
-.image-title {
-  position: absolute;
-  bottom: 0;
-  left: 10%;
-  width: 80%;
-  background-color: #3498db;
-  padding: 10px;
-  box-sizing: border-box;
-  color: #fff;
-  text-align: center;
-  opacity: 0.9;
-  border-radius: 10px;
-}
-
-.image-title h3 {
-  margin: 0;
-  font-size: 18px;
-}
-
-.burger {
-  position: relative;
-  width: 20px;
-  height: 15px;
-  background: transparent;
-  cursor: pointer;
-  z-index: 9999;
-  display: block;
-}
-
-#overlay {
-  display: none;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: #fff;
-  box-shadow: 0 0 100px rgba(0, 0, 0, 0.3);
-  z-index: 9999;
-  width: 80%;
-  padding: 20px;
-  height: 80%;
-  box-sizing: border-box;
-}
-
-#overlay button {
-  background-color: #3498db;
-  color: #fff;
-  border: none;
-  padding: 10px;
-  cursor: pointer;
-  border-radius: 5px;
-}
-
-#overlay button:hover {
-  background-color: #2980b9;
-}
-
-#overlay-content {
-  display: flex;
-  flex-direction: column;
-}
-
-#main-info {
-  margin-bottom: 20px;
-}
-
-#main-info h3 {
-  font-size: 24px;
-}
-
-#main-info p {
-  margin: 5px 0;
-}
-
-.bold-text {
-  font-weight: bold;
-}
-
-.italic-text {
-  font-style: italic;
-}
-
-.underlined-text {
-  text-decoration: underline;
-}
-
-.strikethrough-text {
-  text-decoration: line-through;
-}
-
-#comments-section {
-  border-top: 1px solid #ddd;
-  padding-top: 20px;
-  display: none;
-}
-
-#article-form {
-  max-height: 500px;
-  overflow-y: auto;
-}
-
-#text-formatting-buttons {
-  width: 50%;
-  display: flex;
-}
-
-#comments-section h4 {
-  font-size: 20px;
-}
-
-.container {
-  margin-top: 20px;
-}
-
-#comments label {
-  display: block;
-  margin-bottom: 5px;
-}
-
-.btn-outline-primary {
-  background-color: transparent;
-  color: #3498db;
-  border: 1px solid #3498db;
-  padding: 10px 20px;
-  cursor: pointer;
-  border-radius: 5px;
-}
-
-.btn-outline-primary:hover {
-  background-color: #3498db;
-  color: #fff;
-}
-
-.burger input {
-  display: none;
-}
-
-.burger span {
-  display: block;
-  position: absolute;
-  height: 3px;
-  width: 100%;
-  background: white;
-  border-radius: 6px;
-  opacity: 1;
-  left: 0;
-  transform: rotate(0deg);
-  transition: 0.25s ease-in-out;
-}
-
-.burger span:nth-of-type(1) {
-  top: 0px;
-  transform-origin: left center;
-}
-
-.burger span:nth-of-type(2) {
-  top: 50%;
-  transform: translateY(-50%);
-  transform-origin: left center;
-}
-
-.burger span:nth-of-type(3) {
-  top: 100%;
-  transform-origin: left center;
-  transform: translateY(-100%);
-}
-
-.burger input:checked ~ span:nth-of-type(1) {
-  transform: rotate(45deg);
-  top: 0px;
-  left: 3px; /* Adjusted left position */
-}
-
-.burger input:checked ~ span:nth-of-type(2) {
-  width: 0%;
-  opacity: 0;
-}
-
-.burger input:checked ~ span:nth-of-type(3) {
-  transform: rotate(-45deg);
-  top: 12px; /* Adjusted top position */
-  left: 3px; /* Adjusted left position */
-}
-
-p {
-  margin-left: 10px;
-}
-
-#sport-section h2 {
-  margin-left: 50px;
-}
-
-.akapit {
-  word-wrap: break-word;
-  width: 100%;
-  margin: 10px;
-}
-
-.save-button {
-  position: absolute;
-  bottom: 10px;
-  right: 10px;
-  background-color: transparent;
-  border: none; /* Usunięcie bordera */
-  padding: 10px;
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease, color 0.3s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 5px;
-}
-
-.save-button i {
-  font-size: 18px;
-  color: #000; /* Ustawienie początkowego koloru ikonki na czarny */
-  transition: color 0.3s ease; /* Dodane transition dla koloru ikonki */
-}
-
-.save-button:hover i {
-  color: #ffd700; /* Kolor ikonki na żółto po najechaniu */
-}
-
-.save-button:hover {
-  background-color: transparent;
-  animation: pulsesave 0.8s ease;
-}
-
-@keyframes pulsesave {
-  0% {
-    box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.7);
-  }
-  70% {
-    box-shadow: 0 0 0 15px rgba(255, 215, 0, 0);
-  }
-  100% {
-    box-shadow: 0 0 0 0 rgba(255, 215, 0, 0);
-  }
-}
-
-@keyframes pulseedit {
-  0% {
-    box-shadow: 0 0 0 0 rgba(179, 253, 31);
-  }
-  70% {
-    box-shadow: 0 0 0 15px rgba(255, 215, 0, 0);
-  }
-  100% {
-    box-shadow: 0 0 0 0 rgba(255, 215, 0, 0);
-  }
-}
-
-.save-button.clicked {
-  animation: clickAnimation 0.8s ease;
-}
-
-@keyframes clickAnimation {
-  0% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.2);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
-
-.udostepnij-button {
-  position: absolute;
-  bottom: 10px;
-  right: 40px;
-  background-color: transparent;
-  border: none;
-  padding: 10px;
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease, color 0.3s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 5px;
-}
-
-.udostepnij-button i {
-  font-size: 18px;
-  color: #000; /* Kolor ikonki na początku */
-  transition: color 0.3s ease;
-}
-
-.udostepnij-button:hover i {
-  color: #2980b9; /* Kolor ikonki po najechaniu myszką */
-}
-
-.udostepnij-button:hover {
-  background-color: transparent;
-  animation: pulseshare 0.8s ease;
-}
-
-.delete-button {
-  position: absolute;
-  bottom: 10px;
-  right: 80px;
-  background-color: transparent;
-  border: none;
-  padding: 10px;
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease, color 0.3s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 16px;
-  border-radius: 5px;
-}
-
-.delete-button i {
-  color: #fd1f1f;
-}
-
-.delete-button:hover i {
-  color: #ff3131;
-}
-
-.delete-button:hover {
-  background-color: transparent;
-  animation: pulsesharered 0.8s ease;
-}
-
-.edit-button {
-  position: absolute;
-  bottom: 10px;
-  right: 105px;
-  background-color: transparent;
-  border: none;
-  padding: 10px;
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease, color 0.3s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 16px;
-  border-radius: 5px;
-}
-
-.edit-button i {
-  color: #b3fd1f;
-}
-
-.edit-button:hover i {
-  color: #b3fd1f;
-}
-
-.edit-button:hover {
-  background-color: transparent;
-  animation: pulseedit 0.8s ease;
-}
-
-#edit-article-form {
-  display: none;
-  width: 75%;
-  max-width: 800px;
-  padding: 20px;
-  box-sizing: border-box;
-  background-color: #fff;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 9999;
-}
-
-
-#edit-article-form h2 {
-  margin-bottom: 20px;
-}
-
-#edit-article-form form {
-  width: 100%;
-  max-width: 400px;
-}
-
-#edit-article-form label {
-  display: block;
-  margin-top: 10px;
-}
-
-#edit-article-form input,
-#edit-article-form textarea,
-#edit-article-form button {
-  width: 100%;
-  margin-top: 5px;
-}
-
-#edit-article-form button {
-  background-color: #4caf50;
-  color: white;
-  padding: 10px;
-  border: none;
-  cursor: pointer;
-}
-
-#edit-article-form button:hover {
-  background-color: #45a049;
-}
-
-#edit-article-form hr {
-  margin: 20px 0;
-  border: 0;
-  border-top: 1px solid #ddd;
-}
-
-.sukces-button {
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
-  position: relative;
-  z-index: 1;
-}
-
-.sukces-icon {
-  position: fixed;
-  font-size: 48px; /* Zwiększ rozmiar ikony */
-  opacity: 0;
-  transition: opacity 0.5s ease-in-out;
-  z-index: 2;
-}
-
-.sukces-button:hover .sukces-icon {
-  opacity: 1;
-}
-
-.sukces-icon i {
-  font-size: 24px;
-}
-
-@keyframes pulsesharered {
-  0% {
-    box-shadow: 0 0 0 0 rgba(255, 12, 12, 0.7);
-  }
-  70% {
-    box-shadow: 0 0 0 15px rgba(52, 152, 219, 0);
-  }
-  100% {
-    box-shadow: 0 0 0 0 rgba(52, 152, 219, 0);
-  }
-}
-
-
-@keyframes pulseshare {
-  0% {
-    box-shadow: 0 0 0 0 rgba(52, 152, 219, 0.7);
-  }
-  70% {
-    box-shadow: 0 0 0 15px rgba(52, 152, 219, 0);
-  }
-  100% {
-    box-shadow: 0 0 0 0 rgba(52, 152, 219, 0);
-  }
-}
-
-.udostepnij-button.clicked {
-  animation: clickAnimation 0.8s ease;
-}
-
-@keyframes clickAnimation {
-  0% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.2);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
-
-.close {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  font-size: 24px;
-  cursor: pointer;
-}
-
-#menu-button {
-  position: fixed;
-  left: 10px;
-  cursor: pointer;
-  z-index: 11;
-  background-color: rgba(0, 0, 0, 0.7);
-  color: #fff;
-  padding: 10px 15px;
-  border-radius: 5px;
-}
-
-#menu {
-  background-color: #303542; /* Szare tło */
-  height: 65vh; /* Wysokość równa 50% wysokości widoku */
-  border-right: 1px solid #fff; /* Pionowa kreska po prawej stronie */
-  display: flex;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  width: 100%; 
-}
-
-#menu-overlay {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 4;
-}
-
-#menu-container {
-  position: fixed;
-  color: #fff;
-  z-index: 10;
-  display: none;
-  transition: transform 0.3s ease-in-out;
-  transform: translateY(-100%);
-  opacity: 0; /* Start with opacity 0 */
-  width: 100%; /* Set width to 100% */
-}
-
-#menu-container.active {
-  opacity: 1;
-  transform: translateY(0); /* Przesuń menu do widocznego obszaru */
-  display: block;
-}
-
-.menu-sectionmenu {
-  padding: 20px;
-  background-color: #303542; /* Szare tło */
-}
-
-.menu-sectionmenu {
-  flex: 1;
-  padding-right: 20px; /* Dodaj odstęp po prawej stronie sekcji */
-  margin-right: 20px; /* Dodaj margines po prawej stronie sekcji */
-}
-
-.menu-sectionmenu:last-child {
-  border-right: none; /* Usuń pionową kreskę z ostatniej sekcji */
-  padding-right: 0; /* Usuń odstęp po prawej stronie z ostatniej sekcji */
-  margin-right: 0; /* Usuń margines po prawej stronie z ostatniej sekcji */
-}
-
-#projects-sectionmenu,
-#tags-sectionmenu {
-  padding: 20px;
-  border-right: 1px solid #fff; /* Pionowa kreska po prawej stronie */
-}
-
-#movies-sectionmenu {
-  padding: 20px;
-}
-
-.tag-icons {
-  display: flex;
-  flex-wrap: wrap;
-  margin-top: 10px;
-}
-
-.tag {
-  display: flex;
-  align-items: center;
-  margin-right: 10px;
-  margin-bottom: 10px;
-  padding: 5px 10px;
-  background-color: #80838a;
-  color: #fff;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-.tag:hover {
-  background-color: #a4a6a9;
-  transform: translateY(-2px);
-}
-
-.tag i {
-  margin-right: 5px;
-}
-
-#tags-sectionmenu i {
-  color: #000; /* Kolor ikony hasztagu */
-  margin-right: 5px;
-}
-
-img.placeholder {
-  background: linear-gradient(to right, #e0e0e0 8%, #f1f1f1 18%, #e0e0e0 33%);
-  background-size: 800px 104px;
-  animation: loading 1.5s infinite;
-  opacity: 0.5; /* zmniejszenie przezroczystości obrazu */
-}
-
-@keyframes loading {
-  from {
-    background-position: -800px 0;
-  }
-  to {
-    background-position: 800px 0;
-  }
-}
-
-.container img {
-  width: 400px;
-  height: 250px;
-  object-fit: cover; 
-}
-
-.custom-scrollbar {
-  scrollbar-width: thin;
-  scrollbar-color: #7de5ee #f0f0f0;
-}
-
-.custom-scrollbar::-webkit-scrollbar {
-  width: 12px;
-}
-
-.custom-scrollbar::-webkit-scrollbar-thumb {
-  background-color: #7de5ee;
-  transition: background-color 0.3s, border-radius 0.3s, transform 0.3s;
-}
-
-.custom-scrollbar.at-bottom::-webkit-scrollbar-thumb,
-.custom-scrollbar.at-top::-webkit-scrollbar-thumb {
-  border-radius: 0;
-  transform: scaleY(0.5);
-}
-
-.custom-scrollbar:not(.at-bottom):not(.at-top)::-webkit-scrollbar-thumb {
-  border-radius: 12px;
-}
-
-.custom-scrollbar::-webkit-scrollbar-track {
-  background-color: #f0f0f0;
-}
-
-.at-bottom .custom-scrollbar::-webkit-scrollbar-thumb,
-.at-top .custom-scrollbar::-webkit-scrollbar-thumb {
-  border-radius: 0;
-  transform: scaleY(0.5);
-}
-
-#article-form {
-  display: none;
-  width: 75%;
-  max-width: 800px; /* Ogranicz szerokość formularza */
-  padding: 20px;
-  box-sizing: border-box;
-  background-color: #fff;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 9999;
-}
-
-#article-form h2 {
-  font-size: 1.5em;
-  margin-bottom: 15px;
-}
-
-#article-form label {
-  display: block;
-  margin-bottom: 8px;
-}
-
-#article-form input,
-#article-form textarea,
-#article-form button {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 15px;
-  box-sizing: border-box;
-}
-
-#article-form textarea {
-  resize: vertical;
-}
-
-#article-form button {
-  cursor: pointer;
-  background-color: #4ab2e2;
-  color: #fff;
-  border: none;
-  padding: 12px 20px;
-  font-size: 1em;
-  transition: background-color 0.3s ease;
-}
-
-#article-form button:hover {
-  background-color: #67c6f2;
-}
-
-#tag-options {
-  display: flex;
-  flex-wrap: wrap;
-}
-
-#tag-options label {
-  flex: 1 0 calc(33.3333% - 10px); /* Ustaw szerokość dla każdego tagu w liście */
-  margin: 5px;
-}
-
-#tag-checkboxes {
-  display: grid;
-  margin-top: 10px; /* Dostosuj wartość margin-top według potrzeb */
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Automatycznie dostosuj do szerokości okna, minimalna szerokość 200px */
-  gap: 10px; /* Odstęp między checkboxami */
-}
-
-#close-preview-btn {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background-color: transparent;
-  color: #000000;
-  border: none;
-  padding: 10px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  font-size: 24px;
-}
-
-#close-btn {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background-color: transparent;
-  color: #000000;
-  border: none;
-  padding: 10px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  font-size: 24px;
-}
-
-#preview-section {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  width: 75%;
-  max-width: 800px;
-  transform: translate(-50%, -50%);
-  background-color: #fff;
-  padding: 20px;
-  border: 1px solid #ccc;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  z-index: 9999;
-  display: none;
-}
-
-#preview-section h2 {
-  font-size: 1.5em;
-  margin-bottom: 20px;
-  color: #333;
-}
-
-#preview-content {
-  font-size: 1em;
-  color: #000000;
-}
-
-#notification-section {
-  position: fixed;
-  top: 10px;
-  right: 10px;
-  width: 300px;
-  max-height: 200px;
-  overflow-y: auto;
-  z-index: 9997;
-}
-
-.notification {
-  padding: 10px;
-  margin-bottom: 10px;
-  border: 1px solid #ccc;
-  background-color: #fff;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  border-radius: 5px;
-  z-index: 9997;
-}
-
-.error {
-  color: #d9534f;
-}
-
-.success {
-  color: #39d951;
-}
-
-/* Dodaj animację do powiadomień */
-@keyframes fadeInOut {
-  0%, 100% {
-    opacity: 0;
-  }
-  10%, 90% {
-    opacity: 1;
-  }
-}
-
-#sport-section {
-  background-color: #161616;
-  color: #FFFFFF;
-  text-align: center;
-  font-size: 10px;
-  margin: 0;
-  display: flex;
-  align-items: center;
-  padding: 10px;
-}
-
-.alert {
-    padding: 15px;
-    margin-bottom: 20px;
-    border: 1px solid transparent;
-    border-radius: 4px;
-}
-
-.alert-danger {
-    color: #721c24;
-    background-color: #f8d7da;
-    border-color: #f5c6cb;
-}
-
-.alert-success {
-    color: #155724;
-    background-color: #d4edda;
-    border-color: #c3e6cb;
-}
-
-.alert-warning {
-    color: #856404;
-    background-color: #fff3cd;
-    border-color: #ffeeba;
-}
-
-.add-article-btn {
-  background-color: #3498db;
-  color: #fff;
-  border: none;
-  padding: 10px;
-  cursor: pointer;
-  text-align: center;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-  margin-left: auto;
-  margin-right: 10px;
-  border-radius: 25%;
-}
-
-.add-article-btn:hover,
-.add-article-btn:active {
-  background-color: #ffffff;
-  color: #000000;
-  transform: translateY(2px); /* Dodano efekt przesunięcia o 2 piksele w dół */
-}
-
-.add-article-btn:active {
-  transition: background-color 0.3s ease; /* Usunięto transform, aby uniknąć dublowania animacji */
-}
-
-header {
-  background-color: #202020;
-  color: #fff;
-  text-align: center;
-  padding: 10px;
-  margin: 0;
-  width: 100%;
-  box-sizing: border-box;
-}
-
-nav ul {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-nav li {
-  margin-right: 20px;
-}
-
-nav a {
-  text-decoration: none;
-  color: #fff;
-  position: relative;
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-.profil-button {
-  position: relative;
-  color: #ffffff;
-  background-color: transparent;
-  margin-left: auto;
-  padding: 15px;
-  border: none;
-  cursor: pointer;
-  font-size: 14px;
-  transition: color 0.8s ease, background-color 0.8s ease, margin-left 0.8s ease;
-}
-
-.profil-button:hover {
-  color: #7de5ee;
-
-}
-
-.wyniki-button {
-  position: relative;
-  color: #ffffff;
-  background-color: transparent;
-  margin-left: auto;
-  padding: 15px;
-  border: none;
-  cursor: pointer;
-  font-size: 14px;
-  transition: color 0.8s ease, background-color 0.8s ease, margin-left 0.8s ease;
-}
-
-.wyniki-button:hover {
-  color: #7de5ee;
-
-}
-
-.symulator-button {
-  position: relative;
-  color: #ffffff;
-  background-color: transparent;
-  margin-left: auto;
-  padding: 15px;
-  border: none;
-  cursor: pointer;
-  font-size: 14px;
-  transition: color 0.8s ease, background-color 0.8s ease, margin-left 0.8s ease;
-}
-
-.symulator-button:hover {
-  color: #7de5ee;
-}
-
-.tooltip {
-  position: absolute;
-  top: -15px;
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: #333;
-  color: #fff;
-  padding: 5px;
-  border-radius: 3px;
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.3s ease, visibility 0.3s ease;
-}
-
-.symulator-button:hover .tooltip {
-  opacity: 1;
-  visibility: visible;
-}
-
-.wyniki-button:hover .tooltip {
-  opacity: 1;
-  visibility: visible;
-}
-
-.profil-button:hover .tooltip {
-  opacity: 1;
-  visibility: visible;
-}
-
-.search-li {
-  margin-right: 10px;
-}
-
-.search-icon {
-  color: #ffffff;
-  background-color: transparent;
-  margin-left: auto;
-  padding: 10px;
-  border: none;
-  margin-left: 1150px;
-  font-size: 14px;
-  transition: color 0.8s ease, background-color 0.8s ease, margin-left 0.8s ease;
-}
-
-.search-icon:hover {
-  color: #7de5ee;
-  background-color: transparent;
-  margin-left: 1150px;
-}
-
-.nav-search-form {
-  position: fixed;
-  transform: translate(50%, -50%);
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out, transform 0.5s ease-in-out;
-  display: flex;
-  align-items: center; /* Zachowaj centrowanie względem osi Y */
-  background-color: #fff;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  border-radius: 5px;
-  padding: 8px;
-  margin-left: 900px;
-}
-
-.nav-search-form.active {
-  opacity: 1;
-  visibility: visible;
-  transform: translate(0, -50%);
-}
-
-.nav-search-form input {
-  color: #000000;
-  background-color: transparent;
-  border: none;
-  padding: 5px;
-  cursor: pointer;
-  margin-right: 10px; /* Dodaj margines po prawej stronie */
-}
-
-.nav-search-form button {
-  color: #ffffff;
-  background-color: transparent;
-  border: none;
-  padding: 5px;
-  cursor: pointer;
-  background-color: #000000;
-  border-radius: 5px;
-  transition: background-color 0.8s ease; /* Dodanie wolniejszej animacji */
-}
-
-/* Efekt najechania na przycisk */
-.nav-search-form button:hover {
-  background-color: #313131; /* Zmiana koloru tła po najechaniu myszką */
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-nav ul li a {
-  position: relative;
-}
-
-nav ul li a:hover {
-  background-color: #9cecf4;
-  color: #000000;
-}
-
-nav ul li a:hover::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-image: repeating-linear-gradient(45deg, #fff, #fff 10px, transparent 10px, transparent 20px);
-  z-index: -1;
-}
-
-.button-section {
-  display: inline-block;
-  padding: 0px 20px;
-  font-size: 16px;
-  text-align: center;
-}
-
-.button {
-  display: inline-block;
-  padding: 10px 20px;
-  font-size: 16px;
-  text-align: center;
-  text-decoration: none;
-  border: 2px solid #fff;
-  color: #fff;
-  background-color: #80838a;
-  overflow: hidden;
-  position: relative;
-  transition: color 0.3s;
-}
-
-.button::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background-color: #fff;
-  transition: left 0.3s;
-  color: #000;
-}
-
-.button:hover {
-  color: #000;
-}
-
-.button:hover::before {
-  left: 0;
-}
-
-@media screen and (max-width: 600px) {
-  .button::before {
-    width: 25%;
-  }
-}
-
-#winter-sports {
-  position: relative;
-}
-
-.subpanel {
-  display: none;
-  position: absolute;
-  top: 100%;
-  left: 0;
-  background-color: #fff;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  border-radius: 5px;
-  z-index: 4;
-}
-
-#winter-sports:hover .subpanel {
-  display: block;
-}
-
-.subpanel ul {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-}
-
-.subpanel li {
-  padding: 10px;
-}
-
-.subpanel a {
-  text-decoration: none;
-  color: #000;
-}
-
-.subpanel a:hover {
-  background-color: #9cecf4;
-  color: #000000;
-}
-
-#main-article {
-  flex-basis: 50%;
-  margin-right: 20px;
-}
-
-.container {
-  display: flex;
-  max-width: 1200px;
-  width: 100%;
-  margin: auto;
-}
-
-h3 a {
-  text-decoration: none;
-  color: #000;
-}
-
-.article-link {
-  display: inline-block;
-  text-decoration: none;
-  color: inherit;
-  position: relative;
-  padding: 5px;
-  transition: background-color 0.5s ease, border-radius 0.5s ease, box-shadow 0.5s ease;
-}
-
-.article-title {
-  position: relative;
-  overflow: hidden;
-}
-
-.article-title::before {
-  content: '';
-  position: absolute;
-  top: 10px;
-  left: -100%;
-  width: 200%;
-  height: 2px;
-  background: linear-gradient(to right, transparent 30%, #d3ffd3, transparent 70%);
-  transition: left 0.3s ease-in-out;
-}
-
-.article-link:hover .article-title::before {
-  left: 100%;
-}
-
-.article-link:hover .hover-bar {
-  width: 100%;
-}
-
-hr {
-  margin-top: 40px;
-}
-
-.hover-bar {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 0;
-  height: 5px;
-  background-color: #97eaf1;
-  transition: width 0.7s ease-in-out;
-  border-radius: 10px;
-}
-
-.article-link:hover {
-  background-color: #f0f0f0;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-}
-
-.container p em {
-  font-style: italic;
-}
-
-.sidebar {
-  float: right;
-  width: 30%;
-  padding: 20px;
-  flex-direction: column;
-  margin-right: 20px;
-}
-
-#latest-articles-list,
-#popular-articles-list,
-#article-tags {
-  background-color: #fff;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  margin-bottom: 20px;
-  padding: 20px;
-  text-align: left;
-  flex-basis: 25%;
-}
-
-#latest-articles-list h2,
-#popular-articles-list h2,
-#article-tags h2 {
-  font-weight: bold;
-  color: #000;
-}
-
-#overlay-tags,
-#overlay-author,
-#overlay-time {
-    margin-top: 10px;/
-}
-
-#latest-articles-list li,
-#popular-articles-list li {
-  transition: background-color 0.3s, border-radius 0.3s;
-  margin-bottom: 5px;
-}
-
-#latest-articles-list li a,
-#popular-articles-list li a {
-  display: block;
-  padding: 5px;
-  text-decoration: none;
-  color: black;
-}
-
-#latest-articles-list li:hover,
-#popular-articles-list li:hover {
-  background-color: #c5fbff;
-  border-radius: 10px;
-  margin: 5px;
-}
-
-#article-tags ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-#article-tags li {
-  margin-bottom: 10px;
-}
-
-#article-tags li a {
-  text-decoration: none;
-  color: #333; /* Zmiana koloru linków na ciemnoszary */
-  transition: color 0.3s ease; /* Dodano efekt przejścia dla koloru tekstu */
-}
-
-#article-tags li a:hover {
-  color: #16cedb; /* Zmiana koloru tekstu na zielony podczas najechania */
-}
-
-#article-tags li a {
-  color: #8e8d8d;
-}
-
-#article-tags li:hover {
-  background-color: #c5fbff;
-  border-radius: 4px;
-}
-
-#article-form form {
-  display: flex;
-  flex-direction: column;
-}
-
-#article-form label {
-  margin-bottom: 5px;
-  display: block;
-}
-
-#article-image {
-  margin-bottom: 10px;
-}
-
-#article-form input,
-#article-form textarea {
-  margin-bottom: 10px;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-#podglad-btn,
-#publish-btn,
-#cancel-btn {
-  background-color: #4a9bc3;
-  color: #fff;
-  border: none;
-  padding: 10px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-#podglad-btn:hover,
-#publish-btn:hover,
-#cancel-btn:hover,
-#logout-btn {
-  background-color: #ffffff;
-  color: #000000;
-}
-
-#verification-code {
-  width: 150px;
-}
-
-article {
-  margin: 20px;
-  padding: 20px;
-  background-color: #fff;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-}
-
-#main-article.loading::before {
-  content: '';
-  display: block;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(255, 255, 255, 0.7);
-  z-index: 9999;
-  text-align: center;
-}
-
-#main-article.loading::after {
-  content: 'Wczytywanie artykułów...';
-  display: inline-block;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 1.2em;
-  color: #333;
-  z-index: 10000;
-}
-
-.load-more-btn {
-  width: 130px;
-  height: 40px;
-  font-size: 1.1em;
-  cursor: pointer;
-  background-color: #171717;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  transition: all .4s;
-  display: block;
-  margin: 20px auto;
-
-}
- 
-.load-more-btn:hover {
-  border-radius: 5px;
-  transform: translateY(-10px);
-  box-shadow: 0 7px 0 -2px #2843cb,
-   0 15px 0 -4px #39a2db,
-   0 16px 10px -3px #39a2db;
-}
- 
-.load-more-btn:active {
-  transition: all 0.2s;
-  transform: translateY(-5px);
-  box-shadow: 0 2px 0 -2px #f85959,
-   0 8px 0 -4px #39a2db,
-   0 12px 10px -3px #39a2db;
-}
-
-footer {
-  background-color: #23272A;
-  color: #7B7B82;
-  text-align: center;
-  padding: 20px; /* Increase padding in footer */
-  margin-top: auto;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  border-top: 2px solid #fff; /* Add border at the top of the footer */
-  font-weight: bold;
-  font-size: 15px;
-}
-
-.footer-heading {
-  text-align: left;
-  margin-bottom: 10px;
-  font-size: 14px; /* Decrease font size in footer headings */
-  font-weight: bold; /* Make footer headings bold */
-  color: #fff; /* Change font color to white */
-}
-
-.newsletter,
-.about-us {
-  flex-basis: calc(50% - 20px);
-  text-align: left;
-  margin-right: 20px;
-}
-
-.newsletter h2,
-.about-us h2 {
-  font-size: 18px; /* Increase font size for "Newsletter" and "O NAS" */
-  margin-bottom: 5px;
-  font-weight: bold; /* Make headings bold */
-  color: #fff; /* Change font color to white */
-}
-
-.newsletter p,
-.about-us p {
-  margin-top: 10px;
-  text-align: left;
-  color: #777; /* Change font color to a light gray */
-}
-
-.newsletter form {
-  margin-top: 10px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.newsletter input[type="email"] {
-  padding: 8px;
-  width: 200px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  margin-bottom: 10px;
-  font-weight: bold;
-  color: #555;
-}
-
-.newsletter button {
-  padding: 8px 16px;
-  background-color: #8BC34A;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  font-weight: bold;
-}
-
-.newsletter button:hover {
-  background-color: #4CAF50;
-}
-
-#article-tags {
-  text-align: left;
-}
-
-#article-tags h2 {
-  padding-bottom: 10px;
-  font-weight: bold;
-  color: #000000;
-}
-
-#article-tags ul {
-  padding: 0;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-#article-tags li {
-  margin: 5px;
-  padding: 10px;
-  background-color: #f0f0f0;
-  border-radius: 0;
-  transition: background-color 0.3s ease;
-  font-size: 14px;
-  font-weight: bold;
-  color: #666;
-}
-
-#article-tags li a {
-  text-decoration: none;
-  color: #8e8d8d;
-}
-
-#article-tags li:hover {
-  background-color: #c5fbff;
-}
-
-.scroll-to-top {
-  cursor: pointer;
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  background-color: #000000;
-  color: #fff;
-  padding: 10px;
-  border: none;
-  border-radius: 50%;
-  font-size: 16px;
-  width: 20px;
-  height: 20px;
-  transition: background-color 0.5s ease, transform 0.2s ease;
-}
-
-.scroll-to-top:hover {
-  background-color: #7de5ee;
-}
-
-.scroll-to-top:active {
-  transform: scale(1.2);
-}
-
-.scroll-to-top i {
-  margin: 0;
-}
-
-.sort-filter-container {
-  position: relative;
-  margin-top: 20px;
-  right: 140px;
-  cursor: pointer;
-}
-
-#filter-icon {
-  cursor: pointer;
-  font-size: 20px;
-  transition: transform 0.8s ease;
-}
-
-#filter-icon.rotate {
-  transform: rotate(180deg);
-}
-
-#sort-menu {
-  position: absolute;
-  top: 30px;
-  left: 10px;
-  background-color: #fff;
-  border: 1px solid #ccc;
-  padding: 5px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  display: none;
-  flex-direction: column;
-}
-
-#sort-menu div {
-  cursor: pointer;
-  padding: 5px;
-  transition: background-color 0.3s ease, border-radius 0.3s ease;
-}
-
-#sort-menu div:hover {
-  background-color: #f0f0f0;
-  border-radius: 5px;
-}
-
-#sort-menu.active { /* Zmiana .sort-menu na #sort-menu */
-  display: flex; /* Zmiana display: block; */
-}
-
-#sort-menu .option {
-  cursor: pointer;
-  padding: 5px;
-  transition: background-color 0.8s ease; /* Dodanie animacji dla zmiany koloru tła */
-}
-
-#sort-menu .selected {
-  background-color: #f0f0f0; /* Kolor tła dla wybranego elementu */
-  border-radius: 5px;
-  text-decoration: underline; /* Podkreślenie tekstu */
-}
-
-@media only screen and (max-width: 768px) {
-  .profil-button,
-  .wyniki-button,
-  .search-icon {
-    color: #ffffff;
-    background-color: transparent;
-    margin-left: auto;
-    padding: 10px;
-    border: none;
-    transition: color 0.8s ease, background-color 0.8s ease, margin-left 0.8s ease;
-  }
-
-  header {
-    overflow-x: auto;
-    overflow-y: hidden;
-    white-space: nowrap;
-    transition: transform 0.3s ease-in-out;
-  }
-
-  nav {
-    display: flex;
-    flex-wrap: nowrap;
-    -webkit-overflow-scrolling: touch;
-  }
-
-  ul {
-    padding: 0;
-    margin: 0;
-    list-style-type: none;
-    display: flex;
-  }
-
-  li {
-    margin-right: 15px;
-  }
-
-  article {
-    margin: 10px 0;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  }
-
-  .nav-search-form {
-    margin-left: 0;
-  }
-
-  .nav-search-form.active {
-    transform: translate(0, -50%);
-  }
-
-  .scroll-to-top {
-    right: 10px;
-  }
-
-  .sort-filter-container {
-    right: 10px;
-  }
-
-  #filter-icon.rotate {
-    transform: rotate(90deg);
-  }
-
-  .subpanel {
-    position: static;
-    display: none;
-  }
-
-  #menu {
-    background-color: #303542;
-    display: flex;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    width: 100%;
-    height: 160vh;
-    flex-direction: column;
-  }
-
-  #menu-container {
-    position: fixed;
-    color: #fff;
-    z-index: 1000;
-    flex-direction: column;
-    display: none;
-    transition: transform 0.3s ease-in-out;
-    transform: translateY(-100%);
-    opacity: 0;
-    width: 100%;
-    height: auto;
-    overflow-y: auto;
-    overflow-x: hidden;
-  }
-
-  .article-link:hover .article-title::before {
-    left: 0;
-  }
-
-  .article-link:hover .hover-bar {
-    width: 100%;
-  }
-
-  .sidebar,
-  #latest-articles-list,
-  #popular-articles-list,
-  #article-tags,
-  #main-article {
-    width: 100%;
-    margin-bottom: 10px;
-    padding: 15px;
-    box-sizing: border-box;
-  }
   
-  #latest-articles-list ul {
-    display: flex;
-    flex-direction: column;
-  }
+function displayEditForm() {
+    // Ukryj formularz dodawania artykułu
+    document.getElementById('article-form').style.display = 'none';
   
-  .container {
-    flex-direction: column;
-    padding: 0 5%;
-    flex-wrap: wrap;
-  }
-
-  #sport-section {
-    width: max-content;
-  }
-
-  #header {
-    width: max-content;
-  }
+    // Pobierz referencje do elementów formularza edycji
+    const editForm = document.getElementById('edit-article-form');
   
-  #latest-articles-list,
-  #popular-articles-list,
-  #article-tags {
-    width: 100%;
-    left: 50%;
-    margin-bottom: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    padding: 15px;
-    box-sizing: border-box;
-  }
+    // Wyświetl formularz edycji
+    editForm.style.display = 'block';
+}
   
-  #main-article {
-    width: 100%;
-    margin: 0;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    padding: 15px;
-    box-sizing: border-box;
-    flex-wrap: wrap;
-  }
+function saveEditedArticle(articleId) {
+    const editedTitle = document.getElementById('edited-article-title').value;
+    const editedContent = document.getElementById('edited-article-content').value;
+    const editedImageInput = document.getElementById('edited-article-image');
+    const selectedTags = getSelectedTags();
+
+    if (editedTitle && editedContent) {
+        db.collection('articles')
+            .where('articleId', '==', articleId)
+            .get()
+            .then((querySnapshot) => {
+                if (!querySnapshot.empty) {
+                    const articleDoc = querySnapshot.docs[0];
+                    const updateData = {
+                        title: editedTitle,
+                        content: editedContent,
+                        tags: selectedTags
+                    };
+
+                    if (editedImageInput.files.length > 0) {
+                        const editedImageFile = editedImageInput.files[0];
+                        const storageRef = firebase.storage().ref('article_images/' + editedImageFile.name);
+                        const uploadTask = storageRef.put(editedImageFile);
+
+                        uploadTask.on(
+                            'state_changed',
+                            (snapshot) => {
+                                // Obsługa postępu ładowania, jeśli potrzebujesz
+                            },
+                            (error) => {
+                                console.error('Error: ', error);
+                                displayMessage('Błąd podczas ładowania obrazu.', 'danger');
+                            },
+                            () => {
+                                uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
+                                    updateData.image = downloadURL;
+
+                                    // Zaktualizuj dokument tylko jeśli nadal istnieje
+                                    articleDoc.ref.update(updateData)
+                                        .then(() => {
+                                            displayMessage('Artykuł został zaktualizowany pomyślnie!', 'success');
+                                            displayArticles();
+                                            displayLatestArticles();
+                                            cancelEdit();
+                                        })
+                                        .catch((error) => {
+                                            console.error('Error: ', error);
+                                            displayMessage('Błąd podczas zapisywania edytowanego artykułu.', 'danger');
+                                        });
+                                });
+                            }
+                        );
+                    } else {
+                        // Jeśli nie edytowano obrazu, zaktualizuj tylko dane tekstowe
+                        articleDoc.ref.update(updateData)
+                            .then(() => {
+                                displayMessage('Artykuł został zaktualizowany pomyślnie!', 'success');
+                                displayArticles();
+                                displayLatestArticles();
+                                cancelEdit();
+                            })
+                            .catch((error) => {
+                                console.error('Error: ', error);
+                                displayMessage('Błąd podczas zapisywania edytowanego artykułu.', 'danger');
+                            });
+                    }
+                } else {
+                    console.log('Artykuł nie istnieje');
+                    displayMessage('Artykuł nie istnieje w bazie danych.', 'danger');
+                }
+            })
+            .catch((error) => {
+                console.error('Błąd podczas pobierania artykułu:', error);
+            });
+    } else {
+        displayMessage('Tytuł i treść artykułu są wymagane.', 'danger');
+    }
+}
+
+function cancelEdit() {
+    const articleEditForm = document.getElementById('edit-article-form');
+
+    if (articleEditForm) {
+        articleEditForm.style.display = 'none';
+    } else {
+        console.error("Element 'edit-article-form' nie został znaleziony.");
+    }
+}
+
+function deleteArticle(articleId) {
+    const user = auth.currentUser;
+
+    if (user && (user.email === 'xajperminecraftyt@gmail.com' || user.email === 'KsaverX@interia.pl')) {
+        const confirmed = confirm('Czy na pewno chcesz usunąć ten artykuł?');
+
+        if (confirmed) {
+            db.collection('articles').doc(articleId).delete()
+                .then(() => {
+                    displayMessage('Artykuł usunięty pomyślnie!', 'success');
+                    displayArticles();
+                })
+                .catch((error) => {
+                    console.error('Error: ', error);
+                });
+        }
+    } else {
+        console.error('Brak uprawnień do usunięcia artykułu.');
+    }
+}
+
+function formatTimestamp(timestamp) {
+    const date = new Date(timestamp);
+    return `${date.toLocaleDateString()} | ${date.toLocaleTimeString()}`;
+}
+
+function displayLatestArticles() {
+    const latestArticlesList = document.getElementById('latest-articles-list').getElementsByTagName('ul')[0];
+
+    db.collection('articles')
+        .orderBy('date', 'desc')
+        .limit(3)
+        .get()
+        .then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+                const li = document.createElement('li');
+                const a = document.createElement('a');
+
+                const addedArticleId = doc.data().addedArticleId || '';
+                const articleId = `${doc.id}`;
+
+                a.href = `?artykul=${articleId}`;
+                a.textContent = doc.data().title;
+
+                // Dodaj tutaj funkcję articleaddedit, przekazując odpowiednie wartości
+                a.onclick = function (event) {
+                    event.preventDefault();
+
+                    // Set id attribute on the li element based on doc.id
+                    if (!document.getElementById(articleId)) {
+                        li.setAttribute('id', articleId);
+                    }
+
+                    zobacz(doc.id, doc.data().articleId);
+                };
+
+                li.appendChild(a);
+                latestArticlesList.appendChild(li);
+            });
+        })
+        .catch((error) => {
+            console.error('Error: ', error);
+        });
+}
+
+function displayPopularArticles() {
+    const popularArticlesList = document.getElementById('popular-articles-list').getElementsByTagName('ul')[0];
+
+    db.collection('articles')
+        .orderBy('views', 'desc') // Załóżmy, że masz pole 'views' w dokumentach reprezentujących artykuły
+        .limit(3)
+        .get()
+        .then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+                const li = document.createElement('li');
+                const a = document.createElement('a');
+
+                const addedArticleId = doc.data().addedArticleId || '';
+                const articleId = `${doc.id}`;
+
+                a.href = `?artykul=${articleId}`;
+                a.textContent = doc.data().title;
+
+                // Dodaj tutaj funkcję articleaddedit, przekazując odpowiednie wartości
+                a.onclick = function (event) {
+                    event.preventDefault();
+
+                    // Set id attribute on the li element based on doc.id
+                    if (!document.getElementById(articleId)) {
+                        li.setAttribute('id', articleId);
+                    }
+
+                    zobacz(doc.id, doc.data().articleId);
+                };
+
+                li.appendChild(a);
+                popularArticlesList.appendChild(li);
+            });
+        })
+        .catch((error) => {
+            console.error('Error: ', error);
+        });
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+    const tagLinks = document.querySelectorAll('#article-tags li a');
+
+    tagLinks.forEach(tagLink => {
+        tagLink.addEventListener('click', function (event) {
+            event.preventDefault();
+            showTagOptions();
+        });
+    });
+
+    const tagCheckboxesBtn = document.getElementById('tag-checkboxes-btn');
+    tagCheckboxesBtn.addEventListener('click', function () {
+        toggleTagOptionsVisibility();
+    });
+});
+
+function toggleTagOptionsVisibility() {
+    const tagCheckboxes = document.getElementById('tag-checkboxes');
+    const tagOptions = document.getElementById('tag-options');
+
+    if (tagCheckboxes.style.display === 'block') {
+        tagCheckboxes.style.display = 'none';
+        tagOptions.style.display = 'none';
+    } else {
+        tagCheckboxes.style.display = 'block';
+        tagOptions.style.display = 'flex';
+        updateTagOptions();
+    }
+}
+
+function updateTagOptions() {
+    const tagOptions = document.getElementById('tag-options');
+
+    const availableTags = [
+        'INNE', 'KOLARSTWO', 'E-SPORT', 'PIŁKA NOŻNA', 'LEKKOATLETYKA',
+        'TENIS', 'KOSZYKÓWKA', 'SIATKÓWKA', 'PIŁKA RĘCZNA', 'PŁYWANIE', 'ŻUŻEL', 'SPORTY ZIMOWE',
+        'SKOKI NARCIARSKIE', 'BIEGI NARCAIRSKIE', 'BIATHLON', 'HOKEJ'
+    ];
+
+    tagOptions.innerHTML = '';
+
+    availableTags.forEach(tag => {
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.name = 'tags';
+        checkbox.value = tag;
+
+        const label = document.createElement('label');
+        label.appendChild(checkbox);
+        label.appendChild(document.createTextNode(tag));
+
+        tagOptions.appendChild(label);
+    });
+}
+
+function getSelectedTags() {
+    const selectedTags = [];
+    const checkboxes = document.querySelectorAll('#tag-options input[name="tags"]:checked');
+    
+    checkboxes.forEach(checkbox => {
+        selectedTags.push(checkbox.value);
+    });
+
+    return selectedTags;
+}
+
+function validate_email(email) {
+    const expression = /^[^@]+@\w+(\.\w+)+\w$/;
+    return expression.test(email);
+}
+
+function validate_password(password) {
+    return password.length >= 6;
+}
+
+function formatText(style) {
+    const contentTextArea = document.getElementById('article-content');
+    const start = contentTextArea.selectionStart;
+    const end = contentTextArea.selectionEnd;
+    const selectedText = contentTextArea.value.substring(start, end);
+
+    switch (style) {
+        case 'bold':
+            contentTextArea.value = contentTextArea.value.substring(0, start) +
+                '**' + selectedText + '**' +
+                contentTextArea.value.substring(end);
+            break;
+        case 'italic':
+            contentTextArea.value = contentTextArea.value.substring(0, start) +
+                '*' + selectedText + '*' +
+                contentTextArea.value.substring(end);
+            break;
+        case 'underline':
+            contentTextArea.value = contentTextArea.value.substring(0, start) +
+                '__' + selectedText + '__' +
+                contentTextArea.value.substring(end);
+            break;
+        case 'strikethrough':
+            contentTextArea.value = contentTextArea.value.substring(0, start) +
+                '~~' + selectedText + '~~' +
+                contentTextArea.value.substring(end);
+            break;
+    }
+
+    contentTextArea.focus();
+}
+
+
+function addCommentToArticle(articleId, commentText) {
+    const user = auth.currentUser;
+
+    db.collection('articles').doc(articleId).collection('comments').add({
+        author: user ? user.email : 'Anonim',
+        content: commentText,
+        date: new Date().toISOString(),
+    })
+    .then(() => {
+        // Dodaj jakiekolwiek dodatkowe akcje po dodaniu komentarza
+        console.log('Komentarz dodany pomyślnie!');
+    })
+    .catch((error) => {
+        console.error('Błąd podczas dodawania komentarza:', error);
+    });
+}
+
+// Display comments for a specific article
+function displayComments(articleId) {
+    const commentsList = document.getElementById('commentsList');
   
-  #main-article img {
-    max-width: 100%;
-    height: auto;
-    overflow: hidden;
+    // Pobierz komentarze dla danego artykułu z bazy danych
+    db.collection('comments')
+        .where('articleId', '==', articleId)
+        .orderBy('timestamp', 'desc')
+        .get()
+        .then((querySnapshot) => {
+            commentsList.innerHTML = ''; // Wyczyść listę komentarzy przed dodaniem nowych
+  
+            querySnapshot.forEach((doc) => {
+                const commentData = doc.data();
+  
+                // Utwórz element komentarza
+                const commentElement = document.createElement('div');
+                commentElement.className = 'comment';
+                commentElement.innerHTML = `
+                    <p>${commentData.comment}</p>
+                    <p class="comment-meta">${commentData.author} | ${formatTimestamp(commentData.timestamp)}</p>
+                `;
+  
+                // Dodaj komentarz do listy
+                commentsList.appendChild(commentElement);
+            });
+        })
+        .catch((error) => {
+            console.error('Błąd podczas pobierania komentarzy:', error);
+        });
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function scrollToTop() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+document.getElementById('search-icon').addEventListener('click', function () {
+    var searchForm = document.querySelector('.nav-search-form');
+    searchForm.classList.toggle('active');
+});
+
+document.getElementById('search-form').addEventListener('submit', function (event) {
+    event.preventDefault();
+
+    var searchTerm = document.getElementById('search-input').value.toLowerCase();
+
+    var articles = document.querySelectorAll('.article-link');
+
+    articles.forEach(function (article) {
+        var title = article.querySelector('h3 a').textContent.toLowerCase();
+        var content = article.querySelector('p').textContent.toLowerCase();
+
+        var allWordsPresent = searchTerm.split(' ').every(function (word) {
+            return title.includes(word) || content.includes(word);
+        });
+
+        if (allWordsPresent) {
+            article.style.display = 'block';
+        } else {
+            article.style.display = 'none';
+        }
+    });
+});
+
+window.addEventListener('scroll', function () {
+    const atTop = window.scrollY === 0;
+    const atBottom = window.innerHeight + window.scrollY >= document.body.offsetHeight - 2;
+  
+    if (atTop) {
+      document.body.classList.add('at-top');
+    } else {
+      document.body.classList.remove('at-top');
+    }
+  
+    if (atBottom) {
+      document.body.classList.add('at-bottom');
+    } else {
+      document.body.classList.remove('at-bottom');
+    }
+  });
+
+  document.addEventListener('DOMContentLoaded', function () {
+    function handleNewsletterForm(event) {
+      event.preventDefault();
+
+      const emailInput = document.querySelector('.newsletter input[type="email"]');
+      const emailAddress = emailInput.value;
+
+      if (isValidEmail(emailAddress)) {
+        subscribeToNewsletter(emailAddress);
+      } else {
+        alert('Proszę wprowadzić poprawny adres e-mail.');
+      }
+    }
+
+    function isValidEmail(email) {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return emailRegex.test(email);
+    }
+
+    function subscribeToNewsletter(email) {
+      fetch('/subscribe', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email: email }),
+      })
+        .then(response => response.json())
+        .then(data => {
+          alert(data.success || data.error);
+        })
+        .catch(error => {
+          console.error('Błąd:', error);
+          alert('Wystąpił błąd podczas subskrypcji newslettera.');
+        });
+    }
+
+    const newsletterForm = document.querySelector('.newsletter form');
+    if (newsletterForm) {
+      newsletterForm.addEventListener('submit', handleNewsletterForm);
+    }
+  });
+
+function getParameterByName(name, url) {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+    const tagLinks = document.querySelectorAll('#article-tags li a');
+
+    tagLinks.forEach(tagLink => {
+        tagLink.addEventListener('click', function (event) {
+            event.preventDefault();
+
+            const selectedTag = tagLink.textContent.toLowerCase();
+            const articles = document.querySelectorAll('#main-article div');
+
+            articles.forEach(article => {
+                const articleTags = article.querySelector('p:nth-child(3)').textContent.toLowerCase();
+
+                if (articleTags.includes(selectedTag)) {
+                    article.style.display = 'block';
+                } else {
+                    article.style.display = 'none';
+                }
+            });
+        });
+    });
+});
+
+function toggleMenu() {
+    var overlay = document.getElementById("menu-overlay");
+    var menuContainer = document.getElementById("menu-container");
+    var menuIcon = document.getElementById("menu-icon");
+
+    if (overlay.style.display === "block" || menuContainer.style.display === "block") {
+        overlay.style.display = "none";
+        menuContainer.classList.remove("active");
+        menuIcon.classList.remove("fa-times");
+
+    } else {
+        overlay.style.display = "block";
+        menuContainer.classList.add("active");
+        menuIcon.classList.add("fa-times");
+    }
+}
+
+document.getElementById('saveButton').addEventListener('click', function() {
+  this.classList.add('clicked');
+  setTimeout(() => {
+    this.classList.remove('clicked');
+  }, 800);
+});
+
+let minDuration = 500;
+let startTime = Date.now();
+
+function checkImageLoaded(img) {
+
+    let now = Date.now();
+
+    if (now - startTime >= minDuration) {
+
+      img.classList.remove("placeholder");
+    } else {
+
+      setTimeout(function() {
+        checkImageLoaded(img);
+      }, 100);
+    }
   }
 
-  #winter-sports:hover .subpanel {
-    display: none;
-  }
+  let images = document.querySelectorAll("img");
 
-  .button-section {
-    padding: 10px;
-  }
+  for (let i = 0; i < images.length; i++) {
 
-  .button {
-    width: 100%;
-    margin-bottom: 10px;
-  }
+    checkImageLoaded(images[i]);
+}
 
-  .button::before {
-    left: -50%;
-  }
+function udostepnij(artykulId, event, button) {
+    event.stopPropagation();
 
-  .newsletter,
-  .about-us {
-    margin-right: 0;
-    flex-basis: 100%;
-  }
+    var sukcesIcon = button.querySelector('.sukces-icon');
 
-  .newsletter form {
-    width: 100%;
-  }
+    button.classList.add('clicked');
+    setTimeout(function () {
+        button.classList.remove('clicked');
+    }, 800);
 
-  .newsletter input[type="email"] {
-    width: calc(100% - 20px);
-  }
+    sukcesIcon.style.opacity = 1;
+    setTimeout(function () {
+        sukcesIcon.style.opacity = 0;
+    }, 1500);
 
-  .newsletter button {
-    width: 100%;
-  }
+    var currentUrl = window.location.href.split('?')[0] + '?artykul=' + artykulId;
 
-  footer {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    width: 100%;
-  }
+    copyToClipboard(currentUrl);
+}
 
-  .footer-heading {
-    text-align: center;
-    margin-bottom: 10px;
-  }
+function copyToClipboard(text) {
+    var tempInput = document.createElement('input');
+    tempInput.value = text;
+    document.body.appendChild(tempInput);
+    tempInput.select();
+    document.execCommand('copy');
+    document.body.removeChild(tempInput);
+}
 
-  #article-tags ul {
-    justify-content: flex-start;
-  }
+document.getElementById('searchInput').addEventListener('input', function() {
+    var searchQuery = document.getElementById('searchInput').value;
+
+    document.getElementById('searchResults').innerText = 'Wyniki wyszukiwania dla: ' + searchQuery;
+});
+
+function sortArticles(order) {
+    var articlesContainer = document.getElementById('main-article');
+    var articles = articlesContainer.getElementsByClassName('article-link');
+
+    var options = document.querySelectorAll('#sort-menu .option');
+    options.forEach(function (opt) {
+      opt.classList.remove('selected');
+    });
+
+    event.target.classList.add('selected');
+
+    var sortedArticles = Array.from(articles).sort(function (a, b) {
+      var dateA = new Date(a.getAttribute('data-date'));
+      var dateB = new Date(b.getAttribute('data-date'));
+
+      if (order === 'newest') {
+        return dateB - dateA;
+      } else if (order === 'oldest') {
+        return dateA - dateB;
+      }
+    });
+
+    articlesContainer.innerHTML = '';
+
+    sortedArticles.forEach(function (article) {
+      articlesContainer.appendChild(article.cloneNode(true));
+    });
+}
+
+function toggleSortMenu(element) {
+    var sortMenu = document.getElementById('sort-menu');
+    sortMenu.classList.toggle('active');
+    element.classList.toggle('rotate');
+}
+
+function toggleComments() {
+    var commentsSection = document.getElementById('comments-section');
+    var commentsToggleBtn = document.getElementById('comments-toggle-btn');
+  
+    if (commentsSection.style.display === 'none' || commentsSection.style.display === '') {
+      commentsSection.style.display = 'block';
+      commentsToggleBtn.textContent = 'Ukryj Komentarze';
+    } else {
+      commentsSection.style.display = 'none';
+      commentsToggleBtn.textContent = 'Pokaż Komentarze';
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+    var articleIdParam = getParameterByName('artykul');
+
+    if (articleIdParam) {
+        scrollToArticle(articleIdParam);
+    }
+});
+
+function getParameterByName(name, url) {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
+}
+
+function zobacz(articleId, addedArticleId) {
+    scrollToArticle(articleId);
+
+    var article = document.getElementById(articleId);
+    
+    if (!article) {
+        console.error(`Artykuł z ID: ${articleId} nie znaleziony.`);
+        return;
+    }
+
+    var overlay = document.getElementById('overlay');
+    var overlayTitle = document.getElementById('overlay-title');
+    var overlayText = document.getElementById('overlay-text');
+    var overlayTags = document.getElementById('overlay-tags');
+    var overlayAuthor = document.getElementById('overlay-author');
+    var overlayTime = document.getElementById('overlay-time');
+
+    updateViewsCount(articleId);
+
+    // Pobierz dane z elementów artykułu
+    var title = article.querySelector('h3 a')?.textContent || '';
+    var content = article.querySelector('div')?.innerHTML || '';
+    var tags = article.querySelector('p:nth-child(5)')?.textContent || '';
+    var author = article.querySelector('p:nth-child(7)')?.textContent || '';
+    var time = article.querySelector('p:nth-child(6)')?.textContent || '';
+    
+    content = content.replace(/\n/g, '<br>');
+    content = applyTextFormatting(content);
+
+    // Ustaw teksty w overlay
+    overlayTitle.textContent = title;
+    overlayText.innerHTML = content;
+    overlayTags.innerHTML = `<i style="margin-top: 25px;" class="fas fa-hashtag"></i> ${tags}`;
+    overlayAuthor.innerHTML = `<i class="fas fa-user"></i> ${author}`;
+    overlayTime.innerHTML = `<i class="fas fa-clock"></i> ${time}`;
+
+    // Aktualizuj adres URL
+    var url = window.location.href.split('?')[0] + '?artykul=' + addedArticleId;
+    history.pushState({}, '', url);
+
+    // Wyświetl overlay
+    overlay.style.display = 'block';
+}
+
+function updateViewsCount(articleId) {
+    const articleRef = db.collection('articles').doc(articleId);
+
+    // Użyj FieldValue.increment, aby uniknąć problemów z konkurencyjnymi aktualizacjami
+    articleRef.update({ views: firebase.firestore.FieldValue.increment(1) })
+        .catch((error) => {
+            console.error('Błąd podczas aktualizacji liczby wyświetleń:', error);
+        });
+}
+
+function applyTextFormatting(text) {
+    // Dodaj inne zastępowania dla formatowań tekstu
+    text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>'); // Pogrubienie
+    text = text.replace(/\*(.*?)\*/g, '<em>$1</em>'); // Kursywa
+    text = text.replace(/__(.*?)__/g, '<u>$1</u>'); // Podkreślenie
+    text = text.replace(/~~(.*?)~~/g, '<s>$1</s>'); // Przekreślenie
+
+    return text;
+}
+
+window.addEventListener('popstate', function (event) {
+    var overlay = document.getElementById('overlay');
+
+    if (overlay.style.display === 'block') {
+        overlay.style.display = 'none';
+    }
+});
+
+function scrollToArticle(articleId) {
+    var articleElement = document.getElementById(articleId);
+
+    if (articleElement) {
+        articleElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } else {
+        db.collection('articles').doc(articleId).get()
+            .then((doc) => {
+                if (doc.exists) {
+                    zobacz(doc.id, doc.data().articleId);
+                } else {
+                    console.error('Artykuł nie znaleziony:', articleId);
+                }
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+    }
+}
+
+function closeOverlay() {
+    var overlay = document.getElementById('overlay');
+    overlay.style.display = 'none';
 }
