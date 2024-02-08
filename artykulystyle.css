@@ -119,14 +119,14 @@ body {
   display: none;
 }
 
+#article-form {
+  max-height: 500px;
+  overflow-y: auto;
+}
 
-#close-btn {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  cursor: pointer;
-  font-size: 24px;
-  color: #666;
+#text-formatting-buttons {
+  width: 50%;
+  display: flex;
 }
 
 #comments-section h4 {
@@ -710,7 +710,7 @@ img.placeholder {
 
 #article-form button {
   cursor: pointer;
-  background-color: #4caf50;
+  background-color: #4ab2e2;
   color: #fff;
   border: none;
   padding: 12px 20px;
@@ -719,7 +719,7 @@ img.placeholder {
 }
 
 #article-form button:hover {
-  background-color: #45a049;
+  background-color: #67c6f2;
 }
 
 #tag-options {
@@ -732,13 +732,54 @@ img.placeholder {
   margin: 5px;
 }
 
+#close-preview-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: transparent;
+  color: #000000;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-size: 24px;
+}
+
+#close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: transparent;
+  color: #000000;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-size: 24px;
+}
+
+.tag {
+  display: inline-block;
+  margin-right: 5px;
+  padding: 5px;
+  background-color: #4a9bc3;
+  color: #fff;
+  border-radius: 5px;
+}
+
 #preview-section {
-  display: none;
-  max-width: 600px;
-  margin: 20px auto;
-  padding: 20px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 75%;
+  max-width: 800px;
+  transform: translate(-50%, -50%);
   background-color: #fff;
+  padding: 20px;
+  border: 1px solid #ccc;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  z-index: 9999;
+  display: none;
 }
 
 #preview-section h2 {
@@ -749,7 +790,7 @@ img.placeholder {
 
 #preview-content {
   font-size: 1em;
-  color: #555;
+  color: #000000;
 }
 
 #notification-section {
@@ -1297,18 +1338,6 @@ hr {
 #article-tags li:hover {
   background-color: #c5fbff;
   border-radius: 4px;
-}
-
-#preview-section {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: #fff;
-  padding: 20px;
-  border: 1px solid #ccc;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  z-index: 6;
 }
 
 #article-form form {
