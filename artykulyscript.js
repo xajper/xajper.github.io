@@ -219,7 +219,7 @@ function addArticle() {
             'state_changed',
             (snapshot) => {
                 const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                displayMessage(`Dodawanie komentarza: ${progress.toFixed(2)}%`, 'warning');
+                displayMessage(`Dodawanie artykułu: ${progress.toFixed(2)}%`, 'warning');
             },
             (error) => {
                 console.error('Error: ', error);
