@@ -1198,7 +1198,7 @@ function zobacz(articleId, addedArticleId) {
     // Ustaw teksty w overlay
     overlayTitle.textContent = title;
     overlayText.innerHTML = content;
-    overlayTags.innerHTML = `<i class="fas fa-hashtag"></i> ${tags}`;
+    overlayTags.innerHTML = `<i style="margin-top: 25px;" class="fas fa-hashtag"></i> ${tags}`;
     overlayAuthor.innerHTML = `<i class="far fa-user"></i> ${author}`;
     overlayTime.innerHTML = `<i class="far fa-clock"></i> ${time}`;
 
