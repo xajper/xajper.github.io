@@ -163,16 +163,21 @@
       <form>
         <label for="edited-article-title">📖 TYTUŁ:</label>
         <input type="text" id="edited-article-title" name="edited-article-title" required oninput="this.value = this.value.toUpperCase()">
-        
+    
         <label for="edited-article-content">📝 TREŚĆ:</label>
+        <div id="text-formatting-buttons">
+          <button type="button" onclick="formatText('bold')"><i class="fas fa-bold"></i></button>
+          <button type="button" onclick="formatText('italic')"><i class="fas fa-italic"></i></button>
+          <button type="button" onclick="formatText('underline')"><i class="fas fa-underline"></i></button>
+          <button type="button" onclick="formatText('strikethrough')"><i class="fas fa-strikethrough"></i></button>
+        </div>
         <textarea id="edited-article-content" name="edited-article-content" required></textarea>
-        
+    
         <label for="edited-article-image">📷 ZDJĘCIE:</label>
         <input type="file" id="edited-article-image" accept="image/*">
         <hr>
         <button type="button" onclick="saveEditedArticle('${doc.id}')"><i class="fas fa-check"></i> Zapisz zmiany</button>
         <button type="button" onclick="cancelEdit()"><i class="fas fa-times"></i> Anuluj</button>
-
       </form>
     </div>
 
