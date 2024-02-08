@@ -758,15 +758,6 @@ img.placeholder {
   font-size: 24px;
 }
 
-.tag {
-  display: inline-block;
-  margin-right: 5px;
-  padding: 5px;
-  background-color: #4a9bc3;
-  color: #fff;
-  border-radius: 5px;
-}
-
 #preview-section {
   position: fixed;
   top: 50%;
