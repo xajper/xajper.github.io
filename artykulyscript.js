@@ -186,9 +186,12 @@ function addArticle() {
     addArticleBtn.disabled = true;
 
     const title = document.getElementById('article-title').value;
-    const content = document.getElementById('article-content').value;
+    let content = document.getElementById('article-content').value;
     const imageInput = document.getElementById('article-image');
     const selectedTags = getSelectedTags();
+
+    // Zamień znaki nowej linii na tagi <br> w HTML
+    content = content.split('\n').join('<br>');
 
     if (selectedTags.length === 0) {
         displayMessage('Proszę wybrać co najmniej jeden tag.', 'danger');
@@ -205,10 +208,8 @@ function addArticle() {
         uploadTask.on(
             'state_changed',
             (snapshot) => {
-                // Obsługa postępu ładowania
                 const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                // Aktualizacja widoku postępu ładowania
-                displayMessage(`Dodawanie artykułu: ${progress.toFixed(2)}%`, 'warning');
+                displayMessage(`Dodawanie komentarza: ${progress.toFixed(2)}%`, 'warning');
             },
             (error) => {
                 console.error('Error: ', error);
@@ -217,7 +218,6 @@ function addArticle() {
             },
             () => {
                 uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
-                    // Sprawdź, czy artykuł o takim samym tytule już istnieje
                     db.collection('articles')
                         .where('title', '==', title)
                         .get()
@@ -274,6 +274,7 @@ function addArticle() {
         addArticleBtn.disabled = false;
     }
 }
+
 
 function previewArticle() {
     const title = document.getElementById('article-title').value;
@@ -372,7 +373,7 @@ function displayArticles() {
                             <i class="fas fa-bookmark"></i>
                             <div class="fireworks"></div>
                         </button>
-                            <button class="udostepnij-button" onclick="udostepnij('${doc.id}', event, this)">
+                        <button class="udostepnij-button" onclick="udostepnij('${doc.id}', event, this)">
                             <i class="fas fa-share"></i>
                             <div class="fireworks"></div>
                             <div class="sukces-icon">
@@ -380,8 +381,6 @@ function displayArticles() {
                             </div>
                         </button>
                         ${user && (user.email === 'xajperminecraftyt@gmail.com' || user.email === 'KsaverX@interia.pl') ? `<button class="delete-button" onclick="deleteArticle('${doc.id}')"><i class="fas fa-trash"></i></button>` : ''}
-
-                        </button>
                         ${user && (user.email === 'xajperminecraftyt@gmail.com' || user.email === 'KsaverX@interia.pl') ? `<button class="edit-button" onclick="editArticle('${doc.id}')"><i class="fas fa-hand"></i></button>` : ''}
                         <hr>
                     `;
@@ -411,6 +410,7 @@ function displayArticles() {
     const loadingInterval = setInterval(updateLoadingText, 500);
     updateLoadingText();  // Initial loading text
 }
+
 
 function loadMoreArticles() {
     currentBatch += batchIncrement;
@@ -1332,10 +1332,12 @@ function zobacz(articleId, addedArticleId) {
     var tags = article.querySelector('p:nth-child(5)')?.textContent || '';
     var author = article.querySelector('p:nth-child(7)')?.textContent || '';
     var time = article.querySelector('p:nth-child(6)')?.textContent || '';
-
+    
+    content = content.replace(/\n/g, '<br>');
+    
     // Ustaw teksty w overlay
     overlayTitle.textContent = title;
-    overlayText.textContent = content;
+    overlayText.innerHTML = content; // Zmieniono na innerHTML
     overlayTags.innerHTML = `<i class="fas fa-hashtag"></i> ${tags}`;
     overlayAuthor.innerHTML = `<i class="far fa-user"></i> ${author}`;
     overlayTime.innerHTML = `<i class="far fa-clock"></i> ${time}`;
