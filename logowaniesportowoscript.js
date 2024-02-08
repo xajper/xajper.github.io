@@ -32,20 +32,19 @@ document.addEventListener('DOMContentLoaded', function () {
 function checkUserAuthentication() {
   const user = JSON.parse(localStorage.getItem('loggedInUser'));
 
-  if (user && (user.email === 'xajperminecraftyt@gmail.com' || user.email === 'KsaverX@interia.pl')) {
-      // Ustaw widoczność odpowiednich elementów na stronie (dodaj swoje odpowiednie operacje)
-      const addArticleBtn = document.getElementById('add-article-btn');
-      const articleForm = document.getElementById('article-form');
-      const deleteArticleBtn = document.getElementById('delete-article-btn');
+  if (user) {
+    showProfileConfigButton();
+  } else {
+    const profileConfigButton = document.getElementById('profile-config_btn');
+    if (profileConfigButton) {
+      profileConfigButton.style.display = 'none';
+    }
+  }
 
-      addArticleBtn.style.display = 'block';
-
-      if (user.email === 'xajperminecraftyt@gmail.com' || user.email === 'KsaverX@interia.pl') {
-          articleForm.style.display = 'block';
-      } else {
-          articleForm.style.display = 'none';
-          deleteArticleBtn.style.display = 'none';
-      }
+  // Dodaj warunek, aby strona odświeżyła się tylko raz
+  if (!sessionStorage.getItem('pageRefreshed')) {
+    location.reload();
+    sessionStorage.setItem('pageRefreshed', 'true');
   }
 }
 
@@ -225,7 +224,7 @@ function updateProfile() {
   const logoContainer = document.getElementById('logo_container');
 
   if (newPassword) {
-    const user = auth.currentUser;
+    const user = firebase.auth().currentUser;
 
     user.updatePassword(newPassword)
       .then(function () {
@@ -237,7 +236,7 @@ function updateProfile() {
   }
 
   if (newName) {
-    const user = auth.currentUser;
+    const user = firebase.auth().currentUser;
 
     user.updateProfile({
       displayName: newName
@@ -259,9 +258,9 @@ function updateProfile() {
 
     reader.readAsDataURL(avatarInput);
 
-    const user = auth.currentUser;
+    const user = firebase.auth().currentUser;
 
-    database.ref('users/' + user.uid).update({ avatar: avatarInput.name })
+    firebase.database().ref('users/' + user.uid).update({ avatar: avatarInput.name })
       .then(function () {
         alert('Avatar zaktualizowany pomyślnie!');
         
@@ -272,4 +271,14 @@ function updateProfile() {
         alert('Błąd podczas aktualizacji avatara: ' + error.message);
       });
   }
+}
+
+function logout() {
+  firebase.auth().signOut()
+    .then(function () {
+      location.reload();
+    })
+    .catch(function (error) {
+      console.error('Błąd podczas wylogowywania:', error);
+    });
 }
