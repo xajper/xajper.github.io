@@ -97,11 +97,28 @@ body {
   margin: 5px 0;
 }
 
+.bold-text {
+  font-weight: bold;
+}
+
+.italic-text {
+  font-style: italic;
+}
+
+.underlined-text {
+  text-decoration: underline;
+}
+
+.strikethrough-text {
+  text-decoration: line-through;
+}
+
 #comments-section {
   border-top: 1px solid #ddd;
   padding-top: 20px;
   display: none;
 }
+
 
 #close-btn {
   position: absolute;
