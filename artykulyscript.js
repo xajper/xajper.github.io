@@ -67,8 +67,9 @@ const batchIncrement = 5;
 
 document.addEventListener('DOMContentLoaded', function () {
     checkUserAuthentication();
-    displayLatestArticles();
     displayArticles();
+    displayLatestArticles();
+    displayPopularArticles();
 });
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -244,6 +245,7 @@ function addArticle() {
                                                 date: new Date().toISOString(),
                                                 author: 'Xajper',
                                                 articleId: addedArticleId,
+                                                views: 0,
                                             })
                                             .then(() => {
                                                 // Dodaj komentarz do artykułu
@@ -654,6 +656,45 @@ function displayLatestArticles() {
 
                 li.appendChild(a);
                 latestArticlesList.appendChild(li);
+            });
+        })
+        .catch((error) => {
+            console.error('Error: ', error);
+        });
+}
+
+function displayPopularArticles() {
+    const popularArticlesList = document.getElementById('popular-articles-list').getElementsByTagName('ul')[0];
+
+    db.collection('articles')
+        .orderBy('views', 'desc') // Załóżmy, że masz pole 'views' w dokumentach reprezentujących artykuły
+        .limit(3)
+        .get()
+        .then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+                const li = document.createElement('li');
+                const a = document.createElement('a');
+
+                const addedArticleId = doc.data().addedArticleId || '';
+                const articleId = `${doc.id}`;
+
+                a.href = `?artykul=${articleId}`;
+                a.textContent = doc.data().title;
+
+                // Dodaj tutaj funkcję articleaddedit, przekazując odpowiednie wartości
+                a.onclick = function (event) {
+                    event.preventDefault();
+
+                    // Set id attribute on the li element based on doc.id
+                    if (!document.getElementById(articleId)) {
+                        li.setAttribute('id', articleId);
+                    }
+
+                    zobacz(doc.id, doc.data().articleId);
+                };
+
+                li.appendChild(a);
+                popularArticlesList.appendChild(li);
             });
         })
         .catch((error) => {
@@ -1142,6 +1183,8 @@ function zobacz(articleId, addedArticleId) {
     var overlayAuthor = document.getElementById('overlay-author');
     var overlayTime = document.getElementById('overlay-time');
 
+    updateViewsCount(articleId);
+
     // Pobierz dane z elementów artykułu
     var title = article.querySelector('h3 a')?.textContent || '';
     var content = article.querySelector('div')?.innerHTML || '';
@@ -1165,6 +1208,16 @@ function zobacz(articleId, addedArticleId) {
 
     // Wyświetl overlay
     overlay.style.display = 'block';
+}
+
+function updateViewsCount(articleId) {
+    const articleRef = db.collection('articles').doc(articleId);
+
+    // Użyj FieldValue.increment, aby uniknąć problemów z konkurencyjnymi aktualizacjami
+    articleRef.update({ views: firebase.firestore.FieldValue.increment(1) })
+        .catch((error) => {
+            console.error('Błąd podczas aktualizacji liczby wyświetleń:', error);
+        });
 }
 
 function applyTextFormatting(text) {
