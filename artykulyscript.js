@@ -353,13 +353,13 @@ function displayArticles() {
                     articleElement.className = 'article-link';
                     articleElement.setAttribute('data-tags', doc.data().tags.join(', '));
                     articleElement.setAttribute('data-date', doc.data().date);
-
+            
                     const imageUrl = doc.data().image;
-
+            
                     articleElement.innerHTML = `
                         <h3 style="display: none;"><a href="?artykul=${doc.id}">${doc.data().title}</a></h3>
                         <span class="hover-bar"></span>
-                        <p style="display: none;">${doc.data().content}</p>
+                        <div class="content" style="display: none;">${doc.data().content.replace(/\n/g, '<br>')}</div>
                         <div class="image-container">
                             <img class="placeholder" src="${imageUrl}" alt="ZDJĘCIE">
                             <div class="image-title">
@@ -384,7 +384,7 @@ function displayArticles() {
                         ${user && (user.email === 'xajperminecraftyt@gmail.com' || user.email === 'KsaverX@interia.pl') ? `<button class="edit-button" onclick="editArticle('${doc.id}')"><i class="fas fa-hand"></i></button>` : ''}
                         <hr>
                     `;
-
+            
                     articlesContainer.appendChild(articleElement);
                 });
 
@@ -1328,12 +1328,10 @@ function zobacz(articleId, addedArticleId) {
 
     // Pobierz dane z elementów artykułu
     var title = article.querySelector('h3 a')?.textContent || '';
-    var content = article.querySelector('p')?.textContent || '';
+    var content = article.querySelector('div')?.innerHTML || ''; // Zmiana na innerHTML
     var tags = article.querySelector('p:nth-child(5)')?.textContent || '';
     var author = article.querySelector('p:nth-child(7)')?.textContent || '';
     var time = article.querySelector('p:nth-child(6)')?.textContent || '';
-    
-    content = content.replace(/\n/g, '<br>');
     
     // Ustaw teksty w overlay
     overlayTitle.textContent = title;
@@ -1349,7 +1347,6 @@ function zobacz(articleId, addedArticleId) {
     // Wyświetl overlay
     overlay.style.display = 'block';
 }
-
 window.addEventListener('popstate', function (event) {
     var overlay = document.getElementById('overlay');
 
