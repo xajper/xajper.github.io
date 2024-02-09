@@ -204,7 +204,7 @@ function displayMessage(message, type) {
     }, 3000);
 }
 
-function addArticle() {
+async function addArticle() {
     const addArticleBtn = document.getElementById('add-article-btn');
     addArticleBtn.disabled = true;
 
@@ -234,68 +234,52 @@ function addArticle() {
                 const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
                 displayMessage(`Dodawanie artykułu: ${progress.toFixed(2)}%`, 'warning');
             },
-            (error) => {
+            async (error) => {
                 console.error('Error: ', error);
                 displayMessage('Błąd podczas ładowania obrazu.', 'danger');
                 addArticleBtn.disabled = false;
             },
-            () => {
-                uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
+            async () => {
+                try {
+                    const downloadURL = await uploadTask.snapshot.ref.getDownloadURL();
+                    const { nextNumber, addedArticleId } = await getNextArticleNumber(title);
+
                     db.collection('articles')
-                        .where('title', '==', title)
-                        .get()
-                        .then((querySnapshot) => {
-                            if (querySnapshot.empty) {
-                                getNextArticleNumber()
-                                    .then(({ nextNumber, addedArticleId }) => {
-                                        db.collection('articles')
-                                            .doc(addedArticleId)
-                                            .set({
-                                                title: title,
-                                                content: content,
-                                                image: downloadURL,
-                                                tags: selectedTags,
-                                                date: new Date().toISOString(),
-                                                author: 'Xajper',
-                                                articleId: addedArticleId,
-                                                views: 0,
-                                            })
-                                            .then(() => {
-                                                // Dodaj komentarz do artykułu
-                                                const commentText = 'Mamy nadzieję że artykuł wam się spodobał';
-                                                addCommentToArticle(addedArticleId, commentText);
+                        .doc(addedArticleId)
+                        .set({
+                            title: title,
+                            content: content,
+                            image: downloadURL,
+                            tags: selectedTags,
+                            date: new Date().toISOString(),
+                            author: 'Xajper',
+                            articleId: addedArticleId,
+                            views: 0,
+                        })
+                        .then(() => {
+                            // Dodaj komentarz do artykułu
+                            const commentText = 'Mamy nadzieję, że artykuł wam się spodobał';
+                            addCommentToArticle(addedArticleId, commentText);
 
-                                                document.getElementById('article-title').value = '';
-                                                document.getElementById('article-content').value = '';
-                                                imageInput.value = '';
+                            document.getElementById('article-title').value = '';
+                            document.getElementById('article-content').value = '';
+                            imageInput.value = '';
 
-                                                displayMessage('Artykuł dodany pomyślnie!', 'success');
-                                                addArticleBtn.disabled = false;
-                                                displayArticles();
-                                                displayLatestArticles();
-                                            })
-                                            .catch((error) => {
-                                                console.error('Error: ', error);
-                                                displayMessage('Błąd podczas dodawania artykułu.', 'danger');
-                                                addArticleBtn.disabled = false;
-                                            });
-                                    })
-                                    .catch((error) => {
-                                        console.error('Error: ', error);
-                                        displayMessage('Błąd podczas dodawania artykułu.', 'danger');
-                                        addArticleBtn.disabled = false;
-                                    });
-                            } else {
-                                displayMessage('Artykuł o takim tytule już istnieje', 'danger');
-                                addArticleBtn.disabled = false;
-                            }
+                            displayMessage('Artykuł dodany pomyślnie!', 'success');
+                            addArticleBtn.disabled = false;
+                            displayArticles();
+                            displayLatestArticles();
                         })
                         .catch((error) => {
                             console.error('Error: ', error);
-                            displayMessage('Błąd podczas sprawdzania istniejącego artykułu.', 'danger');
+                            displayMessage('Błąd podczas dodawania artykułu.', 'danger');
                             addArticleBtn.disabled = false;
                         });
-                });
+                } catch (error) {
+                    console.error('Error: ', error);
+                    displayMessage('Błąd podczas uzyskiwania URL obrazu.', 'danger');
+                    addArticleBtn.disabled = false;
+                }
             }
         );
     } else {
@@ -314,7 +298,7 @@ function previewArticle() {
     }
 
     const title = titleElement.value;
-    const content = parseContent(contentElement.value); // Nowa funkcja do przetwarzania treści
+    const content = parseContent(contentElement.value); // Użyj funkcji parseContent do formatowania treści
     const selectedTags = getSelectedTags();
 
     const previewSection = document.getElementById('preview-section');
@@ -344,7 +328,8 @@ function parseContent(content) {
         .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') // Pogrubienie
         .replace(/__(.*?)__/g, '<u>$1</u>') // Podkreślenie
         .replace(/\*(.*?)\*/g, '<em>$1</em>') // Kursywa
-        .replace(/~~(.*?)~~/g, '<del>$1</del>'); // Przekreślenie
+        .replace(/~~(.*?)~~/g, '<del>$1</del>') // Przekreślenie
+        .replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" target="_blank">$1</a>'); // Link
 
     return formattedContent;
 }
@@ -354,28 +339,45 @@ function closePreview() {
     previewSection.style.display = 'none';
 }
 
-function getNextArticleNumber() {
-    return new Promise((resolve, reject) => {
-        db.collection('articles')
+async function getNextArticleNumber(title) {
+    try {
+        const querySnapshot = await db.collection('articles')
             .orderBy('articleId', 'desc')
             .limit(1)
-            .get()
-            .then((querySnapshot) => {
-                let nextNumber = 1;
+            .get();
 
-                if (!querySnapshot.empty) {
-                    const lastArticle = querySnapshot.docs[0].data();
-                    const lastNumber = parseInt(lastArticle.articleId) || 0;
-                    nextNumber = lastNumber + 1;
-                }
+        let lastArticleId = 0;
 
-                const addedArticleId = getNextArticleId(nextNumber);
-                resolve({ nextNumber, addedArticleId });
-            })
-            .catch((error) => {
-                reject(error);
-            });
-    });
+        querySnapshot.forEach((doc) => {
+            lastArticleId = doc.data().articleId;
+        });
+
+        const nextNumber = lastArticleId + 1;
+
+        return { nextNumber, addedArticleId: generateArticleIdFromTitle(title) };
+    } catch (error) {
+        console.error('Error getting next article number:', error);
+        throw error;
+    }
+}
+
+function generateArticleIdFromTitle(title) {
+    const polishCharacters = {
+        'ą': 'a',
+        'ć': 'c',
+        'ę': 'e',
+        'ł': 'l',
+        'ń': 'n',
+        'ó': 'o',
+        'ś': 's',
+        'ź': 'z',
+        'ż': 'z',
+    };
+
+    // Replace Polish characters, remove special characters, convert to lowercase, and replace spaces with "-"
+    return title.replace(/[^\w\s]/gi, '').toLowerCase().split(' ')
+        .map(word => [...word].map(char => polishCharacters[char] || char).join(''))
+        .join('-');
 }
 
 function getNextArticleId(articleNumber) {
@@ -817,6 +819,14 @@ function formatText(style) {
                 '~~' + selectedText + '~~' +
                 contentTextArea.value.substring(end);
             break;
+        case 'link':
+            const url = prompt('Wprowadź adres URL:');
+            if (url) {
+                contentTextArea.value = contentTextArea.value.substring(0, start) +
+                    `[${selectedText}](${url})` +
+                    contentTextArea.value.substring(end);
+            }
+            break;
     }
 
     contentTextArea.focus();
@@ -1245,6 +1255,7 @@ function applyTextFormatting(text) {
     text = text.replace(/\*(.*?)\*/g, '<em>$1</em>'); // Kursywa
     text = text.replace(/__(.*?)__/g, '<u>$1</u>'); // Podkreślenie
     text = text.replace(/~~(.*?)~~/g, '<s>$1</s>'); // Przekreślenie
+    text = text.replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" target="_blank">$1</a>'); //Link
 
     return text;
 }
