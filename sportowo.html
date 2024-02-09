@@ -11,6 +11,8 @@
   <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-database.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-storage.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-firestore.js"></script>
+  
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
   <link rel="icon" href="ikonkastrony.ico" type="image/x-icon">
   <title>Sportowo.pl</title>
@@ -22,6 +24,8 @@
       <span></span>
       <span></span>
     </label></div>
+
+    <div id="notification-section"></div>
 
     <div id="overlay" class="overlay">
       <button id="comments-toggle-btn" data-article-id="${doc.id}" onclick="toggleComments()">Pokaż Komentarze</button>
@@ -47,8 +51,6 @@
       </div>
       <span class="close-overlay" id="close-btn" onclick="closeOverlay()">&times;</span>
     </div>
-    
-    <div id="notification-section"></div>
 
     <section id="sport-section">
         <h2>Sportowo - Artykuły Sportowe</h2>
@@ -140,13 +142,14 @@
           <button type="button" onclick="formatText('italic')"><i class="fas fa-italic"></i></button>
           <button type="button" onclick="formatText('underline')"><i class="fas fa-underline"></i></button>
           <button type="button" onclick="formatText('strikethrough')"><i class="fas fa-strikethrough"></i></button>
+          <button type="button" onclick="formatText('link')"><i class="fas fa-link"></i> Dodaj link</button>
         </div>
         <textarea id="article-content" name="article-content" required></textarea>
         
         <label for="article-image">📷 ZDJĘCIE:</label>
         <input type="file" id="article-image" accept="image/*">
         
-        <button type="button" id="tag-checkboxes-btn"><i class="fas fa-hashtag"></i> TAGI</button>
+        <button type="button" onclick="toggleTagOptionsVisibility()" id="tag-checkboxes-btn"><i class="fas fa-hashtag"></i> TAGI</button>
 
         <div id="tag-checkboxes" style="display: none;">
           <div id="tag-options">
@@ -245,25 +248,25 @@
             <section id="article-tags">
                 <h2>TAGI</h2>
                 <ul>
-                  <li><a href="#">NOWE</a></li>
-                  <li><a href="#">INNE</a></li>
-                  <li><a href="#">POPULARNE</a></li>
-                  <li><a href="#">KOLARSTWO</a></li>
-                  <li><a href="#">E-SPORT</a></li>
-                  <li><a href="#">PIŁKA NOŻNA</a></li>
-                  <li><a href="#">LEKKOATLETYKA</a></li>
-                  <li><a href="#">TENIS</a></li>
-                  <li><a href="#">KOSZYKÓWKA</a></li>
-                  <li><a href="#">SIATKÓWKA</a></li>
-                  <li><a href="#">PIŁKA RĘCZNA</a></li>
-                  <li><a href="#">PŁYWANIE</a></li>
-                  <li><a href="#">ŻUŻEL</a></li>
-                  <li><a href="#">SPORTY ZIMOWE</a></li>
-                  <li><a href="#">SKOKI NARCIARSKIE</a></li>
-                  <li><a href="#">BIEGI NARCAIRSKIE</a></li>
-                  <li><a href="#">BIATHLON</a></li>
-                  <li><a href="#">HOKEJ</a></li>
-                  <li><a href="#">ŁYŻWIARTSWO</a></li>
+                  <li><a href="#" onclick="sortByTag('NOWE')">NOWE</a></li>
+                  <li><a href="#" onclick="sortByTag('INNE')">INNE</a></li>
+                  <li><a href="#" onclick="sortByTag('POPULARNE')">POPULARNE</a></li>
+                  <li><a href="#" onclick="sortByTag('KOLARSTWO')">KOLARSTWO</a></li>
+                  <li><a href="#" onclick="sortByTag('E-SPORT')">E-SPORT</a></li>
+                  <li><a href="#" onclick="sortByTag('PIŁKA NOŻNA')">PIŁKA NOŻNA</a></li>
+                  <li><a href="#" onclick="sortByTag('LEKKOATLETYKA')">LEKKOATLETYKA</a></li>
+                  <li><a href="#" onclick="sortByTag('TENIS')">TENIS</a></li>
+                  <li><a href="#" onclick="sortByTag('KOSZYKÓWKA')">KOSZYKÓWKA</a></li>
+                  <li><a href="#" onclick="sortByTag('SIATKÓWKA')">SIATKÓWKA</a></li>
+                  <li><a href="#" onclick="sortByTag('PIŁKA RĘCZNA')">PIŁKA RĘCZNA</a></li>
+                  <li><a href="#" onclick="sortByTag('PŁYWANIE')">PŁYWANIE</a></li>
+                  <li><a href="#" onclick="sortByTag('ŻUŻEL')">ŻUŻEL</a></li>
+                  <li><a href="#" onclick="sortByTag('SPORTY ZIMOWE')">SPORTY ZIMOWE</a></li>
+                  <li><a href="#" onclick="sortByTag('SKOKI NARCIARSKIE')">SKOKI NARCIARSKIE</a></li>
+                  <li><a href="#" onclick="sortByTag('BIEGI NARCAIRSKIE')">BIEGI NARCAIRSKIE</a></li>
+                  <li><a href="#" onclick="sortByTag('BIATHLON')">BIATHLON</a></li>
+                  <li><a href="#" onclick="sortByTag('HOKEJ')">HOKEJ</a></li>
+                  <li><a href="#" onclick="sortByTag('ŁYŻWIARTSWO')">ŁYŻWIARTSWO</a></li>
                 </ul>
             </section>
         </div>
