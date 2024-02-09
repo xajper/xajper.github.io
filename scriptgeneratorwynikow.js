@@ -153,9 +153,9 @@ function updateResult() {
     } else if (matchData.currentMinute == 45) {
         eventsContainer.innerHTML += `<p>Koniec pierwszej połowy! Rozpoczęcie przerwy.</p>`;
     } else if (matchData.currentMinute > 45 && matchData.currentMinute < 90) {
-        eventsContainer.innerHTML += `<p>Mecz w trakcie drugiej połowy - ${matchData.currentMinute}'</p>`;
+        eventsContainer.innerHTML += `<p>Mecz w trakcie drugiej połowy!'</p>`;
     } else if (matchData.currentMinute >= 90) {
-        eventsContainer.innerHTML += `<p>Końcówka meczu - ${matchData.currentMinute}'</p>`;
+        eventsContainer.innerHTML += `<p>Koniec meczu!'</p>`;
     }
 
     displayEvents();
@@ -185,14 +185,26 @@ function displayResult() {
 }
 
 function getStatusText() {
+    var breakStatus = document.getElementById("break-status");
+    var inProgressStatus = document.getElementById("in-progress-status");
+    var finishedStatus = document.getElementById("finished-status");
+    var brakStatus = document.getElementById("brak-status");
     if (matchData.currentMinute < 45) {
-        return "Mecz w trakcie pierwszej połowy";
+        return "Mecz w trakcie pierwszej połowy!";
     } else if (matchData.currentMinute == 45) {
-        return "Przerwa";
+        return "Przerwa!";
     } else if (matchData.currentMinute > 45 && matchData.currentMinute < 90) {
-        return `Mecz w trakcie drugiej połowy - ${matchData.currentMinute}'`;
+        brakStatus.style.display = "none";
+        breakStatus.style.display = "none";
+        inProgressStatus.style.display = "block";
+        finishedStatus.style.display = "none";
+        return `Mecz w trakcie drugiej połowy!`;
     } else if (matchData.currentMinute >= 90) {
-        return `Końcówka meczu - ${matchData.currentMinute}'`;
+        brakStatus.style.display = "none";
+        breakStatus.style.display = "none";
+        inProgressStatus.style.display = "none";
+        finishedStatus.style.display = "block";
+        return `Końcówka meczu!`;
     }
 }
 
