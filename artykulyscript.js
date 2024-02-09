@@ -72,6 +72,19 @@ document.addEventListener('DOMContentLoaded', function () {
     displayPopularArticles();
 });
 
+function blokujMysz(event) {
+    if (event.button === 2 || event.which === 3) {
+
+      event.preventDefault();
+    }
+  }
+  
+document.addEventListener('contextmenu', function (event) {
+    event.preventDefault();
+});
+  
+document.addEventListener('mousedown', blokujMysz);
+  
 document.addEventListener('DOMContentLoaded', function () {
     var articleIdParam = getParameterByName('artykul');
 
