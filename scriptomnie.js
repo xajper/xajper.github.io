@@ -1,19 +1,18 @@
 const $counters = document.querySelectorAll('.counter');
 
-document.getElementById('team1').addEventListener('input', function() {
-    this.value = this.value.toUpperCase(); // Zamień na wielkie litery
-});
-
-document.getElementById('team2').addEventListener('input', function() {
-    this.value = this.value.toUpperCase(); // Zamień na wielkie litery
-});
-
 function blokujMysz(event) {
     if (event.button === 2 || event.which === 3) {
 
       event.preventDefault();
     }
   }
+  
+document.addEventListener('contextmenu', function (event) {
+    event.preventDefault();
+});
+  
+document.addEventListener('mousedown', blokujMysz);
+
   
 function celebrate() {
     const confettiSettings = { target: 'my-canvas' };
