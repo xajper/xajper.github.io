@@ -83,6 +83,8 @@ body {
 #overlay-content {
   display: flex;
   flex-direction: column;
+  max-height: 500px; /* Ustaw maksymalną wysokość sekcji */
+  overflow-y: auto;
 }
 
 #main-info {
