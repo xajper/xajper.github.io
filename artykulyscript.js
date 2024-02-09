@@ -487,6 +487,39 @@ function loadMoreArticles() {
     displayArticles();
 }
 
+function sortByTag(tag) {
+    // Zaznacz kliknięty tag
+    const tagLinks = document.querySelectorAll('#article-tags li a');
+    tagLinks.forEach(tagLink => {
+        tagLink.classList.remove('clicked');
+        if (tagLink.textContent.trim() === tag) {
+            tagLink.classList.add('clicked');
+        }
+    });
+
+    const articlesContainer = document.getElementById('main-article');
+    const articles = articlesContainer.querySelectorAll('.article-link');
+
+    const filteredArticles = Array.from(articles).filter(article => {
+        const articleTags = article.getAttribute('data-tags').split(', ');
+        return tag ? articleTags.includes(tag) : true;
+    });
+
+    const sortedArticles = filteredArticles.sort((a, b) => {
+        const aDate = new Date(a.getAttribute('data-date'));
+        const bDate = new Date(b.getAttribute('data-date'));
+        return bDate - aDate;
+    });
+
+    articlesContainer.innerHTML = '';
+    sortedArticles.forEach(article => {
+        articlesContainer.appendChild(article);
+    });
+
+    const articleCount = sortedArticles.length;
+    displayMessage(`Ilość artykułów w tej kategorii: ${articleCount}!`, 'success');
+}
+
 function editArticle(articleId) {
     console.log(articleId);
     const articleRef = db.collection('articles').doc(articleId);
@@ -718,22 +751,6 @@ function displayPopularArticles() {
             console.error('Error: ', error);
         });
 }
-
-document.addEventListener('DOMContentLoaded', function () {
-    const tagLinks = document.querySelectorAll('#article-tags li a');
-
-    tagLinks.forEach(tagLink => {
-        tagLink.addEventListener('click', function (event) {
-            event.preventDefault();
-            showTagOptions();
-        });
-    });
-
-    const tagCheckboxesBtn = document.getElementById('tag-checkboxes-btn');
-    tagCheckboxesBtn.addEventListener('click', function () {
-        toggleTagOptionsVisibility();
-    });
-});
 
 function toggleTagOptionsVisibility() {
     const tagCheckboxes = document.getElementById('tag-checkboxes');
@@ -1017,29 +1034,6 @@ function getParameterByName(name, url) {
     if (!results[2]) return '';
     return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
-
-document.addEventListener('DOMContentLoaded', function () {
-    const tagLinks = document.querySelectorAll('#article-tags li a');
-
-    tagLinks.forEach(tagLink => {
-        tagLink.addEventListener('click', function (event) {
-            event.preventDefault();
-
-            const selectedTag = tagLink.textContent.toLowerCase();
-            const articles = document.querySelectorAll('#main-article div');
-
-            articles.forEach(article => {
-                const articleTags = article.querySelector('p:nth-child(3)').textContent.toLowerCase();
-
-                if (articleTags.includes(selectedTag)) {
-                    article.style.display = 'block';
-                } else {
-                    article.style.display = 'none';
-                }
-            });
-        });
-    });
-});
 
 function toggleMenu() {
     var overlay = document.getElementById("menu-overlay");
