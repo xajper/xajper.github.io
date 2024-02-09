@@ -24,7 +24,6 @@ var matchData = {
     intervalId: null,
 };
 
-
 document.getElementById('team1').addEventListener('input', function() {
     this.value = this.value.toUpperCase(); // Zamień na wielkie litery
 });
@@ -144,6 +143,7 @@ function generateResult() {
 
 function updateResult() {
     matchData.currentMinute += 1;
+    simulateEvent(); // Move the simulateEvent call here
 
     var eventsContainer = document.getElementById("events");
 
@@ -158,14 +158,13 @@ function updateResult() {
         eventsContainer.innerHTML += `<p>Końcówka meczu - ${matchData.currentMinute}'</p>`;
     }
 
-    simulateEvent();
     displayEvents();
     updateStats();
     updateStatusIndicators();
+    displayResult();
     displayPlayers(matchData.team1, 1);
     displayPlayers(matchData.team2, 2);
     checkGameStatus();
-    displayResult();
 }
 
 function displayResult() {
@@ -492,7 +491,7 @@ function simulateEvent() {
         }
     
         // Aktualizacja wyświetlania obrazków żółtych kartek
-        var yellowCardImages = createCardImages(matchData.yellowCards, 'yellow', yellowCardPlayer, teamId);
+        var yellowCardImages = createCardImages(matchData.yellowCards, 'yellow', yellowCardPlayer, scoringTeam);
         listItem.appendChild(yellowCardImages);
     }
     
@@ -521,8 +520,8 @@ function simulateEvent() {
             }
         }
     
-        // Aktualizacja wyświetlania obrazków czerwonych kartek
-        var redCardImages = createCardImages(matchData.redCards, 'red', redCardPlayer, teamId);
+        // Aktualizacja wyświetlania obrazków czerwonych kartekscoringTeam
+        var redCardImages = createCardImages(matchData.redCards, 'red', redCardPlayer, scoringTeam);
         listItem.appendChild(redCardImages);
     }
     
