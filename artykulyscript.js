@@ -374,9 +374,11 @@ function generateArticleIdFromTitle(title) {
         'ż': 'z',
     };
 
-    // Replace Polish characters, remove special characters, convert to lowercase, and replace spaces with "-"
-    return title.replace(/[^\w\s]/gi, '').toLowerCase().split(' ')
-        .map(word => [...word].map(char => polishCharacters[char] || char).join(''))
+    // Replace Polish characters with non-accented counterparts
+    return title
+        .replace(/[ąćęłńóśźż]/g, char => polishCharacters[char] || char)
+        .toLowerCase()
+        .split(' ')
         .join('-');
 }
 
