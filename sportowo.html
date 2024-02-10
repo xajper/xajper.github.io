@@ -28,7 +28,6 @@
     <div id="notification-section"></div>
 
     <div id="overlay" class="overlay">
-      <button id="comments-toggle-btn" data-article-id="${doc.id}" onclick="toggleComments()">Pokaż Komentarze</button>
       <div id="overlay-content">
           <div id="main-info">
               <h3 id="overlay-title"></h3>
@@ -37,21 +36,10 @@
               <p id="overlay-author"><i class="fas fa-user"></i></p>
               <p id="overlay-time"><i class="fas fa-clock"></i></p>
           </div>
-          <div id="comments-section">
-              <h4 class="mt-3 text-center border-bottom pb-2">Komentarze</h4>
-              <form id="comments">
-                  <div class="mb-3">
-                      <label for="comment" class="form-label">Napisz komentarz</label>
-                      <textarea placeholder="Oceń artykuł..." id="comment" name="comment" class="form-control"></textarea>
-                  </div>
-                  <button class="btn btn-outline-primary" onclick="addCommentToArticle()">Prześlij <i class="fas fa-arrow-right"></i></button>
-                  <div id="commentsList" class="container cont"></div>
-              </form>
-          </div>
       </div>
       <span class="close-overlay" id="close-btn" onclick="closeOverlay()">&times;</span>
     </div>
-
+  
     <section id="sport-section">
         <h2>Sportowo - Artykuły Sportowe</h2>
         <div id="menu-button" onclick="toggleMenu()">
