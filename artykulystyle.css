@@ -1669,6 +1669,18 @@ footer {
     margin-bottom: 60px; /* Adjust this value to match the height of your #sport-section */
   }
 
+  #menu-button {
+    position: fixed;
+    bottom: 5; /* Adjust top position as needed */
+    left: 0;
+    cursor: pointer;
+    z-index: 9999;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: #fff;
+    padding: 10px 15px;
+    border-radius: 5px;
+  }
+  
   #sport-section {
     position: fixed;
     bottom: 0;
@@ -1677,21 +1689,26 @@ footer {
     z-index: 9998;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     padding: 10px;
+    text-align: center; /* Center items horizontally */
+    display: flex;
+    justify-content: center; /* Center items horizontally */
+    align-items: center; /* Center items vertically */
+    margin-bottom: 0; /* Remove bottom margin */
+  }
+  
+  .profil-button,
+  .wyniki-button,
+  .search-icon,
+  .symulator-button {
+    color: #ffffff;
+    margin: 0 15px; /* Adjust margin as needed */
+    padding: 10px;
+    border: none;
+    transition: color 0.8s ease, background-color 0.8s ease, margin-left 0.8s ease;
   }
 
   #sport-section h2 {
     display: none;
-  }
-
-  .profil-button,
-  .wyniki-button,
-  .search-icon {
-    color: #ffffff;
-    background-color: transparent;
-    margin-left: auto;
-    padding: 10px;
-    border: none;
-    transition: color 0.8s ease, background-color 0.8s ease, margin-left 0.8s ease;
   }
 
   header {
