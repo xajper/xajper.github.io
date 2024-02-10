@@ -1060,28 +1060,43 @@ document.getElementById('saveButton').addEventListener('click', function() {
 });
 
 let minDuration = 500;
-let startTime = Date.now();
 
 function checkImageLoaded(img) {
+  let startTime = Date.now();
 
+  function removePlaceholder() {
+    img.classList.remove("placeholder");
+    img.style.opacity = 1; // Ustaw opacity na 1 po zakończeniu animacji i załadowaniu obrazu
+  }
+
+  function checkDuration() {
     let now = Date.now();
 
     if (now - startTime >= minDuration) {
-
-      img.classList.remove("placeholder");
+      removePlaceholder();
     } else {
-
-      setTimeout(function() {
-        checkImageLoaded(img);
-      }, 100);
+      setTimeout(checkDuration, 100);
     }
   }
 
-  let images = document.querySelectorAll("img");
+  img.onload = function () {
+    checkDuration();
+  };
 
-  for (let i = 0; i < images.length; i++) {
+  img.onerror = function () {
+    removePlaceholder(); // Usuń placeholder nawet jeśli wystąpi błąd ładowania obrazu
+  };
 
-    checkImageLoaded(images[i]);
+  img.addEventListener("animationend", function () {
+    // Zakończenie animacji również powinno spowodować usunięcie placeholdera
+    removePlaceholder();
+  });
+}
+
+let images = document.querySelectorAll("img");
+
+for (let i = 0; i < images.length; i++) {
+  checkImageLoaded(images[i]);
 }
 
 function udostepnij(artykulId, event, button) {
