@@ -451,6 +451,15 @@ function displayArticles() {
                                 <i class="fas fa-check-circle"></i>
                             </div>
                         </button>
+
+                        <button class="add-comment-button" onclick="toggleCommentSection('${doc.id}')"><i class="fas fa-comment"></i>
+                        </button>
+                        <div id="comment-section-${doc.id}" class="comment-section" style="display: none;">
+                            <textarea id="comment-input-${doc.id}" placeholder="Napisz komentarz..."></textarea>
+                            <button class="btn btn-outline-primary" onclick="addCommentToArticle('${doc.id}')">Prześlij <i class="fas fa-arrow-right"></i></button>
+                            <div id="commentsList-${doc.id}" class="container cont"></div>
+                        </div>
+
                         ${user && (user.email === 'xajperminecraftyt@gmail.com' || user.email === 'KsaverX@interia.pl') ? `<button class="delete-button" onclick="deleteArticle('${doc.id}')"><i class="fas fa-trash"></i></button>` : ''}
                         ${user && (user.email === 'xajperminecraftyt@gmail.com' || user.email === 'KsaverX@interia.pl') ? `<button class="edit-button" onclick="editArticle('${doc.id}')"><i class="fas fa-hand"></i></button>` : ''}
                         <hr>
@@ -567,11 +576,11 @@ function saveEditedArticle(articleId) {
 
     if (editedTitle && editedContent) {
         db.collection('articles')
-            .where('articleId', '==', articleId)
+            .doc(articleId)
             .get()
-            .then((querySnapshot) => {
-                if (!querySnapshot.empty) {
-                    const articleDoc = querySnapshot.docs[0];
+            .then((doc) => {
+                if (doc.exists) {
+                    const articleData = doc.data();
                     const updateData = {
                         title: editedTitle,
                         content: editedContent,
@@ -579,6 +588,7 @@ function saveEditedArticle(articleId) {
                     };
 
                     if (editedImageInput.files.length > 0) {
+                        // If a new image is selected, upload it
                         const editedImageFile = editedImageInput.files[0];
                         const storageRef = firebase.storage().ref('article_images/' + editedImageFile.name);
                         const uploadTask = storageRef.put(editedImageFile);
@@ -586,44 +596,23 @@ function saveEditedArticle(articleId) {
                         uploadTask.on(
                             'state_changed',
                             (snapshot) => {
-                                // Obsługa postępu ładowania, jeśli potrzebujesz
+                                // Handle upload progress if needed
                             },
                             (error) => {
                                 console.error('Error: ', error);
                                 displayMessage('Błąd podczas ładowania obrazu.', 'danger');
                             },
                             () => {
+                                // After successful upload, get the download URL
                                 uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
                                     updateData.image = downloadURL;
-
-                                    // Zaktualizuj dokument tylko jeśli nadal istnieje
-                                    articleDoc.ref.update(updateData)
-                                        .then(() => {
-                                            displayMessage('Artykuł został zaktualizowany pomyślnie!', 'success');
-                                            displayArticles();
-                                            displayLatestArticles();
-                                            cancelEdit();
-                                        })
-                                        .catch((error) => {
-                                            console.error('Error: ', error);
-                                            displayMessage('Błąd podczas zapisywania edytowanego artykułu.', 'danger');
-                                        });
+                                    updateArticle(articleId, updateData);
                                 });
                             }
                         );
                     } else {
-                        // Jeśli nie edytowano obrazu, zaktualizuj tylko dane tekstowe
-                        articleDoc.ref.update(updateData)
-                            .then(() => {
-                                displayMessage('Artykuł został zaktualizowany pomyślnie!', 'success');
-                                displayArticles();
-                                displayLatestArticles();
-                                cancelEdit();
-                            })
-                            .catch((error) => {
-                                console.error('Error: ', error);
-                                displayMessage('Błąd podczas zapisywania edytowanego artykułu.', 'danger');
-                            });
+                        // If no new image is selected, update only text data
+                        updateArticle(articleId, updateData);
                     }
                 } else {
                     console.log('Artykuł nie istnieje');
@@ -636,6 +625,22 @@ function saveEditedArticle(articleId) {
     } else {
         displayMessage('Tytuł i treść artykułu są wymagane.', 'danger');
     }
+}
+
+function updateArticle(articleId, updateData) {
+    db.collection('articles')
+        .doc(articleId)
+        .update(updateData)
+        .then(() => {
+            displayMessage('Artykuł został zaktualizowany pomyślnie!', 'success');
+            displayArticles();
+            displayLatestArticles();
+            cancelEdit();
+        })
+        .catch((error) => {
+            console.error('Error: ', error);
+            displayMessage('Błąd podczas zapisywania edytowanego artykułu.', 'danger');
+        });
 }
 
 function cancelEdit() {
@@ -849,56 +854,6 @@ function formatText(style) {
     }
 
     contentTextArea.focus();
-}
-
-
-function addCommentToArticle(articleId, commentText) {
-    const user = auth.currentUser;
-
-    db.collection('articles').doc(articleId).collection('comments').add({
-        author: user ? user.email : 'Anonim',
-        content: commentText,
-        date: new Date().toISOString(),
-    })
-    .then(() => {
-        // Dodaj jakiekolwiek dodatkowe akcje po dodaniu komentarza
-        console.log('Komentarz dodany pomyślnie!');
-    })
-    .catch((error) => {
-        console.error('Błąd podczas dodawania komentarza:', error);
-    });
-}
-
-// Display comments for a specific article
-function displayComments(articleId) {
-    const commentsList = document.getElementById('commentsList');
-  
-    // Pobierz komentarze dla danego artykułu z bazy danych
-    db.collection('comments')
-        .where('articleId', '==', articleId)
-        .orderBy('timestamp', 'desc')
-        .get()
-        .then((querySnapshot) => {
-            commentsList.innerHTML = ''; // Wyczyść listę komentarzy przed dodaniem nowych
-  
-            querySnapshot.forEach((doc) => {
-                const commentData = doc.data();
-  
-                // Utwórz element komentarza
-                const commentElement = document.createElement('div');
-                commentElement.className = 'comment';
-                commentElement.innerHTML = `
-                    <p>${commentData.comment}</p>
-                    <p class="comment-meta">${commentData.author} | ${formatTimestamp(commentData.timestamp)}</p>
-                `;
-  
-                // Dodaj komentarz do listy
-                commentsList.appendChild(commentElement);
-            });
-        })
-        .catch((error) => {
-            console.error('Błąd podczas pobierania komentarzy:', error);
-        });
 }
 
 
@@ -1175,17 +1130,102 @@ function toggleSortMenu(element) {
     element.classList.toggle('rotate');
 }
 
-function toggleComments() {
-    var commentsSection = document.getElementById('comments-section');
-    var commentsToggleBtn = document.getElementById('comments-toggle-btn');
-  
-    if (commentsSection.style.display === 'none' || commentsSection.style.display === '') {
-      commentsSection.style.display = 'block';
-      commentsToggleBtn.textContent = 'Ukryj Komentarze';
+// Display comments for a specific article
+function addCommentToArticle(articleId) {
+    const user = auth.currentUser;
+    const commentInput = document.getElementById(`comment-input-${articleId}`);
+    const commentText = commentInput.value.trim();  // Use trim() to remove leading and trailing whitespaces
+
+    if (user) {
+        // User is logged in, proceed with adding the comment
+        db.collection('articles').doc(articleId).collection('comments').add({
+            author: user.email,
+            content: commentText,
+            date: new Date().toISOString(),
+        })
+        .then(() => {
+            console.log('Komentarz dodany pomyślnie!');
+            displayComments(articleId);
+            commentInput.value = '';  // Clear the textarea after successful comment submission
+        })
+        .catch((error) => {
+            console.error('Błąd podczas dodawania komentarza:', error);
+        });
     } else {
-      commentsSection.style.display = 'none';
-      commentsToggleBtn.textContent = 'Pokaż Komentarze';
+        // User is not logged in, prompt them to log in
+        console.error('Musisz być zalogowany, aby dodać komentarz.');
+        // Optionally, you can show a message to the user or redirect them to the login page.
     }
+}
+
+function displayComments(articleId) {
+    const commentsList = document.getElementById(`commentsList-${articleId}`);
+
+    // Pobierz komentarze dla danego artykułu z bazy danych
+    db.collection('articles').doc(articleId).collection('comments')
+        .orderBy('date', 'desc')
+        .get()
+        .then((querySnapshot) => {
+            commentsList.innerHTML = ''; // Wyczyść listę komentarzy przed dodaniem nowych
+
+            querySnapshot.forEach((commentDoc) => {
+                const commentData = commentDoc.data();
+
+                // Utwórz element komentarza
+                const commentElement = document.createElement('div');
+                commentElement.className = 'comment';
+                commentElement.innerHTML = `
+                    <p>${commentData.content}</p>
+                    <p class="comment-meta">${commentData.author} | ${formatTimestamp(commentData.date)}</p>
+                `;
+
+                // Dodaj komentarz do listy
+                commentsList.appendChild(commentElement);
+            });
+        })
+        .catch((error) => {
+            console.error('Błąd podczas pobierania komentarzy:', error);
+        });
+}
+
+function toggleCommentSection(articleId) {
+    var existingOverlay = document.getElementById(`comment-overlay-${articleId}`);
+
+    // If overlay already exists, remove it
+    if (existingOverlay) {
+        existingOverlay.remove();
+        return;
+    }
+
+    // Create new overlay
+    var overlay = document.createElement('div');
+    overlay.id = `comment-overlay-${articleId}`;
+    overlay.className = 'overlay';
+    overlay.onclick = function (event) {
+        event.stopPropagation();
+    };
+
+    var commentOverlay = document.createElement('div');
+    commentOverlay.className = 'comment-overlay';
+
+    // Add content to the comment overlay
+    commentOverlay.innerHTML = `
+        <h4 class="mt-3 text-center border-bottom pb-2">Komentarze</h4>
+        <form id="comments">
+            <div class="mb-3">
+                <label for="comment" class="form-label">Napisz komentarz</label>
+                <textarea placeholder="Oceń artykuł..." id="comment-input-${articleId}" name="comment" class="form-control"></textarea>
+            </div>
+            <button class="btn btn-outline-primary" onclick="addCommentToArticle('${articleId}')">Prześlij <i class="fas fa-arrow-right"></i></button>
+            <div id="commentsList-${articleId}" class="container cont"></div>
+        </form>
+    `;
+
+    // Append the comment overlay to the overlay
+    overlay.appendChild(commentOverlay);
+
+    // Append the overlay to the body
+    document.body.appendChild(overlay);
 }
 
 document.addEventListener('DOMContentLoaded', function () {
