@@ -619,15 +619,14 @@ p {
 img.placeholder {
   background: linear-gradient(to right, #e0e0e0 8%, #f1f1f1 18%, #e0e0e0 33%);
   background-size: 800px 104px;
-  animation: loading 1.5s infinite;
-  opacity: 0.5; /* zmniejszenie przezroczystości obrazu */
+  animation: loadingAnimation 2s linear infinite; /* Dodaj animację ładowania */
 }
 
-@keyframes loading {
-  from {
+@keyframes loadingAnimation {
+  0% {
     background-position: -800px 0;
   }
-  to {
+  100% {
     background-position: 800px 0;
   }
 }
