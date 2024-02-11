@@ -22,13 +22,13 @@ auth.onAuthStateChanged(user => {
 
     if (user) {
         // Jeśli użytkownik jest zalogowany, sprawdź jego adres e-mail
-        const allowedEmails = ['xajperminecraftyt@gmail.com', 'KsaverX@interia.pl'];
+        const allowedEmails = ['xajperminecraftyt@gmail.com', 'Ppixelator@gmail.com'];
 
         if (allowedEmails.includes(user.email)) {
             // Jeśli adres e-mail jest na liście dozwolonych, pokaż przycisk addArticleBtn
             addArticleBtn.style.display = 'block';
 
-            if (user.email === 'xajperminecraftyt@gmail.com' || user.email === 'KsaverX@interia.pl') {
+            if (user.email === 'xajperminecraftyt@gmail.com' || user.email === 'Ppixelator@gmail.com') {
                 // Jeśli użytkownik to Xajper, pokaż formularz artykułu
             } else {
                 // Jeśli użytkownik to inny dziennikarz, ukryj formularz artykułu
@@ -109,7 +109,7 @@ addArticleBtn.addEventListener('click', () => {
     // Sprawdzamy, czy użytkownik jest zalogowany
     const user = auth.currentUser;
 
-    if (user && (user.email === 'xajperminecraftyt@gmail.com' || user.email === 'KsaverX@interia.pl')) {
+    if (user && (user.email === 'xajperminecraftyt@gmail.com' || user.email === 'Ppixelator@gmail.com')) {
         // Jeśli użytkownik jest zalogowany i to jest konto Xajpera, wywołujemy funkcję dodawania artykułu
         articleForm.style.display = 'block';
     } else {
@@ -159,7 +159,7 @@ function loginUser() {
 function checkUserAuthentication() {
     const user = JSON.parse(localStorage.getItem('loggedInUser'));
 
-    if (user && (user.email === 'xajperminecraftyt@gmail.com' || user.email === 'KsaverX@interia.pl')) {
+    if (user && (user.email === 'xajperminecraftyt@gmail.com' || user.email === 'Ppixelator@gmail.com')) {
         // Ustaw widoczność odpowiednich elementów na stronie (dodaj swoje odpowiednie operacje)
         const addArticleBtn = document.getElementById('add-article-btn');
         const articleForm = document.getElementById('article-form');
@@ -168,7 +168,7 @@ function checkUserAuthentication() {
 
         addArticleBtn.style.display = 'block';
 
-        if (user.email === 'xajperminecraftyt@gmail.com' || user.email === 'KsaverX@interia.pl') {
+        if (user.email === 'xajperminecraftyt@gmail.com' || user.email === 'Ppixelator@gmail.com') {
 
         } else {
             articleForm.style.display = 'none';
@@ -183,8 +183,23 @@ function getCurrentTimestamp() {
 }
 
 function getAuthor() {
-    // Tutaj możesz dostarczyć logiczne pobieranie autora, np. zalogowanego użytkownika itp.
-    return 'Autor';
+    const user = auth.currentUser;
+
+    if (user) {
+        const userEmail = user.email;
+
+        switch (userEmail) {
+            case 'xajperminecraftyt@gmail.com':
+                return 'Xajper';
+            case 'Ppixelator@gmail.com':
+                return 'Ksaveriusz';
+            // Dodaj kolejne przypadki dla innych autorów, jeśli są potrzebne
+            default:
+                return 'Autor'; // Domyślna wartość, gdyby nie pasował żaden z powyższych przypadków
+        }
+    } else {
+        return 'Autor'; // Domyślna wartość, gdy użytkownik nie jest zalogowany
+    }
 }
 
 function cancelArticle() {
@@ -243,6 +258,7 @@ async function addArticle() {
                 try {
                     const downloadURL = await uploadTask.snapshot.ref.getDownloadURL();
                     const { nextNumber, addedArticleId } = await getNextArticleNumber(title);
+                    const author = getAuthor(); // Pobieranie autora na podstawie funkcji getAuthor
 
                     db.collection('articles')
                         .doc(addedArticleId)
@@ -252,7 +268,7 @@ async function addArticle() {
                             image: downloadURL,
                             tags: selectedTags,
                             date: new Date().toISOString(),
-                            author: 'Xajper',
+                            author: author, // Ustawianie autora na podstawie funkcji getAuthor
                             articleId: addedArticleId,
                             views: 0,
                         })
@@ -287,6 +303,7 @@ async function addArticle() {
         addArticleBtn.disabled = false;
     }
 }
+
 
 function previewArticle() {
     const titleElement = document.getElementById('article-title');
@@ -460,8 +477,8 @@ function displayArticles() {
                             <div id="commentsList-${doc.id}" class="container cont"></div>
                         </div>
 
-                        ${user && (user.email === 'xajperminecraftyt@gmail.com' || user.email === 'KsaverX@interia.pl') ? `<button class="delete-button" onclick="deleteArticle('${doc.id}')"><i class="fas fa-trash"></i></button>` : ''}
-                        ${user && (user.email === 'xajperminecraftyt@gmail.com' || user.email === 'KsaverX@interia.pl') ? `<button class="edit-button" onclick="editArticle('${doc.id}')"><i class="fas fa-hand"></i></button>` : ''}
+                        ${user && (user.email === 'xajperminecraftyt@gmail.com' || user.email === 'Ppixelator@gmail.com') ? `<button class="delete-button" onclick="deleteArticle('${doc.id}')"><i class="fas fa-trash"></i></button>` : ''}
+                        ${user && (user.email === 'xajperminecraftyt@gmail.com' || user.email === 'Ppixelator@gmail.com') ? `<button class="edit-button" onclick="editArticle('${doc.id}')"><i class="fas fa-hand"></i></button>` : ''}
                         <hr>
                     `;
             
@@ -656,7 +673,7 @@ function cancelEdit() {
 function deleteArticle(articleId) {
     const user = auth.currentUser;
 
-    if (user && (user.email === 'xajperminecraftyt@gmail.com' || user.email === 'KsaverX@interia.pl')) {
+    if (user && (user.email === 'xajperminecraftyt@gmail.com' || user.email === 'Ppixelator@gmail.com')) {
         const confirmed = confirm('Czy na pewno chcesz usunąć ten artykuł?');
 
         if (confirmed) {
