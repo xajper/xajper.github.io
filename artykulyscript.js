@@ -65,11 +65,14 @@ const loadMoreBtn = document.getElementById('load-more-btn');
 let currentBatch = 5;
 const batchIncrement = 5;
 
+const articlesCountElement = document.getElementById('articles-count');
+
 document.addEventListener('DOMContentLoaded', function () {
     checkUserAuthentication();
     displayArticles();
     displayLatestArticles();
     displayPopularArticles();
+    getArticlesCount();
 });
 
 function blokujMysz(event) {
@@ -291,6 +294,7 @@ async function addArticle() {
                             // Wyświetl listę artykułów po dodaniu artykułu
                             displayArticles();
                             displayLatestArticles();
+                            getArticlesCount();
                         })
                         .catch((error) => {
                             console.error('Error: ', error);
@@ -695,6 +699,7 @@ async function deleteArticle(articleId) {
                 .then(() => {
                     displayMessage('Artykuł usunięty pomyślnie!', 'success');
                     displayArticles();
+                    getArticlesCount();
                 })
                 .catch((error) => {
                     console.error('Error: ', error);
@@ -836,6 +841,19 @@ function getSelectedTags() {
     });
 
     return selectedTags;
+}
+
+// Pobierz liczbę artykułów z bazy danych Firebase
+async function getArticlesCount() {
+    try {
+        const articlesQuerySnapshot = await db.collection('articles').get();
+        const articlesCount = articlesQuerySnapshot.size;
+
+        // Wyświetl informację o liczbie artykułów na stronie
+        articlesCountElement.textContent = `Artykuły: ${articlesCount}`;
+    } catch (error) {
+        console.error('Błąd podczas pobierania liczby artykułów:', error);
+    }
 }
 
 function validate_email(email) {
