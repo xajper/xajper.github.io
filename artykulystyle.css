@@ -115,19 +115,6 @@ body {
   text-decoration: line-through;
 }
 
-.add-comment-button {
-  background-color: #3498db;
-  color: #fff;
-  padding: 8px 12px;
-  border: none;
-  cursor: pointer;
-  border-radius: 4px;
-}
-
-.add-article-btn:hover {
-  background-color: #2980b9;
-}
-
 .comment-overlay {
   position: absolute;
   top: 50%;
@@ -340,6 +327,33 @@ p {
   100% {
     transform: scale(1);
   }
+}
+
+.add-comment-button {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  background-color: transparent;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease, color 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+}
+
+.add-comment-button i {
+  font-size: 18px;
+  color: #3498db; /* Kolor ikonki na początku */
+  transition: color 0.3s ease;
+}
+
+.add-comment-button i:hover {
+  font-size: 18px;
+  color: #34aae9; /* Kolor ikonki na początku */
+  transition: color 0.3s ease;
 }
 
 .udostepnij-button {
