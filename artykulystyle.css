@@ -249,14 +249,34 @@ p {
   margin-left: 10px;
 }
 
+#sport-section {
+  background-color: #161616;
+  color: #FFFFFF;
+  text-align: center;
+  font-size: 10px;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  padding: 10px;
+}
+
 #sport-section h2 {
-  margin-left: 50px;
+  padding-right: 10px;
+  margin-left: 55px;
+}
+
+#articles-count {
+  display: block;
+  font-size: 18px;
+  font-weight: bold;
+  color: #000000;
+  margin-top: 5px;
+  margin-left: 50%;
 }
 
 .akapit {
   word-wrap: break-word;
   width: 100%;
-  margin: 10px;
 }
 
 .save-button {
@@ -912,17 +932,6 @@ img.placeholder {
   10%, 90% {
     opacity: 1;
   }
-}
-
-#sport-section {
-  background-color: #161616;
-  color: #FFFFFF;
-  text-align: center;
-  font-size: 10px;
-  margin: 0;
-  display: flex;
-  align-items: center;
-  padding: 10px;
 }
 
 .alert {
@@ -1813,6 +1822,10 @@ footer {
   #latest-articles-list li,
   #popular-articles-list li {
     margin-bottom: 10px; /* Adjust the margin as needed */
+  }
+
+  #articles-count {
+    display: none;
   }
 
   #article-tags {
