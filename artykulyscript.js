@@ -260,6 +260,7 @@ async function addArticle() {
                     const { nextNumber, addedArticleId } = await getNextArticleNumber(title);
                     const author = getAuthor(); // Pobieranie autora na podstawie funkcji getAuthor
 
+                    // Dodawanie artykułu do kolekcji 'articles'
                     db.collection('articles')
                         .doc(addedArticleId)
                         .set({
@@ -273,16 +274,21 @@ async function addArticle() {
                             views: 0,
                         })
                         .then(() => {
-                            // Dodaj komentarz do artykułu
-                            const commentText = 'Mamy nadzieję, że artykuł wam się spodobał';
-                            addCommentToArticle(addedArticleId, commentText);
-
                             document.getElementById('article-title').value = '';
                             document.getElementById('article-content').value = '';
                             imageInput.value = '';
 
                             displayMessage('Artykuł dodany pomyślnie!', 'success');
                             addArticleBtn.disabled = false;
+
+                            // Dodawanie kolekcji komentarzy dla każdego artykułu
+                            db.collection('articles').doc(addedArticleId).collection('comments').add({
+                                author: author,
+                                content: 'Mamy nadzieję, że artykuł wam się spodobał',
+                                date: new Date().toISOString(),
+                            });
+
+                            // Wyświetl listę artykułów po dodaniu artykułu
                             displayArticles();
                             displayLatestArticles();
                         })
@@ -670,13 +676,21 @@ function cancelEdit() {
     }
 }
 
-function deleteArticle(articleId) {
+async function deleteArticle(articleId) {
     const user = auth.currentUser;
 
     if (user && (user.email === 'xajperminecraftyt@gmail.com' || user.email === 'Ppixelator@gmail.com')) {
         const confirmed = confirm('Czy na pewno chcesz usunąć ten artykuł?');
 
         if (confirmed) {
+            // Usuwanie komentarzy z kolekcji 'comments' związanych z danym artykułem
+            const commentsQuerySnapshot = await db.collection('articles').doc(articleId).collection('comments').get();
+            
+            commentsQuerySnapshot.forEach(async (commentDoc) => {
+                await commentDoc.ref.delete();
+            });
+
+            // Usuwanie samego artykułu z kolekcji 'articles'
             db.collection('articles').doc(articleId).delete()
                 .then(() => {
                     displayMessage('Artykuł usunięty pomyślnie!', 'success');
@@ -1148,63 +1162,6 @@ function toggleSortMenu(element) {
 }
 
 // Display comments for a specific article
-function addCommentToArticle(articleId) {
-    const user = auth.currentUser;
-    const commentInput = document.getElementById(`comment-input-${articleId}`);
-    const commentText = commentInput.value.trim();  // Use trim() to remove leading and trailing whitespaces
-
-    if (user) {
-        // User is logged in, proceed with adding the comment
-        db.collection('articles').doc(articleId).collection('comments').add({
-            author: user.email,
-            content: commentText,
-            date: new Date().toISOString(),
-        })
-        .then(() => {
-            console.log('Komentarz dodany pomyślnie!');
-            displayComments(articleId);
-            commentInput.value = '';  // Clear the textarea after successful comment submission
-        })
-        .catch((error) => {
-            console.error('Błąd podczas dodawania komentarza:', error);
-        });
-    } else {
-        // User is not logged in, prompt them to log in
-        console.error('Musisz być zalogowany, aby dodać komentarz.');
-        // Optionally, you can show a message to the user or redirect them to the login page.
-    }
-}
-
-function displayComments(articleId) {
-    const commentsList = document.getElementById(`commentsList-${articleId}`);
-
-    // Pobierz komentarze dla danego artykułu z bazy danych
-    db.collection('articles').doc(articleId).collection('comments')
-        .orderBy('date', 'desc')
-        .get()
-        .then((querySnapshot) => {
-            commentsList.innerHTML = ''; // Wyczyść listę komentarzy przed dodaniem nowych
-
-            querySnapshot.forEach((commentDoc) => {
-                const commentData = commentDoc.data();
-
-                // Utwórz element komentarza
-                const commentElement = document.createElement('div');
-                commentElement.className = 'comment';
-                commentElement.innerHTML = `
-                    <p>${commentData.content}</p>
-                    <p class="comment-meta">${commentData.author} | ${formatTimestamp(commentData.date)}</p>
-                `;
-
-                // Dodaj komentarz do listy
-                commentsList.appendChild(commentElement);
-            });
-        })
-        .catch((error) => {
-            console.error('Błąd podczas pobierania komentarzy:', error);
-        });
-}
-
 function toggleCommentSection(articleId) {
     var existingOverlay = document.getElementById(`comment-overlay-${articleId}`);
 
@@ -1243,6 +1200,63 @@ function toggleCommentSection(articleId) {
 
     // Append the overlay to the body
     document.body.appendChild(overlay);
+
+    // Display existing comments
+    displayComments(articleId);
+}
+
+async function displayComments(articleId) {
+    const commentsContainer = document.getElementById(`commentsList-${articleId}`);
+    commentsContainer.innerHTML = ''; // Clear existing comments
+
+    try {
+        const commentsSnapshot = await db.collection('articles').doc(articleId).collection('comments').get();
+
+        if (!commentsSnapshot.empty) {
+            commentsSnapshot.forEach((commentDoc) => {
+                const commentData = commentDoc.data();
+                const commentDiv = document.createElement('div');
+                commentDiv.className = 'comment';
+                commentDiv.innerHTML = `
+                    <p><strong>${commentData.author}:</strong> ${commentData.content}</p>
+                    <small>${new Date(commentData.date).toLocaleString()}</small>
+                    <hr>
+                `;
+                commentsContainer.appendChild(commentDiv);
+            });
+        } else {
+            commentsContainer.innerHTML = '<p>Brak komentarzy.</p>';
+        }
+    } catch (error) {
+        console.error('Błąd podczas pobierania komentarzy:', error);
+    }
+}
+
+async function addCommentToArticle(articleId) {
+    const user = auth.currentUser;
+    const commentInput = document.getElementById(`comment-input-${articleId}`);
+    const commentText = commentInput.value.trim();  // Use trim() to remove leading and trailing whitespaces
+
+    if (user) {
+        // User is logged in, proceed with adding the comment
+        db.collection('articles').doc(articleId).collection('comments').add({
+            author: user.email,
+            content: commentText,
+            date: new Date().toISOString(),
+        })
+        .then(() => {
+            console.log('Komentarz dodany pomyślnie!');
+            displayComments(articleId); // Display comments after adding a new one
+            commentInput.value = '';  // Clear the textarea after successful comment submission
+        })
+        .catch((error) => {
+            console.error('Błąd podczas dodawania komentarza:', error);
+        });
+    } else {
+        // User is not logged in, prompt them to log in
+        console.error('Musisz być zalogowany, aby dodać komentarz.');
+        // Optionally, you can show a message to the user or redirect them to the login page.
+    }
 }
 
 document.addEventListener('DOMContentLoaded', function () {
