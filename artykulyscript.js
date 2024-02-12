@@ -536,13 +536,7 @@ function displayArticles() {
                             </div>
                         </button>
 
-                        <button class="add-comment-button" onclick="toggleCommentSection('${doc.id}')"><i class="fas fa-comment"></i>
-                        </button>
-                        <div id="comment-section-${doc.id}" class="comment-section" style="display: none;">
-                            <textarea id="comment-input-${doc.id}" placeholder="Napisz komentarz..."></textarea>
-                            <button class="btn btn-outline-primary" onclick="addCommentToArticle('${doc.id}')">Prześlij <i class="fas fa-arrow-right"></i></button>
-                            <div id="commentsList-${doc.id}" class="container cont"></div>
-                        </div>
+                        <button class="add-comment-button" onclick="toggleCommentSection('${doc.id}')"><i class="fas fa-comment"></i></button>
 
                         ${user && (user.email === 'xajperminecraftyt@gmail.com' || user.email === 'Ppixelator@gmail.com') ? `<button class="delete-button" onclick="deleteArticle('${doc.id}')"><i class="fas fa-trash"></i></button>` : ''}
                         ${user && (user.email === 'xajperminecraftyt@gmail.com' || user.email === 'Ppixelator@gmail.com') ? `<button class="edit-button" onclick="editArticle('${doc.id}')"><i class="fas fa-hand"></i></button>` : ''}
@@ -1233,15 +1227,32 @@ function toggleCommentSection(articleId) {
 
     // Add content to the comment overlay
     commentOverlay.innerHTML = `
-        <h4 class="mt-3 text-center border-bottom pb-2">Komentarze</h4>
-        <form id="comments">
-            <div class="mb-3">
-                <label for="comment" class="form-label">Napisz komentarz</label>
-                <textarea placeholder="Oceń artykuł..." id="comment-input-${articleId}" name="comment" class="form-control"></textarea>
+        <div id="comments-section">
+            <div>
+            <div class="comments-header">
+                <img src="komentarze.png" alt="Komentarze" class="comments-image">
+                <h4 class="comments-section">Komentarze</h4>
             </div>
-            <button class="btn btn-outline-primary" onclick="addCommentToArticle('${articleId}')">Prześlij <i class="fas fa-arrow-right"></i></button>
-            <div id="commentsList-${articleId}" class="container cont"></div>
-        </form>
+            <form id="comments">
+                <div class="comment-send" contenteditable="true" placeholder="Napisz komentarz..." id="comment-input-${articleId}" name="comment" class="form-control"></div>
+                <button class="btn btn-outline-primary" onclick="addCommentToArticle('${articleId}')">Prześlij <i class="fas fa-arrow-right"></i></button>
+                <div id="commentsList-${articleId}" class="cont"></div>
+            </form>
+            </div>
+            <div>
+            <div class="reaction-header">
+                <img src="reakcje.png" alt="Reakcje" class="reaction-image">
+                <h4 class="reaction-section">Reakcje</h4>
+            </div>
+            <div class="reaction-buttons">
+                <button class="btn btn-reaction" onclick="reactToArticle('${articleId}', 'super')" data-reaction="super">🔥</button>
+                <button class="btn btn-reaction" onclick="reactToArticle('${articleId}', 'lubie')" data-reaction="lubie">👍</button>
+                <button class="btn btn-reaction" onclick="reactToArticle('${articleId}', 'nie lubie')" data-reaction="nie-lubie">👎</button>
+                <button class="btn btn-reaction" onclick="reactToArticle('${articleId}', 'super')" data-reaction="super">❤️</button>
+                <button class="btn btn-reaction" onclick="reactToArticle('${articleId}', 'wow')" data-reaction="wow">😮</button>
+            </div>
+            </div>
+        </div>
     `;
 
     // Append the comment overlay to the overlay
@@ -1262,17 +1273,27 @@ async function displayComments(articleId) {
         const commentsSnapshot = await db.collection('articles').doc(articleId).collection('comments').get();
 
         if (!commentsSnapshot.empty) {
-            commentsSnapshot.forEach((commentDoc) => {
+            commentsSnapshot.forEach((commentDoc, index) => {
                 const commentData = commentDoc.data();
                 const commentDiv = document.createElement('div');
                 commentDiv.className = 'comment';
                 commentDiv.innerHTML = `
                     <p><strong>${commentData.author}:</strong> ${commentData.content}</p>
-                    <small>${new Date(commentData.date).toLocaleString()}</small>
-                    <hr>
+                    <small><i class="far fa-clock"></i> ${new Date(commentData.date).toLocaleString()}</small>
                 `;
+
+                // Add horizontal line between comments, except for the last one
+                if (index < commentsSnapshot.size - 1) {
+                    const horizontalLine = document.createElement('hr');
+                    commentDiv.appendChild(horizontalLine);
+                }
+
                 commentsContainer.appendChild(commentDiv);
             });
+
+            // Add a maximum height and overflow-y property to enable scrollbar
+            commentsContainer.style.maxHeight = '300px'; // Adjust the maximum height as needed
+            commentsContainer.style.overflowY = 'auto';
         } else {
             commentsContainer.innerHTML = '<p>Brak komentarzy.</p>';
         }
@@ -1280,6 +1301,51 @@ async function displayComments(articleId) {
         console.error('Błąd podczas pobierania komentarzy:', error);
     }
 }
+
+function reactToArticle(articleId, reaction) {
+    // You can perform any logic here based on the reaction (e.g., send to server, update UI)
+    console.log(`Reakcja do artykułu: ${articleId}: ${reaction}`);
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+    const reactionButtons = document.querySelectorAll('.btn-reaction');
+
+    reactionButtons.forEach(function (button) {
+        button.addEventListener('click', function () {
+            // Get the reaction type from the button's data-reaction attribute
+            const reactionType = button.getAttribute('data-reaction');
+            
+            // Handle +1 animation and show notification here
+            reactToArticle(articleId, reactionType);
+        });
+    });
+
+    function showReactionNotification(text) {
+        const reactionNotification = document.createElement('div');
+        reactionNotification.className = 'reaction-notification';
+        reactionNotification.textContent = text;
+
+        document.body.appendChild(reactionNotification);
+
+        // Use a class to trigger the fade-out animation
+        setTimeout(function () {
+            reactionNotification.classList.add('fade-out');
+        }, 1000); // Adjust the delay as needed
+
+        // Remove the notification after the animation duration
+        setTimeout(function () {
+            document.body.removeChild(reactionNotification);
+        }, 1500); // Adjust the duration as needed
+    }
+
+    function reactToArticle(articleId, reaction) {
+        // Perform any logic here based on the reaction (e.g., send to server, update UI)
+        console.log(`Reakcja do artykułu: ${articleId}: ${reaction}`);
+
+        // Display the +1 notification
+        showReactionNotification('+1');
+    }
+});
 
 async function addCommentToArticle(articleId) {
     const user = auth.currentUser;
