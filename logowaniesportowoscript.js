@@ -19,6 +19,8 @@ auth.onAuthStateChanged(user => {
   if (user) {
       // Jeśli użytkownik jest zalogowany, zapisz informacje do localStorage
       localStorage.setItem('loggedInUser', JSON.stringify(user));
+      const userId = user.uid;
+      displayUserPoints(userId);
   } else {
       // Jeśli użytkownik się wyloguje, usuń informacje z localStorage
       localStorage.removeItem('loggedInUser');
@@ -34,18 +36,20 @@ function checkUserAuthentication() {
 
   if (user) {
     showProfileConfigButton();
-  } else {
-    const profileConfigButton = document.getElementById('profile-config_btn');
-    if (profileConfigButton) {
-      profileConfigButton.style.display = 'none';
-    }
   }
+}
 
-  // Dodaj warunek, aby strona odświeżyła się tylko raz
-  if (!sessionStorage.getItem('pageRefreshed')) {
-    location.reload();
-    sessionStorage.setItem('pageRefreshed', 'true');
-  }
+function displayUserPoints(userId) {
+  const userRef = database.ref('users/' + userId);
+
+  userRef.once('value', (snapshot) => {
+      const user = snapshot.val();
+      if (user && user.points !== undefined) {
+          document.getElementById('userPoints').textContent = user.points;
+      } else {
+          console.error('Nie można pobrać punktów użytkownika.');
+      }
+  });
 }
 
 function register () {
