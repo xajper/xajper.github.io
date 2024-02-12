@@ -28,33 +28,49 @@
     <div class="modal-content">
       <span class="close" onclick="closeProfileModal()">&times;</span>
   
-      <label for="newPassword">
-        <i class="fas fa-lock"></i> Nowe Hasło:
-      </label>
-      <input type="password" id="newPassword" name="newPassword">
+      <div class="settings-section">
+        <h2><i class="fas fa-sync-alt fa-spin"></i> USTAWIENIA</h2>
   
-      <label for="newName">
-        <i class="fas fa-user"></i> Nowa Nazwa:
-      </label>
-      <input type="text" id="newName" name="newName">
+        <label for="newPassword">
+          <i class="fas fa-lock"></i> Nowe Hasło:
+        </label>
+        <input type="password" id="newPassword" name="newPassword">
   
-      <label for="newAvatar">
-        <i class="fas fa-image"></i> Nowy Avatar:
-      </label>
-      <label class="custom-file-input" for="avatar_input">
-        Wybierz plik
-      </label>
-      <input type="file" accept="image/*" id="avatar_input">
+        <label for="newName">
+          <i class="fas fa-user"></i> Nowa Nazwa:
+        </label>
+        <input type="text" id="newName" name="newName">
   
-      <button onclick="updateProfile()">
-        <i class="fas fa-save"></i> Zapisz zmiany
-      </button>
+        <label for="newAvatar">
+          <i class="fas fa-image"></i> Nowy Avatar:
+        </label>
+        <label class="custom-file-input" for="avatar_input">
+          Wybierz plik
+          <input type="file" accept="image/*" id="avatar_input">
+        </label>
+      </div>
+  
+      <div class="information-section">
+        <h2><i class="fas fa-list"></i> INFORMACJE</h2>
+  
+        <p>
+          <img src="punkty.png" alt="Punkty" style="width: 20px; margin-right: 5px; vertical-align: middle;">
+          Punkty: <span id="userPoints"><i class="fas fa-circle-notch fa-spin"></i></span>
+        </p>
+  
+        <button class="save-changes-btn" onclick="updateProfile()">
+          <img src="zapisz.png" alt="Zapisz zmiany">
+          <span>Zapisz zmiany</span>
+        </button>
 
-      <button onclick="logout()">
-        <i class="fas fa-sign-out-alt"></i> Wyloguj
-      </button>
+        <button class="logout-btn" onclick="logout()">
+          <img src="wyloguj.png" alt="Wyloguj">
+          <span>Wyloguj</span>
+        </button>
+      </div>
     </div>
   </div>
+  
 
   <div class="login-container">
     <form class="form_container">
