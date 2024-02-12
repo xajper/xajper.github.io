@@ -875,6 +875,23 @@ img.placeholder {
   color: #000000;
 }
 
+.message-section {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background-color: #4caf50;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  display: none;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  z-index: 9998;
+}
+
+.success-icon {
+  margin-right: 10px;
+}
+
 .alert {
   position: fixed;
   top: 10px;
@@ -902,7 +919,7 @@ img.placeholder {
   position: fixed;
   top: 10px;
   right: 10px;
-  z-index: 1000;
+  z-index: 9999;
   max-width: 300px;
 }
 
