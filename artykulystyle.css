@@ -1692,6 +1692,7 @@ footer {
   width: 20px;
   height: 20px;
   transition: background-color 0.5s ease, transform 0.2s ease;
+  z-index: 9998;
 }
 
 .scroll-to-top:hover {
@@ -1871,6 +1872,10 @@ footer {
     padding: 15px;
     box-sizing: border-box;
     flex-wrap: wrap;
+  }
+
+  .scroll-to-top {
+    margin-bottom: 30px;
   }
 
   #main-article img {
