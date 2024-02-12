@@ -1263,6 +1263,8 @@ function toggleCommentSection(articleId) {
 
     // Display existing comments
     displayComments(articleId);
+
+    updateViewsCount(articleId);
 }
 
 async function displayComments(articleId) {
