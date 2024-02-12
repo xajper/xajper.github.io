@@ -320,18 +320,6 @@ p {
   }
 }
 
-@keyframes pulseedit {
-  0% {
-    box-shadow: 0 0 0 0 rgba(179, 253, 31);
-  }
-  70% {
-    box-shadow: 0 0 0 15px rgba(255, 215, 0, 0);
-  }
-  100% {
-    box-shadow: 0 0 0 0 rgba(255, 215, 0, 0);
-  }
-}
-
 .save-button.clicked {
   animation: clickAnimation 0.8s ease;
 }
@@ -365,14 +353,13 @@ p {
 
 .add-comment-button i {
   font-size: 18px;
-  color: #3498db; /* Kolor ikonki na początku */
+  color: #000000; /* Kolor ikonki na początku */
   transition: color 0.3s ease;
 }
 
 .add-comment-button i:hover {
-  font-size: 18px;
-  color: #34aae9; /* Kolor ikonki na początku */
   transition: color 0.3s ease;
+  filter: drop-shadow(3px 2px 2px #131313);
 }
 
 .udostepnij-button {
@@ -427,11 +414,7 @@ p {
 
 .delete-button:hover i {
   color: #ff3131;
-}
-
-.delete-button:hover {
-  background-color: transparent;
-  animation: pulsesharered 0.8s ease;
+  filter: drop-shadow(4px 2px 2px #ff9898);
 }
 
 .edit-button {
@@ -451,16 +434,12 @@ p {
 }
 
 .edit-button i {
-  color: #b3fd1f;
+  color: #fddf1f;
 }
 
 .edit-button:hover i {
-  color: #b3fd1f;
-}
-
-.edit-button:hover {
-  background-color: transparent;
-  animation: pulseedit 0.8s ease;
+  color: #fddf1f;
+  filter: drop-shadow(4px 2px 2px #f1ff98);
 }
 
 #edit-article-form {
@@ -541,19 +520,6 @@ p {
 .sukces-icon i {
   font-size: 24px;
 }
-
-@keyframes pulsesharered {
-  0% {
-    box-shadow: 0 0 0 0 rgba(255, 12, 12, 0.7);
-  }
-  70% {
-    box-shadow: 0 0 0 15px rgba(52, 152, 219, 0);
-  }
-  100% {
-    box-shadow: 0 0 0 0 rgba(52, 152, 219, 0);
-  }
-}
-
 
 @keyframes pulseshare {
   0% {
