@@ -87,6 +87,66 @@ document.addEventListener('contextmenu', function (event) {
 });
   
 document.addEventListener('mousedown', blokujMysz);
+
+var subscribersDB = firebase.database().ref("subscribers");
+  
+document.getElementById("subscribersForm").addEventListener("submit", submitForm);
+
+function submitForm(e) {
+    e.preventDefault();
+  
+    var email = getElementVal("email");
+  
+    // Dodane sprawdzanie, czy email już istnieje w bazie danych
+    checkIfEmailExists(email)
+      .then((exists) => {
+        if (!exists) {
+          saveMessages(email);
+  
+          var messageSection = document.getElementById('messageSection');
+          if (messageSection) {
+            messageSection.style.display = 'block';
+            setTimeout(function () {
+              messageSection.style.display = 'none';
+            }, 3000);
+          }
+  
+          document.getElementById("subscribersForm").reset();
+        } else {
+          // Informacja, że email już istnieje
+          displayMessage('Na tym adresie został już aktywowany Newsletter.', 'danger');
+          // Tutaj można dodać kod do wyświetlenia komunikatu użytkownikowi
+        }
+      })
+      .catch((error) => {
+        console.error("Błąd podczas sprawdzania istnienia emaila:", error);
+      });
+}
+  
+const saveMessages = (email) => {
+    var newsubscribers = subscribersDB.push();
+  
+    newsubscribers.set({
+      email: email,
+    });
+};
+  
+const getElementVal = (id) => {
+    return document.getElementById(id).value;
+};
+  
+  // Funkcja sprawdzająca, czy email już istnieje w bazie danych
+const checkIfEmailExists = (email) => {
+    return new Promise((resolve, reject) => {
+      subscribersDB.orderByChild("email").equalTo(email).once("value")
+        .then((snapshot) => {
+          resolve(snapshot.exists());
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    });
+};
   
 document.addEventListener('DOMContentLoaded', function () {
     var articleIdParam = getParameterByName('artykul');
@@ -313,7 +373,6 @@ async function addArticle() {
         addArticleBtn.disabled = false;
     }
 }
-
 
 function previewArticle() {
     const titleElement = document.getElementById('article-title');
@@ -983,49 +1042,6 @@ window.addEventListener('scroll', function () {
       document.body.classList.add('at-bottom');
     } else {
       document.body.classList.remove('at-bottom');
-    }
-  });
-
-  document.addEventListener('DOMContentLoaded', function () {
-    function handleNewsletterForm(event) {
-      event.preventDefault();
-
-      const emailInput = document.querySelector('.newsletter input[type="email"]');
-      const emailAddress = emailInput.value;
-
-      if (isValidEmail(emailAddress)) {
-        subscribeToNewsletter(emailAddress);
-      } else {
-        alert('Proszę wprowadzić poprawny adres e-mail.');
-      }
-    }
-
-    function isValidEmail(email) {
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      return emailRegex.test(email);
-    }
-
-    function subscribeToNewsletter(email) {
-      fetch('/subscribe', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email: email }),
-      })
-        .then(response => response.json())
-        .then(data => {
-          alert(data.success || data.error);
-        })
-        .catch(error => {
-          console.error('Błąd:', error);
-          alert('Wystąpił błąd podczas subskrypcji newslettera.');
-        });
-    }
-
-    const newsletterForm = document.querySelector('.newsletter form');
-    if (newsletterForm) {
-      newsletterForm.addEventListener('submit', handleNewsletterForm);
     }
   });
 
