@@ -1060,13 +1060,28 @@ function toggleMenu() {
     var menuContainer = document.getElementById("menu-container");
     var menuIcon = document.getElementById("menu-icon");
 
-    if (overlay.style.display === "block" || menuContainer.style.display === "block") {
+    var overlayStyle = window.getComputedStyle(overlay);
+    var menuContainerStyle = window.getComputedStyle(menuContainer);
+
+    function handleAnimationEnd() {
+        if (overlay.style.display === "none") {
+            overlay.style.display = "none";
+            menuContainer.style.display = "none";
+            menuContainer.removeEventListener("animationend", handleAnimationEnd);
+        }
+    }
+
+    if (overlayStyle.display === "block" || menuContainerStyle.display === "block") {
+        menuContainer.addEventListener("animationend", handleAnimationEnd);
+
         overlay.style.display = "none";
+        menuContainer.style.animation = "slideUp 0.5s ease-in-out";
         menuContainer.classList.remove("active");
         menuIcon.classList.remove("fa-times");
-
     } else {
         overlay.style.display = "block";
+        menuContainer.style.display = "block";
+        menuContainer.style.animation = "slideDown 0.5s ease-in-out";
         menuContainer.classList.add("active");
         menuIcon.classList.add("fa-times");
     }
@@ -1086,7 +1101,7 @@ function checkImageLoaded(img) {
 
   function removePlaceholder() {
     img.classList.remove("placeholder");
-    img.style.opacity = 1; // Ustaw opacity na 1 po zakończeniu animacji i załadowaniu obrazu
+    img.style.opacity = 1;
   }
 
   function checkDuration() {
