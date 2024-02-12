@@ -416,6 +416,65 @@ label {
   border-radius: 30%;
 }
 
+.container {
+  float: right;
+  width: 45%; /* Adjust the width as needed */
+  padding: 20px;
+}
+
+.cont {
+  float: left;
+  width: 45%; /* Adjust the width as needed */
+  padding: 20px;
+}
+
+#comments {
+  margin-bottom: 20px;
+}
+
+.form_container {
+  float: left;
+  width: 100%; /* Adjust the width as needed */
+}
+
+.soccer-image {
+  float: right;
+  width: 100%; /* Adjust the width as needed */
+
+  background-image: url('soccer-image.jpg'); /* Replace with your image path */
+  background-size: cover;
+  background-position: center;
+}
+
+.overlay {
+  background: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: none;
+  z-index: 1;
+}
+
+#profileModal {
+  float: right;
+}
+
+.login-container {
+  float: left;
+  width: 100%;
+
+}
+
+.back-button {
+  float: left;
+  margin: 20px;
+  text-decoration: none;
+  color: #333;
+  font-size: 18px;
+}
+
 .overlay {
   display: none;
   position: fixed;
@@ -435,15 +494,28 @@ label {
   transform: translate(-50%, -50%);
   background-color: #fff;
   padding: 20px;
-  z-index: 2;
+  z-index: 9999;
+  width: 85%;
   border: 1px solid #ccc;
+  border-radius: 10px;
 }
 
 .modal-content {
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
   align-items: center;
   padding: 20px;
+}
+
+.modal-content .settings-section,
+.modal-content .information-section {
+  width: 48%;
+  align-self: flex-start; /* Dodane, aby umieścić oba na tej samej wysokości */
+}
+
+.information-section {
+  border-left: 3px solid #ccc; /* Dodana pionowa kreska między sekcjami */
+  padding-left: 20px; /* Dodałem odstęp po prawej stronie sekcji */
 }
 
 .modal-content label {
@@ -451,23 +523,57 @@ label {
   margin-top: 10px;
 }
 
+.modal-content h2 {
+  font-size: 20px;
+  margin-bottom: 10px;
+  position: relative;
+}
+
 .modal-content input {
   width: 100%;
   padding: 8px;
   margin-top: 5px;
-  border: 1px solid #ccc;
+  border: 2px solid #ccc;
   border-radius: 5px;
   box-sizing: border-box;
 }
 
 .modal-content button {
-  background-color: #115DFC;
-  color: white;
   padding: 10px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
   margin-top: 15px;
+}
+
+.modal-content button.save-changes-btn,
+.modal-content button.logout-btn {
+  display: flex;
+  align-items: center;
+}
+
+.modal-content button.save-changes-btn {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.modal-content button.save-changes-btn:hover {
+  background-color: #33c037;
+}
+
+.modal-content button.logout-btn {
+  background-color: #FF5555;
+  color: white;
+}
+
+.modal-content button.logout-btn:hover {
+  background-color: #fd3737;
+}
+
+.save-changes-btn img,
+.logout-btn img {
+  width: 20px;
+  margin-right: 5px;
 }
 
 .modal-content button:hover {
@@ -512,17 +618,23 @@ label {
   display: none;
 }
 
-.custom-file-input {
-  display: inline-block;
-  padding: 8px 16px;
-  cursor: pointer;
-  background-color: #115DFC;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  font-size: 14px;
-}
+@media only screen and (max-width: 768px) {
+  .modal {
+    width: 95%;
+  }
 
-.custom-file-input:hover {
-  background-color: #2e70ff;
+  .modal-content {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .modal-content .settings-section,
+  .modal-content .information-section {
+    width: 100%;
+  }
+
+  .information-section {
+    border-left: none;
+    padding-left: 0;
+  }
 }
