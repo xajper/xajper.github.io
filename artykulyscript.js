@@ -65,8 +65,6 @@ const loadMoreBtn = document.getElementById('load-more-btn');
 let currentBatch = 5;
 const batchIncrement = 5;
 
-const articlesCountElement = document.getElementById('articles-count');
-
 document.addEventListener('DOMContentLoaded', function () {
     checkUserAuthentication();
     displayArticles();
@@ -909,11 +907,13 @@ async function getArticlesCount() {
         const articlesCount = articlesQuerySnapshot.size;
 
         // Wyświetl informację o liczbie artykułów na stronie
-        articlesCountElement.textContent = `Artykuły: ${articlesCount}`;
+        articlesCountElement.textContent = "("+articlesCount +")";
     } catch (error) {
         console.error('Błąd podczas pobierania liczby artykułów:', error);
     }
 }
+
+const articlesCountElement = document.getElementById('articles-count');
 
 function validate_email(email) {
     const expression = /^[^@]+@\w+(\.\w+)+\w$/;
