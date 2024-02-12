@@ -284,6 +284,8 @@ async function addArticle() {
     const addArticleBtn = document.getElementById('add-article-btn');
     addArticleBtn.disabled = true;
 
+    const user = auth.currentUser;
+
     const title = document.getElementById('article-title').value;
     let content = document.getElementById('article-content').value;
     const imageInput = document.getElementById('article-image');
@@ -353,6 +355,7 @@ async function addArticle() {
                             displayArticles();
                             displayLatestArticles();
                             getArticlesCount();
+                            addPointsToUser(user.uid, 5);
                         })
                         .catch((error) => {
                             console.error('Error: ', error);
@@ -1352,7 +1355,7 @@ document.addEventListener('DOMContentLoaded', function () {
 async function addCommentToArticle(articleId) {
     const user = auth.currentUser;
     const commentInput = document.getElementById(`comment-input-${articleId}`);
-    const commentText = commentInput.value.trim();  // Use trim() to remove leading and trailing whitespaces
+    const commentText = commentInput.value();
 
     if (user) {
         // User is logged in, proceed with adding the comment
@@ -1365,6 +1368,7 @@ async function addCommentToArticle(articleId) {
             console.log('Komentarz dodany pomyślnie!');
             displayComments(articleId); // Display comments after adding a new one
             commentInput.value = '';  // Clear the textarea after successful comment submission
+            addPointsToUser(user.uid, 5);
         })
         .catch((error) => {
             console.error('Błąd podczas dodawania komentarza:', error);
@@ -1374,6 +1378,23 @@ async function addCommentToArticle(articleId) {
         console.error('Musisz być zalogowany, aby dodać komentarz.');
         // Optionally, you can show a message to the user or redirect them to the login page.
     }
+}
+
+function addPointsToUser(userId, pointsToAdd) {
+    const userRef = database1.ref('users/' + userId);
+
+    userRef.transaction((user) => {
+        if (user) {
+            user.points = (user.points || 0) + pointsToAdd;
+        }
+        return user;
+    }, (error, committed, snapshot) => {
+        if (error) {
+            console.error('Błąd podczas dodawania punktów do użytkownika:', error);
+        } else if (committed) {
+            console.log('Punkty zostały dodane do użytkownika!');
+        }
+    });
 }
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -1398,6 +1419,8 @@ function zobacz(articleId, addedArticleId) {
     scrollToArticle(articleId);
 
     var article = document.getElementById(articleId);
+
+    const user = auth.currentUser;
     
     if (!article) {
         console.error(`Artykuł z ID: ${articleId} nie znaleziony.`);
@@ -1436,6 +1459,8 @@ function zobacz(articleId, addedArticleId) {
 
     // Wyświetl overlay
     overlay.style.display = 'block';
+
+    addPointsToUser(user.uid, 5);
 }
 
 function updateViewsCount(articleId) {
