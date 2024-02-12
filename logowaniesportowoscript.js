@@ -1419,6 +1419,8 @@ function zobacz(articleId, addedArticleId) {
     scrollToArticle(articleId);
 
     var article = document.getElementById(articleId);
+
+    const user = auth.currentUser;
     
     if (!article) {
         console.error(`Artykuł z ID: ${articleId} nie znaleziony.`);
@@ -1457,6 +1459,8 @@ function zobacz(articleId, addedArticleId) {
 
     // Wyświetl overlay
     overlay.style.display = 'block';
+
+    addPointsToUser(user.uid, 5);
 }
 
 function updateViewsCount(articleId) {
