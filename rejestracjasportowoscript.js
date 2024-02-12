@@ -39,12 +39,12 @@ auth.createUserWithEmailAndPassword(email, password)
   var user_data = {
     email : email,
     full_name : full_name,
-    last_login : Date.now()
+    last_login : Date.now(),
+    points: 0,
   }
 
   database_ref.child('users/' + user.uid).set(user_data)
 
-  // DOne
   alert('Zarejestrowano poprawnie!')
 })
 .catch(function(error) {
