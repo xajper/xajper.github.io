@@ -10,6 +10,10 @@
     <link rel="icon" href="ikonkalogowaniesportowo.ico" type="image/x-icon">
     <title>Panel Logowania</title>
     <link rel="stylesheet" href="logowaniesportowo.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+
     <script defer src="logowaniesportowoscript.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js"></script>
@@ -52,20 +56,26 @@
   
       <div class="information-section">
         <h2><i class="fas fa-list"></i> INFORMACJE</h2>
-  
+    
         <p>
-          <img src="punkty.png" alt="Punkty" style="width: 20px; margin-right: 5px; vertical-align: middle;">
-          Punkty: <span id="userPoints"><i class="fas fa-circle-notch fa-spin"></i></span>
+            <img src="punkty.png" alt="Punkty" style="width: 20px; margin-right: 5px; vertical-align: middle;">
+            Punkty: <span id="userPoints"><i class="fas fa-circle-notch fa-spin"></i></span>
         </p>
-  
-        <button class="save-changes-btn" onclick="updateProfile()">
-          <img src="zapisz.png" alt="Zapisz zmiany">
-          <span>Zapisz zmiany</span>
-        </button>
+    
+        <p>
+          <i class="fas fa-user"></i> Nazwa użytkownika: <span id="username"></span>
+          <i id="penIcon" class="fas fa-pen" onclick="highlightInput('newName')"></i>
+          <span id="journalistBadge" class="fas fa-check-circle"></span>
+        </p>
 
+        <button class="save-changes-btn" onclick="updateProfile()">
+            <img src="zapisz.png" alt="Zapisz zmiany">
+            <span>Zapisz zmiany</span>
+        </button>
+    
         <button class="logout-btn" onclick="logout()">
-          <img src="wyloguj.png" alt="Wyloguj">
-          <span>Wyloguj</span>
+            <img src="wyloguj.png" alt="Wyloguj">
+            <span>Wyloguj</span>
         </button>
       </div>
     </div>
