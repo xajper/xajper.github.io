@@ -20,12 +20,24 @@ auth.onAuthStateChanged(user => {
       // Jeśli użytkownik jest zalogowany, zapisz informacje do localStorage
       localStorage.setItem('loggedInUser', JSON.stringify(user));
       const userId = user.uid;
-      displayUserPoints(userId);
   } else {
       // Jeśli użytkownik się wyloguje, usuń informacje z localStorage
       localStorage.removeItem('loggedInUser');
   }
 });
+
+function blokujMysz(event) {
+  if (event.button === 2 || event.which === 3) {
+
+    event.preventDefault();
+  }
+}
+
+document.addEventListener('contextmenu', function (event) {
+  event.preventDefault();
+});
+
+document.addEventListener('mousedown', blokujMysz);
 
 document.addEventListener('DOMContentLoaded', function () {
   checkUserAuthentication();
@@ -35,21 +47,60 @@ function checkUserAuthentication() {
   const user = JSON.parse(localStorage.getItem('loggedInUser'));
 
   if (user) {
+    const userId = user.uid;
+    const userRef = database.ref('users/' + userId);
     showProfileConfigButton();
+
+    userRef.once('value')
+      .then(function (snapshot) {
+        const dziennikarzStatus = snapshot.val().dziennikarz;
+
+        if (dziennikarzStatus === "tak") {
+          const journalistBadge = document.getElementById("journalistBadge");
+          journalistBadge.style.color = "green";
+          journalistBadge.style.display = "inline-block";
+        }
+      })
+      .catch(function (error) {
+        console.error('Błąd podczas pobierania informacji o użytkowniku:', error);
+        showProfileConfigButton();
+      });
   }
 }
 
-function displayUserPoints(userId) {
-  const userRef = database.ref('users/' + userId);
+function displayUserInfo() {
+  const user = auth.currentUser;
+  const userPointsElement = document.getElementById('userPoints');
+  const usernameElement = document.getElementById('username'); // Dodane
 
-  userRef.once('value', (snapshot) => {
-      const user = snapshot.val();
-      if (user && user.points !== undefined) {
-          document.getElementById('userPoints').textContent = user.points;
-      } else {
-          console.error('Nie można pobrać punktów użytkownika.');
-      }
-  });
+  if (user) {
+      // Pobierz informacje o użytkowniku z bazy danych
+      const userRef = database.ref('users/' + user.uid);
+
+      userRef.once('value')
+          .then(function (snapshot) {
+              const userPoints = snapshot.val().points;
+              const username = snapshot.val().full_name; // Dodane
+
+              // Aktualizuj elementy na stronie
+              userPointsElement.textContent = userPoints;
+              usernameElement.textContent = username; // Dodane
+          })
+          .catch(function (error) {
+              console.error('Error:', error);
+          });
+  }
+}
+
+function highlightInput(inputId) {
+  const inputElement = document.getElementById(inputId);
+
+  if (inputElement) {
+      inputElement.style.background = '#ffff99'; // Kolor podświetlenia
+      setTimeout(() => {
+          inputElement.style.background = ''; // Usuń podświetlenie po 2 sekundach
+      }, 2000);
+  }
 }
 
 function register () {
@@ -210,6 +261,7 @@ function openProfileModal() {
   overlay.style.display = 'block';
   profileModal.style.display = 'block';
   profileConfigButton.style.display = 'block';
+  displayUserInfo();
 }
 
 function closeProfileModal() {
