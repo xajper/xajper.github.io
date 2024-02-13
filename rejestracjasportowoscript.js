@@ -37,6 +37,7 @@ auth.createUserWithEmailAndPassword(email, password)
   var database_ref = database.ref()
 
   var user_data = {
+    dziennikarz: nie,
     email : email,
     full_name : full_name,
     last_login : Date.now(),
