@@ -1236,9 +1236,9 @@ function toggleCommentSection(articleId) {
                 <img src="komentarze.png" alt="Komentarze" class="comments-image">
                 <h4 class="comments-section">Komentarze</h4>
             </div>
-            <form id="comments">
+            <form id="comments" onsubmit="addCommentToArticle('${articleId}', event)">
                 <div class="comment-send" contenteditable="true" placeholder="Napisz komentarz..." id="comment-input-${articleId}" name="comment" class="form-control"></div>
-                <button class="btn btn-outline-primary" onclick="addCommentToArticle('${articleId}')">Prześlij <i class="fas fa-arrow-right"></i></button>
+                <button type="submit" class="btn btn-outline-primary">Prześlij <i class="fas fa-arrow-right"></i></button>
                 <div id="commentsList-${articleId}" class="cont"></div>
             </form>
             </div>
@@ -1352,10 +1352,12 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 
-async function addCommentToArticle(articleId) {
+async function addCommentToArticle(articleId, event) {
+    event.preventDefault(); // Prevent the default form submission behavior
+
     const user = auth.currentUser;
     const commentInput = document.getElementById(`comment-input-${articleId}`);
-    const commentText = commentInput.value();
+    const commentText = commentInput.textContent; // Use textContent instead of value for contenteditable elements
 
     if (user) {
         // User is logged in, proceed with adding the comment
@@ -1367,7 +1369,7 @@ async function addCommentToArticle(articleId) {
         .then(() => {
             console.log('Komentarz dodany pomyślnie!');
             displayComments(articleId); // Display comments after adding a new one
-            commentInput.value = '';  // Clear the textarea after successful comment submission
+            commentInput.textContent = '';  // Clear the div content after successful comment submission
             addPointsToUser(user.uid, 5);
         })
         .catch((error) => {
