@@ -341,7 +341,7 @@ async function addArticle() {
                             document.getElementById('article-content').value = '';
                             imageInput.value = '';
 
-                            displayMessage('Artykuł dodany pomyślnie!', 'success');
+                            displayMessage('Artykuł dodany pomyślnie! +5pkt', 'success');
                             addArticleBtn.disabled = false;
 
                             // Dodawanie kolekcji komentarzy dla każdego artykułu
@@ -1276,6 +1276,7 @@ async function displayComments(articleId) {
 
     try {
         const commentsSnapshot = await db.collection('articles').doc(articleId).collection('comments').get();
+        const currentUser = auth.currentUser;
 
         if (!commentsSnapshot.empty) {
             commentsSnapshot.forEach((commentDoc, index) => {
@@ -1286,6 +1287,15 @@ async function displayComments(articleId) {
                     <p><strong>${commentData.author}:</strong> ${commentData.content}</p>
                     <small><i class="far fa-clock"></i> ${new Date(commentData.date).toLocaleString()}</small>
                 `;
+
+                // Add delete button only for the comments authored by the currently logged-in user
+                if (currentUser && currentUser.email === commentData.author) {
+                    const deleteButton = document.createElement('button');
+                    deleteButton.innerHTML = '<i class="fas fa-trash"></i>';
+                    deleteButton.classList.add('delete-buttoncomment'); // Use the correct class name
+                    deleteButton.onclick = () => deleteComment(articleId, commentDoc.id);
+                    commentDiv.appendChild(deleteButton);
+                }
 
                 // Add horizontal line between comments, except for the last one
                 if (index < commentsSnapshot.size - 1) {
@@ -1304,6 +1314,25 @@ async function displayComments(articleId) {
         }
     } catch (error) {
         console.error('Błąd podczas pobierania komentarzy:', error);
+    }
+}
+
+async function deleteComment(articleId, commentId) {
+    const currentUser = auth.currentUser;
+
+    if (!currentUser) {
+        console.error('Użytkownik niezalogowany.');
+        return;
+    }
+
+    try {
+        await db.collection('articles').doc(articleId).collection('comments').doc(commentId).delete();
+        displayMessage('Komentarz usunięty pomyślnie. -5pkt', 'success');
+        subtractPointsFromUser(currentUser.uid, 5);
+        displayComments(articleId);
+    } catch (error) {
+        displayMessage('Błąd podczas usuwania komentarza.', 'danger');
+        console.error('Błąd podczas usuwania komentarza:', error);
     }
 }
 
@@ -1367,17 +1396,18 @@ async function addCommentToArticle(articleId, event) {
             date: new Date().toISOString(),
         })
         .then(() => {
-            console.log('Komentarz dodany pomyślnie!');
+            displayMessage('Komentarz dodany pomyślnie! +5pkt', 'success');
             displayComments(articleId); // Display comments after adding a new one
             commentInput.textContent = '';  // Clear the div content after successful comment submission
             addPointsToUser(user.uid, 5);
         })
         .catch((error) => {
+            displayMessage('Error.', 'danger');
             console.error('Błąd podczas dodawania komentarza:', error);
         });
     } else {
         // User is not logged in, prompt them to log in
-        console.error('Musisz być zalogowany, aby dodać komentarz.');
+        displayMessage('Musisz być zalogowany, aby dodać komentarz.', 'danger');
         // Optionally, you can show a message to the user or redirect them to the login page.
     }
 }
@@ -1395,6 +1425,23 @@ function addPointsToUser(userId, pointsToAdd) {
             console.error('Błąd podczas dodawania punktów do użytkownika:', error);
         } else if (committed) {
             console.log('Punkty zostały dodane do użytkownika!');
+        }
+    });
+}
+
+function subtractPointsFromUser(userId, pointsToSubtract) {
+    const userRef = database1.ref('users/' + userId);
+
+    userRef.transaction((user) => {
+        if (user) {
+            user.points = Math.max((user.points || 0) - pointsToSubtract, 0);
+        }
+        return user;
+    }, (error, committed, snapshot) => {
+        if (error) {
+            console.error('Błąd podczas odejmowania punktów od użytkownika:', error);
+        } else if (committed) {
+            console.log('Punkty zostały odjęte od użytkownika!');
         }
     });
 }
