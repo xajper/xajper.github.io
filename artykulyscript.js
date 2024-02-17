@@ -1329,6 +1329,7 @@ async function deleteComment(articleId, commentId) {
         await db.collection('articles').doc(articleId).collection('comments').doc(commentId).delete();
         displayMessage('Komentarz usunięty pomyślnie. -5pkt', 'success');
         subtractPointsFromUser(currentUser.uid, 5);
+        subtractPointsFromUser(currentUser.uid, 1);
         displayComments(articleId);
     } catch (error) {
         displayMessage('Błąd podczas usuwania komentarza.', 'danger');
@@ -1400,6 +1401,7 @@ async function addCommentToArticle(articleId, event) {
             displayComments(articleId); // Display comments after adding a new one
             commentInput.textContent = '';  // Clear the div content after successful comment submission
             addPointsToUser(user.uid, 5);
+            addCommentsToUser(user.uid, 1);
         })
         .catch((error) => {
             displayMessage('Error.', 'danger');
@@ -1442,6 +1444,40 @@ function subtractPointsFromUser(userId, pointsToSubtract) {
             console.error('Błąd podczas odejmowania punktów od użytkownika:', error);
         } else if (committed) {
             console.log('Punkty zostały odjęte od użytkownika!');
+        }
+    });
+}
+
+function addCommentsToUser(userId, commentsToAdd) {
+    const userRef = database1.ref('users/' + userId);
+
+    userRef.transaction((user) => {
+        if (user) {
+            user.komentarze = (user.komentarze || 0) + commentsToAdd;
+        }
+        return user;
+    }, (error, committed, snapshot) => {
+        if (error) {
+            console.error('Błąd podczas dodawania komentarza do użytkownika:', error);
+        } else if (committed) {
+            console.log('Komentarz został dodany do użytkownika!');
+        }
+    });
+}
+
+function subtractCommentsFromUser(userId, commentsToSubtract) {
+    const userRef = database1.ref('users/' + userId);
+
+    userRef.transaction((user) => {
+        if (user) {
+            user.komentarze = Math.max((user.komentarze || 0) - commentsToSubtract, 0);
+        }
+        return user;
+    }, (error, committed, snapshot) => {
+        if (error) {
+            console.error('Błąd podczas odejmowania komentarza od użytkownika:', error);
+        } else if (committed) {
+            console.log('KLomentarz został odjęty od użytkownika!');
         }
     });
 }
