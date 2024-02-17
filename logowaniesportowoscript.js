@@ -71,7 +71,8 @@ function checkUserAuthentication() {
 function displayUserInfo() {
   const user = auth.currentUser;
   const userPointsElement = document.getElementById('userPoints');
-  const usernameElement = document.getElementById('username'); // Dodane
+  const userCommentsCountElement = document.getElementById('userCommentsCount');
+  const usernameElement = document.getElementById('username'); 
 
   if (user) {
       // Pobierz informacje o użytkowniku z bazy danych
@@ -80,11 +81,13 @@ function displayUserInfo() {
       userRef.once('value')
           .then(function (snapshot) {
               const userPoints = snapshot.val().points;
-              const username = snapshot.val().full_name; // Dodane
+              const userCommentsCount = snapshot.val().komentarze;
+              const username = snapshot.val().full_name;
 
               // Aktualizuj elementy na stronie
               userPointsElement.textContent = userPoints;
-              usernameElement.textContent = username; // Dodane
+              userCommentsCountElement.textContent = userCommentsCount;
+              usernameElement.textContent = username;
           })
           .catch(function (error) {
               console.error('Error:', error);
