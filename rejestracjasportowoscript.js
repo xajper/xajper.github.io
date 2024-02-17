@@ -42,6 +42,7 @@ auth.createUserWithEmailAndPassword(email, password)
     full_name : full_name,
     last_login : Date.now(),
     points: 0,
+    komentarze: 0,
   }
 
   database_ref.child('users/' + user.uid).set(user_data)
