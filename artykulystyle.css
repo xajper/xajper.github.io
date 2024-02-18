@@ -1207,13 +1207,6 @@ section {
 .wyniki-button,
 .symulator-button,
 .add-article-btn {
-  margin-left: 15px; /* Adjust as needed */
-}
-
-.profil-button,
-.wyniki-button,
-.symulator-button,
-.add-article-btn {
   display: block;
   position: relative;
   color: #ffffff;
