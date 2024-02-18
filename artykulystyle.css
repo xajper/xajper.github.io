@@ -1236,22 +1236,6 @@ section {
   margin-left: auto; /* Przesunięcie do prawej strony */
 }
 
-/* Opcjonalne: Dostosowanie do mniejszych ekranów */
-@media screen and (max-width: 768px) {
-  .buttons-container {
-      flex-direction: column;
-      align-items: center;
-  }
-
-  .profil-button,
-  .wyniki-button,
-  .symulator-button,
-  .add-article-btn {
-      margin-left: 0;
-      margin-top: 10px; /* Dostosuj w zależności od potrzeb */
-  }
-}
-
 .tooltip {
   position: absolute;
   top: -15px;
