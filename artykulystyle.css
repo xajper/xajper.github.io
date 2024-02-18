@@ -1191,55 +1191,44 @@ nav a {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.profil-button {
+section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+}
+
+.buttons-container {
+  display: flex;
+  align-items: center;
+}
+
+.profil-button,
+.wyniki-button,
+.symulator-button,
+.add-article-btn {
+  margin-left: 15px; /* Adjust as needed */
+}
+
+.profil-button,
+.wyniki-button,
+.symulator-button,
+.add-article-btn {
   display: block;
   position: relative;
   color: #ffffff;
   background-color: transparent;
-  margin-left: auto;
   padding: 15px;
   border: none;
   cursor: pointer;
   font-size: 14px;
-  transition: color 0.8s ease, background-color 0.8s ease, margin-left 0.8s ease;
+  transition: color 0.8s ease, background-color 0.8s ease;
 }
 
-.profil-button:hover {
-  color: #7de5ee;
-}
-
-.wyniki-button {
-  display: block;
-  position: relative;
-  color: #ffffff;
-  background-color: transparent;
-  margin-left: auto;
-  padding: 15px;
-  border: none;
-  cursor: pointer;
-  font-size: 14px;
-  transition: color 0.8s ease, background-color 0.8s ease, margin-left 0.8s ease;
-}
-
-.wyniki-button:hover {
-  color: #7de5ee;
-
-}
-
-.symulator-button {
-  display: block;
-  position: relative;
-  color: #ffffff;
-  background-color: transparent;
-  margin-left: auto;
-  padding: 15px;
-  border: none;
-  cursor: pointer;
-  font-size: 14px;
-  transition: color 0.8s ease, background-color 0.8s ease, margin-left 0.8s ease;
-}
-
-.symulator-button:hover {
+.profil-button:hover,
+.wyniki-button:hover,
+.symulator-button:hover,
+.add-article-btn:hover {
   color: #7de5ee;
 }
 
@@ -1914,4 +1903,178 @@ footer {
   background-color: #f0f0f0; /* Kolor tła dla wybranego elementu */
   border-radius: 5px;
   text-decoration: underline; /* Podkreślenie tekstu */
+}
+
+
+@media only screen and (max-width: 768px) {
+  body {
+    margin-bottom: 60px; /* Adjust this value to match the height of your #sport-section */
+  }
+
+  #menu-button {
+    display: none;
+  }
+  
+  #sport-section {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 9998;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    padding: 10px;
+    text-align: center; /* Center items horizontally */
+    display: flex;
+    justify-content: center; /* Center items horizontally */
+    align-items: center; /* Center items vertically */
+    margin-bottom: 0; /* Remove bottom margin */
+  }
+  
+  .profil-button,
+  .wyniki-button,
+  .search-icon,
+  .symulator-button {
+    color: #ffffff;
+    margin: 0 15px; /* Adjust margin as needed */
+    padding: 10px;
+    border: none;
+    transition: color 0.8s ease, background-color 0.8s ease, margin-left 0.8s ease;
+  }
+
+  #sport-section h2 {
+    display: none;
+  }
+
+  header {
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+    transition: transform 0.3s ease-in-out;
+  }
+
+  nav {
+    display: flex;
+    flex-wrap: nowrap;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .container {
+    flex-direction: column;
+    padding: 0 5%;
+    flex-wrap: wrap;
+  }
+
+  #header {
+    width: 100%;
+  }
+
+  #latest-articles-list,
+  #popular-articles-list,
+  #article-tags {
+    width: 100%;
+    left: 50%;
+    margin-bottom: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    padding: 15px;
+    box-sizing: border-box;
+    min-width: 300px; /* Set a minimum width as needed */
+  }
+  
+  #latest-articles-list ul,
+  #popular-articles-list ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+  }
+  
+  #latest-articles-list li,
+  #popular-articles-list li {
+    margin-bottom: 10px; /* Adjust the margin as needed */
+  }
+
+  #articles-count {
+    display: none;
+  }
+
+  #article-tags {
+    width: 100%;
+    left: 50%;
+    margin-bottom: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    padding: 15px;
+    box-sizing: border-box;
+  }
+
+  #main-article {
+    width: 100%;
+    margin: 0;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    padding: 15px;
+    box-sizing: border-box;
+    flex-wrap: wrap;
+  }
+
+  .scroll-to-top {
+    margin-bottom: 30px;
+  }
+
+  #main-article img {
+    max-width: 100%;
+    height: auto;
+    overflow: hidden;
+  }
+
+  #winter-sports:hover .subpanel {
+    display: none;
+  }
+
+  .button-section {
+    padding: 10px;
+  }
+
+  .button {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  .button::before {
+    left: -50%;
+  }
+
+  .newsletter,
+  .about-us {
+    margin-right: 0;
+    flex-basis: 100%;
+  }
+
+  .newsletter form {
+    width: 100%;
+  }
+
+  .newsletter input[type="email"] {
+    width: calc(100% - 20px);
+  }
+
+  .newsletter button {
+    width: 100%;
+  }
+
+  footer {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+  }
+
+  .footer-heading {
+    text-align: center;
+    margin-bottom: 10px;
+  }
+
+  #article-tags ul {
+    justify-content: flex-start;
+  }
 }
