@@ -61,7 +61,7 @@
     <nav class="navbar">
       <div class="max-width">
         <div class="logo">
-          <a href="#home">XajperBOT<span></span></a>
+          <a href="#poczatek">XajperBOT<span></span></a>
         </div>
 
         <ul class="menu">
@@ -88,7 +88,7 @@
       </div>
     </nav>
 
-    <section class="home" id="home">
+    <section class="home" id="poczatek">
       <div class="max-width">
         <div class="home-content">
           <div class="text-1">Hej, nazywam się</div>
@@ -129,14 +129,14 @@
 
               <p>
                 Mnóstwo gier czeka na Ciebie! Odbierz wszystkie swoje boosty
-                i wygraj!
+                i wygraj! Bot zawiera funkcje kółka i krzyżyk, wirtualnej mafii, RPG, muzyki, statków, tworzenia własnych quizów i <strong>WIELE WIĘCEJ</strong>!
               </p>
             </div>
           </div>
 
           <div class="card">
             <div class="box">
-              <i class="fas fa-code"></i>
+              <i class="fas fa-map"></i>
 
               <div class="text">Funkcja Country</div>
 
@@ -185,18 +185,13 @@
             </div>
           </div>
 
-          <div class="card">
-            <div class="box">
-              <i class="fas fa-terminal"></i>
-
+          <div class="card" id="iconCard">
+            <div class="box" id="iconBox">
+              <i class="fas fa-university"></i>
               <div class="text">Ekonomia</div>
-
-              <p>
-                Zdobywaj pieniądze dzięki ekonomii XajperBOT i wydawaj
-                je na najróżniejsze rzeczy.
-              </p>
+              <p>Zdobywaj pieniądze dzięki ekonomii XajperBOT i wydawaj je na najróżniejsze rzeczy.</p>
             </div>
-          </div>
+          </div>          
 
           <div class="card">
             <div class="box">
@@ -207,6 +202,19 @@
               <p>
                 Zwiększ aktywność swojego serwera, nagradzając użytkowników
                 punktami, rolami i wiele więszką ilością rzeczy za bycie aktywnym!
+              </p>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="box">
+              <i class="fas fa-compass"></i>
+
+              <div class="text">RPG</div>
+
+              <p>
+                Stwórz swojego wirtualnego bohatera, stocz walki w najróźniejszych zakątkach świata, bądź z innymi graczami!
+                Ulepszaj swój ekwipunek i stań się najlepszym!
               </p>
             </div>
           </div>
@@ -249,6 +257,30 @@
     <script>
       $(window).on("load", function() {
         $(".loader-wrapper").fadeOut("slow");
+      });
+    </script>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const iconBox = document.getElementById("iconBox");
+        const icons = [
+          "fa-university",
+          "fa-dollar-sign",
+          "fa-wallet",
+          "fa-chart-pie",
+          "fa-money-bill",
+          "fa-credit-card"
+        ];
+        let currentIndex = 0;
+
+        function changeIcon() {
+          iconBox.innerHTML = `<i class="fas ${icons[currentIndex]}"></i>
+                              <div class="text">Ekonomia</div>
+                              <p>Zdobywaj pieniądze dzięki ekonomii XajperBOT i wydawaj je na najróżniejsze rzeczy.</p>`;
+          currentIndex = (currentIndex + 1) % icons.length;
+        }
+
+        setInterval(changeIcon, 30000);
       });
     </script>
 
