@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Testowe powiadomienie</title>
+    <script>
+        function sendTestNotification() {
+            if ('Notification' in window) {
+                Notification.requestPermission().then(function (permission) {
+                    if (permission === 'granted') {
+                        var options = {
+                            body: 'To jest testowe powiadomienie.',
+                            icon: 'https://example.com/icon.png' // Dodaj ścieżkę do ikony
+                        };
+
+                        var notification = new Notification('Testowe powiadomienie', options);
+                    }
+                });
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>Testowe powiadomienie</h1>
+    <p>Kliknij poniższy przycisk, aby wysłać testowe powiadomienie:</p>
+    <button onclick="sendTestNotification()">Wyślij powiadomienie</button>
+</body>
+</html>
