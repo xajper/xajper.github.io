@@ -77,7 +77,7 @@ body {
   right: 0;
   background-color: #fff;
   box-shadow: 0 0 100px rgba(0, 0, 0, 0.3);
-  z-index: 9999;
+  z-index: 9994;
   width: 50%;
   height: 100vh;
   box-sizing: border-box;
@@ -177,6 +177,7 @@ body {
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  z-index: 9995;
 }
 
 .comment-section {
@@ -524,29 +525,24 @@ p {
 }
 
 .add-comment-button {
-  position: absolute;
-  bottom: 10px;
-  left: 10px;
-  background-color: transparent;
-  border: none;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: transparent;
+  border: 2px solid #7de5ee;
   padding: 10px;
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease, color 0.3s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 5px;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.add-comment-button i {
-  font-size: 18px;
-  color: #000000; /* Kolor ikonki na początku */
-  transition: color 0.3s ease;
+.add-comment-button:hover {
+  background-color: #000;
+  color: #fff;
 }
 
-.add-comment-button i:hover {
-  transition: color 0.3s ease;
-  filter: drop-shadow(3px 2px 2px #131313);
+.add-comment-button img {
+  width: 20px;
+  height: 20px;
+  margin-right: 5px;
 }
 
 .udostepnij-button {
@@ -1855,7 +1851,7 @@ footer {
   width: 20px;
   height: 20px;
   transition: background-color 0.5s ease, transform 0.2s ease;
-  z-index: 9998;
+  z-index: 9993;
 }
 
 .scroll-to-top:hover {
