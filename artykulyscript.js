@@ -991,7 +991,7 @@ function updateTagOptions() {
     const tagOptions = document.getElementById('tag-options');
 
     const availableTags = [
-        'INNE', 'KOLARSTWO', 'E-SPORT', 'PIŁKA NOŻNA', 'LEKKOATLETYKA',
+        'INNE', 'KOLARSTWO', 'E-SPORT', 'POLACY RODACY', 'PIŁKA NOŻNA', 'LEKKOATLETYKA',
         'TENIS', 'KOSZYKÓWKA', 'SIATKÓWKA', 'PIŁKA RĘCZNA', 'PŁYWANIE', 'ŻUŻEL', 'SPORTY ZIMOWE',
         'SKOKI NARCIARSKIE', 'BIEGI NARCAIRSKIE', 'BIATHLON', 'HOKEJ', 'ŁYŻWIARTSWO'
     ];
