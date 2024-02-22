@@ -306,7 +306,14 @@ function getAuthor() {
 
 function cancelArticle() {
     articleForm.style.display = 'none';
+    const imageInput = document.getElementById('article-image');
     document.getElementById('preview-section').style.display = 'none';
+
+    resetSelectedTags();
+
+    document.getElementById('article-title').value = '';
+    document.getElementById('article-content').value = '';
+    imageInput.value = '';
 }
 
 function displayMessage(message, type) {
@@ -319,6 +326,47 @@ function displayMessage(message, type) {
     setTimeout(() => {
         messageContainer.remove();
     }, 3000);
+}
+
+function formatText(style) {
+    const contentTextArea = document.getElementById('article-content');
+    const start = contentTextArea.selectionStart;
+    const end = contentTextArea.selectionEnd;
+    const selectedText = contentTextArea.value.substring(start, end);
+
+    switch (style) {
+        case 'bold':
+            contentTextArea.value = contentTextArea.value.substring(0, start) +
+                '**' + selectedText + '**' +
+                contentTextArea.value.substring(end);
+            break;
+        case 'italic':
+            contentTextArea.value = contentTextArea.value.substring(0, start) +
+                '*' + selectedText + '*' +
+                contentTextArea.value.substring(end);
+            break;
+        case 'underline':
+            contentTextArea.value = contentTextArea.value.substring(0, start) +
+                '__' + selectedText + '__' +
+                contentTextArea.value.substring(end);
+            break;
+        case 'strikethrough':
+            contentTextArea.value = contentTextArea.value.substring(0, start) +
+                '~~' + selectedText + '~~' +
+                contentTextArea.value.substring(end);
+            break;
+        case 'link':
+            const url = prompt('Wprowadź adres URL:');
+            if (url !== null) { // Check if the user pressed Cancel in the prompt
+                const linkText = selectedText.length > 0 ? selectedText : 'CZYTAJ DALEJ:';
+                contentTextArea.value = contentTextArea.value.substring(0, start) +
+                    `[${linkText}](${url})` +
+                    contentTextArea.value.substring(end);
+            }
+            break;
+    }
+
+    contentTextArea.focus();
 }
 
 async function addArticle() {
@@ -389,6 +437,10 @@ async function addArticle() {
                                 views: 0,
                             })
                             .then(() => {
+                                // Add the title after "CZYTAJ DALEJ:" in the content
+                                content += '\n\nCZYTAJ DALEJ: ' + title;
+
+                                resetSelectedTags();
                                 document.getElementById('article-title').value = '';
                                 document.getElementById('article-content').value = '';
                                 imageInput.value = '';
@@ -432,6 +484,12 @@ async function addArticle() {
     }
 }
 
+function resetSelectedTags() {
+    const checkboxes = document.querySelectorAll('input[name="tags"]');
+    checkboxes.forEach(checkbox => {
+        checkbox.checked = false;
+    });
+}
 
 function previewArticle() {
     const titleElement = document.getElementById('article-title');
@@ -474,7 +532,7 @@ function parseContent(content) {
         .replace(/__(.*?)__/g, '<u>$1</u>') // Podkreślenie
         .replace(/\*(.*?)\*/g, '<em>$1</em>') // Kursywa
         .replace(/~~(.*?)~~/g, '<del>$1</del>') // Przekreślenie
-        .replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" target="_blank">$1</a>'); // Link
+        .replace(/\[([^\]]+)]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>'); // Link
 
     return formattedContent;
 }
@@ -975,46 +1033,6 @@ function validate_email(email) {
 
 function validate_password(password) {
     return password.length >= 6;
-}
-
-function formatText(style) {
-    const contentTextArea = document.getElementById('article-content');
-    const start = contentTextArea.selectionStart;
-    const end = contentTextArea.selectionEnd;
-    const selectedText = contentTextArea.value.substring(start, end);
-
-    switch (style) {
-        case 'bold':
-            contentTextArea.value = contentTextArea.value.substring(0, start) +
-                '**' + selectedText + '**' +
-                contentTextArea.value.substring(end);
-            break;
-        case 'italic':
-            contentTextArea.value = contentTextArea.value.substring(0, start) +
-                '*' + selectedText + '*' +
-                contentTextArea.value.substring(end);
-            break;
-        case 'underline':
-            contentTextArea.value = contentTextArea.value.substring(0, start) +
-                '__' + selectedText + '__' +
-                contentTextArea.value.substring(end);
-            break;
-        case 'strikethrough':
-            contentTextArea.value = contentTextArea.value.substring(0, start) +
-                '~~' + selectedText + '~~' +
-                contentTextArea.value.substring(end);
-            break;
-        case 'link':
-            const url = prompt('Wprowadź adres URL:');
-            if (url) {
-                contentTextArea.value = contentTextArea.value.substring(0, start) +
-                    `[${selectedText}](${url})` +
-                    contentTextArea.value.substring(end);
-            }
-            break;
-    }
-
-    contentTextArea.focus();
 }
 
 
