@@ -14,6 +14,8 @@ const auth = firebase.auth();
 
 const database1 = firebase.database();
 
+let newArticleTimestamp = null;
+
 auth.onAuthStateChanged(user => {
     const addArticleBtn = document.getElementById('add-article-btn');
     const articleForm = document.getElementById('article-form');
@@ -423,6 +425,9 @@ async function addArticle() {
                         const { nextNumber, addedArticleId } = await getNextArticleNumber(title);
                         const author = getAuthor();
 
+                        // Timestamp when the article is added
+                        const newArticleTimestamp = new Date().getTime();
+
                         // Dodawanie artykułu do kolekcji 'articles'
                         db.collection('articles')
                             .doc(addedArticleId)
@@ -435,6 +440,7 @@ async function addArticle() {
                                 author: author,
                                 articleId: addedArticleId,
                                 views: 0,
+                                newArticleTimestamp: newArticleTimestamp,
                             })
                             .then(() => {
                                 // Add the title after "CZYTAJ DALEJ:" in the content
@@ -621,21 +627,26 @@ function displayArticles() {
                 mainArticle.innerHTML = '';
                 mainArticle.classList.remove('loading');
 
+                const currentTimestamp = new Date().getTime();
+
                 querySnapshot.forEach((doc) => {
                     const articleElement = document.createElement('div');
                     articleElement.setAttribute('id', doc.id);
                     articleElement.className = 'article-link';
                     articleElement.setAttribute('data-tags', doc.data().tags.join(', '));
                     articleElement.setAttribute('data-date', doc.data().date);
-            
+
                     const imageUrl = doc.data().image;
-            
-                    articleElement.innerHTML = `
+
+                    const isNewArticle = (currentTimestamp - doc.data().newArticleTimestamp) < 3600000;
+
+                    articleElement.innerHTML += `
                         <h3 style="display: none;"><a href="?artykul=${doc.id}">${doc.data().title}</a></h3>
                         <span class="hover-bar"></span>
                         <div class="content" style="display: none;">${doc.data().content.replace(/\n/g, '<br>')}</div>
-                        <div class="image-container">
-                            <img class="placeholder" src="${imageUrl}" alt="ZDJĘCIE">
+                        <div class="image-container" style="position: relative;">
+                            <img class="placeholder" src="${doc.data().image}" alt="ZDJĘCIE" style="width: 400px; height: 250px; object-fit: cover;">
+                            ${isNewArticle ? '<div class="new-label">NOWE</div>' : ''}
                             <div class="image-title">
                                 <h3><a href="javascript:void(0);" onclick="zobacz('${doc.id}', '${doc.data().articleId}')">${doc.data().title}</a></h3>
                             </div>
@@ -654,12 +665,13 @@ function displayArticles() {
                                 <i class="fas fa-check-circle"></i>
                             </div>
                         </button>
-
+                    
                         ${user && (user.email === 'xajperminecraftyt@gmail.com') ? `<button class="delete-button" onclick="deleteArticle('${doc.id}')"><i class="fas fa-trash"></i></button>` : ''}
                         ${user && (user.email === 'xajperminecraftyt@gmail.com') ? `<button class="edit-button" onclick="editArticle('${doc.id}')"><i class="fas fa-hand"></i></button>` : ''}
                         <hr>
                     `;
-            
+                
+
                     articlesContainer.appendChild(articleElement);
                 });
 
