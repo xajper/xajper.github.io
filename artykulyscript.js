@@ -580,8 +580,6 @@ function displayArticles() {
                             </div>
                         </button>
 
-                        <button class="add-comment-button" onclick="toggleCommentSection('${doc.id}')"><i class="fas fa-comment"></i></button>
-
                         ${user && (user.email === 'xajperminecraftyt@gmail.com' || user.email === 'Ppixelator@gmail.com') ? `<button class="delete-button" onclick="deleteArticle('${doc.id}')"><i class="fas fa-trash"></i></button>` : ''}
                         ${user && (user.email === 'xajperminecraftyt@gmail.com' || user.email === 'Ppixelator@gmail.com') ? `<button class="edit-button" onclick="editArticle('${doc.id}')"><i class="fas fa-hand"></i></button>` : ''}
                         <hr>
@@ -1543,52 +1541,58 @@ function getParameterByName(name, url) {
 
 function zobacz(articleId, addedArticleId) {
     scrollToArticle(articleId);
+  
+    const user = auth.currentUser;
 
     var article = document.getElementById(articleId);
-
-    const user = auth.currentUser;
-    
-    if (!article) {
-        console.error(`Artykuł z ID: ${articleId} nie znaleziony.`);
-        return;
-    }
-
+  
     var overlay = document.getElementById('overlay');
     var overlayTitle = document.getElementById('overlay-title');
     var overlayText = document.getElementById('overlay-text');
     var overlayTags = document.getElementById('overlay-tags');
     var overlayAuthor = document.getElementById('overlay-author');
     var overlayTime = document.getElementById('overlay-time');
-
+  
     updateViewsCount(articleId);
-
+  
+    // Stwórz przycisk "Dodaj komentarz"
+    var addCommentButton = document.createElement('button');
+    addCommentButton.className = 'add-comment-button';
+    addCommentButton.innerHTML = '<img src="ikonkakomentarze.png" alt="Komentarze"> Dodaj komentarz';
+    addCommentButton.onclick = function () {
+      toggleCommentSection(articleId);
+    };
+  
     // Pobierz dane z elementów artykułu
     var title = article.querySelector('h3 a')?.textContent || '';
     var content = article.querySelector('div')?.innerHTML || '';
     var tags = article.querySelector('p:nth-child(5)')?.textContent || '';
     var author = article.querySelector('p:nth-child(7)')?.textContent || '';
     var time = article.querySelector('p:nth-child(6)')?.textContent || '';
-    
+  
     content = content.replace(/\n/g, '<br>');
     content = applyTextFormatting(content);
-
+  
     // Ustaw teksty w overlay
     overlayTitle.textContent = title;
     overlayText.innerHTML = content;
     overlayTags.innerHTML = `<i style="margin-top: 25px;" class="fas fa-hashtag"></i> ${tags}`;
     overlayAuthor.innerHTML = `<i class="fas fa-user"></i> ${author}`;
     overlayTime.innerHTML = `<i class="fas fa-clock"></i> ${time}`;
-
+  
+    // Dodaj przycisk do overlay
+    overlay.appendChild(addCommentButton);
+  
     // Aktualizuj adres URL
     var url = window.location.href.split('?')[0] + '?artykul=' + addedArticleId;
     history.pushState({}, '', url);
-
+  
     // Wyświetl overlay
     overlay.classList.remove('hidden');
     setTimeout(() => {
       overlay.style.display = 'block';
     }, 50);
-
+  
     addPointsToUser(user.uid, 5);
 }
 
