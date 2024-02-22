@@ -1,9 +1,15 @@
+@import url('https://use.fontawesome.com/releases/v6.5.1/css/all.css');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@600;700&display=swap');
+
 body {
     font-family: 'Arial', sans-serif;
     background-color: #f4f4f4;
     margin: 0;
     padding: 0;
+    align-items: center;
+    justify-content: center;
 }
+
 
 .form {
     text-align: center;
@@ -29,7 +35,7 @@ body {
 }
 
 .form button {
-    background-color: #4caf50;
+    background-color: #3498db;
     color: #fff;
     padding: 12px 24px;
     border: none;
@@ -40,7 +46,7 @@ body {
 }
 
 .form button:hover {
-    background-color: #45a049;
+    background-color: #2d9ce5;
 }
 
 .container {
@@ -76,7 +82,7 @@ input {
 }
 
 button {
-    background-color: #4caf50;
+    background-color: #3498db;
     color: #fff;
     padding: 10px 20px;
     border: none;
@@ -86,7 +92,7 @@ button {
 }
 
 button:hover {
-    background-color: #45a049;
+    background-color: #2980b9;
 }
 
 .result-container,
@@ -195,4 +201,301 @@ button:hover {
     background-color: yellow;
     border-radius: 50%;
     display: inline-block;
+}
+
+.widget-button-container {
+    position: fixed;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 25%;
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    background-color: transparent;
+    padding: 10px;
+    z-index: 999;
+}
+
+.widget-button {
+    width: 50%;
+    height: 50%;
+    border: none;
+    background-color: #3498db;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 10px;
+    transition: transform 0.3s ease, background-color 0.3s ease, translate 0.3s ease;
+}
+
+.widget-button:hover {
+    transform: scale(1.1);
+    translate: 1rem;
+    background-color: #3fa8ee;
+}
+
+.rotate-icon {
+    transition: transform 0.3s ease;
+}
+
+
+
+
+
+
+
+
+
+
+:root {
+    --color-text-primary: #1c2a38;
+    --color-text-seconadry: #8A8F98;
+    --color-text-alert: #d72641;
+    --color-text-icon: #dbdade;
+    --color-bg-primary: #fff;
+    --color-bg-seconadry: #f3f5f9;
+    --color-bg-alert: #fdeaec;
+    --color-theme-primary: #00d0ff;
+}
+
+button {
+    font: inherit;
+}
+
+.match {
+    display: none;
+    width: 600px;
+    background-color: var(--color-bg-primary);
+    color: var(--color-text-primary);
+    font-family: "Inter", sans-serif;
+    line-height: 1.5;
+    flex-direction: column;
+    border-radius: 10px;
+    box-shadow:
+        0 0 2px 0 #3030301a,
+        0 4px 4px 0 #3030301a;
+    margin: auto;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 999; /* Zawsze na wierzchu */
+    transition: opacity 0.3s ease;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+    z-index: 998; /* Niższy niż match, ale nad resztą strony */
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.overlay.active {
+    display: flex;
+    opacity: 1;
+    align-items: center;
+    justify-content: center;
+}
+
+.header {
+    display: flex;
+    border-bottom: 2px solid #3030301a;
+    padding: 16px;
+}
+
+.status { 
+    background-color: var(--color-bg-alert);
+    color: var(--color-text-alert);
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 600;
+    display: flex;
+    align-items: center;
+    line-height: 1;
+    margin-right: auto;
+}
+
+.status:before {
+    content: "";
+    display: block;
+    width: 6px;
+    height: 6px;
+    background-color: currentColor;
+    border-radius: 50%;
+    margin-right: 8px;
+}
+
+.tournament {
+    display: flex;
+    align-items: center;
+    font-weight: 600;
+}
+
+.tournament img {
+    width: 20px;
+    margin-right: 12px;
+}
+
+.actions {
+    display: flex;
+    margin-left: auto;
+}
+
+.btn-icon {
+    border: 0;
+    background-color: transparent;
+    color: var(--color-text-icon);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-icon:hover {
+    border: 0;
+    background-color: transparent;
+    color: #eeee1e;
+}
+
+.content {
+    display: flex;
+    position: relative;
+}
+
+.column {
+    width: calc(100% / 3);
+    padding: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+.team {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.team-logo {
+    width: 100px;
+    height: 100px;
+    background-color: var(--color-bg-primary);
+    box-shadow:
+        0 4px 4px 0 #30303026,
+        0 0 0 15px var(--color-bg-seconadry);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+.team-logo img {
+    width: 50px;
+}
+
+.team-name {
+    text-align: center;
+    margin-top: 24px;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.details {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.date,
+.referee {
+    font-size: 14px;
+    color: var(--color-text-seconadry);
+}
+
+.date strong,
+.referee strong {
+    color: var(--color-text-primary);
+}
+
+.score {
+    margin-top: 12px;
+    display: flex;
+    align-items: center;
+}
+
+.score-number {
+    font-size: 48px;
+    font-weight: 600;
+    line-height: 1;
+}
+
+.score-number--leading {
+    color: var(--color-theme-primary)
+}
+
+.score-divider {
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--color-text-icon);
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.time-lapsed {
+    color: #000000;
+    font-size: 14px;
+    font-weight: 600;
+    margin-top: 8px;
+}
+
+.referee {
+    margin-top: 12px;
+}
+
+.bet-options {
+    display: flex;
+    margin-top: 8px;
+    padding-bottom: 12px;
+}
+
+.bet-option {
+    margin-left: 4px;
+    margin-right: 4px;
+    border: 1px solid var(--color-text-icon);
+    background-color: #F9f9f9;
+    border-radius: 2px;
+    color: var(--color-text-seconadry);
+    font-size: 14px;
+    font-weight: 600;
+    padding: 4px 8px;
+}
+
+.bet-option:hover {
+    background-color: #eeeded;
+}
+
+.bet-place {
+    position: absolute;
+    bottom: -16px;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 0;
+    background-color: var(--color-theme-primary);
+    border-radius: 6px;
+    padding: 10px 48px;
+    color: #ffffffe6;
+    font-size: 14px;
+    box-shadow: 0 4px 8px 0 #30303040;
+}
+
+.bet-place:hover {
+    background-color: #37daff;
 }
