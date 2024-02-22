@@ -714,3 +714,16 @@ function generateMatchDetails() {
 
     return details;
 }
+
+function toggleMatch() {
+    var matchElement = document.querySelector('.match');
+    var overlayElement = document.querySelector('.overlay');
+
+    if (matchElement.style.display === 'none' || matchElement.style.display === '') {
+        matchElement.style.display = 'flex';
+        overlayElement.classList.add('active');
+    } else {
+        matchElement.style.display = 'none';
+        overlayElement.classList.remove('active');
+    }
+}
