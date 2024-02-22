@@ -22,13 +22,13 @@ auth.onAuthStateChanged(user => {
 
     if (user) {
         // Jeśli użytkownik jest zalogowany, sprawdź jego adres e-mail
-        const allowedEmails = ['xajperminecraftyt@gmail.com', 'Ppixelator@gmail.com'];
+        const allowedEmails = ['xajperminecraftyt@gmail.com'];
 
         if (allowedEmails.includes(user.email)) {
             // Jeśli adres e-mail jest na liście dozwolonych, pokaż przycisk addArticleBtn
             addArticleBtn.style.display = 'block';
 
-            if (user.email === 'xajperminecraftyt@gmail.com' || user.email === 'Ppixelator@gmail.com') {
+            if (user.email === 'xajperminecraftyt@gmail.com') {
                 // Jeśli użytkownik to Xajper, pokaż formularz artykułu
             } else {
                 // Jeśli użytkownik to inny dziennikarz, ukryj formularz artykułu
@@ -211,7 +211,7 @@ addArticleBtn.addEventListener('click', () => {
     // Sprawdzamy, czy użytkownik jest zalogowany
     const user = auth.currentUser;
 
-    if (user && (user.email === 'xajperminecraftyt@gmail.com' || user.email === 'Ppixelator@gmail.com')) {
+    if (user && (user.email === 'xajperminecraftyt@gmail.com')) {
         // Jeśli użytkownik jest zalogowany i to jest konto Xajpera, wywołujemy funkcję dodawania artykułu
         articleForm.style.display = 'block';
     } else {
@@ -261,7 +261,7 @@ function loginUser() {
 function checkUserAuthentication() {
     const user = JSON.parse(localStorage.getItem('loggedInUser'));
 
-    if (user && (user.email === 'xajperminecraftyt@gmail.com' || user.email === 'Ppixelator@gmail.com')) {
+    if (user && (user.email === 'xajperminecraftyt@gmail.com')) {
         // Ustaw widoczność odpowiednich elementów na stronie (dodaj swoje odpowiednie operacje)
         const addArticleBtn = document.getElementById('add-article-btn');
         const articleForm = document.getElementById('article-form');
@@ -270,7 +270,7 @@ function checkUserAuthentication() {
 
         addArticleBtn.style.display = 'block';
 
-        if (user.email === 'xajperminecraftyt@gmail.com' || user.email === 'Ppixelator@gmail.com') {
+        if (user.email === 'xajperminecraftyt@gmail.com') {
 
         } else {
             articleForm.style.display = 'none';
@@ -580,8 +580,8 @@ function displayArticles() {
                             </div>
                         </button>
 
-                        ${user && (user.email === 'xajperminecraftyt@gmail.com' || user.email === 'Ppixelator@gmail.com') ? `<button class="delete-button" onclick="deleteArticle('${doc.id}')"><i class="fas fa-trash"></i></button>` : ''}
-                        ${user && (user.email === 'xajperminecraftyt@gmail.com' || user.email === 'Ppixelator@gmail.com') ? `<button class="edit-button" onclick="editArticle('${doc.id}')"><i class="fas fa-hand"></i></button>` : ''}
+                        ${user && (user.email === 'xajperminecraftyt@gmail.com') ? `<button class="delete-button" onclick="deleteArticle('${doc.id}')"><i class="fas fa-trash"></i></button>` : ''}
+                        ${user && (user.email === 'xajperminecraftyt@gmail.com') ? `<button class="edit-button" onclick="editArticle('${doc.id}')"><i class="fas fa-hand"></i></button>` : ''}
                         <hr>
                     `;
             
@@ -776,7 +776,7 @@ function cancelEdit() {
 async function deleteArticle(articleId) {
     const user = auth.currentUser;
 
-    if (user && (user.email === 'xajperminecraftyt@gmail.com' || user.email === 'Ppixelator@gmail.com')) {
+    if (user && (user.email === 'xajperminecraftyt@gmail.com')) {
         const confirmed = confirm('Czy na pewno chcesz usunąć ten artykuł?');
 
         if (confirmed) {
