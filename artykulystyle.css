@@ -52,19 +52,42 @@ body {
   display: block;
 }
 
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideOut {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}
+
 #overlay {
   display: none;
   position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  top: 0;
+  right: 0;
   background-color: #fff;
   box-shadow: 0 0 100px rgba(0, 0, 0, 0.3);
   z-index: 9999;
-  width: 80%;
-  padding: 20px;
-  height: 80%;
+  width: 50%;
+  height: 100vh;
   box-sizing: border-box;
+  overflow-y: auto;
+  animation: slideIn 0.5s ease;
+}
+
+#overlay.hidden {
+  display: none;
+  animation: slideOut 0.5s ease;
 }
 
 #overlay button {
@@ -83,8 +106,9 @@ body {
 #overlay-content {
   display: flex;
   flex-direction: column;
-  max-height: 500px; /* Ustaw maksymalną wysokość sekcji */
+  height: 100%;
   overflow-y: auto;
+  padding-left: 20px;
 }
 
 #main-info {
@@ -1540,7 +1564,7 @@ hr {
 #overlay-tags,
 #overlay-author,
 #overlay-time {
-    margin-top: 10px;/
+    margin-top: 10px;
 }
 
 #latest-articles-list li,
