@@ -1837,6 +1837,20 @@ footer {
   background-color: #c5fbff;
 }
 
+.new-label {
+  background-color: #fdeaec;
+  color: #d72641;
+  padding: 5px 10px;
+  border-radius: 3px;
+  display: flex;
+  position: absolute;
+  font-weight: 600;
+  top: 0;
+  left: 0;
+  margin: 10px; /* Adjust the margin as needed */
+  z-index: 1; /* Ensure the label is above the image */
+}
+
 .scroll-to-top {
   cursor: pointer;
   position: fixed;
