@@ -12,6 +12,68 @@
 </head>
 
 <body>
+    <div class="widget-button-container">
+        <button onclick="toggleMatch()" class="widget-button"><i class="fas fa-arrow-right rotate-icon"></i></button>
+    </div>
+
+    <div class="overlay">
+        <div class="match">
+            <div class="header">
+                <div class="status">Na żywo</div>
+                <div class="tournament">
+                    <img src="symulator-logo.png"/>
+                    Symulator
+                </div>
+                <div class="actions">
+                    <button class="btn-icon"><i class="fa-regular fa-star"></i></button>
+                    <button class="btn-icon"><i class="fa-regular fa-bell"></i></button>
+                </div>
+            </div>
+            <div class="content">
+                <div class="column">
+                    <div class="team team--home">
+                        <div class="team-logo">
+                            <img src="drużyna-logo.png">
+                        </div>
+                        <h2 class="team-name">Drużyna 1</h2>
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="details">
+                        <div class="date">
+                            02 Luty o <strong>19:00</strong>
+                        </div>
+                        <div class="score">
+                            <span class="score-number score-number--leading">2</span>
+                            <span class="score-divider">:</span>
+                            <span class="score-number">0</span>
+                        </div>
+                        <div class="time-lapsed">
+                            72'
+                        </div>
+                        <div class="referee">
+                            Sędzia: <strong>Jan Kowalski</strong>
+                        </div>
+                        <div class="bet-options">
+                            <button class="bet-option">1.48</button>
+                            <button class="bet-option">4.98</button>
+                            <button class="bet-option">8.24</button>
+                        </div>
+                        <button class="bet-place">Postaw zakład</button>
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="team team--away">
+                        <div class="team-logo">
+                            <img src="drużyna-logo.png">
+                        </div>
+                        <h2 class="team-name">Drużyna 2</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="container">
         <h1>SYMULATOR</h1>
         <div class="form">
