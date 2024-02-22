@@ -341,80 +341,97 @@ async function addArticle() {
         return;
     }
 
-    if (imageInput.files.length > 0) {
-        const imageFile = imageInput.files[0];
+    try {
+        // Check if an article with the same title already exists
+        const existingArticle = await db.collection('articles').where('title', '==', title).get();
 
-        const storageRef = firebase.storage().ref('article_images/' + imageFile.name);
-        const uploadTask = storageRef.put(imageFile);
+        if (!existingArticle.empty) {
+            // Display an error message if an article with the same title exists
+            displayMessage('Artykuł o tym samym tytule już istnieje.', 'danger');
+            addArticleBtn.disabled = false;
+            return;
+        }
 
-        uploadTask.on(
-            'state_changed',
-            (snapshot) => {
-                const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                displayMessage(`Dodawanie artykułu: ${progress.toFixed(2)}%`, 'warning');
-            },
-            async (error) => {
-                console.error('Error: ', error);
-                displayMessage('Błąd podczas ładowania obrazu.', 'danger');
-                addArticleBtn.disabled = false;
-            },
-            async () => {
-                try {
-                    const downloadURL = await uploadTask.snapshot.ref.getDownloadURL();
-                    const { nextNumber, addedArticleId } = await getNextArticleNumber(title);
-                    const author = getAuthor(); // Pobieranie autora na podstawie funkcji getAuthor
+        if (imageInput.files.length > 0) {
+            const imageFile = imageInput.files[0];
 
-                    // Dodawanie artykułu do kolekcji 'articles'
-                    db.collection('articles')
-                        .doc(addedArticleId)
-                        .set({
-                            title: title,
-                            content: content,
-                            image: downloadURL,
-                            tags: selectedTags,
-                            date: new Date().toISOString(),
-                            author: author, // Ustawianie autora na podstawie funkcji getAuthor
-                            articleId: addedArticleId,
-                            views: 0,
-                        })
-                        .then(() => {
-                            document.getElementById('article-title').value = '';
-                            document.getElementById('article-content').value = '';
-                            imageInput.value = '';
+            const storageRef = firebase.storage().ref('article_images/' + imageFile.name);
+            const uploadTask = storageRef.put(imageFile);
 
-                            displayMessage('Artykuł dodany pomyślnie! +5pkt', 'success');
-                            addArticleBtn.disabled = false;
-
-                            // Dodawanie kolekcji komentarzy dla każdego artykułu
-                            db.collection('articles').doc(addedArticleId).collection('comments').add({
-                                author: author,
-                                content: 'Mamy nadzieję, że artykuł wam się spodobał',
-                                date: new Date().toISOString(),
-                            });
-
-                            // Wyświetl listę artykułów po dodaniu artykułu
-                            displayArticles();
-                            displayLatestArticles();
-                            getArticlesCount();
-                            addPointsToUser(user.uid, 5);
-                        })
-                        .catch((error) => {
-                            console.error('Error: ', error);
-                            displayMessage('Błąd podczas dodawania artykułu.', 'danger');
-                            addArticleBtn.disabled = false;
-                        });
-                } catch (error) {
+            uploadTask.on(
+                'state_changed',
+                (snapshot) => {
+                    const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                    displayMessage(`Dodawanie artykułu: ${progress.toFixed(2)}%`, 'warning');
+                },
+                async (error) => {
                     console.error('Error: ', error);
-                    displayMessage('Błąd podczas uzyskiwania URL obrazu.', 'danger');
+                    displayMessage('Błąd podczas ładowania obrazu.', 'danger');
                     addArticleBtn.disabled = false;
+                },
+                async () => {
+                    try {
+                        const downloadURL = await uploadTask.snapshot.ref.getDownloadURL();
+                        const { nextNumber, addedArticleId } = await getNextArticleNumber(title);
+                        const author = getAuthor();
+
+                        // Dodawanie artykułu do kolekcji 'articles'
+                        db.collection('articles')
+                            .doc(addedArticleId)
+                            .set({
+                                title: title,
+                                content: content,
+                                image: downloadURL,
+                                tags: selectedTags,
+                                date: new Date().toISOString(),
+                                author: author,
+                                articleId: addedArticleId,
+                                views: 0,
+                            })
+                            .then(() => {
+                                document.getElementById('article-title').value = '';
+                                document.getElementById('article-content').value = '';
+                                imageInput.value = '';
+
+                                displayMessage('Artykuł dodany pomyślnie! +5pkt', 'success');
+                                addArticleBtn.disabled = false;
+
+                                // Dodawanie kolekcji komentarzy dla każdego artykułu
+                                db.collection('articles').doc(addedArticleId).collection('comments').add({
+                                    author: author,
+                                    content: 'Mamy nadzieję, że artykuł wam się spodobał',
+                                    date: new Date().toISOString(),
+                                });
+
+                                // Wyświetl listę artykułów po dodaniu artykułu
+                                displayArticles();
+                                displayLatestArticles();
+                                getArticlesCount();
+                                addPointsToUser(user.uid, 5);
+                            })
+                            .catch((error) => {
+                                console.error('Error: ', error);
+                                displayMessage('Błąd podczas dodawania artykułu.', 'danger');
+                                addArticleBtn.disabled = false;
+                            });
+                    } catch (error) {
+                        console.error('Error: ', error);
+                        displayMessage('Błąd podczas uzyskiwania URL obrazu.', 'danger');
+                        addArticleBtn.disabled = false;
+                    }
                 }
-            }
-        );
-    } else {
-        displayMessage('Proszę wybrać plik graficzny.', 'danger');
+            );
+        } else {
+            displayMessage('Proszę wybrać plik graficzny.', 'danger');
+            addArticleBtn.disabled = false;
+        }
+    } catch (error) {
+        console.error('Error: ', error);
+        displayMessage('Błąd podczas sprawdzania istnienia artykułu.', 'danger');
         addArticleBtn.disabled = false;
     }
 }
+
 
 function previewArticle() {
     const titleElement = document.getElementById('article-title');
