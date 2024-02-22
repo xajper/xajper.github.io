@@ -52,6 +52,47 @@ auth.onAuthStateChanged(user => {
     }
 });
 
+var overlay = document.getElementById("overlay");
+var overlayContent = document.getElementById("overlay-content");
+
+// Dodaj zdarzenie mousemove do overlay
+overlay.addEventListener("mousemove", function(e) {
+  // Sprawdź, czy kursor znajduje się w lewej części overlay
+  if (e.clientX < overlay.offsetLeft + 10) {
+    // Ustaw kursor na wskaźnik zmiany rozmiaru
+    overlay.style.cursor = "ew-resize";
+    // Dodaj zdarzenie mousedown do overlay
+    overlay.addEventListener("mousedown", function() {
+      // Dodaj zdarzenie mousemove do document
+      document.addEventListener("mousemove", resizeOverlay);
+      // Dodaj zdarzenie mouseup do document
+      document.addEventListener("mouseup", stopResize);
+    });
+  } else {
+    // Ustaw kursor na domyślny
+    overlay.style.cursor = "default";
+  }
+});
+
+// Funkcja do zmiany szerokości overlay
+function resizeOverlay(e) {
+  // Oblicz nową szerokość overlay
+  var newWidth = window.innerWidth - e.clientX;
+  // Ustaw minimalną i maksymalną szerokość overlay
+  if (newWidth > 100 && newWidth < window.innerWidth - 100) {
+    // Zmień szerokość overlay i overlay-content
+    overlay.style.width = newWidth + "px";
+    overlayContent.style.width = newWidth - 20 + "px";
+  }
+}
+
+// Funkcja do zatrzymania zmiany rozmiaru overlay
+function stopResize() {
+  // Usuń zdarzenia mousemove i mouseup z document
+  document.removeEventListener("mousemove", resizeOverlay);
+  document.removeEventListener("mouseup", stopResize);
+}
+
 const addArticleBtn = document.getElementById('add-article-btn');
 const articleForm = document.getElementById('article-form');
 const loginForm = document.getElementById('login-form');
@@ -1543,7 +1584,10 @@ function zobacz(articleId, addedArticleId) {
     history.pushState({}, '', url);
 
     // Wyświetl overlay
-    overlay.style.display = 'block';
+    overlay.classList.remove('hidden');
+    setTimeout(() => {
+      overlay.style.display = 'block';
+    }, 50);
 
     addPointsToUser(user.uid, 5);
 }
@@ -1599,5 +1643,11 @@ function scrollToArticle(articleId) {
 
 function closeOverlay() {
     var overlay = document.getElementById('overlay');
-    overlay.style.display = 'none';
+    overlay.classList.add('hidden');
+    
+    // Czekaj na zakończenie animacji przed ustawieniem display na none
+    overlay.addEventListener('animationend', function() {
+      overlay.style.display = 'none';
+      overlay.classList.remove('hidden');
+    }, {once: true});
 }
