@@ -1369,37 +1369,114 @@ async function displayComments(articleId) {
                 const commentData = commentDoc.data();
                 const commentDiv = document.createElement('div');
                 commentDiv.className = 'comment';
-                commentDiv.innerHTML = `
+
+                // Dodaj obrazek użytkownika przed nazwą komentującego
+                const userImage = document.createElement('img');
+                userImage.src = 'userlogocomment.png'; // Zmień na odpowiednią ścieżkę do obrazka
+                userImage.alt = 'Użytkownik';
+                userImage.className = 'user-image-comment';
+                commentDiv.appendChild(userImage);
+
+                // Dodaj nazwę komentującego i treść komentarza
+                commentDiv.innerHTML += `
                     <p><strong>${commentData.author}:</strong> ${commentData.content}</p>
                     <small><i class="far fa-clock"></i> ${new Date(commentData.date).toLocaleString()}</small>
                 `;
 
-                // Add delete button only for the comments authored by the currently logged-in user
+                // Kontener przycisków
+                const buttonContainer = document.createElement('div');
+                buttonContainer.classList.add('button-container');
+
+                // Przycisk usuwania tylko dla autora komentarza
                 if (currentUser && currentUser.email === commentData.author) {
                     const deleteButton = document.createElement('button');
                     deleteButton.innerHTML = '<i class="fas fa-trash"></i>';
-                    deleteButton.classList.add('delete-buttoncomment'); // Use the correct class name
+                    deleteButton.classList.add('delete-buttoncomment');
                     deleteButton.onclick = () => deleteComment(articleId, commentDoc.id);
-                    commentDiv.appendChild(deleteButton);
+                    buttonContainer.appendChild(deleteButton);
                 }
 
-                // Add horizontal line between comments, except for the last one
+                // Przycisk edycji tylko dla autora komentarza
+                if (currentUser && currentUser.email === commentData.author) {
+                    const editButton = document.createElement('button');
+                    editButton.innerHTML = '<i class="fas fa-edit"></i>';
+                    editButton.classList.add('edit-buttoncomment');
+                    editButton.onclick = () => editComment(articleId, commentDoc.id, commentData.content);
+                    buttonContainer.appendChild(editButton);
+                }
+
+                // Przycisk odpowiedzi
+                const replyButton = document.createElement('button');
+                replyButton.innerHTML = '<i class="fas fa-reply"></i> Odpowiedz';
+                replyButton.classList.add('reply-buttoncomment');
+                replyButton.type = 'button';
+                replyButton.onclick = () => setReplyToUser(commentData.author, articleId);
+                buttonContainer.appendChild(replyButton);
+
+                // Dodaj kontener przycisków do komentarza
+                commentDiv.appendChild(buttonContainer);
+
+                // Dodaj poziomą linię między komentarzami, z wyjątkiem ostatniego
                 if (index < commentsSnapshot.size - 1) {
                     const horizontalLine = document.createElement('hr');
                     commentDiv.appendChild(horizontalLine);
                 }
 
+                // Dodaj komentarz do kontenera komentarzy
                 commentsContainer.appendChild(commentDiv);
             });
 
-            // Add a maximum height and overflow-y property to enable scrollbar
-            commentsContainer.style.maxHeight = '300px'; // Adjust the maximum height as needed
+            // Ustaw maksymalną wysokość i właściwość overflow-y, aby umożliwić przewijanie
+            commentsContainer.style.maxHeight = '300px'; // Dostosuj maksymalną wysokość, jeśli to konieczne
             commentsContainer.style.overflowY = 'auto';
         } else {
+            // Jeżeli brak komentarzy, wyświetl informację
             commentsContainer.innerHTML = '<p>Brak komentarzy.</p>';
         }
     } catch (error) {
         console.error('Błąd podczas pobierania komentarzy:', error);
+    }
+}
+
+function setReplyToUser(username, articleId) {
+    const commentInput = document.getElementById(`comment-input-${articleId}`);
+
+    // Ustaw nazwę użytkownika w polu komentarza
+    commentInput.textContent = `@${username} `;
+    
+    // Ustaw focus na polu komentarza
+    commentInput.focus();
+}
+
+async function editComment(articleId, commentId, currentContent, editMode = false) {
+    const newContent = prompt('Edytuj komentarz:', currentContent);
+
+    if (newContent !== null) {
+        const currentUser = auth.currentUser;
+
+        if (!currentUser) {
+            console.error('Użytkownik niezalogowany.');
+            return;
+        }
+
+        try {
+            if (editMode) {
+                // Edytuj treść komentarza w bazie danych
+                await db.collection('articles').doc(articleId).collection('comments').doc(commentId).update({
+                    content: newContent,
+                });
+                displayMessage('Komentarz został pomyślnie zaktualizowany.', 'success');
+            } else {
+                // Dodaj nowy komentarz w trybie odpowiedzi
+                await addCommentToArticle(articleId, { content: newContent });
+            }
+
+            // Przeładuj komentarze
+            displayComments(articleId);
+        } catch (error) {
+            displayMessage('Błąd podczas aktualizacji komentarza.', 'danger');
+            console.error('Błąd podczas aktualizacji komentarza:', error);
+        }
     }
 }
 
@@ -1412,14 +1489,34 @@ async function deleteComment(articleId, commentId) {
     }
 
     try {
-        await db.collection('articles').doc(articleId).collection('comments').doc(commentId).delete();
-        displayMessage('Komentarz usunięty pomyślnie. -5pkt', 'success');
-        subtractPointsFromUser(currentUser.uid, 5);
-        subtractPointsFromUser(currentUser.uid, 1);
-        displayComments(articleId);
+        const commentRef = await db.collection('articles').doc(articleId).collection('comments').doc(commentId).get();
+
+        if (commentRef.exists) {
+            const commentData = commentRef.data();
+
+            // Sprawdź, czy użytkownik jest autorem komentarza
+            if (currentUser.email === commentData.author) {
+                // Usuń komentarz
+                await db.collection('articles').doc(articleId).collection('comments').doc(commentId).delete();
+
+                // Aktualizuj widok komentarzy po usunięciu
+                displayComments(articleId);
+
+                // Dodatkowe akcje, jeśli potrzebne
+                displayMessage('Komentarz usunięty pomyślnie. -5pkt', 'success');
+                subtractPointsFromUser(currentUser.uid, 5);
+                subtractPointsFromUser(currentUser.uid, 1);
+            } else {
+                console.error('Użytkownik nie jest autorem tego komentarza.');
+                displayMessage('Nie masz uprawnień do usunięcia tego komentarza.', 'danger');
+            }
+        } else {
+            console.error('Komentarz nie istnieje.');
+            displayMessage('Komentarz nie istnieje.', 'danger');
+        }
     } catch (error) {
-        displayMessage('Błąd podczas usuwania komentarza.', 'danger');
         console.error('Błąd podczas usuwania komentarza:', error);
+        displayMessage('Błąd podczas usuwania komentarza.', 'danger');
     }
 }
 
@@ -1605,7 +1702,7 @@ function zobacz(articleId, addedArticleId) {
     // Stwórz przycisk "Dodaj komentarz"
     var addCommentButton = document.createElement('button');
     addCommentButton.className = 'add-comment-button';
-    addCommentButton.innerHTML = '<img src="ikonkakomentarze.png" alt="Komentarze"> Dodaj komentarz';
+    addCommentButton.innerHTML = '<id="add-comment-button" img src="ikonkakomentarze.png" alt="Komentarze"> Dodaj komentarz';
     addCommentButton.onclick = function () {
       toggleCommentSection(articleId);
     };
