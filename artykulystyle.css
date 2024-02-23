@@ -5,8 +5,6 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  scrollbar-width: thin;
-  scrollbar-color: #7de5ee #f0f0f0;
   min-width: 320px;
   overflow-x: hidden;
 }
@@ -932,38 +930,42 @@ img.placeholder {
   object-fit: cover; 
 }
 
-.custom-scrollbar {
-  scrollbar-width: thin;
-  scrollbar-color: #7de5ee #f0f0f0;
-}
-
-.custom-scrollbar::-webkit-scrollbar {
+body::-webkit-scrollbar {
   width: 12px;
 }
 
-.custom-scrollbar::-webkit-scrollbar-thumb {
-  background-color: #7de5ee;
-  transition: background-color 0.3s, border-radius 0.3s, transform 0.3s;
+body::-webkit-scrollbar-thumb {
+  background-color: #303542;
+  border-radius: 10px;
 }
 
-.custom-scrollbar.at-bottom::-webkit-scrollbar-thumb,
-.custom-scrollbar.at-top::-webkit-scrollbar-thumb {
-  border-radius: 0;
-  transform: scaleY(0.5);
+body::-webkit-scrollbar-track {
+  background-color: #303542;
+  border-radius: 10px;
 }
 
-.custom-scrollbar:not(.at-bottom):not(.at-top)::-webkit-scrollbar-thumb {
-  border-radius: 12px;
+body::-webkit-scrollbar-corner {
+  background-color: #303542;
 }
 
-.custom-scrollbar::-webkit-scrollbar-track {
-  background-color: #f0f0f0;
+body::-webkit-scrollbar-thumb:hover {
+  background-color: #474e62;
 }
 
-.at-bottom .custom-scrollbar::-webkit-scrollbar-thumb,
-.at-top .custom-scrollbar::-webkit-scrollbar-thumb {
-  border-radius: 0;
-  transform: scaleY(0.5);
+body::-webkit-scrollbar-thumb:active {
+  background-color: #393e4c;
+}
+
+body::-webkit-scrollbar-track-piece {
+  background-color: #474e62;
+}
+
+body::-webkit-scrollbar-track-piece:hover {
+  background-color: #303542;
+}
+
+body::-webkit-scrollbar-track-piece:active {
+  background-color: #303542;
 }
 
 #article-form {
