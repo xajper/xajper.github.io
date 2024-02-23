@@ -1,30 +1,242 @@
-<!DOCTYPE html>
-<html lang="pl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="kolofortunystyle.css">
-    <link rel="icon" href="ikonkakolofortuny.ico" type="image/x-icon">
-    <title>Koło Fortuny</title>
-</head>
-<body>
-    <div class="container">
-        <h1>Koło Fortuny</h1>
-        <label for="customValues">Wprowadź wartości (oddzielone przecinkiem):</label>
-        <div id="menu">
-            <input type="text" id="customValues" placeholder="Przykład: Wartość1, Wartość2, Wartość3">
-            <button onclick="addValue()">Dodaj</button>
-        </div>
-        <button onclick="spinWheel()">Losuj</button>
-        <div id="wheel-container">
-            <div id="wheel" class="wheel">
-                <div id="pointer"></div>
-                <div id="confetti-container"></div>
-            </div>
-        </div>
-        <div id="result"></div>
-    </div>
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden; /* Ukryj overflow, aby konfetti było widoczne na całej stronie */
+}
 
-    <script src="kolofortunyscript.js"></script>
-</body>
-</html>
+.container {
+    text-align: center;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    position: relative; /* Ustawienie pozycji relative dla kontenera */
+}
+
+h1 {
+    color: #333;
+}
+
+label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+input {
+    padding: 8px;
+}
+
+button {
+    background-color: #4caf50;
+    color: #fff;
+    padding: 8px;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    margin-left: 10px;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+#menu {
+    margin-bottom: 10px;
+}
+
+.menu-value {
+    display: inline-block;
+    margin: 0 5px;
+    background-color: #eee;
+    padding: 10px; /* Zwiększenie paddingu dla większej przestrzeni wokół tekstu */
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.menu-value:hover {
+    background-color: #ddd;
+}
+
+#wheel-container {
+    position: relative;
+    margin: 20px auto;
+    width: 300px;
+    height: 300px;
+}
+
+#notification-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+}
+
+.notification {
+    background-color: #4caf50;
+    color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.notification-enter {
+    opacity: 1;
+}
+
+.notification-exit {
+    opacity: 0;
+}
+
+#confetti-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 10001;
+}
+
+.confetti {
+    width: 8px;
+    height: 8px;
+    position: absolute;
+    background-color: #ffcc00; /* Kolor konfetti */
+    opacity: 0.8;
+    transform: scale(0);
+    animation: fall linear infinite;
+}
+
+@keyframes fall {
+    0% {
+        transform: translateY(0) rotate(0) scale(0);
+    }
+    100% {
+        transform: translateY(200vh) rotate(720deg) scale(1);
+    }
+}
+
+#confetti-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    pointer-events: none;
+    z-index: 10000;
+    transition: background 0.5s ease-in-out;
+}
+
+.confetti-active {
+    background: rgba(0, 0, 0, 0.5); /* Kolor tła podczas aktywacji konfetti */
+}
+
+#pointer {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 20px solid #333; /* Kolor strzałki */
+    visibility: visible; /* Widoczna strzałka na początku */
+    z-index: 3; /* Ustawienie z-index wyżej niż sekcje koła i konfetti */
+    transition: transform 0.3s;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+#wheel {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 5px solid #000; /* Gruba czarna obwódka dla koła */
+    overflow: hidden;
+    position: relative;
+    animation: none; /* Zatrzymaj animację na początku */
+    background-color: transparent; /* Przezroczyste tło dla koła */
+}
+
+.section-label {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(0deg);
+    font-size: 20px; /* Zwiększenie rozmiaru fontu dla większej czytelności */
+    color: #fff;
+    white-space: nowrap;
+}
+
+#confetti-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 1; /* Ustawienie z-index na niższy niż tło koła */
+}
+
+.confetti {
+    width: 8px;
+    height: 8px;
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.8;
+    transform: scale(0);
+    animation: fall linear infinite;
+}
+
+@keyframes fall {
+    0% {
+        transform: translateY(0) rotate(0) scale(0);
+    }
+    100% {
+        transform: translateY(200vh) rotate(720deg) scale(1); /* Przesunięcie poza ekran, kilka obrotów */
+    }
+}
+
+.wheel-section {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    clip-path: polygon(50% 50%, 100% 100%, 0 100%);
+    background-color: #000; /* Czarny kolor dla sekcji koła */
+}
+
+.wheel-section::after {
+    content: attr(data-value); /* Wyświetlanie wartości */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(0deg);
+    font-size: 20px; /* Zwiększenie rozmiaru fontu dla większej czytelności */
+    color: #fff;
+    white-space: nowrap;
+    text-align: center;
+    animation: spin 4s cubic-bezier(0.17, 0.67, 0.83, 0.67) forwards; /* Animacja ruchu dla wartości */
+    z-index: 2; /* Ustawienie z-index na wyższy poziom niż tło koła */
+}
+
+.colorful .wheel-section {
+    animation: spin 4s cubic-bezier(0.17, 0.67, 0.83, 0.67) forwards;
+}
