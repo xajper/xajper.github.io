@@ -40,6 +40,7 @@ button {
     cursor: pointer;
     border-radius: 4px;
     margin-left: 10px;
+    transition: background-color 0.3s;
 }
 
 button:hover {
@@ -70,16 +71,90 @@ button:hover {
     height: 300px;
 }
 
+#notification-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+}
+
+.notification {
+    background-color: #4caf50;
+    color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.notification-enter {
+    opacity: 1;
+}
+
+.notification-exit {
+    opacity: 0;
+}
+
+#confetti-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 10001;
+}
+
+.confetti {
+    width: 8px;
+    height: 8px;
+    position: absolute;
+    background-color: #ffcc00; /* Kolor konfetti */
+    opacity: 0.8;
+    transform: scale(0);
+    animation: fall linear infinite;
+}
+
+@keyframes fall {
+    0% {
+        transform: translateY(0) rotate(0) scale(0);
+    }
+    100% {
+        transform: translateY(200vh) rotate(720deg) scale(1);
+    }
+}
+
+#confetti-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    pointer-events: none;
+    z-index: 10000;
+    transition: background 0.5s ease-in-out;
+}
+
+.confetti-active {
+    background: rgba(0, 0, 0, 0.5); /* Kolor tła podczas aktywacji konfetti */
+}
+
 #pointer {
     position: absolute;
-    top: 0;
+    top: 50%;
     left: 50%;
-    transform: translateX(-50%);
-    width: 5px;
-    height: 75px;
-    background-color: #333; /* Kolor wskaźnika */
-    visibility: visible; /* Widoczny wskaźnik na początku */
+    transform: translate(-50%, -50%);
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 20px solid #333; /* Kolor strzałki */
+    visibility: visible; /* Widoczna strzałka na początku */
     z-index: 3; /* Ustawienie z-index wyżej niż sekcje koła i konfetti */
+    transition: transform 0.3s;
 }
 
 @keyframes spin {
