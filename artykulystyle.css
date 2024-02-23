@@ -524,12 +524,20 @@ p {
   }
 }
 
+.user-image-comment {
+  width: 20px;
+  height: 20px;
+  margin-right: 5px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
 .add-comment-button {
-  position: fixed;
+  position: absolute;
   bottom: 20px;
   right: 20px;
-  background: transparent;
-  border: 2px solid #7de5ee;
+  background: none;
+  border: 2px solid #000000;
   padding: 10px;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
@@ -575,8 +583,14 @@ p {
   animation: pulseshare 0.8s ease;
 }
 
-.delete-buttoncomment {
-  position: relative; /* Set to relative position */
+.button-container {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* Odległość między przyciskami */
+}
+
+.button-container button {
+  position: relative;
   background-color: transparent;
   border: none;
   padding: 10px;
@@ -589,13 +603,30 @@ p {
   border-radius: 5px;
 }
 
-.delete-buttoncomment i {
+.button-container .delete-buttoncomment i {
   color: #fd1f1f;
 }
 
-.delete-buttoncomment:hover i {
+.button-container .delete-buttoncomment:hover i {
   color: #ff3131;
   filter: drop-shadow(4px 2px 2px #ff9898);
+}
+
+.button-container .edit-buttoncomment i {
+  color: #fddf1f;
+}
+
+.button-container .edit-buttoncomment:hover i {
+  color: #fddf1f;
+  filter: drop-shadow(4px 2px 2px #f1ff98);
+}
+
+.button-container .reply-buttoncomment i {
+  color: #000000;
+}
+
+.button-container .reply-buttoncomment:hover i {
+  color: #131313;
 }
 
 .delete-button {
@@ -1111,7 +1142,7 @@ img.placeholder {
   background-color: #fff;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   border-radius: 5px;
-  z-index: 9997;
+  z-index: 9999;
 }
 
 .error {
