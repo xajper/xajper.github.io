@@ -597,10 +597,13 @@ function getNextArticleId(articleNumber) {
 
 function displayArticles() {
     const mainArticle = document.getElementById('main-article');
-    const polacyRodacySection = document.getElementById('polacy-rodacy').querySelector('ul');
+    const polacyRodacySection = document.getElementById('polacy-rodacy');
+    const column1 = document.getElementById('column1');
+    const column2 = document.getElementById('column2');
 
     mainArticle.classList.add('loading');
-    polacyRodacySection.innerHTML = ''; // Wyczyszczenie listy przed dodaniem nowych artykułów
+    column1.querySelector('ul').innerHTML = '';  // Wyczyszczenie listy przed dodaniem nowych artykułów
+    column2.querySelector('ul').innerHTML = '';  // Wyczyszczenie listy przed dodaniem nowych artykułów
 
     const loadingText = document.createElement('div');
     loadingText.id = 'loading-text';
@@ -631,9 +634,11 @@ function displayArticles() {
                 const currentTimestamp = new Date().getTime();
 
                 const newestArticleHeader = document.createElement('h2');
-                newestArticleHeader.id = 'newest-article-header'; // Dodaj id do nagłówka
-                newestArticleHeader.innerHTML = '<span>NAJNOWSZE</span>'; // Zmiana zawartości nagłówka
+                newestArticleHeader.id = 'newest-article-header';
+                newestArticleHeader.innerHTML = '<span>NAJNOWSZE</span>';
                 mainArticle.appendChild(newestArticleHeader);
+
+                let currentColumn = column1;
 
                 querySnapshot.forEach((doc) => {
                     const articleElement = document.createElement('div');
@@ -644,7 +649,7 @@ function displayArticles() {
 
                     const isNewArticle = (currentTimestamp - doc.data().newArticleTimestamp) < 3600000;
 
-                    articleElement.onclick = function() {
+                    articleElement.onclick = function () {
                         zobacz(doc.id, doc.data().articleId);
                     };
 
@@ -687,7 +692,7 @@ function displayArticles() {
                         polacyRodacyArticleElement.setAttribute('data-tags', doc.data().tags.join(', '));
                         polacyRodacyArticleElement.setAttribute('data-date', doc.data().date);
 
-                        polacyRodacyArticleElement.onclick = function() {
+                        polacyRodacyArticleElement.onclick = function () {
                             zobacz(doc.id, doc.data().articleId);
                         };
 
@@ -722,7 +727,11 @@ function displayArticles() {
                             <hr>
                         `;
 
-                        polacyRodacySection.appendChild(polacyRodacyArticleElement);
+                        // Dodawanie do odpowiedniej kolumny
+                        currentColumn.querySelector('ul').appendChild(polacyRodacyArticleElement);
+
+                        // Zmiana kolumny dla następnego artykułu
+                        currentColumn = currentColumn === column1 ? column2 : column1;
                     }
                 });
 
