@@ -105,8 +105,8 @@ const editArticleBtn = document.getElementById('edit-article-btn');
 
 const articlesContainer = document.getElementById('main-article');
 const loadMoreBtn = document.getElementById('load-more-btn');
-let currentBatch = 5;
-const batchIncrement = 5;
+let currentBatch = 6;
+const batchIncrement = 6;
 
 document.addEventListener('DOMContentLoaded', function () {
     checkUserAuthentication();
@@ -121,7 +121,7 @@ function blokujMysz(event) {
 
       event.preventDefault();
     }
-  }
+}
   
 document.addEventListener('contextmenu', function (event) {
     event.preventDefault();
@@ -597,9 +597,10 @@ function getNextArticleId(articleNumber) {
 
 function displayArticles() {
     const mainArticle = document.getElementById('main-article');
-    mainArticle.classList.add('loading');
+    const polacyRodacySection = document.getElementById('polacy-rodacy').querySelector('ul');
 
-    const loadMoreBtn = document.getElementById('load-more-btn');
+    mainArticle.classList.add('loading');
+    polacyRodacySection.innerHTML = ''; // Wyczyszczenie listy przed dodaniem nowych artykułów
 
     const loadingText = document.createElement('div');
     loadingText.id = 'loading-text';
@@ -621,13 +622,18 @@ function displayArticles() {
     auth.onAuthStateChanged(user => {
         db.collection('articles')
             .orderBy('date', 'desc')
-            .limit(currentBatch)
+            .limit(6)  // Wyświetl pięć najnowszych artykułów
             .get()
             .then((querySnapshot) => {
                 mainArticle.innerHTML = '';
                 mainArticle.classList.remove('loading');
 
                 const currentTimestamp = new Date().getTime();
+
+                const newestArticleHeader = document.createElement('h2');
+                newestArticleHeader.id = 'newest-article-header'; // Dodaj id do nagłówka
+                newestArticleHeader.innerHTML = '<span>NAJNOWSZE</span>'; // Zmiana zawartości nagłówka
+                mainArticle.appendChild(newestArticleHeader);
 
                 querySnapshot.forEach((doc) => {
                     const articleElement = document.createElement('div');
@@ -636,11 +642,13 @@ function displayArticles() {
                     articleElement.setAttribute('data-tags', doc.data().tags.join(', '));
                     articleElement.setAttribute('data-date', doc.data().date);
 
-                    const imageUrl = doc.data().image;
-
                     const isNewArticle = (currentTimestamp - doc.data().newArticleTimestamp) < 3600000;
 
-                    articleElement.innerHTML += `
+                    articleElement.onclick = function() {
+                        zobacz(doc.id, doc.data().articleId);
+                    };
+
+                    articleElement.innerHTML = `
                         <h3 style="display: none;"><a href="?artykul=${doc.id}">${doc.data().title}</a></h3>
                         <span class="hover-bar"></span>
                         <div class="content" style="display: none;">${doc.data().content.replace(/\n/g, '<br>')}</div>
@@ -665,23 +673,61 @@ function displayArticles() {
                                 <i class="fas fa-check-circle"></i>
                             </div>
                         </button>
-                    
+
                         ${user && (user.email === 'xajperminecraftyt@gmail.com') ? `<button class="delete-button" onclick="deleteArticle('${doc.id}')"><i class="fas fa-trash"></i></button>` : ''}
                         ${user && (user.email === 'xajperminecraftyt@gmail.com') ? `<button class="edit-button" onclick="editArticle('${doc.id}')"><i class="fas fa-hand"></i></button>` : ''}
                         <hr>
                     `;
-                
 
-                    articlesContainer.appendChild(articleElement);
+                    mainArticle.appendChild(articleElement);
+
+                    if (doc.data().tags.includes('POLACY RODACY')) {
+                        const polacyRodacyArticleElement = document.createElement('li');
+                        polacyRodacyArticleElement.className = 'article-link';
+                        polacyRodacyArticleElement.setAttribute('data-tags', doc.data().tags.join(', '));
+                        polacyRodacyArticleElement.setAttribute('data-date', doc.data().date);
+
+                        polacyRodacyArticleElement.onclick = function() {
+                            zobacz(doc.id, doc.data().articleId);
+                        };
+
+                        polacyRodacyArticleElement.innerHTML = `
+                            <h3 style="display: none;"><a href="?artykul=${doc.id}">${doc.data().title}</a></h3>
+                            <span class="hover-bar"></span>
+                            <div class="content" style="display: none;">${doc.data().content.replace(/\n/g, '<br>')}</div>
+                            <div class="image-container" style="position: relative;">
+                                <img class="placeholder" src="${doc.data().image}" alt="ZDJĘCIE" style="width: 400px; height: 250px; object-fit: cover;">
+                                ${isNewArticle ? '<div class="new-label">NOWE</div>' : ''}
+                                <div class="image-title">
+                                    <h3><a href="javascript:void(0);" onclick="zobacz('${doc.id}', '${doc.data().articleId}')">${doc.data().title}</a></h3>
+                                </div>
+                            </div>
+                            <p style="display: none;"><i class="fas fa-hashtag"></i> ${doc.data().tags.join(', ')}</p>
+                            <p><i class="far fa-clock"></i> ${formatTimestamp(doc.data().date)}</p>
+                            <p style="display: none;"><i class="fas fa-user" id="author">${doc.data().author}</i></p>
+                            <button class="save-button" id="saveButton">
+                                <i class="fas fa-bookmark"></i>
+                                <div class="fireworks"></div>
+                            </button>
+                            <button class="udostepnij-button" onclick="udostepnij('${doc.id}', event, this)">
+                                <i class="fas fa-share"></i>
+                                <div class="fireworks"></div>
+                                <div class="sukces-icon">
+                                    <i class="fas fa-check-circle"></i>
+                                </div>
+                            </button>
+
+                            ${user && (user.email === 'xajperminecraftyt@gmail.com') ? `<button class="delete-button" onclick="deleteArticle('${doc.id}')"><i class="fas fa-trash"></i></button>` : ''}
+                            ${user && (user.email === 'xajperminecraftyt@gmail.com') ? `<button class="edit-button" onclick="editArticle('${doc.id}')"><i class="fas fa-hand"></i></button>` : ''}
+                            <hr>
+                        `;
+
+                        polacyRodacySection.appendChild(polacyRodacyArticleElement);
+                    }
                 });
 
-                // Add the "Load More" button after all articles have been processed
-                articlesContainer.innerHTML += `<button class="load-more-btn" id="load-more-btn" onclick="loadMoreArticles()">Załaduj więcej</button>`;
-
-                // Check if loadMoreBtn is not null before accessing its style property
-                if (loadMoreBtn) {
-                    loadMoreBtn.style.display = querySnapshot.size >= currentBatch ? 'block' : 'none';
-                }
+                // Dodaj przycisk "Załaduj więcej" po dodaniu wszystkich artykułów
+                mainArticle.innerHTML += `<button class="load-more-btn" id="load-more-btn" onclick="loadMoreArticles()">Załaduj więcej</button>`;
             })
             .catch((error) => {
                 console.error('Error: ', error);
@@ -693,9 +739,9 @@ function displayArticles() {
             });
     });
 
-    // Update loading text every 500 milliseconds
+    // Aktualizuj tekst ładowania co 500 milisekund
     const loadingInterval = setInterval(updateLoadingText, 500);
-    updateLoadingText();  // Initial loading text
+    updateLoadingText();  // Początkowy tekst ładowania
 }
 
 function loadMoreArticles() {
@@ -1261,29 +1307,46 @@ document.getElementById('searchInput').addEventListener('input', function() {
 function sortArticles(order) {
     var articlesContainer = document.getElementById('main-article');
     var articles = articlesContainer.getElementsByClassName('article-link');
-
     var options = document.querySelectorAll('#sort-menu .option');
+
     options.forEach(function (opt) {
-      opt.classList.remove('selected');
+        opt.classList.remove('selected');
     });
 
     event.target.classList.add('selected');
 
+    var newestHeader = document.getElementById('newest-article-header');
+    
     var sortedArticles = Array.from(articles).sort(function (a, b) {
-      var dateA = new Date(a.getAttribute('data-date'));
-      var dateB = new Date(b.getAttribute('data-date'));
+        var dateA = new Date(a.getAttribute('data-date'));
+        var dateB = new Date(b.getAttribute('data-date'));
 
-      if (order === 'newest') {
-        return dateB - dateA;
-      } else if (order === 'oldest') {
-        return dateA - dateB;
-      }
+        if (order === 'newest') {
+            return dateB - dateA;
+        } else if (order === 'oldest') {
+            return dateA - dateB;
+        }
     });
 
     articlesContainer.innerHTML = '';
 
+    // Dodaj napis w h2 przed pierwszym artykułem
+    if (newestHeader) {
+        newestHeader.innerHTML = '<span>' + (order === 'newest' ? 'NAJNOWSZE' : 'NAJSTARSZE') + '</span>';
+        articlesContainer.appendChild(newestHeader);
+
+        // Dodaj odstęp między obrazem a h2
+        if (order === 'newest') {
+            var image = document.createElement('img');
+            image.src = 'najnowsze.png';
+            image.alt = 'NAJNOWSZE';
+            image.style.marginTop = '15px'; // Dodaj odstęp
+            articlesContainer.appendChild(image);
+        }
+    }
+
     sortedArticles.forEach(function (article) {
-      articlesContainer.appendChild(article.cloneNode(true));
+        articlesContainer.appendChild(article.cloneNode(true));
     });
 }
 
@@ -1352,8 +1415,6 @@ function toggleCommentSection(articleId) {
 
     // Display existing comments
     displayComments(articleId);
-
-    updateViewsCount(articleId);
 }
 
 async function displayComments(articleId) {
@@ -1438,17 +1499,7 @@ async function displayComments(articleId) {
     }
 }
 
-function setReplyToUser(username, articleId) {
-    const commentInput = document.getElementById(`comment-input-${articleId}`);
-
-    // Ustaw nazwę użytkownika w polu komentarza
-    commentInput.textContent = `@${username} `;
-    
-    // Ustaw focus na polu komentarza
-    commentInput.focus();
-}
-
-async function editComment(articleId, commentId, currentContent, editMode = false) {
+async function editComment(articleId, commentId, currentContent) {
     const newContent = prompt('Edytuj komentarz:', currentContent);
 
     if (newContent !== null) {
@@ -1460,24 +1511,32 @@ async function editComment(articleId, commentId, currentContent, editMode = fals
         }
 
         try {
-            if (editMode) {
-                // Edytuj treść komentarza w bazie danych
-                await db.collection('articles').doc(articleId).collection('comments').doc(commentId).update({
-                    content: newContent,
-                });
-                displayMessage('Komentarz został pomyślnie zaktualizowany.', 'success');
-            } else {
-                // Dodaj nowy komentarz w trybie odpowiedzi
-                await addCommentToArticle(articleId, { content: newContent });
-            }
+            // Aktualizuj treść komentarza w bazie danych
+            await db.collection('articles').doc(articleId).collection('comments').doc(commentId).update({
+                content: newContent,
+            });
+
+            // Wyświetl komunikat o pomyślnej edycji komentarza
+            displayMessage('Komentarz został pomyślnie zaktualizowany.', 'success');
 
             // Przeładuj komentarze
             displayComments(articleId);
         } catch (error) {
+            // Wyświetl komunikat o błędzie
             displayMessage('Błąd podczas aktualizacji komentarza.', 'danger');
             console.error('Błąd podczas aktualizacji komentarza:', error);
         }
     }
+}
+
+function setReplyToUser(username, articleId) {
+    const commentInput = document.getElementById(`comment-input-${articleId}`);
+
+    // Ustaw nazwę użytkownika w polu komentarza
+    commentInput.textContent = `@${username} `;
+    
+    // Ustaw focus na polu komentarza
+    commentInput.focus();
 }
 
 async function deleteComment(articleId, commentId) {
