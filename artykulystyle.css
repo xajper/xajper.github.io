@@ -1605,6 +1605,10 @@ nav ul li a:hover::before {
   margin: 10px;
 }
 
+#polacy-rodacy .article-link {
+  margin: 20px;
+}
+
 #polacy-rodacy::after {
   content: "";
   display: table;
