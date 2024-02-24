@@ -1489,16 +1489,111 @@ nav ul li a:hover::before {
   color: #000000;
 }
 
-#main-article {
-  flex-basis: 50%;
-  margin-right: 20px;
-}
-
 .container {
   display: flex;
   max-width: 1200px;
   width: 100%;
   margin: auto;
+  flex-wrap: wrap;
+}
+
+#main-article {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  margin-bottom: 10px; /* Nowy odstęp między main-article a polacy-rodacy */
+  width: 100%;
+  margin-right: 20px;
+}
+
+#main-article h2 {
+  position: relative;
+  background-color: #16cedb;
+  color: #fff;
+  padding: 10px;
+  border-radius: 8px 8px 8px 8px;
+  margin-left: -30px;
+  margin-right: 50px;
+}
+
+#newest-article-header {
+  margin-bottom: 20px; /* Dostosuj odstęp według potrzeb */
+}
+
+#newest-article-header::after {
+  content: "";
+  display: block;
+  clear: both; /* Dodaj czyszczenie po obu stronach, aby uniknąć problemów z układem float */
+}
+
+#main-article h2::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0; /* Zmienione z -30px na 0 */
+  width: 30px; /* Szerokość pseudoelementu (możesz dostosować) */
+  height: 30px; /* Wysokość pseudoelementu (możesz dostosować) */
+  background: url('najnowsze.png') no-repeat center center;
+  background-size: contain;
+  transform: translateY(-50%);
+  border-radius: 8px 0 0 8px; /* Zaokrąglenie lewego górnego rogu */
+  margin-left: 15px; /* Dodane, aby przesunąć obraz w prawo */
+}
+
+#main-article h2 span {
+  display: inline-block;
+  margin-left: 40px; /* Dostosuj odległość tekstu od obrazu */
+}
+
+#polacy-rodacy {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  padding: 10px;
+  width: 65%; /* Ustawienie szerokości sekcji "polacy-rodacy" */
+  float: left; /* Ustawienie obok siebie */
+  margin-top: 10px;
+  margin-bottom: 50px;
+}
+
+#naj {
+  padding: 10px;
+  width: 30%; /* Ustawienie szerokości sekcji "naj" */
+  float: left; /* Ustawienie obok sekcji "polacy-rodacy" */
+  margin-left: 10px;
+}
+
+#polacy-rodacy h2 {
+  position: relative;
+  background-color: #16cedb;
+  color: #fff;
+  padding: 10px;
+  border-radius: 8px 8px 8px 8px;
+  margin-left: -20px;
+  margin-right: 50px;
+}
+
+#polacy-rodacy h2::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0; /* Zmienione z -30px na 0 */
+  width: 30px; /* Szerokość pseudoelementu (możesz dostosować) */
+  height: 30px; /* Wysokość pseudoelementu (możesz dostosować) */
+  background: url('polacyrodacy.png') no-repeat center center;
+  background-size: contain;
+  transform: translateY(-50%);
+  border-radius: 8px 0 0 8px; /* Zaokrąglenie lewego górnego rogu */
+  margin-left: 15px; /* Dodane, aby przesunąć obraz w prawo */
+}
+
+#polacy-rodacy h2 span {
+  display: inline-block;
+  margin-left: 40px; /* Dostosuj odległość tekstu od obrazu */
+}
+
+
+/* Dodatkowy styl dla elementów li w sekcji polacy-rodacy */
+#polacy-rodacy ul li {
+  list-style-type: none;
+  margin-bottom: 15px;
 }
 
 h3 a {
@@ -1512,6 +1607,7 @@ h3 a {
   color: inherit;
   position: relative;
   padding: 5px;
+  margin-bottom: 25px;
   transition: background-color 0.5s ease, border-radius 0.5s ease, box-shadow 0.5s ease;
 }
 
@@ -1565,11 +1661,13 @@ hr {
 }
 
 .sidebar {
-  float: right;
-  width: 30%;
-  padding: 20px;
-  flex-direction: column;
-  margin-right: 20px;
+  flex-basis: calc(66.66% - 20px);
+}
+
+.article {
+  flex-basis: calc(33.33% - 20px);
+
+  margin-bottom: 15px;
 }
 
 #latest-articles-list,
@@ -1580,7 +1678,6 @@ hr {
   margin-bottom: 20px;
   padding: 20px;
   text-align: left;
-  flex-basis: 25%;
 }
 
 #latest-articles-list h2,
@@ -1692,13 +1789,6 @@ hr {
 
 #verification-code {
   width: 150px;
-}
-
-article {
-  margin: 20px;
-  padding: 20px;
-  background-color: #fff;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
 #main-article.loading::before {
