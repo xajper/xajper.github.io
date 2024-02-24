@@ -1500,7 +1500,7 @@ nav ul li a:hover::before {
 #main-article {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   padding: 20px;
-  margin-bottom: 10px; /* Nowy odstęp między main-article a polacy-rodacy */
+  margin-bottom: 10px;
   width: 100%;
   margin-right: 20px;
 }
