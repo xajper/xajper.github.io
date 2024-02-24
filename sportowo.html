@@ -217,7 +217,8 @@
     </nav>
   </header>
 
-  <div class="container">
+  <div class="container" id="articles-container">
+    <!-- Sekcja Sortowania i Filtrów -->
     <div class="sort-filter-container">
       <div id="filter-icon" onclick="toggleSortMenu(this)">
         <i class="fas fa-sort-amount-up"></i>
@@ -227,47 +228,56 @@
         <div class="option" onclick="sortArticles('oldest')">Najstarsze</div>
       </div>
     </div>
-    <article id="main-article">
 
-    </article>
+    <div id="main-article">
+      <h2><span>NAJNOWSZE</span></h2>
+    </div>
+
+    <div id="polacy-rodacy">
+      <h2 id="newest-article-header"><span>NAJNOWSZE</span></h2>
+      <ul></ul>
+    </div>
+
+    <div id="naj">
+      <div class="sidebar">
+        <div id="latest-articles-list">
+          <h2>OSTATNIE</h2>
+          <ul></ul>
+        </div>
     
-    <div class="sidebar">
-            <div id="latest-articles-list">
-              <h2>OSTATNIE</h2>
-              <ul></ul>
-            </div>
+        <!-- Sekcja Popularnych Artykułów -->
+        <div id="popular-articles-list">
+          <h2>POPULARNE</h2>
+          <ul></ul>
+        </div>
 
-            <div id="popular-articles-list">
-                <h2>POPULARNE</h2>
-                <ul></ul>
-            </div>
-
-            <div id="article-tags">
-                <h2>TAGI</h2>
-                <ul>
-                  <li><a href="#" onclick="sortByTag('NOWE')">NOWE</a></li>
-                  <li><a href="#" onclick="sortByTag('INNE')">INNE</a></li>
-                  <li><a href="#" onclick="sortByTag('POPULARNE')">POPULARNE</a></li>
-                  <li><a href="#" onclick="sortByTag('KOLARSTWO')">KOLARSTWO</a></li>
-                  <li><a href="#" onclick="sortByTag('E-SPORT')">E-SPORT</a></li>
-                  <li><a href="#" onclick="sortByTag('PIŁKA NOŻNA')">PIŁKA NOŻNA</a></li>
-                  <li><a href="#" onclick="sortByTag('LEKKOATLETYKA')">LEKKOATLETYKA</a></li>
-                  <li><a href="#" onclick="sortByTag('TENIS')">TENIS</a></li>
-                  <li><a href="#" onclick="sortByTag('KOSZYKÓWKA')">KOSZYKÓWKA</a></li>
-                  <li><a href="#" onclick="sortByTag('SIATKÓWKA')">SIATKÓWKA</a></li>
-                  <li><a href="#" onclick="sortByTag('PIŁKA RĘCZNA')">PIŁKA RĘCZNA</a></li>
-                  <li><a href="#" onclick="sortByTag('PŁYWANIE')">PŁYWANIE</a></li>
-                  <li><a href="#" onclick="sortByTag('ŻUŻEL')">ŻUŻEL</a></li>
-                  <li><a href="#" onclick="sortByTag('SPORTY ZIMOWE')">SPORTY ZIMOWE</a></li>
-                  <li><a href="#" onclick="sortByTag('SKOKI NARCIARSKIE')">SKOKI NARCIARSKIE</a></li>
-                  <li><a href="#" onclick="sortByTag('BIEGI NARCAIRSKIE')">BIEGI NARCAIRSKIE</a></li>
-                  <li><a href="#" onclick="sortByTag('BIATHLON')">BIATHLON</a></li>
-                  <li><a href="#" onclick="sortByTag('HOKEJ')">HOKEJ</a></li>
-                  <li><a href="#" onclick="sortByTag('ŁYŻWIARTSWO')">ŁYŻWIARTSWO</a></li>
-                  <li><a href="#" onclick="sortByTag('ŁYŻWIARTSWO')">POLACY RODACY</a></li>
-                </ul>
-            </div>
+        <div id="article-tags">
+          <h2>TAGI</h2>
+          <ul>
+            <li><a href="#" onclick="sortByTag('NOWE')">NOWE</a></li>
+            <li><a href="#" onclick="sortByTag('INNE')">INNE</a></li>
+            <li><a href="#" onclick="sortByTag('POPULARNE')">POPULARNE</a></li>
+            <li><a href="#" onclick="sortByTag('KOLARSTWO')">KOLARSTWO</a></li>
+            <li><a href="#" onclick="sortByTag('E-SPORT')">E-SPORT</a></li>
+            <li><a href="#" onclick="sortByTag('PIŁKA NOŻNA')">PIŁKA NOŻNA</a></li>
+            <li><a href="#" onclick="sortByTag('LEKKOATLETYKA')">LEKKOATLETYKA</a></li>
+            <li><a href="#" onclick="sortByTag('TENIS')">TENIS</a></li>
+            <li><a href="#" onclick="sortByTag('KOSZYKÓWKA')">KOSZYKÓWKA</a></li>
+            <li><a href="#" onclick="sortByTag('SIATKÓWKA')">SIATKÓWKA</a></li>
+            <li><a href="#" onclick="sortByTag('PIŁKA RĘCZNA')">PIŁKA RĘCZNA</a></li>
+            <li><a href="#" onclick="sortByTag('PŁYWANIE')">PŁYWANIE</a></li>
+            <li><a href="#" onclick="sortByTag('ŻUŻEL')">ŻUŻEL</a></li>
+            <li><a href="#" onclick="sortByTag('SPORTY ZIMOWE')">SPORTY ZIMOWE</a></li>
+            <li><a href="#" onclick="sortByTag('SKOKI NARCIARSKIE')">SKOKI NARCIARSKIE</a></li>
+            <li><a href="#" onclick="sortByTag('BIEGI NARCAIRSKIE')">BIEGI NARCAIRSKIE</a></li>
+            <li><a href="#" onclick="sortByTag('BIATHLON')">BIATHLON</a></li>
+            <li><a href="#" onclick="sortByTag('HOKEJ')">HOKEJ</a></li>
+            <li><a href="#" onclick="sortByTag('ŁYŻWIARTSWO')">ŁYŻWIARTSWO</a></li>
+            <li><a href="#" onclick="sortByTag('ŁYŻWIARTSWO')">POLACY RODACY</a></li>
+          </ul>
+        </div>
       </div>
+    </div>
   </div>
 
   <footer>
