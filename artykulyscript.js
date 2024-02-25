@@ -23,30 +23,26 @@ auth.onAuthStateChanged(user => {
     const editArticleBtn = document.getElementById('edit-article-btn');
 
     if (user) {
-        // Jeśli użytkownik jest zalogowany, sprawdź jego adres e-mail
         const allowedEmails = ['xajperminecraftyt@gmail.com'];
 
         if (allowedEmails.includes(user.email)) {
-            // Jeśli adres e-mail jest na liście dozwolonych, pokaż przycisk addArticleBtn
+
             addArticleBtn.style.display = 'block';
 
             if (user.email === 'xajperminecraftyt@gmail.com') {
-                // Jeśli użytkownik to Xajper, pokaż formularz artykułu
+
             } else {
-                // Jeśli użytkownik to inny dziennikarz, ukryj formularz artykułu
                 articleForm.style.display = 'none';
                 deleteArticleBtn.style.display = 'none';
                 editArticleBtn.style.display = 'none';
             }
         } else {
-            // Jeśli adres e-mail nie jest na liście dozwolonych, ukryj przycisk addArticleBtn
             addArticleBtn.style.display = 'none';
             articleForm.style.display = 'none';
             deleteArticleBtn.style.display = 'none';
             editArticleBtn.style.display = 'none';
         }
     } else {
-        // Jeśli użytkownik nie jest zalogowany, ukryj przycisk addArticleBtn
         addArticleBtn.style.display = 'none';
         articleForm.style.display = 'none';
         deleteArticleBtn.style.display = 'none';
@@ -57,40 +53,37 @@ auth.onAuthStateChanged(user => {
 var overlay = document.getElementById("overlay");
 var overlayContent = document.getElementById("overlay-content");
 
-// Dodaj zdarzenie mousemove do overlay
 overlay.addEventListener("mousemove", function(e) {
-  // Sprawdź, czy kursor znajduje się w lewej części overlay
+
   if (e.clientX < overlay.offsetLeft + 10) {
-    // Ustaw kursor na wskaźnik zmiany rozmiaru
+
     overlay.style.cursor = "ew-resize";
-    // Dodaj zdarzenie mousedown do overlay
+
     overlay.addEventListener("mousedown", function() {
-      // Dodaj zdarzenie mousemove do document
+
       document.addEventListener("mousemove", resizeOverlay);
-      // Dodaj zdarzenie mouseup do document
+
       document.addEventListener("mouseup", stopResize);
     });
   } else {
-    // Ustaw kursor na domyślny
+
     overlay.style.cursor = "default";
   }
 });
 
-// Funkcja do zmiany szerokości overlay
 function resizeOverlay(e) {
-  // Oblicz nową szerokość overlay
+
   var newWidth = window.innerWidth - e.clientX;
-  // Ustaw minimalną i maksymalną szerokość overlay
+
   if (newWidth > 100 && newWidth < window.innerWidth - 100) {
-    // Zmień szerokość overlay i overlay-content
+
     overlay.style.width = newWidth + "px";
     overlayContent.style.width = newWidth - 20 + "px";
   }
 }
 
-// Funkcja do zatrzymania zmiany rozmiaru overlay
 function stopResize() {
-  // Usuń zdarzenia mousemove i mouseup z document
+
   document.removeEventListener("mousemove", resizeOverlay);
   document.removeEventListener("mouseup", stopResize);
 }
@@ -137,8 +130,7 @@ function submitForm(e) {
     e.preventDefault();
   
     var email = getElementVal("email");
-  
-    // Dodane sprawdzanie, czy email już istnieje w bazie danych
+
     checkIfEmailExists(email)
       .then((exists) => {
         if (!exists) {
@@ -154,9 +146,8 @@ function submitForm(e) {
   
           document.getElementById("subscribersForm").reset();
         } else {
-          // Informacja, że email już istnieje
+
           displayMessage('Na tym adresie został już aktywowany Newsletter.', 'danger');
-          // Tutaj można dodać kod do wyświetlenia komunikatu użytkownikowi
         }
       })
       .catch((error) => {
@@ -175,8 +166,7 @@ const saveMessages = (email) => {
 const getElementVal = (id) => {
     return document.getElementById(id).value;
 };
-  
-  // Funkcja sprawdzająca, czy email już istnieje w bazie danych
+
 const checkIfEmailExists = (email) => {
     return new Promise((resolve, reject) => {
       subscribersDB.orderByChild("email").equalTo(email).once("value")
@@ -210,14 +200,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 addArticleBtn.addEventListener('click', () => {
-    // Sprawdzamy, czy użytkownik jest zalogowany
+
     const user = auth.currentUser;
 
     if (user && (user.email === 'xajperminecraftyt@gmail.com')) {
-        // Jeśli użytkownik jest zalogowany i to jest konto Xajpera, wywołujemy funkcję dodawania artykułu
+
         articleForm.style.display = 'block';
     } else {
-        // Jeśli użytkownik nie jest zalogowany lub to nie jest konto Xajpera, wywołujemy funkcję logowania
         loginUser();
     }
 });
@@ -264,7 +253,7 @@ function checkUserAuthentication() {
     const user = JSON.parse(localStorage.getItem('loggedInUser'));
 
     if (user && (user.email === 'xajperminecraftyt@gmail.com')) {
-        // Ustaw widoczność odpowiednich elementów na stronie (dodaj swoje odpowiednie operacje)
+
         const addArticleBtn = document.getElementById('add-article-btn');
         const articleForm = document.getElementById('article-form');
         const deleteArticleBtn = document.getElementById('delete-article-btn');
@@ -297,12 +286,12 @@ function getAuthor() {
                 return 'Xajper';
             case 'Ppixelator@gmail.com':
                 return 'Ksaveriusz';
-            // Dodaj kolejne przypadki dla innych autorów, jeśli są potrzebne
+
             default:
-                return 'Autor'; // Domyślna wartość, gdyby nie pasował żaden z powyższych przypadków
+                return 'Autor';
         }
     } else {
-        return 'Autor'; // Domyślna wartość, gdy użytkownik nie jest zalogowany
+        return 'Autor';
     }
 }
 
@@ -382,7 +371,6 @@ async function addArticle() {
     const imageInput = document.getElementById('article-image');
     const selectedTags = getSelectedTags();
 
-    // Zamień znaki nowej linii na tagi <br> w HTML
     content = content.split('\n').join('<br>');
 
     if (selectedTags.length === 0) {
@@ -392,11 +380,11 @@ async function addArticle() {
     }
 
     try {
-        // Check if an article with the same title already exists
+
         const existingArticle = await db.collection('articles').where('title', '==', title).get();
 
         if (!existingArticle.empty) {
-            // Display an error message if an article with the same title exists
+
             displayMessage('Artykuł o tym samym tytule już istnieje.', 'danger');
             addArticleBtn.disabled = false;
             return;
@@ -425,10 +413,8 @@ async function addArticle() {
                         const { nextNumber, addedArticleId } = await getNextArticleNumber(title);
                         const author = getAuthor();
 
-                        // Timestamp when the article is added
                         const newArticleTimestamp = new Date().getTime();
 
-                        // Dodawanie artykułu do kolekcji 'articles'
                         db.collection('articles')
                             .doc(addedArticleId)
                             .set({
@@ -443,7 +429,7 @@ async function addArticle() {
                                 newArticleTimestamp: newArticleTimestamp,
                             })
                             .then(() => {
-                                // Add the title after "CZYTAJ DALEJ:" in the content
+
                                 content += '\n\nCZYTAJ DALEJ: ' + title;
 
                                 resetSelectedTags();
@@ -454,14 +440,12 @@ async function addArticle() {
                                 displayMessage('Artykuł dodany pomyślnie! +5pkt', 'success');
                                 addArticleBtn.disabled = false;
 
-                                // Dodawanie kolekcji komentarzy dla każdego artykułu
                                 db.collection('articles').doc(addedArticleId).collection('comments').add({
                                     author: author,
                                     content: 'Mamy nadzieję, że artykuł wam się spodobał',
                                     date: new Date().toISOString(),
                                 });
 
-                                // Wyświetl listę artykułów po dodaniu artykułu
                                 displayArticles();
                                 displayLatestArticles();
                                 getArticlesCount();
@@ -507,7 +491,7 @@ function previewArticle() {
     }
 
     const title = titleElement.value;
-    const content = parseContent(contentElement.value); // Użyj funkcji parseContent do formatowania treści
+    const content = parseContent(contentElement.value);
     const selectedTags = getSelectedTags();
 
     const previewSection = document.getElementById('preview-section');
@@ -518,7 +502,6 @@ function previewArticle() {
         return;
     }
 
-    // Wygeneruj HTML z wybranymi tagami
     const tagsHtml = selectedTags.map(tag => `<span class="tag">${tag}</span>`).join('');
 
     previewContent.innerHTML = `
@@ -531,9 +514,9 @@ function previewArticle() {
 }
 
 function parseContent(content) {
-    // Przetwarzanie treści artykułu
+
     const formattedContent = content
-        .replace(/(?:\r\n|\r|\n)/g, '<br>') // Zamień nowe linie na tagi <br>
+        .replace(/(?:\r\n|\r|\n)/g, '<br>') // Linijka niżej (taki enter)
         .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') // Pogrubienie
         .replace(/__(.*?)__/g, '<u>$1</u>') // Podkreślenie
         .replace(/\*(.*?)\*/g, '<em>$1</em>') // Kursywa
@@ -583,7 +566,6 @@ function generateArticleIdFromTitle(title) {
         'ż': 'z',
     };
 
-    // Replace Polish characters with non-accented counterparts
     return title
         .replace(/[ąćęłńóśźż]/g, char => polishCharacters[char] || char)
         .toLowerCase()
@@ -602,8 +584,8 @@ function displayArticles() {
     const column2 = document.getElementById('column2');
 
     mainArticle.classList.add('loading');
-    column1.querySelector('ul').innerHTML = '';  // Wyczyszczenie listy przed dodaniem nowych artykułów
-    column2.querySelector('ul').innerHTML = '';  // Wyczyszczenie listy przed dodaniem nowych artykułów
+    column1.querySelector('ul').innerHTML = '';
+    column2.querySelector('ul').innerHTML = '';
 
     const loadingText = document.createElement('div');
     loadingText.id = 'loading-text';
@@ -625,7 +607,7 @@ function displayArticles() {
     auth.onAuthStateChanged(user => {
         db.collection('articles')
             .orderBy('date', 'desc')
-            .limit(6)  // Wyświetl pięć najnowszych artykułów
+            .limit(6)
             .get()
             .then((querySnapshot) => {
                 mainArticle.innerHTML = '';
@@ -727,15 +709,12 @@ function displayArticles() {
                             <hr>
                         `;
 
-                        // Dodawanie do odpowiedniej kolumny
                         currentColumn.querySelector('ul').appendChild(polacyRodacyArticleElement);
 
-                        // Zmiana kolumny dla następnego artykułu
                         currentColumn = currentColumn === column1 ? column2 : column1;
                     }
                 });
 
-                // Dodaj przycisk "Załaduj więcej" po dodaniu wszystkich artykułów
                 mainArticle.innerHTML += `<button class="load-more-btn" id="load-more-btn" onclick="loadMoreArticles()">Załaduj więcej</button>`;
             })
             .catch((error) => {
@@ -748,9 +727,8 @@ function displayArticles() {
             });
     });
 
-    // Aktualizuj tekst ładowania co 500 milisekund
     const loadingInterval = setInterval(updateLoadingText, 500);
-    updateLoadingText();  // Początkowy tekst ładowania
+    updateLoadingText();
 }
 
 function loadMoreArticles() {
@@ -759,7 +737,6 @@ function loadMoreArticles() {
 }
 
 function sortByTag(tag) {
-    // Zaznacz kliknięty tag
     const tagLinks = document.querySelectorAll('#article-tags li a');
     tagLinks.forEach(tagLink => {
         tagLink.classList.remove('clicked');
@@ -795,7 +772,6 @@ function editArticle(articleId) {
     console.log(articleId);
     const articleRef = db.collection('articles').doc(articleId);
 
-    // Pobierz referencje do elementów formularza
     const editedTitleInput = document.getElementById('edited-article-title');
     const editedContentInput = document.getElementById('edited-article-content');
     const editedImageInput = document.getElementById('edited-article-image');
@@ -803,12 +779,9 @@ function editArticle(articleId) {
     articleRef.get()
         .then((doc) => {
             if (doc.exists) {
-                // Ustaw wartości pól formularza na aktualne wartości artykułu
                 editedTitleInput.value = doc.data().title;
                 editedContentInput.value = doc.data().content;
-                // Możesz dodać inne pola, jeśli są dostępne w formularzu
 
-                // Wyświetl formularz edycji
                 displayEditForm();
             } else {
                 console.log('Artykuł nie istnieje');
@@ -820,13 +793,10 @@ function editArticle(articleId) {
 }
   
 function displayEditForm() {
-    // Ukryj formularz dodawania artykułu
     document.getElementById('article-form').style.display = 'none';
-  
-    // Pobierz referencje do elementów formularza edycji
+
     const editForm = document.getElementById('edit-article-form');
-  
-    // Wyświetl formularz edycji
+
     editForm.style.display = 'block';
 }
   
@@ -850,7 +820,6 @@ function saveEditedArticle(articleId) {
                     };
 
                     if (editedImageInput.files.length > 0) {
-                        // If a new image is selected, upload it
                         const editedImageFile = editedImageInput.files[0];
                         const storageRef = firebase.storage().ref('article_images/' + editedImageFile.name);
                         const uploadTask = storageRef.put(editedImageFile);
@@ -858,14 +827,13 @@ function saveEditedArticle(articleId) {
                         uploadTask.on(
                             'state_changed',
                             (snapshot) => {
-                                // Handle upload progress if needed
+
                             },
                             (error) => {
                                 console.error('Error: ', error);
                                 displayMessage('Błąd podczas ładowania obrazu.', 'danger');
                             },
                             () => {
-                                // After successful upload, get the download URL
                                 uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
                                     updateData.image = downloadURL;
                                     updateArticle(articleId, updateData);
@@ -873,7 +841,6 @@ function saveEditedArticle(articleId) {
                             }
                         );
                     } else {
-                        // If no new image is selected, update only text data
                         updateArticle(articleId, updateData);
                     }
                 } else {
@@ -922,14 +889,13 @@ async function deleteArticle(articleId) {
         const confirmed = confirm('Czy na pewno chcesz usunąć ten artykuł?');
 
         if (confirmed) {
-            // Usuwanie komentarzy z kolekcji 'comments' związanych z danym artykułem
+
             const commentsQuerySnapshot = await db.collection('articles').doc(articleId).collection('comments').get();
             
             commentsQuerySnapshot.forEach(async (commentDoc) => {
                 await commentDoc.ref.delete();
             });
 
-            // Usuwanie samego artykułu z kolekcji 'articles'
             db.collection('articles').doc(articleId).delete()
                 .then(() => {
                     displayMessage('Artykuł usunięty pomyślnie!', 'success');
@@ -968,11 +934,9 @@ function displayLatestArticles() {
                 a.href = `?artykul=${articleId}`;
                 a.textContent = doc.data().title;
 
-                // Dodaj tutaj funkcję articleaddedit, przekazując odpowiednie wartości
                 a.onclick = function (event) {
                     event.preventDefault();
 
-                    // Set id attribute on the li element based on doc.id
                     if (!document.getElementById(articleId)) {
                         li.setAttribute('id', articleId);
                     }
@@ -993,7 +957,7 @@ function displayPopularArticles() {
     const popularArticlesList = document.getElementById('popular-articles-list').getElementsByTagName('ul')[0];
 
     db.collection('articles')
-        .orderBy('views', 'desc') // Załóżmy, że masz pole 'views' w dokumentach reprezentujących artykuły
+        .orderBy('views', 'desc')
         .limit(3)
         .get()
         .then((querySnapshot) => {
@@ -1007,11 +971,9 @@ function displayPopularArticles() {
                 a.href = `?artykul=${articleId}`;
                 a.textContent = doc.data().title;
 
-                // Dodaj tutaj funkcję articleaddedit, przekazując odpowiednie wartości
                 a.onclick = function (event) {
                     event.preventDefault();
 
-                    // Set id attribute on the li element based on doc.id
                     if (!document.getElementById(articleId)) {
                         li.setAttribute('id', articleId);
                     }
@@ -1078,13 +1040,11 @@ function getSelectedTags() {
     return selectedTags;
 }
 
-// Pobierz liczbę artykułów z bazy danych Firebase
 async function getArticlesCount() {
     try {
         const articlesQuerySnapshot = await db.collection('articles').get();
         const articlesCount = articlesQuerySnapshot.size;
 
-        // Wyświetl informację o liczbie artykułów na stronie
         articlesCountElement.textContent = "("+articlesCount +")";
     } catch (error) {
         console.error('Błąd podczas pobierania liczby artykułów:', error);
@@ -1257,11 +1217,10 @@ function checkImageLoaded(img) {
   };
 
   img.onerror = function () {
-    removePlaceholder(); // Usuń placeholder nawet jeśli wystąpi błąd ładowania obrazu
+    removePlaceholder();
   };
 
   img.addEventListener("animationend", function () {
-    // Zakończenie animacji również powinno spowodować usunięcie placeholdera
     removePlaceholder();
   });
 }
@@ -1289,12 +1248,10 @@ function udostepnij(artykulId, event, button) {
 
     var currentUrl = window.location.href.split('?')[0] + '?artykul=' + artykulId;
 
-    // Copy to clipboard
     copyToClipboard(currentUrl);
 
     updateViewsCount(artykulId);
 
-    // Update URL without page reload
     history.pushState({}, '', currentUrl);
 }
 
@@ -1339,17 +1296,15 @@ function sortArticles(order) {
 
     articlesContainer.innerHTML = '';
 
-    // Dodaj napis w h2 przed pierwszym artykułem
     if (newestHeader) {
         newestHeader.innerHTML = '<span>' + (order === 'newest' ? 'NAJNOWSZE' : 'NAJSTARSZE') + '</span>';
         articlesContainer.appendChild(newestHeader);
 
-        // Dodaj odstęp między obrazem a h2
         if (order === 'newest') {
             var image = document.createElement('img');
             image.src = 'najnowsze.png';
             image.alt = 'NAJNOWSZE';
-            image.style.marginTop = '15px'; // Dodaj odstęp
+            image.style.marginTop = '15px';
             articlesContainer.appendChild(image);
         }
     }
@@ -1365,17 +1320,14 @@ function toggleSortMenu(element) {
     element.classList.toggle('rotate');
 }
 
-// Display comments for a specific article
 function toggleCommentSection(articleId) {
     var existingOverlay = document.getElementById(`comment-overlay-${articleId}`);
 
-    // If overlay already exists, remove it
     if (existingOverlay) {
         existingOverlay.remove();
         return;
     }
 
-    // Create new overlay
     var overlay = document.createElement('div');
     overlay.id = `comment-overlay-${articleId}`;
     overlay.className = 'overlay';
@@ -1386,7 +1338,6 @@ function toggleCommentSection(articleId) {
     var commentOverlay = document.createElement('div');
     commentOverlay.className = 'comment-overlay';
 
-    // Add content to the comment overlay
     commentOverlay.innerHTML = `
         <div id="comments-section">
             <div>
@@ -1416,19 +1367,16 @@ function toggleCommentSection(articleId) {
         </div>
     `;
 
-    // Append the comment overlay to the overlay
     overlay.appendChild(commentOverlay);
 
-    // Append the overlay to the body
     document.body.appendChild(overlay);
 
-    // Display existing comments
     displayComments(articleId);
 }
 
 async function displayComments(articleId) {
     const commentsContainer = document.getElementById(`commentsList-${articleId}`);
-    commentsContainer.innerHTML = ''; // Clear existing comments
+    commentsContainer.innerHTML = '';
 
     try {
         const commentsSnapshot = await db.collection('articles').doc(articleId).collection('comments').get();
@@ -1440,24 +1388,20 @@ async function displayComments(articleId) {
                 const commentDiv = document.createElement('div');
                 commentDiv.className = 'comment';
 
-                // Dodaj obrazek użytkownika przed nazwą komentującego
                 const userImage = document.createElement('img');
-                userImage.src = 'userlogocomment.png'; // Zmień na odpowiednią ścieżkę do obrazka
+                userImage.src = 'userlogocomment.png';
                 userImage.alt = 'Użytkownik';
                 userImage.className = 'user-image-comment';
                 commentDiv.appendChild(userImage);
 
-                // Dodaj nazwę komentującego i treść komentarza
                 commentDiv.innerHTML += `
                     <p><strong>${commentData.author}:</strong> ${commentData.content}</p>
                     <small><i class="far fa-clock"></i> ${new Date(commentData.date).toLocaleString()}</small>
                 `;
 
-                // Kontener przycisków
                 const buttonContainer = document.createElement('div');
                 buttonContainer.classList.add('button-container');
 
-                // Przycisk usuwania tylko dla autora komentarza
                 if (currentUser && currentUser.email === commentData.author) {
                     const deleteButton = document.createElement('button');
                     deleteButton.innerHTML = '<i class="fas fa-trash"></i>';
@@ -1466,7 +1410,6 @@ async function displayComments(articleId) {
                     buttonContainer.appendChild(deleteButton);
                 }
 
-                // Przycisk edycji tylko dla autora komentarza
                 if (currentUser && currentUser.email === commentData.author) {
                     const editButton = document.createElement('button');
                     editButton.innerHTML = '<i class="fas fa-edit"></i>';
@@ -1475,7 +1418,6 @@ async function displayComments(articleId) {
                     buttonContainer.appendChild(editButton);
                 }
 
-                // Przycisk odpowiedzi
                 const replyButton = document.createElement('button');
                 replyButton.innerHTML = '<i class="fas fa-reply"></i> Odpowiedz';
                 replyButton.classList.add('reply-buttoncomment');
@@ -1483,24 +1425,19 @@ async function displayComments(articleId) {
                 replyButton.onclick = () => setReplyToUser(commentData.author, articleId);
                 buttonContainer.appendChild(replyButton);
 
-                // Dodaj kontener przycisków do komentarza
                 commentDiv.appendChild(buttonContainer);
 
-                // Dodaj poziomą linię między komentarzami, z wyjątkiem ostatniego
                 if (index < commentsSnapshot.size - 1) {
                     const horizontalLine = document.createElement('hr');
                     commentDiv.appendChild(horizontalLine);
                 }
 
-                // Dodaj komentarz do kontenera komentarzy
                 commentsContainer.appendChild(commentDiv);
             });
 
-            // Ustaw maksymalną wysokość i właściwość overflow-y, aby umożliwić przewijanie
-            commentsContainer.style.maxHeight = '300px'; // Dostosuj maksymalną wysokość, jeśli to konieczne
+            commentsContainer.style.maxHeight = '300px';
             commentsContainer.style.overflowY = 'auto';
         } else {
-            // Jeżeli brak komentarzy, wyświetl informację
             commentsContainer.innerHTML = '<p>Brak komentarzy.</p>';
         }
     } catch (error) {
@@ -1520,18 +1457,14 @@ async function editComment(articleId, commentId, currentContent) {
         }
 
         try {
-            // Aktualizuj treść komentarza w bazie danych
             await db.collection('articles').doc(articleId).collection('comments').doc(commentId).update({
                 content: newContent,
             });
 
-            // Wyświetl komunikat o pomyślnej edycji komentarza
             displayMessage('Komentarz został pomyślnie zaktualizowany.', 'success');
 
-            // Przeładuj komentarze
             displayComments(articleId);
         } catch (error) {
-            // Wyświetl komunikat o błędzie
             displayMessage('Błąd podczas aktualizacji komentarza.', 'danger');
             console.error('Błąd podczas aktualizacji komentarza:', error);
         }
@@ -1541,10 +1474,8 @@ async function editComment(articleId, commentId, currentContent) {
 function setReplyToUser(username, articleId) {
     const commentInput = document.getElementById(`comment-input-${articleId}`);
 
-    // Ustaw nazwę użytkownika w polu komentarza
     commentInput.textContent = `@${username} `;
-    
-    // Ustaw focus na polu komentarza
+
     commentInput.focus();
 }
 
@@ -1562,15 +1493,11 @@ async function deleteComment(articleId, commentId) {
         if (commentRef.exists) {
             const commentData = commentRef.data();
 
-            // Sprawdź, czy użytkownik jest autorem komentarza
             if (currentUser.email === commentData.author) {
-                // Usuń komentarz
                 await db.collection('articles').doc(articleId).collection('comments').doc(commentId).delete();
 
-                // Aktualizuj widok komentarzy po usunięciu
                 displayComments(articleId);
 
-                // Dodatkowe akcje, jeśli potrzebne
                 displayMessage('Komentarz usunięty pomyślnie. -5pkt', 'success');
                 subtractPointsFromUser(currentUser.uid, 5);
                 subtractPointsFromUser(currentUser.uid, 1);
@@ -1589,7 +1516,6 @@ async function deleteComment(articleId, commentId) {
 }
 
 function reactToArticle(articleId, reaction) {
-    // You can perform any logic here based on the reaction (e.g., send to server, update UI)
     console.log(`Reakcja do artykułu: ${articleId}: ${reaction}`);
 }
 
@@ -1598,10 +1524,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     reactionButtons.forEach(function (button) {
         button.addEventListener('click', function () {
-            // Get the reaction type from the button's data-reaction attribute
             const reactionType = button.getAttribute('data-reaction');
-            
-            // Handle +1 animation and show notification here
             reactToArticle(articleId, reactionType);
         });
     });
@@ -1613,35 +1536,30 @@ document.addEventListener('DOMContentLoaded', function () {
 
         document.body.appendChild(reactionNotification);
 
-        // Use a class to trigger the fade-out animation
         setTimeout(function () {
             reactionNotification.classList.add('fade-out');
-        }, 1000); // Adjust the delay as needed
+        }, 1000);
 
-        // Remove the notification after the animation duration
         setTimeout(function () {
             document.body.removeChild(reactionNotification);
-        }, 1500); // Adjust the duration as needed
+        }, 1500);
     }
 
     function reactToArticle(articleId, reaction) {
-        // Perform any logic here based on the reaction (e.g., send to server, update UI)
         console.log(`Reakcja do artykułu: ${articleId}: ${reaction}`);
 
-        // Display the +1 notification
         showReactionNotification('+1');
     }
 });
 
 async function addCommentToArticle(articleId, event) {
-    event.preventDefault(); // Prevent the default form submission behavior
+    event.preventDefault();
 
     const user = auth.currentUser;
     const commentInput = document.getElementById(`comment-input-${articleId}`);
-    const commentText = commentInput.textContent; // Use textContent instead of value for contenteditable elements
+    const commentText = commentInput.textContent;
 
     if (user) {
-        // User is logged in, proceed with adding the comment
         db.collection('articles').doc(articleId).collection('comments').add({
             author: user.email,
             content: commentText,
@@ -1649,8 +1567,8 @@ async function addCommentToArticle(articleId, event) {
         })
         .then(() => {
             displayMessage('Komentarz dodany pomyślnie! +5pkt', 'success');
-            displayComments(articleId); // Display comments after adding a new one
-            commentInput.textContent = '';  // Clear the div content after successful comment submission
+            displayComments(articleId);
+            commentInput.textContent = '';
             addPointsToUser(user.uid, 5);
             addCommentsToUser(user.uid, 1);
         })
@@ -1659,9 +1577,7 @@ async function addCommentToArticle(articleId, event) {
             console.error('Błąd podczas dodawania komentarza:', error);
         });
     } else {
-        // User is not logged in, prompt them to log in
         displayMessage('Musisz być zalogowany, aby dodać komentarz.', 'danger');
-        // Optionally, you can show a message to the user or redirect them to the login page.
     }
 }
 
@@ -1766,16 +1682,14 @@ function zobacz(articleId, addedArticleId) {
     var overlayTime = document.getElementById('overlay-time');
   
     updateViewsCount(articleId);
-  
-    // Stwórz przycisk "Dodaj komentarz"
+
     var addCommentButton = document.createElement('button');
     addCommentButton.className = 'add-comment-button';
     addCommentButton.innerHTML = '<id="add-comment-button" img src="ikonkakomentarze.png" alt="Komentarze"> Dodaj komentarz';
     addCommentButton.onclick = function () {
       toggleCommentSection(articleId);
     };
-  
-    // Pobierz dane z elementów artykułu
+
     var title = article.querySelector('h3 a')?.textContent || '';
     var content = article.querySelector('div')?.innerHTML || '';
     var tags = article.querySelector('p:nth-child(5)')?.textContent || '';
@@ -1784,22 +1698,18 @@ function zobacz(articleId, addedArticleId) {
   
     content = content.replace(/\n/g, '<br>');
     content = applyTextFormatting(content);
-  
-    // Ustaw teksty w overlay
+
     overlayTitle.textContent = title;
     overlayText.innerHTML = content;
     overlayTags.innerHTML = `<i style="margin-top: 25px;" class="fas fa-hashtag"></i> ${tags}`;
     overlayAuthor.innerHTML = `<i class="fas fa-user"></i> ${author}`;
     overlayTime.innerHTML = `<i class="fas fa-clock"></i> ${time}`;
-  
-    // Dodaj przycisk do overlay
+
     overlay.appendChild(addCommentButton);
-  
-    // Aktualizuj adres URL
+
     var url = window.location.href.split('?')[0] + '?artykul=' + addedArticleId;
     history.pushState({}, '', url);
-  
-    // Wyświetl overlay
+ 
     overlay.classList.remove('hidden');
     setTimeout(() => {
       overlay.style.display = 'block';
@@ -1811,7 +1721,6 @@ function zobacz(articleId, addedArticleId) {
 function updateViewsCount(articleId) {
     const articleRef = db.collection('articles').doc(articleId);
 
-    // Użyj FieldValue.increment, aby uniknąć problemów z konkurencyjnymi aktualizacjami
     articleRef.update({ views: firebase.firestore.FieldValue.increment(1) })
         .catch((error) => {
             console.error('Błąd podczas aktualizacji liczby wyświetleń:', error);
@@ -1819,7 +1728,6 @@ function updateViewsCount(articleId) {
 }
 
 function applyTextFormatting(text) {
-    // Dodaj inne zastępowania dla formatowań tekstu
     text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>'); // Pogrubienie
     text = text.replace(/\*(.*?)\*/g, '<em>$1</em>'); // Kursywa
     text = text.replace(/__(.*?)__/g, '<u>$1</u>'); // Podkreślenie
@@ -1860,8 +1768,7 @@ function scrollToArticle(articleId) {
 function closeOverlay() {
     var overlay = document.getElementById('overlay');
     overlay.classList.add('hidden');
-    
-    // Czekaj na zakończenie animacji przed ustawieniem display na none
+
     overlay.addEventListener('animationend', function() {
       overlay.style.display = 'none';
       overlay.classList.remove('hidden');
