@@ -109,30 +109,6 @@ document.addEventListener('DOMContentLoaded', function () {
     getArticlesCount();
 });
 
-function blokujMysz(event) {
-    if (event.button === 2 || event.which === 3) {
-        event.preventDefault();
-    }
-}
-
-function blokujKlawisze(event) {
-    if (event.key === 'F12') {
-        event.preventDefault();
-    }
-
-    if (event.ctrlKey && event.key === 'u') {
-        event.preventDefault();
-    }
-}
-
-document.addEventListener('contextmenu', function (event) {
-    event.preventDefault();
-});
-
-document.addEventListener('mousedown', blokujMysz);
-
-document.addEventListener('keydown', blokujKlawisze);
-
 var subscribersDB = firebase.database().ref("subscribers");
   
 document.getElementById("subscribersForm").addEventListener("submit", submitForm);
@@ -938,12 +914,23 @@ function displayLatestArticles() {
             querySnapshot.forEach((doc) => {
                 const li = document.createElement('li');
                 const a = document.createElement('a');
+                const time = document.createElement('span');
+                const dot = document.createElement('span');
+                dot.classList.add('dot');
+                time.classList.add('time');
 
                 const addedArticleId = doc.data().addedArticleId || '';
                 const articleId = `${doc.id}`;
 
+                const articleDate = new Date(doc.data().date); // Convert string to Date object
+                const formattedTime = articleDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
                 a.href = `?artykul=${articleId}`;
                 a.textContent = doc.data().title;
+
+                dot.textContent = '•';
+
+                time.textContent = formattedTime;
 
                 a.onclick = function (event) {
                     event.preventDefault();
@@ -955,6 +942,8 @@ function displayLatestArticles() {
                     zobacz(doc.id, doc.data().articleId);
                 };
 
+                li.appendChild(dot); // Append the dot before time
+                li.appendChild(time);
                 li.appendChild(a);
                 latestArticlesList.appendChild(li);
             });
