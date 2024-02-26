@@ -922,7 +922,7 @@ function displayLatestArticles() {
                 const addedArticleId = doc.data().addedArticleId || '';
                 const articleId = `${doc.id}`;
 
-                const articleDate = new Date(doc.data().date); // Convert string to Date object
+                const articleDate = new Date(doc.data().date);
                 const formattedTime = articleDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
                 a.href = `?artykul=${articleId}`;
@@ -942,7 +942,7 @@ function displayLatestArticles() {
                     zobacz(doc.id, doc.data().articleId);
                 };
 
-                li.appendChild(dot); // Append the dot before time
+                li.appendChild(dot);
                 li.appendChild(time);
                 li.appendChild(a);
                 latestArticlesList.appendChild(li);
@@ -964,8 +964,8 @@ function displayPopularArticles() {
             querySnapshot.forEach((doc) => {
                 const li = document.createElement('li');
                 const a = document.createElement('a');
-                const dot = document.createElement('span'); // Create the dot element
-                dot.classList.add('dot'); // Add the 'dot' class to the dot element
+                const dot = document.createElement('span');
+                dot.classList.add('dot');
 
                 const addedArticleId = doc.data().addedArticleId || '';
                 const articleId = `${doc.id}`;
@@ -984,8 +984,8 @@ function displayPopularArticles() {
                 };
 
                 dot.textContent = '•';
-                
-                li.appendChild(dot); // Append the dot before the title
+
+                li.appendChild(dot);
                 li.appendChild(a);
                 popularArticlesList.appendChild(li);
             });
