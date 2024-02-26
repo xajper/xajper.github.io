@@ -1733,7 +1733,6 @@ hr {
   padding: 5px;
   text-decoration: none;
   color: black;
-
 }
 
 #latest-articles-list li:hover {
@@ -1766,21 +1765,24 @@ hr {
 }
 
 #popular-articles-list li {
-    transition: background-color 0.3s, border-radius 0.3s;
-    margin-bottom: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  transition: background-color 0.3s, border-radius 0.3s;
+  margin-bottom: 5px;
 }
 
 #popular-articles-list li a {
-    display: block;
-    padding: 5px;
-    text-decoration: none;
-    color: black;
+  display: block;
+  padding: 5px;
+  text-decoration: none;
+  color: black;
 }
 
 #popular-articles-list li:hover {
-    background-color: #c5fbff;
-    border-radius: 10px;
-    margin: 5px;
+  background-color: #c5fbff;
+  border-radius: 10px;
+  margin: 5px;
 }
 
 #article-tags ul {
@@ -2350,7 +2352,7 @@ footer {
     padding: 10px;
     box-sizing: border-box;
     text-align: center;
-    display: none; /* Ukryj początkowo, pokaże się po najechaniu myszą */
+    display: none;
   }
   
   #polacy-rodacy .article-link .image-title h3 {
@@ -2363,12 +2365,12 @@ footer {
 
   #main-article h2::before,
   #polacy-rodacy h2::before {
-    margin-left: 20px; /* Zwiększ margines dla pseudoelementów obrazów */
+    margin-left: 20px;
   }
   
   #main-article h2 span,
   #polacy-rodacy h2 span {
-    margin-left: 60px; /* Dostosuj odległość tekstu od obrazu */
+    margin-left: 60px;
   }
 
   #polacy-rodacy img {
