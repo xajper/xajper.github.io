@@ -964,6 +964,8 @@ function displayPopularArticles() {
             querySnapshot.forEach((doc) => {
                 const li = document.createElement('li');
                 const a = document.createElement('a');
+                const dot = document.createElement('span'); // Create the dot element
+                dot.classList.add('dot'); // Add the 'dot' class to the dot element
 
                 const addedArticleId = doc.data().addedArticleId || '';
                 const articleId = `${doc.id}`;
@@ -981,6 +983,9 @@ function displayPopularArticles() {
                     zobacz(doc.id, doc.data().articleId);
                 };
 
+                dot.textContent = '•';
+                
+                li.appendChild(dot); // Append the dot before the title
                 li.appendChild(a);
                 popularArticlesList.appendChild(li);
             });
