@@ -188,7 +188,6 @@ body{
 .about-btns{
     display: flex;
     margin: 2rem 0;
-    z-index: 9999;
 }
 .about-btns1{
     display: flex;
@@ -206,6 +205,7 @@ body{
     background: transparent;
     margin: 0 0.5rem;
     cursor: pointer;
+    z-index: 9999;
 }
 .btn.btn-pink{
     background: #7bc9e4;
@@ -283,6 +283,10 @@ body{
     font-weight: 300;
     padding: 0.5rem;
     opacity: 0.8;
+}
+
+.icons li a i.fa-white {
+    color: #fff;
 }
 
 @media (max-width: 768px) {
