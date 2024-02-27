@@ -188,6 +188,7 @@ body{
 .about-btns{
     display: flex;
     margin: 2rem 0;
+    z-index: 9999;
 }
 .about-btns1{
     display: flex;
