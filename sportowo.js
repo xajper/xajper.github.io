@@ -588,16 +588,18 @@ function getNextArticleId(articleNumber) {
     return `${articleNumber}`;
 }
 
-function displayArticles() {
+let lastLoadedDoc = null;
+
+function getLastLoadedDoc() {
+    return lastLoadedDoc;
+}
+
+function displayArticles(startAfterDoc) {
     const mainArticle = document.getElementById('main-article');
-    const polacyRodacySection = document.getElementById('polacy-rodacy');
     const column1 = document.getElementById('column1');
     const column2 = document.getElementById('column2');
 
     mainArticle.classList.add('loading');
-    column1.querySelector('ul').innerHTML = '';
-    column2.querySelector('ul').innerHTML = '';
-
     const loadingText = document.createElement('div');
     loadingText.id = 'loading-text';
     loadingText.style.fontSize = '1.2em';
@@ -608,28 +610,21 @@ function displayArticles() {
     loadingText.style.transform = 'translate(-50%, -50%)';
     mainArticle.appendChild(loadingText);
 
-    let loadingAnimation = 0;
-
-    function updateLoadingText() {
-        loadingText.textContent = 'Wczytywanie artykułów' + '.'.repeat(loadingAnimation % 4);
-        loadingAnimation++;
-    }
-
     auth.onAuthStateChanged(user => {
-        db.collection('articles')
+        let query = db.collection('articles')
             .orderBy('date', 'desc')
-            .limit(6)
-            .get()
+            .limit(currentBatch);
+
+        if (startAfterDoc) {
+            query = query.startAfter(startAfterDoc);
+        }
+
+        query.get()
             .then((querySnapshot) => {
-                mainArticle.innerHTML = '';
                 mainArticle.classList.remove('loading');
+                loadingText.remove();
 
                 const currentTimestamp = new Date().getTime();
-
-                const newestArticleHeader = document.createElement('h2');
-                newestArticleHeader.id = 'newest-article-header';
-                newestArticleHeader.innerHTML = '<span>NAJNOWSZE</span>';
-                mainArticle.appendChild(newestArticleHeader);
 
                 let currentColumn = column1;
 
@@ -679,6 +674,8 @@ function displayArticles() {
 
                     mainArticle.appendChild(articleElement);
 
+                    lastLoadedDoc = doc;
+
                     if (doc.data().tags.includes('POLACY RODACY')) {
                         const polacyRodacyArticleElement = document.createElement('li');
                         polacyRodacyArticleElement.className = 'article-link';
@@ -726,25 +723,34 @@ function displayArticles() {
                     }
                 });
 
-                mainArticle.innerHTML += `<button class="load-more-btn" id="load-more-btn" onclick="loadMoreArticles()">Załaduj więcej</button>`;
+                if (querySnapshot.size < currentBatch) {
+                    const loadMoreBtn = document.getElementById('load-more-btn');
+                    if (loadMoreBtn) {
+                        loadMoreBtn.remove();
+                    }
+                } else if (!document.getElementById('load-more-btn')) {
+                    mainArticle.appendChild(createLoadMoreButton());
+                }
             })
             .catch((error) => {
                 console.error('Error: ', error);
                 mainArticle.innerHTML = 'Błąd ładowania artykułów';
                 mainArticle.classList.remove('loading');
-            })
-            .finally(() => {
-                clearInterval(loadingInterval);
             });
     });
-
-    const loadingInterval = setInterval(updateLoadingText, 500);
-    updateLoadingText();
 }
 
 function loadMoreArticles() {
-    currentBatch += batchIncrement;
-    displayArticles();
+    displayArticles(lastLoadedDoc);
+}
+
+function createLoadMoreButton() {
+    const loadMoreBtn = document.createElement('button');
+    loadMoreBtn.className = 'load-more-btn';
+    loadMoreBtn.id = 'load-more-btn';
+    loadMoreBtn.textContent = 'Załaduj więcej';
+    loadMoreBtn.onclick = loadMoreArticles;
+    return loadMoreBtn;
 }
 
 function sortByTag(tag) {
