@@ -1317,7 +1317,9 @@ function sortArticles(order) {
     event.target.classList.add('selected');
 
     var newestHeader = document.getElementById('newest-article-header');
-    
+
+    var titleText = newestHeader ? newestHeader.querySelector('span').textContent : '';
+
     var sortedArticles = Array.from(articles).sort(function (a, b) {
         var dateA = new Date(a.getAttribute('data-date'));
         var dateB = new Date(b.getAttribute('data-date'));
@@ -1332,21 +1334,43 @@ function sortArticles(order) {
     articlesContainer.innerHTML = '';
 
     if (newestHeader) {
-        newestHeader.innerHTML = '<span>' + (order === 'newest' ? 'NAJNOWSZE' : 'NAJSTARSZE') + '</span>';
-        articlesContainer.appendChild(newestHeader);
-
-        if (order === 'newest') {
-            var image = document.createElement('img');
-            image.src = 'najnowsze.png';
-            image.alt = 'NAJNOWSZE';
-            image.style.marginTop = '15px';
-            articlesContainer.appendChild(image);
-        }
+        newestHeader.querySelector('span').textContent = titleText;
     }
 
     sortedArticles.forEach(function (article) {
         articlesContainer.appendChild(article.cloneNode(true));
     });
+
+    if (!newestHeader && order === 'newest') {
+        newestHeader = document.createElement('div');
+        newestHeader.id = 'newest-article-header';
+        newestHeader.className = 'article-header';
+        
+        var h2Element = document.createElement('h2');
+        var spanElement = document.createElement('span');
+        spanElement.textContent = 'NAJNOWSZE';
+        
+        h2Element.appendChild(spanElement);
+        newestHeader.appendChild(h2Element);
+
+        articlesContainer.insertBefore(newestHeader, articlesContainer.firstChild);
+    }
+
+    if (order === 'oldest') {
+        var oldestHeader = document.createElement('div');
+        oldestHeader.id = 'oldest-article-header';
+        oldestHeader.className = 'article-header';
+        
+        var h2Element = document.createElement('h2');
+        var spanElement = document.createElement('span');
+        spanElement.textContent = 'NAJSTARSZE';
+        
+        h2Element.appendChild(spanElement);
+        oldestHeader.appendChild(h2Element);
+
+        articlesContainer.insertBefore(oldestHeader, articlesContainer.firstChild);
+        articlesContainer.insertBefore(image, articlesContainer.firstChild);
+    }
 }
 
 function toggleSortMenu(element) {
