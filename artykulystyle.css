@@ -67,7 +67,6 @@ body {
     transform: translateX(100%);
   }
 }
-
 #overlay {
   display: none;
   position: fixed;
@@ -107,6 +106,17 @@ body {
   height: 100%;
   overflow-y: auto;
   padding-left: 20px;
+}
+
+@media (max-width: 768px) {
+  #overlay {
+    width: 100%;
+    right: 0;
+  }
+
+  #overlay-content {
+    padding: 20px;
+  }
 }
 
 #main-info {
@@ -1796,12 +1806,12 @@ hr {
 
 #article-tags li a {
   text-decoration: none;
-  color: #333; /* Zmiana koloru linków na ciemnoszary */
-  transition: color 0.3s ease; /* Dodano efekt przejścia dla koloru tekstu */
+  color: #333;
+  transition: color 0.3s ease;
 }
 
 #article-tags li a:hover {
-  color: #16cedb; /* Zmiana koloru tekstu na zielony podczas najechania */
+  color: #16cedb;
 }
 
 #article-tags li a {
@@ -1814,7 +1824,7 @@ hr {
 }
 
 #article-tags li a.clicked {
-  color: #16cedb; /* Kolor zaznaczonego tagu */
+  color: #16cedb;
 }
 
 #article-form form {
@@ -1899,7 +1909,6 @@ hr {
   transition: all .4s;
   display: block;
   margin: 20px auto;
-
 }
  
 .load-more-btn:hover {
@@ -2132,7 +2141,6 @@ footer {
   text-decoration: underline; /* Podkreślenie tekstu */
 }
 
-
 @media only screen and (max-width: 768px) {
   body {
     margin-bottom: 60px;
@@ -2352,7 +2360,7 @@ footer {
     padding: 10px;
     box-sizing: border-box;
     text-align: center;
-    display: none;
+    display: none; /* Ukryj początkowo, pokaże się po najechaniu myszą */
   }
   
   #polacy-rodacy .article-link .image-title h3 {
@@ -2365,12 +2373,12 @@ footer {
 
   #main-article h2::before,
   #polacy-rodacy h2::before {
-    margin-left: 20px;
+    margin-left: 20px; /* Zwiększ margines dla pseudoelementów obrazów */
   }
   
   #main-article h2 span,
   #polacy-rodacy h2 span {
-    margin-left: 60px;
+    margin-left: 60px; /* Dostosuj odległość tekstu od obrazu */
   }
 
   #polacy-rodacy img {
