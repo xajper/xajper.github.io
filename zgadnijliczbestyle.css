@@ -1,0 +1,105 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f7f7f7;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+  #gra {
+    border: 3px solid #8c8c8c;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 40px;
+    background-color: #fff;
+    transition: transform 0.3s ease;
+  }
+  
+  #gra:hover {
+    transform: translateY(-10px);
+  }
+  
+  #gra h1 {
+    color: #5a5a5a;
+    text-align: center;
+    font-size: 24px;
+    margin-top: 0;
+  }
+  
+  #gra p {
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  #propozycja, #sprawdz {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+  }
+  
+  #sprawdz {
+    background-color: #5cb85c;
+    color: #fff;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  #sprawdz:hover {
+    background-color: #4cae4c;
+  }
+  
+  #historia {
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 20px;
+    max-height: 100px;
+    overflow-y: auto;
+  }
+  
+  #historia p {
+    margin-bottom: 10px;
+    background-color: #f2f2f2;
+    padding: 5px;
+    border-radius: 5px;
+  }
+  
+  #podpowiedzi {
+    font-style: italic;
+    text-align: center;
+    margin-top: 20px;
+  }
+
+  @keyframes pop {
+    0% {
+      transform: scale(0.9);
+    }
+    50% {
+      transform: scale(1.1);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+  
+  #sprawdz:active {
+    animation: pop 0.4s ease;
+  }
+  
+  #historia p {
+    animation: fade-in 0.5s ease-in-out;
+  }
+  
+  #podpowiedzi {
+    animation: pulsate 1s ease-in-out infinite;
+  }
+  
