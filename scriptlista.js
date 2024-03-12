@@ -6,6 +6,20 @@ document.addEventListener('DOMContentLoaded', function () {
     const navbar = document.getElementById('navbar');
     let closeButton;
 
+    let countElement = document.getElementById('command-count');
+    let count = 0;
+
+    function updateCount() {
+        setInterval(function() {
+            if (count < 150) {
+                count++;
+                countElement.innerText = count + '+';
+            }
+        }, 20);
+    }
+
+    updateCount();
+
     const commands = [
         // Komendy Administracyjne
         { id: 1, category: 'Moderacyjne', text: '⛔ Ban', details: '<em>prefix</em> ban {@użytkownik} {powód}', tag: 'Moderacyjne', przyklad: '!ban @Xajper trollowanie' },
