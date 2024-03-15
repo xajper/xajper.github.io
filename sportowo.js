@@ -1406,7 +1406,7 @@ function toggleCommentSection(articleId) {
             </div>
             <form id="comments" onsubmit="addCommentToArticle('${articleId}', event)">
                 <div class="comment-send" contenteditable="true" placeholder="Napisz komentarz..." id="comment-input-${articleId}" name="comment" class="form-control"></div>
-                <button type="submit" class="btn btn-outline-primary">Prześlij <i class="fas fa-arrow-right"></i></button>
+                <button type="submit" class="btn btn-outline-primary"><i class="fas fa-arrow-right"></i></button>
                 <div id="commentsList-${articleId}" class="cont"></div>
             </form>
             </div>
