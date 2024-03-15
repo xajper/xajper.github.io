@@ -1726,6 +1726,18 @@ function getParameterByName(name, url) {
     return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
 
+function getNumberOfCommentsForArticle(articleId) {
+    return new Promise(function(resolve, reject) {
+        var commentsRef = firebase.database().ref('comments/' + articleId);
+        commentsRef.once('value', function(snapshot) {
+            var numberOfComments = snapshot.numChildren();
+            resolve(numberOfComments);
+        }, function(error) {
+            reject(error);
+        });
+    });
+}
+
 function zobacz(articleId, addedArticleId) {
     scrollToArticle(articleId);
   
@@ -1744,7 +1756,10 @@ function zobacz(articleId, addedArticleId) {
 
     var addCommentButton = document.createElement('button');
     addCommentButton.className = 'add-comment-button';
-    addCommentButton.innerHTML = '<id="add-comment-button" img src="ikonkakomentarze.png" alt="Komentarze"> Dodaj komentarz';
+    getNumberOfCommentsForArticle(articleId).then(function(numberOfComments) {
+        var buttonLabel = `Komentarze (${numberOfComments})`;
+        addCommentButton.innerHTML = `${buttonLabel}`;
+    });
     addCommentButton.onclick = function () {
       toggleCommentSection(articleId);
     };
