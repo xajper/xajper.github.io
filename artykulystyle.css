@@ -377,17 +377,18 @@ body {
 
 
 .btn-outline-primary {
-  background-color: transparent;
-  color: #3498db;
+  background-color: #3498db;
+  color: #fff;
   border: 1px solid #3498db;
   padding: 10px 20px;
   cursor: pointer;
-  border-radius: 5px;
+  border-radius: 25px;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .btn-outline-primary:hover {
-  background-color: #3498db;
-  color: #fff;
+  background-color: #fff;
+  color: #3498db;
 }
 
 .burger input {
