@@ -2167,6 +2167,10 @@ footer {
     margin-bottom: 0;
   }
 
+  .scroll-to-top {
+    display: none;
+  }
+
   .profil-button,
   .wyniki-button,
   .search-icon,
@@ -2175,6 +2179,7 @@ footer {
     margin: 0 15px;
     padding: 10px;
     border: none;
+    margin-right: 15px;
     transition: color 0.8s ease, background-color 0.8s ease, margin-left 0.8s ease;
   }
 
