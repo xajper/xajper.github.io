@@ -1756,6 +1756,7 @@ function zobacz(articleId, addedArticleId) {
 
     var addCommentButton = document.createElement('button');
     addCommentButton.className = 'add-comment-button';
+    addCommentButton.innerText = 'Komentarze';
     getNumberOfCommentsForArticle(articleId).then(function(numberOfComments) {
         var buttonLabel = `Komentarze (${numberOfComments})`;
         addCommentButton.innerHTML = `${buttonLabel}`;
