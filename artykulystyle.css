@@ -2051,8 +2051,26 @@ footer {
   font-weight: 600;
   top: 0;
   left: 0;
-  margin: 10px; /* Adjust the margin as needed */
-  z-index: 1; /* Ensure the label is above the image */
+  margin: 10px;
+  z-index: 1;
+}
+
+.category-label {
+  background-color: #ffffffac;
+  color: rgb(255, 255, 255);
+  padding: 4px 8px;
+  border-radius: 0px 5px 5px 0px;
+  display: flex;
+  position: absolute;
+  font-weight: 600;
+  top: 0;
+  left: 0;
+  margin-top: 10px;
+  font-size: 0.9em;
+}
+
+.category-label[data-tag="POLACY RODACY"] {
+  display: none;
 }
 
 .scroll-to-top {
@@ -2179,7 +2197,7 @@ footer {
     margin: 0 15px;
     padding: 10px;
     border: none;
-    margin-right: 25px;
+    margin-right: 15px;
     transition: color 0.8s ease, background-color 0.8s ease, margin-left 0.8s ease;
   }
 
@@ -2355,7 +2373,7 @@ footer {
   
   #polacy-rodacy .article-link .image-container {
     position: relative;
-    margin-bottom: 10px; /* Dostosuj margines według potrzeb */
+    margin-bottom: 10px;
   }
   
   #polacy-rodacy .article-link .image-title {
@@ -2368,7 +2386,7 @@ footer {
     padding: 10px;
     box-sizing: border-box;
     text-align: center;
-    display: none; /* Ukryj początkowo, pokaże się po najechaniu myszą */
+    display: none;
   }
   
   #polacy-rodacy .article-link .image-title h3 {
@@ -2381,7 +2399,7 @@ footer {
 
   #main-article h2::before,
   #polacy-rodacy h2::before {
-    margin-left: 20px; /* Zwiększ margines dla pseudoelementów obrazów */
+    margin-left: 20px;
   }
   
   #main-article h2 span,
