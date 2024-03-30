@@ -98,8 +98,8 @@ const editArticleBtn = document.getElementById('edit-article-btn');
 
 const articlesContainer = document.getElementById('main-article');
 const loadMoreBtn = document.getElementById('load-more-btn');
-let currentBatch = 6;
-const batchIncrement = 6;
+let currentBatch = 3;
+const batchIncrement = 3;
 
 document.addEventListener('DOMContentLoaded', function () {
     checkUserAuthentication();
@@ -612,8 +612,7 @@ function displayArticles(startAfterDoc) {
 
     auth.onAuthStateChanged(user => {
         let query = db.collection('articles')
-            .orderBy('date', 'desc')
-            .limit(currentBatch);
+            .orderBy('date', 'desc');
 
         if (startAfterDoc) {
             query = query.startAfter(startAfterDoc);
@@ -625,8 +624,9 @@ function displayArticles(startAfterDoc) {
                 loadingText.remove();
 
                 const currentTimestamp = new Date().getTime();
-
                 let currentColumn = column1;
+                let nonPolacyRodacyCount = 0;
+                let polacyRodacyCount = 0;
 
                 querySnapshot.forEach((doc) => {
                     const articleElement = document.createElement('div');
@@ -641,42 +641,47 @@ function displayArticles(startAfterDoc) {
                         zobacz(doc.id, doc.data().articleId);
                     };
 
-                    articleElement.innerHTML = `
-                        <h3 style="display: none;"><a href="?artykul=${doc.id}">${doc.data().title}</a></h3>
-                        <span class="hover-bar"></span>
-                        <div class="content" style="display: none;">${doc.data().content.replace(/\n/g, '<br>')}</div>
-                        <div class="image-container" style="position: relative;">
-                            <img class="placeholder" src="${doc.data().image}" alt="ZDJĘCIE" style="width: 400px; height: 250px; object-fit: cover;">
-                            ${isNewArticle ? '<div class="new-label">NOWE</div>' : ''}
-                            <div class="image-title">
-                                <h3><a href="javascript:void(0);" onclick="zobacz('${doc.id}', '${doc.data().articleId}')">${doc.data().title}</a></h3>
+                    const firstTag = doc.data().tags[0];
+
+                    if (!doc.data().tags.includes('POLACY RODACY') && nonPolacyRodacyCount < 3) {
+                        articleElement.innerHTML = `
+                            <h3 style="display: none;"><a href="?artykul=${doc.id}">${doc.data().title}</a></h3>
+                            <span class="hover-bar"></span>
+                            <div class="content" style="display: none;">${doc.data().content.replace(/\n/g, '<br>')}</div>
+                            <div class="image-container" style="position: relative;">
+                                <img class="placeholder" src="${doc.data().image}" alt="ZDJĘCIE" style="width: 400px; height: 250px; object-fit: cover;">
+                                ${isNewArticle ? '<div class="new-label">NOWE</div>' : `<div class="category-label" data-tag="${firstTag}" onclick="event.stopPropagation();">${firstTag}</div>`}
+                                <div class="image-title">
+                                    <h3><a href="javascript:void(0);" onclick="zobacz('${doc.id}', '${doc.data().articleId}')">${doc.data().title}</a></h3>
+                                </div>
                             </div>
-                        </div>
-                        <p style="display: none;"><i class="fas fa-hashtag"></i> ${doc.data().tags.join(', ')}</p>
-                        <p><i class="far fa-clock"></i> ${formatTimestamp(doc.data().date)}</p>
-                        <p style="display: none;"><i class="fas fa-user" id="author">${doc.data().author}</i></p>
-                        <button class="save-button" id="saveButton">
-                            <i class="fas fa-bookmark"></i>
-                            <div class="fireworks"></div>
-                        </button>
-                        <button class="udostepnij-button" onclick="udostepnij('${doc.id}', event, this)">
-                            <i class="fas fa-share"></i>
-                            <div class="fireworks"></div>
-                            <div class="sukces-icon">
-                                <i class="fas fa-check-circle"></i>
                             </div>
-                        </button>
+                            <p style="display: none;"><i class="fas fa-hashtag"></i> ${doc.data().tags.join(', ')}</p>
+                            <p><i class="far fa-clock"></i> ${formatTimestamp(doc.data().date)}</p>
+                            <p style="display: none;"><i class="fas fa-user" id="author">${doc.data().author}</i></p>
+                            <button class="save-button" id="saveButton">
+                                <i class="fas fa-bookmark"></i>
+                                <div class="fireworks"></div>
+                            </button>
+                            <button class="udostepnij-button" onclick="udostepnij('${doc.id}', event, this)">
+                                <i class="fas fa-share"></i>
+                                <div class="fireworks"></div>
+                                <div class="sukces-icon">
+                                    <i class="fas fa-check-circle"></i>
+                                </div>
+                            </button>
+                        
+                            ${user && (user.email === 'xajperminecraftyt@gmail.com') ? `<button class="delete-button" onclick="deleteArticle('${doc.id}')"><i class="fas fa-trash"></i></button>` : ''}
+                            ${user && (user.email === 'xajperminecraftyt@gmail.com') ? `<button class="edit-button" onclick="editArticle('${doc.id}')"><i class="fas fa-hand"></i></button>` : ''}
+                            <hr>
+                        `;
 
-                        ${user && (user.email === 'xajperminecraftyt@gmail.com') ? `<button class="delete-button" onclick="deleteArticle('${doc.id}')"><i class="fas fa-trash"></i></button>` : ''}
-                        ${user && (user.email === 'xajperminecraftyt@gmail.com') ? `<button class="edit-button" onclick="editArticle('${doc.id}')"><i class="fas fa-hand"></i></button>` : ''}
-                        <hr>
-                    `;
+                        mainArticle.appendChild(articleElement);
+                        lastLoadedDoc = doc;
+                        nonPolacyRodacyCount++;
+                    }
 
-                    mainArticle.appendChild(articleElement);
-
-                    lastLoadedDoc = doc;
-
-                    if (doc.data().tags.includes('POLACY RODACY')) {
+                    if (doc.data().tags.includes('POLACY RODACY') && polacyRodacyCount < 4) {
                         const polacyRodacyArticleElement = document.createElement('li');
                         polacyRodacyArticleElement.className = 'article-link';
                         polacyRodacyArticleElement.setAttribute('data-tags', doc.data().tags.join(', '));
@@ -720,6 +725,7 @@ function displayArticles(startAfterDoc) {
                         currentColumn.querySelector('ul').appendChild(polacyRodacyArticleElement);
 
                         currentColumn = currentColumn === column1 ? column2 : column1;
+                        polacyRodacyCount++;
                     }
                 });
 
@@ -741,7 +747,16 @@ function displayArticles(startAfterDoc) {
 }
 
 function loadMoreArticles() {
+    const loadMoreBtn = document.getElementById('load-more-btn');
+    const mainArticle = document.getElementById('main-article');
+
+    loadMoreBtn.style.display = 'none';
+
     displayArticles(lastLoadedDoc);
+
+    mainArticle.appendChild(loadMoreBtn);
+
+    loadMoreBtn.style.display = 'block';
 }
 
 function createLoadMoreButton() {
@@ -1309,6 +1324,7 @@ function sortArticles(order) {
     var articlesContainer = document.getElementById('main-article');
     var articles = articlesContainer.getElementsByClassName('article-link');
     var options = document.querySelectorAll('#sort-menu .option');
+    var loadMoreBtn = document.getElementById('load-more-btn');
 
     options.forEach(function (opt) {
         opt.classList.remove('selected');
@@ -1317,7 +1333,6 @@ function sortArticles(order) {
     event.target.classList.add('selected');
 
     var newestHeader = document.getElementById('newest-article-header');
-
     var titleText = newestHeader ? newestHeader.querySelector('span').textContent : '';
 
     var sortedArticles = Array.from(articles).sort(function (a, b) {
@@ -1341,15 +1356,19 @@ function sortArticles(order) {
         articlesContainer.appendChild(article.cloneNode(true));
     });
 
+    if (loadMoreBtn) {
+        articlesContainer.appendChild(loadMoreBtn);
+    }
+
     if (!newestHeader && order === 'newest') {
         newestHeader = document.createElement('div');
         newestHeader.id = 'newest-article-header';
         newestHeader.className = 'article-header';
-        
+
         var h2Element = document.createElement('h2');
         var spanElement = document.createElement('span');
         spanElement.textContent = 'NAJNOWSZE';
-        
+
         h2Element.appendChild(spanElement);
         newestHeader.appendChild(h2Element);
 
@@ -1360,11 +1379,11 @@ function sortArticles(order) {
         var oldestHeader = document.createElement('div');
         oldestHeader.id = 'oldest-article-header';
         oldestHeader.className = 'article-header';
-        
+
         var h2Element = document.createElement('h2');
         var spanElement = document.createElement('span');
         spanElement.textContent = 'NAJSTARSZE';
-        
+
         h2Element.appendChild(spanElement);
         oldestHeader.appendChild(h2Element);
 
