@@ -635,7 +635,7 @@ function displayArticles(startAfterDoc) {
                     articleElement.setAttribute('data-tags', doc.data().tags.join(', '));
                     articleElement.setAttribute('data-date', doc.data().date);
 
-                    const isNewArticle = (currentTimestamp - doc.data().newArticleTimestamp) < 3600000;
+                    const isNewArticle = (currentTimestamp - doc.data().newArticleTimestamp) < 10000;
 
                     articleElement.onclick = function () {
                         zobacz(doc.id, doc.data().articleId);
@@ -649,11 +649,11 @@ function displayArticles(startAfterDoc) {
                             <span class="hover-bar"></span>
                             <div class="content" style="display: none;">${doc.data().content.replace(/\n/g, '<br>')}</div>
                             <div class="image-container" style="position: relative;">
-                                <img class="placeholder" src="${doc.data().image}" alt="ZDJĘCIE" style="width: 400px; height: 250px; object-fit: cover;">
-                                ${isNewArticle ? '<div class="new-label">NOWE</div>' : `<div class="category-label" data-tag="${firstTag}" onclick="event.stopPropagation();">${firstTag}</div>`}
-                                <div class="image-title">
-                                    <h3><a href="javascript:void(0);" onclick="zobacz('${doc.id}', '${doc.data().articleId}')">${doc.data().title}</a></h3>
-                                </div>
+                            <img class="placeholder" src="${doc.data().image}" alt="ZDJĘCIE" style="width: 400px; height: 250px; object-fit: cover;">
+                            ${isNewArticle ? '<div class="new-label">NOWE</div>' : `<div class="category-label" data-tag="${firstTag}" onclick="event.stopPropagation();">${firstTag}</div>`}
+                            <div class="image-title">
+                                <h3><a href="javascript:void(0);" onclick="zobacz('${doc.id}', '${doc.data().articleId}')">${doc.data().title}</a></h3>
+                            </div>
                             </div>
                             </div>
                             <p style="display: none;"><i class="fas fa-hashtag"></i> ${doc.data().tags.join(', ')}</p>
@@ -696,11 +696,11 @@ function displayArticles(startAfterDoc) {
                             <span class="hover-bar"></span>
                             <div class="content" style="display: none;">${doc.data().content.replace(/\n/g, '<br>')}</div>
                             <div class="image-container" style="position: relative;">
-                                <img class="placeholder" src="${doc.data().image}" alt="ZDJĘCIE" style="width: 400px; height: 250px; object-fit: cover;">
-                                ${isNewArticle ? '<div class="new-label">NOWE</div>' : ''}
-                                <div class="image-title">
-                                    <h3><a href="javascript:void(0);" onclick="zobacz('${doc.id}', '${doc.data().articleId}')">${doc.data().title}</a></h3>
-                                </div>
+                            <img class="placeholder" src="${doc.data().image}" alt="ZDJĘCIE" style="width: 400px; height: 250px; object-fit: cover;">
+                            ${isNewArticle ? '<div class="new-label">NOWE</div>' : (doc.data().tags.includes('POLACY RODACY') ? `<div class="category-label" data-tag="${doc.data().tags.find(tag => tag !== 'POLACY RODACY')}" onclick="event.stopPropagation();">${doc.data().tags.find(tag => tag !== 'POLACY RODACY')}</div>` : `<div class="category-label" data-tag="${doc.data().tags[0]}" onclick="event.stopPropagation();">${doc.data().tags[0]}</div>`)}
+                            <div class="image-title">
+                                <h3><a href="javascript:void(0);" onclick="zobacz('${doc.id}', '${doc.data().articleId}')">${doc.data().title}</a></h3>
+                            </div>
                             </div>
                             <p style="display: none;"><i class="fas fa-hashtag"></i> ${doc.data().tags.join(', ')}</p>
                             <p><i class="far fa-clock"></i> ${formatTimestamp(doc.data().date)}</p>
