@@ -5,17 +5,7 @@
 
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
-    <meta http-equiv='content-language' content='pl-pl'>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <meta name="robots" content="index, follow">
-    <meta name="google-site-verification" content="Smh8aoLzj_wWPaCAoWuvR3rGFnksw7Z_B3wCeMPBpZY"/>
-    <meta name="keywords" content="xajperbot, xajperbot.com, xajperbot.pl, xajper, discord, bot">
-    <meta name="title" content="XajperBOT">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://xajper.github.io/xajperbot.html">
-    <meta property="og:title" content="XajperBOT">
-    <meta name="description" content="Strona ta jest poświęcona XajperBOT'u!">
-    <meta property="og:description" content="Strona ta jest poświęcona XajperBOT'u!">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <title>XajperBOT Dashboard </title>
 
@@ -113,7 +103,7 @@
       </div>
     </section>
 
-    <section class="features" id="funkcje">
+    <section class="features hidden" id="funkcje">
       <div class="max-width">
         <h2 class="title">Moje Funkcje</h2>
 
@@ -126,7 +116,7 @@
 
               <p>
                 Dostosuj swój serwer Discord za pomocą powitalnym i pożegnalych wiadomości,
-                systemu poziomu, różnych poleceń moderatorskich, 4fun, i <strong>WIELE WIĘCEJ</strong>!
+                systemu poziomu, różnych poleceń moderatorskich, 4fun, i wiele więcej!
               </p>
             </div>
           </div>
@@ -297,5 +287,29 @@
     <script src="./particles/particles.js"></script>
 
     <script src="./particles/app.js"></script>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        var cards = document.querySelectorAll('.features .card');
+        var screenPosition = window.innerHeight;
+
+        function checkCardPosition() {
+          cards.forEach(function(card, index) {
+            var position = card.getBoundingClientRect().top;
+            if (position < screenPosition) {
+              setTimeout(function() {
+                card.classList.add('visible');
+              }, index * 200);
+            }
+          });
+        }
+
+        window.addEventListener('scroll', function() {
+          checkCardPosition();
+        });
+
+        checkCardPosition();
+      });
+    </script>
   </body>
 </html>
