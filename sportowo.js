@@ -635,7 +635,7 @@ function displayArticles(startAfterDoc) {
                     articleElement.setAttribute('data-tags', doc.data().tags.join(', '));
                     articleElement.setAttribute('data-date', doc.data().date);
 
-                    const isNewArticle = (currentTimestamp - doc.data().newArticleTimestamp) < 10000;
+                    const isNewArticle = (currentTimestamp - doc.data().newArticleTimestamp) < 3600000;
 
                     articleElement.onclick = function () {
                         zobacz(doc.id, doc.data().articleId);
@@ -643,7 +643,7 @@ function displayArticles(startAfterDoc) {
 
                     const firstTag = doc.data().tags[0];
 
-                    if (!doc.data().tags.includes('POLACY RODACY') && nonPolacyRodacyCount < 3) {
+                    if (!doc.data().tags.includes('POLACY RODACY') && nonPolacyRodacyCount < 6) {
                         articleElement.innerHTML = `
                             <h3 style="display: none;"><a href="?artykul=${doc.id}">${doc.data().title}</a></h3>
                             <span class="hover-bar"></span>
