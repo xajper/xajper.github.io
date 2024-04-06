@@ -643,7 +643,7 @@ function displayArticles(startAfterDoc) {
 
                     const firstTag = doc.data().tags[0];
 
-                    if (!doc.data().tags.includes('POLACY RODACY') && nonPolacyRodacyCount < 6) {
+                    if (nonPolacyRodacyCount < 6) {
                         articleElement.innerHTML = `
                             <h3 style="display: none;"><a href="?artykul=${doc.id}">${doc.data().title}</a></h3>
                             <span class="hover-bar"></span>
