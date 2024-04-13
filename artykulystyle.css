@@ -2053,6 +2053,7 @@ footer {
   left: 0;
   margin: 10px;
   z-index: 1;
+  font-size: 0.9em;
 }
 
 .category-label {
