@@ -14,6 +14,8 @@ const auth = firebase.auth();
 
 const database1 = firebase.database();
 
+const saveButton = document.getElementById('saveButton');
+
 let newArticleTimestamp = null;
 
 auth.onAuthStateChanged(user => {
@@ -88,27 +90,6 @@ function stopResize() {
   document.removeEventListener("mouseup", stopResize);
 }
 
-const addArticleBtn = document.getElementById('add-article-btn');
-const articleForm = document.getElementById('article-form');
-const loginForm = document.getElementById('login-form');
-const publishBtn = document.getElementById('publish-btn');
-const logoutBtn = document.getElementById('logout-btn');
-const deleteArticleBtn = document.getElementById('delete-article-btn');
-const editArticleBtn = document.getElementById('edit-article-btn');
-
-const articlesContainer = document.getElementById('main-article');
-const loadMoreBtn = document.getElementById('load-more-btn');
-let currentBatch = 3;
-const batchIncrement = 3;
-
-document.addEventListener('DOMContentLoaded', function () {
-    checkUserAuthentication();
-    displayArticles();
-    displayLatestArticles();
-    displayPopularArticles();
-    getArticlesCount();
-});
-
 function blokujMysz(event) {
     if (event.button === 2 || event.which === 3) {
         event.preventDefault();
@@ -132,6 +113,28 @@ document.addEventListener('contextmenu', function (event) {
 document.addEventListener('mousedown', blokujMysz);
 
 document.addEventListener('keydown', blokujKlawisze);
+
+const addArticleBtn = document.getElementById('add-article-btn');
+const articleForm = document.getElementById('article-form');
+const loginForm = document.getElementById('login-form');
+const publishBtn = document.getElementById('publish-btn');
+const logoutBtn = document.getElementById('logout-btn');
+const deleteArticleBtn = document.getElementById('delete-article-btn');
+const editArticleBtn = document.getElementById('edit-article-btn');
+
+const articlesContainer = document.getElementById('main-article');
+const loadMoreBtn = document.getElementById('load-more-btn');
+let currentBatch = 3;
+const batchIncrement = 3;
+
+document.addEventListener('DOMContentLoaded', function () {
+    checkUserAuthentication();
+    displayArticles();
+    displayLatestArticles();
+    displayPopularArticles();
+    getArticlesCount();
+});
+
 
 var subscribersDB = firebase.database().ref("subscribers");
   
@@ -659,7 +662,7 @@ function displayArticles(startAfterDoc) {
                             <p style="display: none;"><i class="fas fa-hashtag"></i> ${doc.data().tags.join(', ')}</p>
                             <p><i class="far fa-clock"></i> ${formatTimestamp(doc.data().date)}</p>
                             <p style="display: none;"><i class="fas fa-user" id="author">${doc.data().author}</i></p>
-                            <button class="save-button" id="saveButton">
+                            <button class="save-button" id="saveButton" onclick="saveArticle('${doc.id}', event, this)">
                                 <i class="fas fa-bookmark"></i>
                                 <div class="fireworks"></div>
                             </button>
@@ -705,7 +708,7 @@ function displayArticles(startAfterDoc) {
                             <p style="display: none;"><i class="fas fa-hashtag"></i> ${doc.data().tags.join(', ')}</p>
                             <p><i class="far fa-clock"></i> ${formatTimestamp(doc.data().date)}</p>
                             <p style="display: none;"><i class="fas fa-user" id="author">${doc.data().author}</i></p>
-                            <button class="save-button" id="saveButton">
+                            <button class="save-button" id="saveButton" onclick="saveArticle('${doc.id}', event, this)">
                                 <i class="fas fa-bookmark"></i>
                                 <div class="fireworks"></div>
                             </button>
@@ -1235,12 +1238,30 @@ function toggleMenu() {
     }
 }
 
-document.getElementById('saveButton').addEventListener('click', function() {
-  this.classList.add('clicked');
-  setTimeout(() => {
-    this.classList.remove('clicked');
-  }, 800);
-});
+function saveArticle(articleId, event, button) {
+    event.stopPropagation();
+    const user = auth.currentUser;
+
+    button.classList.add('clicked');
+    setTimeout(function () {
+        button.classList.remove('clicked');
+    }, 800);
+
+    
+    if (user) {
+        db.collection('users').doc(user.uid).collection('savedArticles').doc(articleId).set({
+            savedAt: firebase.firestore.FieldValue.serverTimestamp()
+        })
+        .then(() => {
+            displayMessage('Artykuł zapisany pomyślnie!', 'success');
+        })
+        .catch((error) => {
+            console.error('Błąd podczas zapisywania artykułu: ', error);
+        });
+    } else {
+        displayMessage('Musisz być zalogowanym, aby zapisać artykuł.', 'danger');
+    }
+}
 
 let minDuration = 500;
 
