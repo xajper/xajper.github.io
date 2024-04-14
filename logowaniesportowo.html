@@ -18,6 +18,7 @@
     <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-firestore.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-storage.js"></script>
 </head>
 
@@ -27,6 +28,8 @@
   <a href="sportowo.html" class="back-button">
     <i class="fas fa-arrow-left"></i> Powrót
   </a>
+
+  <div id="articleList"></div>
 
   <div class="modal" id="profileModal">
     <div class="modal-content">
@@ -81,6 +84,11 @@
         </button>
       </div>
     </div>
+
+    <button class="saved-articles-btn" id="saved-articles-btn" onclick="displaySavedArticles()">
+      <i class="fas fa-bookmark"></i>
+      <span>ZAPISANE ARTYKUŁY</span>
+    </button>
   </div>
   
 
