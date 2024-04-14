@@ -2032,6 +2032,26 @@ footer {
   color: #666;
 }
 
+.credits {
+  font-family: 'Poppins', sans-serif;
+  color: #fff;
+  text-align: center;
+  flex-basis: 100%;
+  margin-top: 10px;
+}
+
+.credits a {
+  text-decoration: none;
+}
+
+.credits .far.fa-copyright {
+  color: #8BC34A;
+}
+
+.credits span a:hover {
+  text-decoration: underline;
+}
+
 #article-tags li a {
   text-decoration: none;
   color: #8e8d8d;
