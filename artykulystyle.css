@@ -2069,6 +2069,12 @@ footer {
   background-color: #c5fbff;
 }
 
+.new-label img {
+  max-width: 15px;
+  max-height: 15px;
+  margin-right: 5px;
+}
+
 .new-label {
   background-color: #fdeaec;
   color: #d72641;
