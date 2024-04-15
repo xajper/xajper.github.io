@@ -1952,31 +1952,30 @@ footer {
 .footer-heading {
   text-align: left;
   margin-bottom: 10px;
-  font-size: 14px; /* Decrease font size in footer headings */
-  font-weight: bold; /* Make footer headings bold */
-  color: #fff; /* Change font color to white */
+  font-size: 14px;
+  font-weight: bold;
+  color: #fff;
 }
 
 .newsletter,
 .about-us {
   flex-basis: calc(50% - 20px);
   text-align: left;
-  margin-right: 20px;
 }
 
 .newsletter h2,
 .about-us h2 {
-  font-size: 18px; /* Increase font size for "Newsletter" and "O NAS" */
+  font-size: 18px;
   margin-bottom: 5px;
-  font-weight: bold; /* Make headings bold */
-  color: #fff; /* Change font color to white */
+  font-weight: bold;
+  color: #fff;
 }
 
 .newsletter p,
 .about-us p {
   margin-top: 10px;
   text-align: left;
-  color: #777; /* Change font color to a light gray */
+  color: #777;
 }
 
 .newsletter form {
@@ -2433,7 +2432,7 @@ footer {
   
   #main-article h2 span,
   #polacy-rodacy h2 span {
-    margin-left: 60px; /* Dostosuj odległość tekstu od obrazu */
+    margin-left: 60px;
   }
 
   #polacy-rodacy img {
