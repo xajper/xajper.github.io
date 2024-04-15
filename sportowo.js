@@ -106,13 +106,13 @@ function blokujKlawisze(event) {
     }
 }
 
-document.addEventListener('contextmenu', function (event) {
-    event.preventDefault();
-});
-
 document.addEventListener('mousedown', blokujMysz);
 
 document.addEventListener('keydown', blokujKlawisze);
+
+document.addEventListener('contextmenu', function (event) {
+    event.preventDefault();
+});
 
 const addArticleBtn = document.getElementById('add-article-btn');
 const articleForm = document.getElementById('article-form');
@@ -685,7 +685,7 @@ function displayArticles(startAfterDoc) {
                     }
 
                     if (doc.data().tags.includes('POLACY RODACY') && polacyRodacyCount < 4) {
-                        const polacyRodacyArticleElement = document.createElement('li');
+                        const polacyRodacyArticleElement = document.createElement('div');
                         polacyRodacyArticleElement.className = 'article-link';
                         polacyRodacyArticleElement.setAttribute('data-tags', doc.data().tags.join(', '));
                         polacyRodacyArticleElement.setAttribute('data-date', doc.data().date);
