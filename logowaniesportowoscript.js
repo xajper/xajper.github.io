@@ -17,11 +17,9 @@ const database = firebase.database()
 
 auth.onAuthStateChanged(user => {
   if (user) {
-      // Jeśli użytkownik jest zalogowany, zapisz informacje do localStorage
       localStorage.setItem('loggedInUser', JSON.stringify(user));
       const userId = user.uid;
   } else {
-      // Jeśli użytkownik się wyloguje, usuń informacje z localStorage
       localStorage.removeItem('loggedInUser');
   }
 });
@@ -79,43 +77,45 @@ function checkUserAuthentication() {
   }
 }
 
+let isArticleListVisible = false;
+
 function displaySavedArticles() {
   const db = firebase.firestore();
   const user = auth.currentUser;
 
   if (user) {
-      const savedArticlesRef = db.collection('users').doc(user.uid).collection('savedArticles');
+    const savedArticlesRef = db.collection('users').doc(user.uid).collection('savedArticles');
 
-      savedArticlesRef.get()
-          .then((querySnapshot) => {
-              const promises = [];
-              const articleIds = [];
+    savedArticlesRef.get()
+      .then((querySnapshot) => {
+        const promises = [];
+        const articleIds = [];
 
-              querySnapshot.forEach((doc) => {
-                  const articleId = doc.id;
-                  articleIds.push(articleId);
-                  const promise = db.collection('articles').doc(articleId).get();
-                  promises.push(promise);
-              });
+        querySnapshot.forEach((doc) => {
+          const articleId = doc.id;
+          articleIds.push(articleId);
+          const promise = db.collection('articles').doc(articleId).get();
+          promises.push(promise);
+        });
 
-              return Promise.all(promises).then((articleSnapshots) => {
-                  const articlesData = articleSnapshots.map((articleSnapshot) => {
-                      const articleData = articleSnapshot.data();
-                      const savedAt = articleData.savedAt ? new Date(articleData.savedAt.seconds * 1000) : new Date();
-                      return { title: articleData.title || "Bład podczas uzyskiwania tytułu", savedAt };
-                  });
-
-                  return { articleIds, articlesData };
-              });
-          })
-          .then(({ articleIds, articlesData }) => {
-              showArticleTitles(articleIds, articlesData);
-          })
-          .catch((error) => {
-              console.error('Błąd podczas pobierania zapisanych artykułów: ', error);
+        return Promise.all(promises).then((articleSnapshots) => {
+          const articlesData = articleSnapshots.map((articleSnapshot) => {
+            const articleData = articleSnapshot.data();
+            const savedAt = articleData.savedAt ? new Date(articleData.savedAt.seconds * 1000) : new Date();
+            return { title: articleData.title || "Bład podczas uzyskiwania tytułu", savedAt };
           });
+
+          return { articleIds, articlesData };
+        });
+      })
+      .then(({ articleIds, articlesData }) => {
+        showArticleTitles(articleIds, articlesData);
+      })
+      .catch((error) => {
+        console.error('Błąd podczas pobierania zapisanych artykułów: ', error);
+      });
   } else {
-      alert('Musisz być zalogowany, aby zobaczyć zapisane artykuły.');
+    alert('Musisz być zalogowany, aby zobaczyć zapisane artykuły.');
   }
 }
 
@@ -124,12 +124,19 @@ function showArticleTitles(articleIds, articlesData) {
   articleListContainer.innerHTML = '';
 
   articlesData.forEach(({ title, savedAt }, index) => {
-    articleListContainer.style.display = 'block';
-      const articleItem = document.createElement('div');
-      articleItem.classList.add('articleItem');
-      articleItem.innerHTML = `<strong>#${index + 1}</strong> - ${title}<br> Zapisano: ${savedAt.toLocaleString()}`;
-      articleListContainer.appendChild(articleItem);
+    const articleItem = document.createElement('div');
+    articleItem.classList.add('articleItem');
+    articleItem.innerHTML = `<strong>#${index + 1}</strong> - ${title}<br> Zapisano: ${savedAt.toLocaleString()}`;
+    articleListContainer.appendChild(articleItem);
   });
+
+  if (!isArticleListVisible) {
+    articleListContainer.style.display = 'block';
+    isArticleListVisible = true;
+  } else {
+    articleListContainer.style.display = 'none';
+    isArticleListVisible = false;
+  }
 }
 
 function displayUserInfo() {
