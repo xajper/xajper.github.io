@@ -838,9 +838,14 @@ p {
   color: #fff;
   z-index: 10;
   display: none;
-  width: 100%; /* Set width to 100% */
+  width: 100%;
   animation-duration: 0.5s;
   z-index: 9990;
+}
+
+#menu-container h2 {
+  position: absolute;
+  top: 20px;
 }
 
 @keyframes slideUp {
@@ -862,14 +867,10 @@ p {
 }
 
 .menu-sectionmenu {
-  padding: 20px;
-  background-color: #303542; /* Szare tło */
-}
-
-.menu-sectionmenu {
   flex: 1;
   padding-right: 20px; /* Dodaj odstęp po prawej stronie sekcji */
   margin-right: 20px; /* Dodaj margines po prawej stronie sekcji */
+  background-color: #303542; /* Szare tło */
 }
 
 .menu-sectionmenu:last-child {
@@ -881,7 +882,7 @@ p {
 #projects-sectionmenu,
 #tags-sectionmenu {
   padding: 20px;
-  border-right: 1px solid #fff; /* Pionowa kreska po prawej stronie */
+  border-right: 1px solid #fff;
 }
 
 #movies-sectionmenu {
@@ -1442,7 +1443,7 @@ nav ul li a:hover::before {
   text-align: center;
   text-decoration: none;
   border: 2px solid #fff;
-  color: #fff;
+  color: #ffffff;
   background-color: #80838a;
   overflow: hidden;
   position: relative;
