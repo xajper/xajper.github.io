@@ -1063,7 +1063,7 @@ function updateTagOptions() {
     const availableTags = [
         'INNE', 'KOLARSTWO', 'E-SPORT', 'POLACY RODACY', 'PIŁKA NOŻNA', 'LEKKOATLETYKA',
         'TENIS', 'KOSZYKÓWKA', 'SIATKÓWKA', 'PIŁKA RĘCZNA', 'PŁYWANIE', 'ŻUŻEL', 'SPORTY ZIMOWE',
-        'SKOKI NARCIARSKIE', 'BIEGI NARCAIRSKIE', 'BIATHLON', 'HOKEJ', 'ŁYŻWIARTSWO'
+        'SKOKI NARCIARSKIE', 'BIEGI NARCAIRSKIE', 'BIATHLON', 'HOKEJ', 'ŁYŻWIARSTWO'
     ];
 
     tagOptions.innerHTML = '';
