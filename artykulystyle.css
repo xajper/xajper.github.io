@@ -1118,6 +1118,12 @@ body::-webkit-scrollbar-track-piece:active {
   margin-right: 10px;
 }
 
+.newspaper-icon {
+  width: 1em;
+  height: auto;
+  vertical-align: middle;
+}
+
 .alert {
   position: fixed;
   top: 10px;
@@ -1127,6 +1133,7 @@ body::-webkit-scrollbar-track-piece:active {
   border: 1px solid transparent;
   border-radius: 4px;
   text-align: center;
+  z-index: 9998;
 }
 
 .alert-success {
