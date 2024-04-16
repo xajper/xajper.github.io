@@ -1247,10 +1247,12 @@ function saveArticle(articleId, event, button) {
         button.classList.remove('clicked');
     }, 800);
 
+    var currentUrl = '?artykul=' + articleId;
     
     if (user) {
         db.collection('users').doc(user.uid).collection('savedArticles').doc(articleId).set({
-            savedAt: firebase.firestore.FieldValue.serverTimestamp()
+            savedAt: firebase.firestore.FieldValue.serverTimestamp(),
+            url: currentUrl
         })
         .then(() => {
             displayMessage('Artykuł zapisany pomyślnie!', 'success');
