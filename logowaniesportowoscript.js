@@ -40,13 +40,14 @@ function blokujKlawisze(event) {
   }
 }
 
+document.addEventListener('mousedown', blokujMysz);
+
+document.addEventListener('keydown', blokujKlawisze);
+
 document.addEventListener('contextmenu', function (event) {
   event.preventDefault();
 });
 
-document.addEventListener('mousedown', blokujMysz);
-
-document.addEventListener('keydown', blokujKlawisze);
 
 document.addEventListener('DOMContentLoaded', function () {
   checkUserAuthentication();
@@ -119,15 +120,46 @@ function displaySavedArticles() {
   }
 }
 
+function parseCustomDate(timestamp) {
+  const date = new Date(timestamp.seconds * 1000);
+  return date;
+}
+
+function formatTimestamp(timestamp) {
+  const date = parseCustomDate(timestamp);
+  return `${date.toLocaleDateString()} | ${date.toLocaleTimeString()}`;
+}
+
 function showArticleTitles(articleIds, articlesData) {
   const articleListContainer = document.getElementById('articleList');
   articleListContainer.innerHTML = '';
+  const db = firebase.firestore();
+  const user = auth.currentUser;
 
   articlesData.forEach(({ title, savedAt }, index) => {
-    const articleItem = document.createElement('div');
-    articleItem.classList.add('articleItem');
-    articleItem.innerHTML = `<strong>#${index + 1}</strong> - ${title}<br> Zapisano: ${savedAt.toLocaleString()}`;
-    articleListContainer.appendChild(articleItem);
+    db.collection('users').doc(user.uid).collection('savedArticles').doc(articleIds[index]).get()
+      .then((doc) => {
+        if (doc.exists) {
+          const articleData = doc.data();
+          const czas = articleData.savedAt;
+          const articleItem = document.createElement('div');
+          articleItem.classList.add('articleItem');
+          articleItem.innerHTML = `<strong>#${index + 1}</strong> - <a href="#" onclick="openArticle('${articleIds[index]}');">${title}</a><br><i class="far fa-clock"></i> Zapisano: ${formatTimestamp(doc.data().savedAt)} <button class="removeButton" data-article-id="${articleIds[index]}"><i class="fas fa-trash"></i></button><br>`;
+          articleListContainer.appendChild(articleItem);
+
+          const removeButton = articleItem.querySelector('.removeButton');
+          removeButton.addEventListener('click', (event) => {
+            event.stopPropagation();
+            const articleId = event.target.dataset.articleId;
+            removeArticle(articleId);
+          });
+        } else {
+          console.error("Nie znaleziono artykułu w bazie danych.");
+        }
+      })
+      .catch((error) => {
+        console.error("Błąd podczas pobierania artykułu z bazy danych:", error);
+      });
   });
 
   if (!isArticleListVisible) {
@@ -136,6 +168,60 @@ function showArticleTitles(articleIds, articlesData) {
   } else {
     articleListContainer.style.display = 'none';
     isArticleListVisible = false;
+  }
+}
+
+function openArticle(articleId) {
+  const db = firebase.firestore();
+  const user = auth.currentUser;
+
+  if (user) {
+    db.collection('users').doc(user.uid).collection('savedArticles').doc(articleId).get()
+      .then((doc) => {
+        if (doc.exists) {
+          const articleData = doc.data();
+          const url = "https://xajper.github.io/sportowo" + articleData.url;
+          window.open(url, '_blank');
+        } else {
+          console.error("Nie znaleziono artykułu w bazie danych.");
+        }
+      })
+      .catch((error) => {
+        console.error("Błąd podczas pobierania artykułu z bazy danych:", error);
+      });
+  } else {
+    console.error("Użytkownik niezalogowany.");
+  }
+}
+
+function displayMessage(message, type) {
+  const messageContainer = document.createElement('div');
+  messageContainer.className = `alert alert-${type}`;
+  messageContainer.textContent = message;
+
+  document.body.insertBefore(messageContainer, document.body.firstChild);
+
+  setTimeout(() => {
+      messageContainer.remove();
+  }, 3000);
+}
+
+function removeArticle(articleId) {
+  const db = firebase.firestore();
+  const user = auth.currentUser;
+
+  if (user) {
+    db.collection('users').doc(user.uid).collection('savedArticles').doc(articleId).delete()
+      .then(() => {
+        displayMessage('Artykuł został pomyślnie usunięty.', 'success');
+      })
+      .catch((error) => {
+        displayMessage('Błąd podczas usuwania artykułu.', 'danger');
+        console.error('Błąd podczas usuwania artykułu:', error);
+      });
+  } else {
+    displayMessage('Użytkownik niezalogowany.', 'danger');
+    console.error('Użytkownik niezalogowany.');
   }
 }
 
