@@ -86,6 +86,7 @@ document.addEventListener('DOMContentLoaded', function () {
         { id: 60, category: '4fun', text: '🔴 Connect4!', details: '<em>prefix</em> connect4 {@przeciwnik}', tag: '4fun' , przyklad: '!connect4 @Xajper'},
         { id: 61, category: '4fun', text: '🃏 BlackJack', details: '<em>prefix</em> blackjack', tag: '4fun' , przyklad: '!blackjack'},
         { id: 62, category: '4fun', text: '🎰 Wylosuj to co chcesz dzięki botu', details: '<em>prefix</em> losowanie', tag: '4fun' , przyklad: '!losowanie'},
+        { id: 62, category: '4fun', text: '🌤️ Sprawdź pogodę', details: '<em>prefix</em> pogoda {kraj/miasto}', tag: '4fun' , przyklad: '!pogoda polska'},
 
         // Komendy Ekonomii
         { id: 63, category: 'Ekonomia', text: '💵 Stan Konta', details: '<em>prefix</em> konto/bal/balance', tag: 'Ekonomia' , przyklad: '!konto'},
