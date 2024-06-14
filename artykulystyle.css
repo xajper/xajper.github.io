@@ -7,6 +7,7 @@ body {
   min-height: 100vh;
   min-width: 320px;
   overflow-x: hidden;
+  background-color: #EEF4F7;
 }
 
 .image-container {
@@ -1523,6 +1524,7 @@ nav ul li a:hover::before {
   width: 100%;
   margin-top: 25px;
   margin-right: 19px;
+  background-color: #FFFFFF;
 }
 
 #main-article h2 {
@@ -1571,6 +1573,7 @@ nav ul li a:hover::before {
   float: left; /* Ustawienie obok siebie */
   margin-top: 10px;
   margin-bottom: 50px;
+  background-color: #FFFFFF;
 }
 
 #naj {
@@ -1705,7 +1708,7 @@ hr {
 }
 
 .article-link:hover {
-  background-color: #f0f0f0;
+  background-color: #E0E0EB;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
@@ -2102,10 +2105,6 @@ footer {
   left: 0;
   margin-top: 10px;
   font-size: 0.9em;
-}
-
-.category-label[data-tag="POLACY RODACY"] {
-  display: none;
 }
 
 .scroll-to-top {
