@@ -645,6 +645,7 @@ function displayArticles(startAfterDoc) {
                     };
 
                     const firstTag = doc.data().tags[0];
+                    const secondTag = doc.data().tags[1];
 
                     if (nonPolacyRodacyCount < 6) {
                         articleElement.innerHTML = `
@@ -653,7 +654,7 @@ function displayArticles(startAfterDoc) {
                             <div class="content" style="display: none;">${doc.data().content.replace(/\n/g, '<br>')}</div>
                             <div class="image-container" style="position: relative;">
                             <img class="placeholder" src="${doc.data().image}" alt="ZDJĘCIE" style="width: 400px; height: 250px; object-fit: cover;">
-                            ${isNewArticle ? '<div class="new-label"><img src="nowyarticle.png" alt="Nowe"> NOWE</div>' : `<div class="category-label" data-tag="${firstTag}" onclick="event.stopPropagation();">${firstTag}</div>`}
+                            ${isNewArticle ? '<div class="new-label"><img src="nowyarticle.png" alt="Nowe"> NOWE</div>' : `<div class="category-label" data-tag="${secondTag}" onclick="event.stopPropagation();">${secondTag}</div>`}
                             <div class="image-title">
                                 <h3><a href="javascript:void(0);" onclick="zobacz('${doc.id}', '${doc.data().articleId}')">${doc.data().title}</a></h3>
                             </div>
