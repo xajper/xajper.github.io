@@ -1781,38 +1781,36 @@ function getNumberOfCommentsForArticle(articleId) {
     });
 }
 
-function zobacz(articleId, addedArticleId) {
+async function zobacz(articleId, addedArticleId) {
     scrollToArticle(articleId);
   
     const user = auth.currentUser;
-
-    var article = document.getElementById(articleId);
-  
-    var overlay = document.getElementById('overlay');
-    var overlayTitle = document.getElementById('overlay-title');
-    var overlayText = document.getElementById('overlay-text');
-    var overlayTags = document.getElementById('overlay-tags');
-    var overlayAuthor = document.getElementById('overlay-author');
-    var overlayTime = document.getElementById('overlay-time');
+    const article = document.getElementById(articleId);
+    const overlay = document.getElementById('overlay');
+    const overlayTitle = document.getElementById('overlay-title');
+    const overlayText = document.getElementById('overlay-text');
+    const overlayTags = document.getElementById('overlay-tags');
+    const overlayAuthor = document.getElementById('overlay-author');
+    const overlayTime = document.getElementById('overlay-time');
   
     updateViewsCount(articleId);
 
-    var addCommentButton = document.createElement('button');
+    const addCommentButton = document.createElement('button');
     addCommentButton.className = 'add-comment-button';
     addCommentButton.innerText = 'Komentarze';
     getNumberOfCommentsForArticle(articleId).then(function(numberOfComments) {
-        var buttonLabel = `Komentarze (${numberOfComments})`;
+        const buttonLabel = `Komentarze (${numberOfComments})`;
         addCommentButton.innerHTML = `${buttonLabel}`;
     });
     addCommentButton.onclick = function () {
       toggleCommentSection(articleId);
     };
 
-    var title = article.querySelector('h3 a')?.textContent || '';
-    var content = article.querySelector('div')?.innerHTML || '';
-    var tags = article.querySelector('p:nth-child(5)')?.textContent || '';
-    var author = article.querySelector('p:nth-child(7)')?.textContent || '';
-    var time = article.querySelector('p:nth-child(6)')?.textContent || '';
+    const title = article.querySelector('h3 a')?.textContent || '';
+    let content = article.querySelector('div')?.innerHTML || '';
+    const tags = article.querySelector('p:nth-child(5)')?.textContent || '';
+    const author = article.querySelector('p:nth-child(7)')?.textContent || '';
+    const time = article.querySelector('p:nth-child(6)')?.textContent || '';
   
     content = content.replace(/\n/g, '<br>');
     content = applyTextFormatting(content);
@@ -1825,7 +1823,61 @@ function zobacz(articleId, addedArticleId) {
 
     overlay.appendChild(addCommentButton);
 
-    var url = window.location.href.split('?')[0] + '?artykul=' + addedArticleId;
+    const prevButton = document.createElement('button');
+    prevButton.className = 'overlay-button';
+    prevButton.innerHTML = '<i class="fas fa-arrow-left"></i> Poprzedni artykuł';
+    prevButton.onclick = async function() {
+        const prevArticle = await getAdjacentArticle(articleId, 'prev');
+        if (prevArticle) {
+            zobacz(prevArticle.id, prevArticle.id);
+        } else {
+            alert('To jest najstarszy artykuł');
+        }
+    };
+
+    const nextButton = document.createElement('button');
+    nextButton.className = 'overlay-button';
+    nextButton.innerHTML = 'Następny artykuł <i class="fas fa-arrow-right"></i>';
+    nextButton.onclick = async function() {
+        const nextArticle = await getAdjacentArticle(articleId, 'next');
+        if (nextArticle) {
+            zobacz(nextArticle.id, nextArticle.id);
+        } else {
+            alert('To jest najnowszy artykuł');
+        }
+    };
+
+    overlay.appendChild(prevButton);
+    prevButton.style.backgroundColor = 'grey';
+    prevButton.style.color = 'white';
+    prevButton.style.border = 'none';
+    prevButton.style.padding = '10px 20px';
+    prevButton.style.cursor = 'pointer';
+    prevButton.style.margin = '10px';
+    prevButton.style.transition = 'background-color 0.3s';
+    prevButton.onmouseover = function() {
+        prevButton.style.backgroundColor = 'lightgrey';
+    };
+    prevButton.onmouseout = function() {
+        prevButton.style.backgroundColor = 'grey';
+    };
+
+    nextButton.style.backgroundColor = 'grey';
+    nextButton.style.color = 'white';
+    nextButton.style.border = 'none';
+    nextButton.style.padding = '10px 20px';
+    nextButton.style.cursor = 'pointer';
+    nextButton.style.margin = '10px';
+    nextButton.style.transition = 'background-color 0.3s';
+    nextButton.onmouseover = function() {
+        nextButton.style.backgroundColor = 'lightgrey';
+    };
+    nextButton.onmouseout = function() {
+        nextButton.style.backgroundColor = 'grey';
+    };
+    overlay.appendChild(nextButton);
+
+    const url = window.location.href.split('?')[0] + '?artykul=' + addedArticleId;
     history.pushState({}, '', url);
  
     overlay.classList.remove('hidden');
@@ -1834,6 +1886,31 @@ function zobacz(articleId, addedArticleId) {
     }, 50);
   
     addPointsToUser(user.uid, 5);
+}
+
+async function getAdjacentArticle(currentArticleId, direction) {
+    const articlesCollection = db.collection('articles');
+    const currentArticleDoc = await articlesCollection.doc(currentArticleId).get();
+    const currentArticleData = currentArticleDoc.data();
+    
+    let query;
+    if (direction === 'prev') {
+        query = articlesCollection
+            .orderBy('date', 'desc')
+            .startAfter(currentArticleData.date)
+            .limit(1);
+    } else if (direction === 'next') {
+        query = articlesCollection
+            .orderBy('date', 'asc')
+            .startAfter(currentArticleData.date)
+            .limit(1);
+    }
+
+    const adjacentArticles = await query.get();
+    if (!adjacentArticles.empty) {
+        return adjacentArticles.docs[0];
+    }
+    return null;
 }
 
 function updateViewsCount(articleId) {
