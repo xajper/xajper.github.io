@@ -1939,25 +1939,25 @@ hr {
 }
 
 footer {
+  flex-shrink: 0;
   background-color: #23272A;
   color: #7B7B82;
-  text-align: center;
-  padding: 20px; /* Increase padding in footer */
-  margin-top: auto;
+  padding: 20px 0;
   display: flex;
+  text-align: center;
   flex-wrap: wrap;
   justify-content: space-between;
-  border-top: 2px solid #fff; /* Add border at the top of the footer */
   font-weight: bold;
+  width: 100%;
   font-size: 15px;
 }
 
 .footer-heading {
-  text-align: left;
   margin-bottom: 10px;
-  font-size: 14px; /* Decrease font size in footer headings */
-  font-weight: bold; /* Make footer headings bold */
-  color: #fff; /* Change font color to white */
+  font-weight: bold;
+  font-size: 14px;
+  color: #fff;
+  text-align: center;
 }
 
 .newsletter,
@@ -1969,17 +1969,17 @@ footer {
 
 .newsletter h2,
 .about-us h2 {
-  font-size: 18px; /* Increase font size for "Newsletter" and "O NAS" */
+  font-size: 18px;
   margin-bottom: 5px;
-  font-weight: bold; /* Make headings bold */
-  color: #fff; /* Change font color to white */
+  font-weight: bold;
+  color: #fff;
 }
 
 .newsletter p,
 .about-us p {
   margin-top: 10px;
   text-align: left;
-  color: #777; /* Change font color to a light gray */
+  color: #777;
 }
 
 .newsletter form {
@@ -2179,20 +2179,20 @@ footer {
   border-radius: 5px;
 }
 
-#sort-menu.active { /* Zmiana .sort-menu na #sort-menu */
-  display: flex; /* Zmiana display: block; */
+#sort-menu.active {
+  display: flex;
 }
 
 #sort-menu .option {
   cursor: pointer;
   padding: 5px;
-  transition: background-color 0.8s ease; /* Dodanie animacji dla zmiany koloru tła */
+  transition: background-color 0.8s ease;
 }
 
 #sort-menu .selected {
-  background-color: #f0f0f0; /* Kolor tła dla wybranego elementu */
+  background-color: #f0f0f0;
   border-radius: 5px;
-  text-decoration: underline; /* Podkreślenie tekstu */
+  text-decoration: underline;
 }
 
 @media only screen and (max-width: 768px) {
@@ -2438,7 +2438,7 @@ footer {
   
   #main-article h2 span,
   #polacy-rodacy h2 span {
-    margin-left: 60px; /* Dostosuj odległość tekstu od obrazu */
+    margin-left: 60px;
   }
 
   #polacy-rodacy img {
