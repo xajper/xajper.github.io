@@ -290,33 +290,26 @@ body{
 }
 
 @media (max-width: 768px) {
-    .about-wrapper {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-    }
-  
-    .about-left {
-      margin-bottom: 20px;
-    }
-  
     .about-right {
-      padding: 20px;
-    }
-  
-    .icons {
-      flex-direction: row;
+        padding: 10px;
     }
 
-  }
-
-  @media (max-width: 480px) {
-    .about-left {
+    .carousel {
+        margin: 0;
+        max-width: none;
     }
-  
-    .about-right {
+}
 
+@media screen and (min-width: 992px){
+    .about-wrapper{
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
     }
-  }
+    .about-left{
+        position: relative;
+    }
+    .about-left-content{
+        position: absolute;
+        right: -50px;
+    }
+}
