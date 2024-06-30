@@ -1823,8 +1823,19 @@ async function zobacz(articleId, addedArticleId) {
 
     overlay.appendChild(addCommentButton);
 
+    const existingPrevButton = overlay.querySelector('.overlay-button.prev');
+    const existingNextButton = overlay.querySelector('.overlay-button.next');
+
+    if (existingPrevButton) {
+        existingPrevButton.remove();
+    }
+
+    if (existingNextButton) {
+        existingNextButton.remove();
+    }
+
     const prevButton = document.createElement('button');
-    prevButton.className = 'overlay-button';
+    prevButton.className = 'overlay-button prev';
     prevButton.innerHTML = '<i class="fas fa-arrow-left"></i> Poprzedni artykuł';
     prevButton.onclick = async function() {
         const prevArticle = await getAdjacentArticle(articleId, 'prev');
@@ -1836,7 +1847,7 @@ async function zobacz(articleId, addedArticleId) {
     };
 
     const nextButton = document.createElement('button');
-    nextButton.className = 'overlay-button';
+    nextButton.className = 'overlay-button next';
     nextButton.innerHTML = 'Następny artykuł <i class="fas fa-arrow-right"></i>';
     nextButton.onclick = async function() {
         const nextArticle = await getAdjacentArticle(articleId, 'next');
@@ -1848,41 +1859,33 @@ async function zobacz(articleId, addedArticleId) {
     };
 
     overlay.appendChild(prevButton);
-    prevButton.style.backgroundColor = 'grey';
-    prevButton.style.color = 'white';
-    prevButton.style.border = 'none';
-    prevButton.style.padding = '10px 20px';
-    prevButton.style.cursor = 'pointer';
-    prevButton.style.margin = '10px';
-    prevButton.style.transition = 'background-color 0.3s';
-    prevButton.onmouseover = function() {
-        prevButton.style.backgroundColor = 'lightgrey';
-    };
-    prevButton.onmouseout = function() {
-        prevButton.style.backgroundColor = 'grey';
+    overlay.appendChild(nextButton);
+
+    const styleButtons = function(button) {
+        button.style.backgroundColor = 'grey';
+        button.style.color = 'white';
+        button.style.border = 'none';
+        button.style.padding = '10px 20px';
+        button.style.cursor = 'pointer';
+        button.style.margin = '10px';
+        button.style.transition = 'background-color 0.3s';
+        button.onmouseover = function() {
+            button.style.backgroundColor = 'lightgrey';
+        };
+        button.onmouseout = function() {
+            button.style.backgroundColor = 'grey';
+        };
     };
 
-    nextButton.style.backgroundColor = 'grey';
-    nextButton.style.color = 'white';
-    nextButton.style.border = 'none';
-    nextButton.style.padding = '10px 20px';
-    nextButton.style.cursor = 'pointer';
-    nextButton.style.margin = '10px';
-    nextButton.style.transition = 'background-color 0.3s';
-    nextButton.onmouseover = function() {
-        nextButton.style.backgroundColor = 'lightgrey';
-    };
-    nextButton.onmouseout = function() {
-        nextButton.style.backgroundColor = 'grey';
-    };
-    overlay.appendChild(nextButton);
+    styleButtons(prevButton);
+    styleButtons(nextButton);
 
     const url = window.location.href.split('?')[0] + '?artykul=' + addedArticleId;
     history.pushState({}, '', url);
  
     overlay.classList.remove('hidden');
     setTimeout(() => {
-      overlay.style.display = 'block';
+        overlay.style.display = 'block';
     }, 50);
   
     addPointsToUser(user.uid, 5);
