@@ -16,13 +16,13 @@ function blokujKlawisze(event) {
     }
 }
 
-document.addEventListener('contextmenu', function (event) {
-    event.preventDefault();
-});
-
 document.addEventListener('mousedown', blokujMysz);
 
 document.addEventListener('keydown', blokujKlawisze);
+
+document.addEventListener('contextmenu', function (event) {
+    event.preventDefault();
+});
   
 function celebrate() {
     const confettiSettings = { target: 'my-canvas' };
@@ -52,3 +52,25 @@ $counters.forEach(($counter) => {
     };
     updateCounter();
 });
+
+function checkCookieConsent() {
+    if (!localStorage.getItem('cookieConsent')) {
+        document.getElementById('cookie-consent').style.display = 'block';
+    }
+}
+
+function acceptCookies() {
+    localStorage.setItem('cookieConsent', true);
+    document.getElementById('cookie-consent').style.display = 'none';
+}
+
+document.getElementById('accept-cookies-button').addEventListener('click', acceptCookies);
+
+document.addEventListener('DOMContentLoaded', checkCookieConsent);
+
+function closeCookieConsent() {
+    var cookieConsent = document.getElementById('cookie-consent');
+    cookieConsent.style.display = 'none';
+}
+
+document.querySelector('.close-button').addEventListener('click', closeCookieConsent);
