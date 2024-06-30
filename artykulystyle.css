@@ -2228,10 +2228,9 @@ footer {
   .search-icon,
   .symulator-button {
     color: #ffffff;
-    margin: 0 15px;
-    padding: 10px;
+    margin: 0;
+    padding: 20px;
     border: none;
-    margin-right: 15px;
     transition: color 0.8s ease, background-color 0.8s ease, margin-left 0.8s ease;
   }
 
