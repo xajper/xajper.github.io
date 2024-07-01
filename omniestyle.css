@@ -383,3 +383,13 @@ body{
 .close-button i {
     margin-right: 5px;
 }
+
+.cookie-consent .privacy-policy-link {
+    color: #ffffff;
+    text-decoration: underline;
+    margin-left: 5px;
+}
+
+.cookie-consent .privacy-policy-link:hover {
+    color: #d2e3e9;
+}
