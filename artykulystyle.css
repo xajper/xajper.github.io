@@ -919,14 +919,14 @@ p {
 }
 
 #tags-sectionmenu i {
-  color: #000; /* Kolor ikony hasztagu */
+  color: #000;
   margin-right: 5px;
 }
 
 img.placeholder {
   background: linear-gradient(to right, #e0e0e0 8%, #f1f1f1 18%, #e0e0e0 33%);
   background-size: 800px 104px;
-  animation: loadingAnimation 2s linear infinite; /* Dodaj animację ładowania */
+  animation: loadingAnimation 2s linear infinite;
 }
 
 @keyframes loadingAnimation {
@@ -2076,6 +2076,8 @@ footer {
   max-width: 15px;
   max-height: 15px;
   margin-right: 5px;
+  top: 0;
+  left: 0;
 }
 
 .new-label {
@@ -2260,6 +2262,10 @@ footer {
 
   #header {
     width: 100%;
+  }
+
+  .new-label img {
+    display: none;
   }
 
   #latest-articles-list,
