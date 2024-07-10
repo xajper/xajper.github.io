@@ -362,7 +362,7 @@ function formatText(style) {
             break;
         case 'link':
             const url = prompt('Wprowadź adres URL:');
-            if (url !== null) { // Check if the user pressed Cancel in the prompt
+            if (url !== null) {
                 const linkText = selectedText.length > 0 ? selectedText : 'CZYTAJ DALEJ:';
                 contentTextArea.value = contentTextArea.value.substring(0, start) +
                     `[${linkText}](${url})` +
@@ -701,7 +701,7 @@ function displayArticles(startAfterDoc) {
                             <div class="content" style="display: none;">${doc.data().content.replace(/\n/g, '<br>')}</div>
                             <div class="image-container" style="position: relative;">
                             <img class="placeholder" src="${doc.data().image}" alt="ZDJĘCIE" style="width: 400px; height: 250px; object-fit: cover;">
-                            ${isNewArticle ? '<div class="new-label"><img src="nowyarticle.png" alt="Nowe"> NOWE</div>' : (doc.data().tags.includes('POLACY RODACY') ? `<div class="category-label" data-tag="${doc.data().tags.find(tag => tag !== 'POLACY RODACY')}" onclick="event.stopPropagation();">${doc.data().tags.find(tag => tag !== 'POLACY RODACY')}</div>` : `<div class="category-label" data-tag="${doc.data().tags[0]}" onclick="event.stopPropagation();">${doc.data().tags[0]}</div>`)}
+                            ${isNewArticle ? '<div class="new-label">NOWE</div>' : (doc.data().tags.includes('POLACY RODACY') ? `<div class="category-label" data-tag="${doc.data().tags.find(tag => tag !== 'POLACY RODACY')}" onclick="event.stopPropagation();">${doc.data().tags.find(tag => tag !== 'POLACY RODACY')}</div>` : `<div class="category-label" data-tag="${doc.data().tags[0]}" onclick="event.stopPropagation();">${doc.data().tags[0]}</div>`)}
                             <div class="image-title">
                                 <h3><a href="javascript:void(0);" onclick="zobacz('${doc.id}', '${doc.data().articleId}')">${doc.data().title}</a></h3>
                             </div>
@@ -1062,9 +1062,9 @@ function updateTagOptions() {
     const tagOptions = document.getElementById('tag-options');
 
     const availableTags = [
-        'INNE', 'KOLARSTWO', 'E-SPORT', 'POLACY RODACY', 'PIŁKA NOŻNA', 'LEKKOATLETYKA',
+        'INNE', 'KOLARSTWO', 'E-SPORT', 'PIŁKA NOŻNA', 'LEKKOATLETYKA',
         'TENIS', 'KOSZYKÓWKA', 'SIATKÓWKA', 'PIŁKA RĘCZNA', 'PŁYWANIE', 'ŻUŻEL', 'SPORTY ZIMOWE',
-        'SKOKI NARCIARSKIE', 'BIEGI NARCAIRSKIE', 'BIATHLON', 'HOKEJ', 'ŁYŻWIARSTWO'
+        'SKOKI NARCIARSKIE', 'BIEGI NARCAIRSKIE', 'BIATHLON', 'HOKEJ', 'ŁYŻWIARSTWO', 'POLACY RODACY'
     ];
 
     tagOptions.innerHTML = '';
@@ -1818,7 +1818,7 @@ async function zobacz(articleId, addedArticleId) {
     overlayTitle.textContent = title;
     overlayText.innerHTML = content;
     overlayTags.innerHTML = `<i style="margin-top: 25px;" class="fas fa-hashtag"></i> ${tags}`;
-    overlayAuthor.innerHTML = `<i class="fas fa-user"></i> ${author}`;
+    overlayAuthor.innerHTML = `<i class="fas fa-user"></i> <a href="autor/${author}.html">${author}</a>`;
     overlayTime.innerHTML = `<i class="fas fa-clock"></i> ${time}`;
 
     overlay.appendChild(addCommentButton);
