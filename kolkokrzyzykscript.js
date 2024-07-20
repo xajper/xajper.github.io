@@ -1,108 +1,75 @@
-let btnRef = document.querySelectorAll(".button-option");
-let popupRef = document.querySelector(".popup");
-let newgameBtn = document.getElementById("new-game");
-let restartBtn = document.getElementById("restart");
-let msgRef = document.getElementById("message");
+document.addEventListener("DOMContentLoaded", () => {
+    const buttons = document.querySelectorAll(".button-option");
+    const message = document.getElementById("message");
+    const popup = document.querySelector(".popup");
+    const restartButton = document.getElementById("restart");
+    const newGameButton = document.getElementById("new-game");
+    let currentPlayer = "❌";
+    let board = ["", "", "", "", "", "", "", "", ""];
 
-let winningPattern = [
-[0, 1, 2],
-[0, 3, 6],
-[2, 5, 8],
-[6, 7, 8],
-[3, 4, 5],
-[1, 4, 7],
-[0, 4, 8],
-[2, 4, 6],
-];
+    const checkWin = () => {
+        const winPatterns = [
+            [0, 1, 2],
+            [3, 4, 5],
+            [6, 7, 8],
+            [0, 3, 6],
+            [1, 4, 7],
+            [2, 5, 8],
+            [0, 4, 8],
+            [2, 4, 6]
+        ];
 
-let xTurn = true;
-let count = 0;
+        for (let pattern of winPatterns) {
+            const [a, b, c] = pattern;
+            if (board[a] && board[a] === board[b] && board[a] === board[c]) {
+                return board[a];
+            }
+        }
+        return board.includes("") ? null : "Draw";
+    };
 
+    const updateHoverEffect = () => {
+        buttons.forEach(button => {
+            button.classList.remove("hover-x", "hover-o");
+            if (!button.textContent) {
+                button.classList.add(currentPlayer === "❌" ? "hover-x" : "hover-o");
+            }
+        });
+    };
 
-const disableButtons = () => {
-btnRef.forEach((element) => (element.disabled = true));
+    const handleClick = (e, index) => {
+        if (!board[index]) {
+            board[index] = currentPlayer;
+            e.target.textContent = currentPlayer;
+            const winner = checkWin();
+            if (winner) {
+                message.textContent = winner === "Draw" ? "Remis!" : `${winner} wygrywa!`;
+                popup.classList.add("show");
+            } else {
+                currentPlayer = currentPlayer === "❌" ? "⭕" : "❌";
+                updateHoverEffect();
+            }
+        }
+    };
 
-popupRef.classList.remove("hide");
-};
+    buttons.forEach((button, index) => {
+        button.addEventListener("click", (e) => handleClick(e, index));
+    });
 
+    restartButton.addEventListener("click", () => {
+        board = ["", "", "", "", "", "", "", "", ""];
+        buttons.forEach(button => button.textContent = "");
+        currentPlayer = "X";
+        updateHoverEffect();
+    });
 
-const enableButtons = () => {
-btnRef.forEach((element) => {
-element.innerText = "";
-element.disabled = false;
+    newGameButton.addEventListener("click", () => {
+        board = ["", "", "", "", "", "", "", "", ""];
+        buttons.forEach(button => button.textContent = "");
+        currentPlayer = "❌";
+        popup.classList.remove("show");
+        updateHoverEffect();
+    });
+
+    updateHoverEffect();
 });
-
-popupRef.classList.add("hide");
-};
-
-
-const winFunction = (letter) => {
-disableButtons();
-if (letter == "❌") {
-msgRef.innerHTML = "&#x1F389; <br> ❌ wygrało!";
-} else {
-msgRef.innerHTML = "&#x1F389; <br> ⭕ wygrało!";
-}
-};
-
-
-const drawFunction = () => {
-disableButtons();
-msgRef.innerHTML = "&#x1F60E; <br> Remis!";
-};
-
-
-newgameBtn.addEventListener("click", () => {
-count = 0;
-enableButtons();
-});
-restartBtn.addEventListener("click", () => {
-count = 0;
-enableButtons();
-});
-
-
-const winChecker = () => {
-
-for (let i of winningPattern) {
-let [element1, element2, element3] = [
-btnRef[i[0]].innerText,
-btnRef[i[1]].innerText,
-btnRef[i[2]].innerText,
-];
-
-
-if (element1 != "" && element2 != "" && element3 != "") {
-if (element1 == element2 && element2 == element3) {
-
-winFunction(element1);
-}
-}
-}
-};
-
-
-btnRef.forEach((element) => {
-element.addEventListener("click", () => {
-if (xTurn) {
-xTurn = false;
-
-element.innerText = "❌";
-element.disabled = true;
-} else {
-xTurn = true;
-
-element.innerText = "⭕";
-element.disabled = true;
-}
-
-count += 1;
-if (count == 9) {
-drawFunction();
-}
-
-winChecker();
-});
-});
-
-window.onload = enableButtons;
