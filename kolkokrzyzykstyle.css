@@ -7,16 +7,16 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
-    overflow: hidden; /* Ukryj overflow, aby konfetti było widoczne na całej stronie */
+    overflow: hidden;
 }
 
-.container {
+.wrapper {
     text-align: center;
     background-color: #fff;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    position: relative; /* Ustawienie pozycji relative dla kontenera */
+    position: relative;
 }
 
 h1 {
@@ -33,7 +33,7 @@ input {
 }
 
 button {
-    background-color: #4caf50;
+    background-color: #bde2ed;
     color: #fff;
     padding: 8px;
     border: none;
@@ -44,199 +44,81 @@ button {
 }
 
 button:hover {
-    background-color: #45a049;
+    background-color: #f4f5f6;
 }
 
-#menu {
-    margin-bottom: 10px;
-}
-
-.menu-value {
-    display: inline-block;
-    margin: 0 5px;
-    background-color: #eee;
-    padding: 10px; /* Zwiększenie paddingu dla większej przestrzeni wokół tekstu */
-    border-radius: 8px;
-    cursor: pointer;
-}
-
-.menu-value:hover {
-    background-color: #ddd;
-}
-
-#wheel-container {
-    position: relative;
-    margin: 20px auto;
+.container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: 5px;
     width: 300px;
     height: 300px;
+    margin: 0 auto;
 }
 
-#notification-container {
+.button-option {
+    width: 100%;
+    height: 100%;
+    background-color: #f4f4f4;
+    border: 1px solid #ccc;
+    font-size: 2rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.button-option.hover-x:hover {
+    background-color: #ffcccc;
+}
+
+.button-option.hover-o:hover {
+    background-color: #ccccff;
+}
+
+#restart {
+    background-color: #f44336;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    margin-top: 20px;
+}
+
+#restart:hover {
+    background-color: #e53935;
+}
+
+.popup {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    z-index: 9999;
+    z-index: 1000;
+    display: none;
 }
 
-.notification {
+.popup.show {
+    display: block;
+}
+
+.popup p {
+    margin: 0 0 20px;
+}
+
+#new-game {
     background-color: #4caf50;
     color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    opacity: 0;
-    transition: opacity 0.5s ease-in-out;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
 }
 
-.notification-enter {
-    opacity: 1;
-}
-
-.notification-exit {
-    opacity: 0;
-}
-
-#confetti-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    pointer-events: none;
-    z-index: 10001;
-}
-
-.confetti {
-    width: 8px;
-    height: 8px;
-    position: absolute;
-    background-color: #ffcc00; /* Kolor konfetti */
-    opacity: 0.8;
-    transform: scale(0);
-    animation: fall linear infinite;
-}
-
-@keyframes fall {
-    0% {
-        transform: translateY(0) rotate(0) scale(0);
-    }
-    100% {
-        transform: translateY(200vh) rotate(720deg) scale(1);
-    }
-}
-
-#confetti-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: transparent;
-    pointer-events: none;
-    z-index: 10000;
-    transition: background 0.5s ease-in-out;
-}
-
-.confetti-active {
-    background: rgba(0, 0, 0, 0.5); /* Kolor tła podczas aktywacji konfetti */
-}
-
-#pointer {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 0;
-    height: 0;
-    border-left: 10px solid transparent;
-    border-right: 10px solid transparent;
-    border-bottom: 20px solid #333; /* Kolor strzałki */
-    visibility: visible; /* Widoczna strzałka na początku */
-    z-index: 3; /* Ustawienie z-index wyżej niż sekcje koła i konfetti */
-    transition: transform 0.3s;
-}
-
-@keyframes spin {
-    to {
-        transform: rotate(360deg);
-    }
-}
-
-#wheel {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    border: 5px solid #000; /* Gruba czarna obwódka dla koła */
-    overflow: hidden;
-    position: relative;
-    animation: none; /* Zatrzymaj animację na początku */
-    background-color: transparent; /* Przezroczyste tło dla koła */
-}
-
-.section-label {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) rotate(0deg);
-    font-size: 20px; /* Zwiększenie rozmiaru fontu dla większej czytelności */
-    color: #fff;
-    white-space: nowrap;
-}
-
-#confetti-container {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    pointer-events: none;
-    z-index: 1; /* Ustawienie z-index na niższy niż tło koła */
-}
-
-.confetti {
-    width: 8px;
-    height: 8px;
-    position: absolute;
-    border-radius: 50%;
-    opacity: 0.8;
-    transform: scale(0);
-    animation: fall linear infinite;
-}
-
-@keyframes fall {
-    0% {
-        transform: translateY(0) rotate(0) scale(0);
-    }
-    100% {
-        transform: translateY(200vh) rotate(720deg) scale(1); /* Przesunięcie poza ekran, kilka obrotów */
-    }
-}
-
-.wheel-section {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    clip-path: polygon(50% 50%, 100% 100%, 0 100%);
-    background-color: #000;
-}
-
-.wheel-section::after {
-    content: attr(data-value);
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) rotate(0deg);
-    font-size: 20px;
-    color: #fff;
-    white-space: nowrap;
-    text-align: center;
-    animation: spin 4s cubic-bezier(0.17, 0.67, 0.83, 0.67) forwards;
-    z-index: 2;
-}
-
-.colorful .wheel-section {
-    animation: spin 4s cubic-bezier(0.17, 0.67, 0.83, 0.67) forwards;
+#new-game:hover {
+    background-color: #45a049;
 }
