@@ -65,7 +65,7 @@ function getPieceImageSource(piece) {
         case 'q': return 'assets/white_queen.png';
         case 'k': return 'assets/white_king.png';
         case 'p': return 'assets/white_pawn.png';
-        default: return ''; // Default case to avoid errors
+        default: return '';
     }
 }
 
@@ -158,13 +158,11 @@ function movePiece(piece, startingPosition, endingPosition) {
             destinationSquare.textContent = '';
             destinationSquare.appendChild(piece);
 
-            // Check if the move results in checkmate
             if (isCheckmate()) {
                 endGame();
                 return;
             }
 
-            // Switch player
             curPlayer = curPlayer === 'white' ? 'black' : 'white';
         }
     }
@@ -319,7 +317,6 @@ function canKingMove(kingPosition) {
 function isInCheck(kingPosition) {
     const [kingRow, kingCol] = kingPosition;
 
-    // Define a function to check if a position is under attack by a given piece
     function isUnderAttack(row, col, direction, maxSteps) {
         for (let step = 1; step <= maxSteps; step++) {
             const newRow = row + step * direction[0];
@@ -335,7 +332,7 @@ function isInCheck(kingPosition) {
                         return true;
                     }
                 }
-                break; // Path is blocked by a piece
+                break;
             }
         }
         return false;
@@ -347,8 +344,7 @@ function isInCheck(kingPosition) {
     }
 
     function isValidAttack(piece, kingPosition, attackerPosition) {
-        // Implement logic to check if the piece can attack the king's position
-        // Depending on the piece, implement the correct attacking patterns
+
         const [attackerRow, attackerCol] = attackerPosition;
         switch (piece.toLowerCase()) {
             case 'r':
@@ -372,10 +368,9 @@ function isInCheck(kingPosition) {
         }
     }
 
-    // Check all 8 directions for potential attacks (horizontal, vertical, diagonal)
     const directions = [
-        [1, 0], [-1, 0], [0, 1], [0, -1], // Rook directions
-        [1, 1], [1, -1], [-1, 1], [-1, -1] // Bishop directions
+        [1, 0], [-1, 0], [0, 1], [0, -1],
+        [1, 1], [1, -1], [-1, 1], [-1, -1]
     ];
 
     for (const direction of directions) {
@@ -384,7 +379,6 @@ function isInCheck(kingPosition) {
         }
     }
 
-    // Check for knight attacks
     const knightMoves = [
         [2, 1], [2, -1], [-2, 1], [-2, -1],
         [1, 2], [1, -2], [-1, 2], [-1, -2]
@@ -400,14 +394,13 @@ function isInCheck(kingPosition) {
             }
         }
     }
-
-    // Check for pawn attacks
+acks
     const pawnAttacks = [
-        [-1, -1], [-1, 1] // White pawns attacking diagonally down
+        [-1, -1], [-1, 1]
     ];
 
     if (curPlayer === 'black') {
-        pawnAttacks.push([1, -1], [1, 1]); // Black pawns attacking diagonally up
+        pawnAttacks.push([1, -1], [1, 1]);
     }
 
     for (const attack of pawnAttacks) {
@@ -425,19 +418,16 @@ function isInCheck(kingPosition) {
 }
 
 function isKingSafeAfterMove(newPosition) {
-    // Temporarily make the move
+
     const tempBoard = curBoard.map(row => row.slice());
     const [currentRow, currentCol] = findKingPosition();
     const [newRow, newCol] = newPosition;
 
-    // Move the king to the new position
     tempBoard[newRow][newCol] = tempBoard[currentRow][currentCol];
     tempBoard[currentRow][currentCol] = '.';
 
-    // Check if the king is in check at the new position
     const kingInCheck = isInCheck(newPosition);
 
-    // Revert the move
     tempBoard[currentRow][currentCol] = tempBoard[newRow][newCol];
     tempBoard[newRow][newCol] = '.';
 
