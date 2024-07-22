@@ -16,8 +16,39 @@ body {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-#worldClock {
-    margin-top: 20px;
+.tabs {
+    overflow: hidden;
+    background-color: #f1f1f1;
+    margin-bottom: 20px;
+}
+
+.tablink {
+    background-color: #ffffff;
+    border: none;
+    outline: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+    border-bottom: 2px solid transparent;
+}
+
+.tablink:hover {
+    background-color: #ddd;
+}
+
+.tablink.active {
+    border-bottom: 2px solid #007bff;
+}
+
+.tabcontent {
+    display: none;
+    padding: 20px;
+    text-align: center;
+}
+
+#polskaClock, #johannesburgClock, #nairobiClock, #beijingClock, #tokyoClock, #dubaiClock, #londonClock, #parisClock, #berlinClock, #newYorkClock, #torontoClock, #mexicoCityClock, #saoPauloClock, #buenosAiresClock, #sydneyClock, #aucklandClock {
     font-size: 24px;
     color: #333333;
+    margin-bottom: 10px;
 }
