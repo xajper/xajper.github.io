@@ -7,12 +7,11 @@
     <link rel="icon" href="ikonkazegar.ico" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
-
     <meta http-equiv='content-language' content='pl-pl'>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta name="robots" content="index, follow">
     <meta name="google-site-verification" content="Smh8aoLzj_wWPaCAoWuvR3rGFnksw7Z_B3wCeMPBpZY"/>
-    <meta name="keywords" content="xajper, xajper.com, xajper.pl, clock, zegard, godzina, hour">
+    <meta name="keywords" content="xajper, xajper.com, xajper.pl, clock, zegar, godzina, hour">
     <meta name="title" content="Zegar">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://xajper.github.io/zegar.html">
@@ -24,7 +23,45 @@
 <body>
     <div class="container">
         <h1><i class="fas fa-clock"></i> Zegar</h1>
-        <div id="worldClock"></div>
+        <div class="tabs">
+            <button class="tablink" onclick="openTab(event, 'polska')">POLSKA</button>
+            <button class="tablink" onclick="openTab(event, 'africa')">AFRYKA</button>
+            <button class="tablink" onclick="openTab(event, 'asia')">AZJA</button>
+            <button class="tablink" onclick="openTab(event, 'europe')">EUROPA</button>
+            <button class="tablink" onclick="openTab(event, 'north-america')">AMERYKA PÓŁNOCNA</button>
+            <button class="tablink" onclick="openTab(event, 'south-america')">AMERYKA POŁUDNIOWA</button>
+            <button class="tablink" onclick="openTab(event, 'oceania')">OCEANIA</button>
+        </div>
+        <div id="polska" class="tabcontent">
+            <div id="polskaClock">Wczytywanie...</div>
+        </div>
+        <div id="africa" class="tabcontent">
+            <div id="johannesburgClock">Johannesburg: Wczytywanie...</div>
+            <div id="nairobiClock">Nairobi: Wczytywanie...</div>
+        </div>
+        <div id="asia" class="tabcontent">
+            <div id="beijingClock">Pekin: Wczytywanie...</div>
+            <div id="tokyoClock">Tokio: Wczytywanie...</div>
+            <div id="dubaiClock">Dubaj: Wczytywanie...</div>
+        </div>
+        <div id="europe" class="tabcontent">
+            <div id="londonClock">Londyn: Wczytywanie...</div>
+            <div id="parisClock">Paryż: Wczytywanie...</div>
+            <div id="berlinClock">Berlin: Wczytywanie...</div>
+        </div>
+        <div id="north-america" class="tabcontent">
+            <div id="newYorkClock">Nowy Jork: Wczytywanie...</div>
+            <div id="torontoClock">Toronto: Wczytywanie...</div>
+            <div id="mexicoCityClock">Miasto Meksyk: Wczytywanie...</div>
+        </div>
+        <div id="south-america" class="tabcontent">
+            <div id="saoPauloClock">São Paulo: Wczytywanie...</div>
+            <div id="buenosAiresClock">Buenos Aires: Wczytywanie...</div>
+        </div>
+        <div id="oceania" class="tabcontent">
+            <div id="sydneyClock">Sydney: Wczytywanie...</div>
+            <div id="aucklandClock">Auckland: Wczytywanie...</div>
+        </div>
     </div>
 
     <script src="zegar.js"></script>
