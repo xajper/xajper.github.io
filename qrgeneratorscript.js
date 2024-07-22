@@ -1,3 +1,5 @@
+let generatedQRCode = null;
+
 function generateQRCode() {
     const inputText = document.getElementById('inputText').value;
 
@@ -41,17 +43,18 @@ function readQRCodeFromFile(input) {
             img.src = e.target.result;
 
             img.onload = function () {
-                const resultContainer = document.getElementById('qrResult');
-                resultContainer.innerHTML = '';
-
+                // Przygotowanie canvas
                 const canvas = document.createElement('canvas');
                 const context = canvas.getContext('2d');
                 canvas.width = img.width;
                 canvas.height = img.height;
                 context.drawImage(img, 0, 0, img.width, img.height);
 
-                const decodedData = jsQR(context.getImageData(0, 0, img.width, img.height).data, img.width, img.height);
+                // Dekodowanie kodu QR
+                const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+                const decodedData = jsQR(imageData.data, canvas.width, canvas.height);
 
+                const resultContainer = document.getElementById('qrResult');
                 if (decodedData) {
                     resultContainer.textContent = 'Zeskanowany kod: ' + decodedData.data;
                 } else {
@@ -70,8 +73,11 @@ function showDownloadButton() {
 }
 
 function downloadQRCode() {
-    if (generatedQRCode) {
-        const qrImageSrc = document.getElementById('qrContainer').querySelector('img').src;
+    const qrContainer = document.getElementById('qrContainer');
+    const qrImage = qrContainer.querySelector('img');
+
+    if (qrImage) {
+        const qrImageSrc = qrImage.src;
         const downloadLink = document.createElement('a');
         downloadLink.href = qrImageSrc;
         downloadLink.download = 'kod_qr.png';
