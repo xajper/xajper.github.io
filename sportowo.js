@@ -423,7 +423,9 @@ async function addArticle() {
 
                         while (articleExists) {
                             const randomDigits = Math.floor(100000 + Math.random() * 900000);
-                            articleId = `${title.toLowerCase()}${randomDigits}`;
+                            const formattedTitle = title.toLowerCase().replace(/\s+/g, '-');
+
+                            const articleId = `${formattedTitle}-${randomDigits}`;
 
                             const existingArticle = await db.collection('articles').doc(articleId).get();
                             if (!existingArticle.exists) {
