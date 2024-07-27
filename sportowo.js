@@ -394,16 +394,6 @@ async function addArticle() {
     }
 
     try {
-
-        const existingArticle = await db.collection('articles').where('title', '==', title).get();
-
-        if (!existingArticle.empty) {
-
-            displayMessage('Artykuł o tym samym tytule już istnieje.', 'danger');
-            addArticleBtn.disabled = false;
-            return;
-        }
-
         if (imageInput.files.length > 0) {
             const imageFile = imageInput.files[0];
 
@@ -424,13 +414,15 @@ async function addArticle() {
                 async () => {
                     try {
                         const downloadURL = await uploadTask.snapshot.ref.getDownloadURL();
-                        const { nextNumber, addedArticleId } = await getNextArticleNumber(title);
                         const author = getAuthor();
 
                         const newArticleTimestamp = new Date().getTime();
 
+                        const randomDigits = Math.floor(100000 + Math.random() * 900000);
+                        const articleId = `${title}-${randomDigits}`;
+
                         db.collection('articles')
-                            .doc(addedArticleId)
+                            .doc(articleId)
                             .set({
                                 title: title,
                                 content: content,
@@ -438,12 +430,11 @@ async function addArticle() {
                                 tags: selectedTags,
                                 date: new Date().toISOString(),
                                 author: author,
-                                articleId: addedArticleId,
+                                articleId: articleId,
                                 views: 0,
                                 newArticleTimestamp: newArticleTimestamp,
                             })
                             .then(() => {
-
                                 content += '\n\nCZYTAJ DALEJ: ' + title;
 
                                 resetSelectedTags();
@@ -454,7 +445,7 @@ async function addArticle() {
                                 displayMessage('Artykuł dodany pomyślnie! +5pkt', 'success');
                                 addArticleBtn.disabled = false;
 
-                                db.collection('articles').doc(addedArticleId).collection('comments').add({
+                                db.collection('articles').doc(articleId).collection('comments').add({
                                     author: author,
                                     content: 'Mamy nadzieję, że artykuł wam się spodobał',
                                     date: new Date().toISOString(),
@@ -483,7 +474,7 @@ async function addArticle() {
         }
     } catch (error) {
         console.error('Error: ', error);
-        displayMessage('Błąd podczas sprawdzania istnienia artykułu.', 'danger');
+        displayMessage('Błąd podczas dodawania artykułu.', 'danger');
         addArticleBtn.disabled = false;
     }
 }
@@ -701,7 +692,7 @@ function displayArticles(startAfterDoc) {
                             <div class="content" style="display: none;">${doc.data().content.replace(/\n/g, '<br>')}</div>
                             <div class="image-container" style="position: relative;">
                             <img class="placeholder" src="${doc.data().image}" alt="ZDJĘCIE" style="width: 400px; height: 250px; object-fit: cover;">
-                            ${isNewArticle ? '<div class="new-label"><img src="nowyarticle.png" alt="Nowe"> NOWE</div>' : (doc.data().tags.includes('POLACY RODACY') ? `<div class="category-label" data-tag="${doc.data().tags.find(tag => tag !== 'POLACY RODACY')}" onclick="event.stopPropagation();">${doc.data().tags.find(tag => tag !== 'POLACY RODACY')}</div>` : `<div class="category-label" data-tag="${doc.data().tags[0]}" onclick="event.stopPropagation();">${doc.data().tags[0]}</div>`)}
+                            ${isNewArticle ? '<div class="new-label">NOWE</div>' : (doc.data().tags.includes('POLACY RODACY') ? `<div class="category-label" data-tag="${doc.data().tags.find(tag => tag !== 'POLACY RODACY')}" onclick="event.stopPropagation();">${doc.data().tags.find(tag => tag !== 'POLACY RODACY')}</div>` : `<div class="category-label" data-tag="${doc.data().tags[0]}" onclick="event.stopPropagation();">${doc.data().tags[0]}</div>`)}
                             <div class="image-title">
                                 <h3><a href="javascript:void(0);" onclick="zobacz('${doc.id}', '${doc.data().articleId}')">${doc.data().title}</a></h3>
                             </div>
