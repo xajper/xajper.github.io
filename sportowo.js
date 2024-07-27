@@ -418,8 +418,18 @@ async function addArticle() {
 
                         const newArticleTimestamp = new Date().getTime();
 
-                        const randomDigits = Math.floor(100000 + Math.random() * 900000);
-                        const articleId = `${title}-${randomDigits}`;
+                        let articleId;
+                        let articleExists = true;
+
+                        while (articleExists) {
+                            const randomDigits = Math.floor(100000 + Math.random() * 900000);
+                            articleId = `${title}${randomDigits}`;
+
+                            const existingArticle = await db.collection('articles').doc(articleId).get();
+                            if (!existingArticle.exists) {
+                                articleExists = false;
+                            }
+                        }
 
                         db.collection('articles')
                             .doc(articleId)
