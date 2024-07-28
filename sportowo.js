@@ -396,7 +396,17 @@ async function addArticle() {
     try {
         if (imageInput.files.length > 0) {
             const imageFile = imageInput.files[0];
-            const storageRef = firebase.storage().ref('article_images/' + imageFile.name);
+
+            const sanitizedTitle = title.toLowerCase()
+                .replace(/\s+/g, '-')
+                .replace(/[ąĄćĆęĘłŁńŃóÓśŚźŹżŻ]/g, (match) => {
+                    const polishChars = 'ąĄćĆęĘłŁńŃóÓśŚźŹżŻ';
+                    const englishChars = 'aAcCeElLnNoOsSzz';
+                    return englishChars[polishChars.indexOf(match)] || '-';
+                })
+                .replace(/[^a-z0-9-]/g, '');
+
+            const storageRef = firebase.storage().ref('article_images/' + sanitizedTitle);
             const uploadTask = storageRef.put(imageFile);
 
             uploadTask.on(
