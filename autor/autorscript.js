@@ -14,7 +14,7 @@ const auth = firebase.auth();
 
 let currentPage = 1;
 const articlesPerPage = 5;
-let lastVisible = null; // Śledzi ostatni widoczny dokument
+let lastVisible = null;
 
 document.addEventListener('DOMContentLoaded', function () {
     checkUserAuthentication();
@@ -88,10 +88,8 @@ async function displayXajperArticles(page) {
             articleCount++;
         });
 
-        // Set the last visible document
         lastVisible = articlesSnapshot.docs[articlesSnapshot.docs.length - 1];
 
-        // Update pagination buttons
         handlePaginationButtons(articleCount);
         updatePageInfo();
     } catch (error) {
