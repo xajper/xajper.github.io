@@ -55,6 +55,25 @@ auth.onAuthStateChanged(user => {
 var overlay = document.getElementById("overlay");
 var overlayContent = document.getElementById("overlay-content");
 
+function blokujMysz(event) {
+    if (event.button === 2 || event.which === 3) {
+        event.preventDefault();
+    }
+}
+
+function blokujKlawisze(event) {
+    if (event.key === 'F12') {
+        event.preventDefault();
+    }
+
+    if (event.ctrlKey && event.key === 'u') {
+        event.preventDefault();
+    }
+}
+
+document.addEventListener('mousedown', blokujMysz);
+
+document.addEventListener('keydown', blokujKlawisze);
 overlay.addEventListener("mousemove", function(e) {
 
   if (e.clientX < overlay.offsetLeft + 10) {
@@ -90,25 +109,6 @@ function stopResize() {
   document.removeEventListener("mouseup", stopResize);
 }
 
-function blokujMysz(event) {
-    if (event.button === 2 || event.which === 3) {
-        event.preventDefault();
-    }
-}
-
-function blokujKlawisze(event) {
-    if (event.key === 'F12') {
-        event.preventDefault();
-    }
-
-    if (event.ctrlKey && event.key === 'u') {
-        event.preventDefault();
-    }
-}
-
-document.addEventListener('mousedown', blokujMysz);
-
-document.addEventListener('keydown', blokujKlawisze);
 
 document.addEventListener('contextmenu', function (event) {
     event.preventDefault();
@@ -396,7 +396,6 @@ async function addArticle() {
     try {
         if (imageInput.files.length > 0) {
             const imageFile = imageInput.files[0];
-
             const storageRef = firebase.storage().ref('article_images/' + imageFile.name);
             const uploadTask = storageRef.put(imageFile);
 
@@ -406,7 +405,7 @@ async function addArticle() {
                     const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
                     displayMessage(`Dodawanie artykułu: ${progress.toFixed(2)}%`, 'warning');
                 },
-                async (error) => {
+                (error) => {
                     console.error('Error: ', error);
                     displayMessage('Błąd podczas ładowania obrazu.', 'danger');
                     addArticleBtn.disabled = false;
@@ -415,17 +414,15 @@ async function addArticle() {
                     try {
                         const downloadURL = await uploadTask.snapshot.ref.getDownloadURL();
                         const author = getAuthor();
-
                         const newArticleTimestamp = new Date().getTime();
 
-                        let articleId;
+                        let articleId = '';
                         let articleExists = true;
 
                         while (articleExists) {
                             const randomDigits = Math.floor(100000 + Math.random() * 900000);
-                            const formattedTitle = title.toLowerCase().replace(/\s+/g, '-');
-
-                            const articleId = `${formattedTitle}-${randomDigits}`;
+                            const formattedTitle = title.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]/g, '');
+                            articleId = `${formattedTitle}-${randomDigits}`;
 
                             const existingArticle = await db.collection('articles').doc(articleId).get();
                             if (!existingArticle.exists) {
@@ -433,46 +430,47 @@ async function addArticle() {
                             }
                         }
 
-                        db.collection('articles')
-                            .doc(articleId)
-                            .set({
-                                title: title,
-                                content: content,
-                                image: downloadURL,
-                                tags: selectedTags,
-                                date: new Date().toISOString(),
-                                author: author,
-                                articleId: articleId,
-                                views: 0,
-                                newArticleTimestamp: newArticleTimestamp,
-                            })
-                            .then(() => {
-                                content += '\n\nCZYTAJ DALEJ: ' + title;
+                        // Ensuring articleId is not undefined
+                        if (!articleId) {
+                            throw new Error('Failed to generate a valid articleId');
+                        }
 
-                                resetSelectedTags();
-                                document.getElementById('article-title').value = '';
-                                document.getElementById('article-content').value = '';
-                                imageInput.value = '';
+                        const articleData = {
+                            title: title,
+                            content: content,
+                            image: downloadURL,
+                            tags: selectedTags,
+                            date: new Date().toISOString(),
+                            author: author,
+                            articleId: articleId,
+                            views: 0,
+                            newArticleTimestamp: newArticleTimestamp,
+                        };
 
-                                displayMessage('Artykuł dodany pomyślnie! +5pkt', 'success');
-                                addArticleBtn.disabled = false;
+                        console.log('Article data to be saved:', articleData);
 
-                                db.collection('articles').doc(articleId).collection('comments').add({
-                                    author: author,
-                                    content: 'Mamy nadzieję, że artykuł wam się spodobał',
-                                    date: new Date().toISOString(),
-                                });
+                        await db.collection('articles').doc(articleId).set(articleData);
 
-                                displayArticles();
-                                displayLatestArticles();
-                                getArticlesCount();
-                                addPointsToUser(user.uid, 5);
-                            })
-                            .catch((error) => {
-                                console.error('Error: ', error);
-                                displayMessage('Błąd podczas dodawania artykułu.', 'danger');
-                                addArticleBtn.disabled = false;
-                            });
+                        content += '\n\nCZYTAJ DALEJ: ' + title;
+
+                        resetSelectedTags();
+                        document.getElementById('article-title').value = '';
+                        document.getElementById('article-content').value = '';
+                        imageInput.value = '';
+
+                        displayMessage('Artykuł dodany pomyślnie! +5pkt', 'success');
+                        addArticleBtn.disabled = false;
+
+                        await db.collection('articles').doc(articleId).collection('comments').add({
+                            author: author,
+                            content: 'Mamy nadzieję, że artykuł wam się spodobał',
+                            date: new Date().toISOString(),
+                        });
+
+                        displayArticles();
+                        displayLatestArticles();
+                        getArticlesCount();
+                        addPointsToUser(user.uid, 5);
                     } catch (error) {
                         console.error('Error: ', error);
                         displayMessage('Błąd podczas uzyskiwania URL obrazu.', 'danger');
