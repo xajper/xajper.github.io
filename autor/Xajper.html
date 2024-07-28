@@ -6,6 +6,11 @@
     <title>Panel Dziennikarza: Xajper</title>
     <link rel="stylesheet" href="style.css">
     <link rel="icon" href="ikonkaautor.ico" type="image/x-icon">
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-storage.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-firestore.js"></script>
 </head>
 <body>
     <div class="container">
@@ -18,7 +23,15 @@
                 <h2>Xajper</h2>
                 <p>W Internecie jestem znany jako Xajper. Specjalizuję się w dziedzinie sportu. Moje artykuły charakteryzują się głęboką analizą i obiektywizmem.</p>
             </div>
+            <div id="xajper-articles-container" class="articles-container"></div>
+            <div class="pagination">
+                <button id="prev-page" class="pagination-btn">Poprzednia</button>
+                <span id="page-info" class="page-info"></span>
+                <button id="next-page" class="pagination-btn">Następna</button>
+            </div>
         </main>
     </div>
+
+    <script src="autorscript.js"></script>
 </body>
 </html>
