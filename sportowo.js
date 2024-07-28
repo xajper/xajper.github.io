@@ -430,9 +430,8 @@ async function addArticle() {
                             }
                         }
 
-                        // Ensuring articleId is not undefined
                         if (!articleId) {
-                            throw new Error('Failed to generate a valid articleId');
+                            throw new Error('Nie udało się wygenerować ID artykułu!');
                         }
 
                         const articleData = {
