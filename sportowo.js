@@ -711,7 +711,7 @@ function displayArticles(startAfterDoc) {
                             <div class="content" style="display: none;">${doc.data().content.replace(/\n/g, '<br>')}</div>
                             <div class="image-container" style="position: relative;">
                             <img class="placeholder" src="${doc.data().image}" alt="ZDJĘCIE" style="width: 400px; height: 250px; object-fit: cover;">
-                            ${isNewArticle ? '<div class="new-label">NOWE</div>' : (doc.data().tags.includes('POLACY RODACY') ? `<div class="category-label" data-tag="${doc.data().tags.find(tag => tag !== 'POLACY RODACY')}" onclick="event.stopPropagation();">${doc.data().tags.find(tag => tag !== 'POLACY RODACY')}</div>` : `<div class="category-label" data-tag="${doc.data().tags[0]}" onclick="event.stopPropagation();">${doc.data().tags[0]}</div>`)}
+                            ${isNewArticle ? '<div class="new-label"><img src="nowyarticle.png" alt="Nowe"> NOWE</div>' : (doc.data().tags.includes('POLACY RODACY') ? `<div class="category-label" data-tag="${doc.data().tags.find(tag => tag !== 'POLACY RODACY')}" onclick="event.stopPropagation();">${doc.data().tags.find(tag => tag !== 'POLACY RODACY')}</div>` : `<div class="category-label" data-tag="${doc.data().tags[0]}" onclick="event.stopPropagation();">${doc.data().tags[0]}</div>`)}
                             <div class="image-title">
                                 <h3><a href="javascript:void(0);" onclick="zobacz('${doc.id}', '${doc.data().articleId}')">${doc.data().title}</a></h3>
                             </div>
