@@ -25,13 +25,13 @@ auth.onAuthStateChanged(user => {
     const editArticleBtn = document.getElementById('edit-article-btn');
 
     if (user) {
-        const allowedEmails = ['xajperminecraftyt@gmail.com', 'Ppixelator@gmail.com'];
+        const allowedEmails = ['xajperminecraftyt@gmail.com', 'ppixelator@gmail.com'];
 
         if (allowedEmails.includes(user.email)) {
 
             addArticleBtn.style.display = 'block';
 
-            if (user.email === 'xajperminecraftyt@gmail.com' || user.email === 'Ppixelator@gmail.com') {
+            if (user.email === 'xajperminecraftyt@gmail.com' || user.email === 'ppixelator@gmail.com') {
 
             } else {
                 articleForm.style.display = 'none';
@@ -217,7 +217,7 @@ addArticleBtn.addEventListener('click', () => {
 
     const user = auth.currentUser;
 
-    if (user && (user.email === 'xajperminecraftyt@gmail.com' || user.email === 'Ppixelator@gmail.com')) {
+    if (user && (user.email === 'xajperminecraftyt@gmail.com' || user.email === 'ppixelator@gmail.com')) {
 
         articleForm.style.display = 'block';
     } else {
@@ -266,7 +266,7 @@ function loginUser() {
 function checkUserAuthentication() {
     const user = JSON.parse(localStorage.getItem('loggedInUser'));
 
-    if (user && (user.email === 'xajperminecraftyt@gmail.com' || user.email === 'Ppixelator@gmail.com')) {
+    if (user && (user.email === 'xajperminecraftyt@gmail.com' || user.email === 'ppixelator@gmail.com')) {
 
         const addArticleBtn = document.getElementById('add-article-btn');
         const articleForm = document.getElementById('article-form');
@@ -275,7 +275,7 @@ function checkUserAuthentication() {
 
         addArticleBtn.style.display = 'block';
 
-        if (user.email === 'xajperminecraftyt@gmail.com' || user.email === 'Ppixelator@gmail.com') {
+        if (user.email === 'xajperminecraftyt@gmail.com' || user.email === 'ppixelator@gmail.com') {
 
         } else {
             articleForm.style.display = 'none';
@@ -298,7 +298,7 @@ function getAuthor() {
         switch (userEmail) {
             case 'xajperminecraftyt@gmail.com':
                 return 'Xajper';
-            case 'Ppixelator@gmail.com':
+            case 'ppixelator@gmail.com':
                 return 'Ksaveriusz';
 
             default:
@@ -685,8 +685,8 @@ function displayArticles(startAfterDoc) {
                                 </div>
                             </button>
                         
-                            ${user && (user.email === 'xajperminecraftyt@gmail.com' || user.email === 'Ppixelator@gmail.com') ? `<button class="delete-button" onclick="deleteArticle('${doc.id}')"><i class="fas fa-trash"></i></button>` : ''}
-                            ${user && (user.email === 'xajperminecraftyt@gmail.com' || user.email === 'Ppixelator@gmail.com') ? `<button class="edit-button" onclick="editArticle('${doc.id}')"><i class="fas fa-hand"></i></button>` : ''}
+                            ${user && (user.email === 'xajperminecraftyt@gmail.com' || user.email === 'ppixelator@gmail.com') ? `<button class="delete-button" onclick="deleteArticle('${doc.id}')"><i class="fas fa-trash"></i></button>` : ''}
+                            ${user && (user.email === 'xajperminecraftyt@gmail.com' || user.email === 'ppixelator@gmail.com') ? `<button class="edit-button" onclick="editArticle('${doc.id}')"><i class="fas fa-hand"></i></button>` : ''}
                             <hr>
                         `;
 
@@ -731,8 +731,8 @@ function displayArticles(startAfterDoc) {
                                 </div>
                             </button>
 
-                            ${user && (user.email === 'xajperminecraftyt@gmail.com' || user.email === 'Ppixelator@gmail.com') ? `<button class="delete-button" onclick="deleteArticle('${doc.id}')"><i class="fas fa-trash"></i></button>` : ''}
-                            ${user && (user.email === 'xajperminecraftyt@gmail.com' || user.email === 'Ppixelator@gmail.com') ? `<button class="edit-button" onclick="editArticle('${doc.id}')"><i class="fas fa-hand"></i></button>` : ''}
+                            ${user && (user.email === 'xajperminecraftyt@gmail.com' || user.email === 'ppixelator@gmail.com') ? `<button class="delete-button" onclick="deleteArticle('${doc.id}')"><i class="fas fa-trash"></i></button>` : ''}
+                            ${user && (user.email === 'xajperminecraftyt@gmail.com' || user.email === 'ppixelator@gmail.com') ? `<button class="edit-button" onclick="editArticle('${doc.id}')"><i class="fas fa-hand"></i></button>` : ''}
                             <hr>
                         `;
 
@@ -931,7 +931,7 @@ function cancelEdit() {
 async function deleteArticle(articleId) {
     const user = auth.currentUser;
 
-    if (user && (user.email === 'xajperminecraftyt@gmail.com' || user.email === 'Ppixelator@gmail.com')) {
+    if (user && (user.email === 'xajperminecraftyt@gmail.com' || user.email === 'ppixelator@gmail.com')) {
         const confirmed = confirm('Czy na pewno chcesz usunąć ten artykuł?');
 
         if (confirmed) {
