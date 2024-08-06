@@ -2393,38 +2393,6 @@ footer {
     margin: 0;
   }
 
-  #polacy-rodacy .article-link .image-container img {
-    width: 100%;
-    height: auto;
-    object-fit: cover;
-  }
-  
-  #polacy-rodacy .article-link .image-container {
-    position: relative;
-    margin-bottom: 10px;
-  }
-  
-  #polacy-rodacy .article-link .image-title {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    background-color: rgba(0, 0, 0, 0.7);
-    color: #fff;
-    padding: 10px;
-    box-sizing: border-box;
-    text-align: center;
-    display: none;
-  }
-  
-  #polacy-rodacy .article-link:hover .image-title {
-    display: block;
-  }
-
-  #polacy-rodacy img {
-    max-width: 100%;
-    height: auto;
-  }
 }
 
 @media only screen and (min-width: 1200px) {
