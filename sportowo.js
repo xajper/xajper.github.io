@@ -25,13 +25,13 @@ auth.onAuthStateChanged(user => {
     const editArticleBtn = document.getElementById('edit-article-btn');
 
     if (user) {
-        const allowedEmails = ['xajperminecraftyt@gmail.com'];
+        const allowedEmails = ['xajperminecraftyt@gmail.com', 'Ppixelator@gmail.com'];
 
         if (allowedEmails.includes(user.email)) {
 
             addArticleBtn.style.display = 'block';
 
-            if (user.email === 'xajperminecraftyt@gmail.com') {
+            if (user.email === 'xajperminecraftyt@gmail.com' || user.email === 'Ppixelator@gmail.com') {
 
             } else {
                 articleForm.style.display = 'none';
@@ -217,7 +217,7 @@ addArticleBtn.addEventListener('click', () => {
 
     const user = auth.currentUser;
 
-    if (user && (user.email === 'xajperminecraftyt@gmail.com')) {
+    if (user && (user.email === 'xajperminecraftyt@gmail.com' || user.email === 'Ppixelator@gmail.com')) {
 
         articleForm.style.display = 'block';
     } else {
@@ -266,7 +266,7 @@ function loginUser() {
 function checkUserAuthentication() {
     const user = JSON.parse(localStorage.getItem('loggedInUser'));
 
-    if (user && (user.email === 'xajperminecraftyt@gmail.com')) {
+    if (user && (user.email === 'xajperminecraftyt@gmail.com' || user.email === 'Ppixelator@gmail.com')) {
 
         const addArticleBtn = document.getElementById('add-article-btn');
         const articleForm = document.getElementById('article-form');
@@ -275,7 +275,7 @@ function checkUserAuthentication() {
 
         addArticleBtn.style.display = 'block';
 
-        if (user.email === 'xajperminecraftyt@gmail.com') {
+        if (user.email === 'xajperminecraftyt@gmail.com' || user.email === 'Ppixelator@gmail.com') {
 
         } else {
             articleForm.style.display = 'none';
@@ -685,8 +685,8 @@ function displayArticles(startAfterDoc) {
                                 </div>
                             </button>
                         
-                            ${user && (user.email === 'xajperminecraftyt@gmail.com') ? `<button class="delete-button" onclick="deleteArticle('${doc.id}')"><i class="fas fa-trash"></i></button>` : ''}
-                            ${user && (user.email === 'xajperminecraftyt@gmail.com') ? `<button class="edit-button" onclick="editArticle('${doc.id}')"><i class="fas fa-hand"></i></button>` : ''}
+                            ${user && (user.email === 'xajperminecraftyt@gmail.com' || user.email === 'Ppixelator@gmail.com') ? `<button class="delete-button" onclick="deleteArticle('${doc.id}')"><i class="fas fa-trash"></i></button>` : ''}
+                            ${user && (user.email === 'xajperminecraftyt@gmail.com' || user.email === 'Ppixelator@gmail.com') ? `<button class="edit-button" onclick="editArticle('${doc.id}')"><i class="fas fa-hand"></i></button>` : ''}
                             <hr>
                         `;
 
@@ -711,7 +711,7 @@ function displayArticles(startAfterDoc) {
                             <div class="content" style="display: none;">${doc.data().content.replace(/\n/g, '<br>')}</div>
                             <div class="image-container" style="position: relative;">
                             <img class="placeholder" src="${doc.data().image}" alt="ZDJĘCIE" style="width: 400px; height: 250px; object-fit: cover;">
-                            ${isNewArticle ? '<div class="new-label"><img src="nowyarticle.png" alt="Nowe"> NOWE</div>' : (doc.data().tags.includes('POLACY RODACY') ? `<div class="category-label" data-tag="${doc.data().tags.find(tag => tag !== 'POLACY RODACY')}" onclick="event.stopPropagation();">${doc.data().tags.find(tag => tag !== 'POLACY RODACY')}</div>` : `<div class="category-label" data-tag="${doc.data().tags[0]}" onclick="event.stopPropagation();">${doc.data().tags[0]}</div>`)}
+                            ${isNewArticle ? '<div class="new-label">NOWE</div>' : (doc.data().tags.includes('POLACY RODACY') ? `<div class="category-label" data-tag="${doc.data().tags.find(tag => tag !== 'POLACY RODACY')}" onclick="event.stopPropagation();">${doc.data().tags.find(tag => tag !== 'POLACY RODACY')}</div>` : `<div class="category-label" data-tag="${doc.data().tags[0]}" onclick="event.stopPropagation();">${doc.data().tags[0]}</div>`)}
                             <div class="image-title">
                                 <h3><a href="javascript:void(0);" onclick="zobacz('${doc.id}', '${doc.data().articleId}')">${doc.data().title}</a></h3>
                             </div>
@@ -731,8 +731,8 @@ function displayArticles(startAfterDoc) {
                                 </div>
                             </button>
 
-                            ${user && (user.email === 'xajperminecraftyt@gmail.com') ? `<button class="delete-button" onclick="deleteArticle('${doc.id}')"><i class="fas fa-trash"></i></button>` : ''}
-                            ${user && (user.email === 'xajperminecraftyt@gmail.com') ? `<button class="edit-button" onclick="editArticle('${doc.id}')"><i class="fas fa-hand"></i></button>` : ''}
+                            ${user && (user.email === 'xajperminecraftyt@gmail.com' || user.email === 'Ppixelator@gmail.com') ? `<button class="delete-button" onclick="deleteArticle('${doc.id}')"><i class="fas fa-trash"></i></button>` : ''}
+                            ${user && (user.email === 'xajperminecraftyt@gmail.com' || user.email === 'Ppixelator@gmail.com') ? `<button class="edit-button" onclick="editArticle('${doc.id}')"><i class="fas fa-hand"></i></button>` : ''}
                             <hr>
                         `;
 
@@ -931,7 +931,7 @@ function cancelEdit() {
 async function deleteArticle(articleId) {
     const user = auth.currentUser;
 
-    if (user && (user.email === 'xajperminecraftyt@gmail.com')) {
+    if (user && (user.email === 'xajperminecraftyt@gmail.com' || user.email === 'Ppixelator@gmail.com')) {
         const confirmed = confirm('Czy na pewno chcesz usunąć ten artykuł?');
 
         if (confirmed) {
