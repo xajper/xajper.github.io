@@ -1313,7 +1313,7 @@ section {
 }
 
 .add-article-btn {
-  margin-left: auto; /* Przesunięcie do prawej strony */
+  margin-left: auto;
 }
 
 .tooltip {
@@ -2231,7 +2231,6 @@ footer {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-bottom: 0;
   }
 
   .scroll-to-top {
@@ -2242,10 +2241,12 @@ footer {
   .wyniki-button,
   .search-icon,
   .symulator-button {
+    display: block;
+    position: relative;
     color: #ffffff;
-    margin: 0;
-    padding: 20px;
+    margin: 5px;
     border: none;
+    padding: 10px;
     transition: color 0.8s ease, background-color 0.8s ease, margin-left 0.8s ease;
   }
 
@@ -2270,7 +2271,7 @@ footer {
     flex-direction: column;
     padding: 0 5%;
     flex-wrap: wrap;
-    margin-right: 100px;
+    margin-right: 0;
   }
 
   #header {
@@ -2283,14 +2284,13 @@ footer {
 
   #latest-articles-list,
   #popular-articles-list,
-  #article-tags {
+  #article-tags,
+  #main-article {
     width: 100%;
-    left: 50%;
     margin-bottom: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     padding: 15px;
     box-sizing: border-box;
-    min-width: 300px;
   }
 
   #latest-articles-list ul,
@@ -2300,7 +2300,6 @@ footer {
     margin: 0;
     display: flex;
     flex-direction: column;
-    flex-wrap: wrap;
   }
 
   #latest-articles-list li,
@@ -2312,28 +2311,15 @@ footer {
     display: none;
   }
 
-  #article-tags {
-    width: 100%;
-    left: 50%;
-    margin-bottom: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    padding: 15px;
-    box-sizing: border-box;
-  }
-
-  #main-article {
-    width: 100%;
-    margin: 0;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    padding: 15px;
-    box-sizing: border-box;
-    flex-wrap: wrap;
+  #article-tags ul {
+    justify-content: flex-start;
   }
 
   #main-article img {
     max-width: 100%;
     height: auto;
-    overflow: hidden;
+    display: block;
+    margin: 0 auto;
   }
 
   #winter-sports:hover .subpanel {
@@ -2349,13 +2335,8 @@ footer {
     margin-bottom: 10px;
   }
 
-  .button::before {
-    left: -50%;
-  }
-
   .newsletter,
   .about-us {
-    margin-right: 0;
     flex-basis: 100%;
   }
 
@@ -2363,10 +2344,7 @@ footer {
     width: 100%;
   }
 
-  .newsletter input[type="email"] {
-    width: calc(100% - 20px);
-  }
-
+  .newsletter input[type="email"],
   .newsletter button {
     width: 100%;
   }
@@ -2379,12 +2357,11 @@ footer {
   }
 
   .footer-heading {
-    text-align: center;
     margin-bottom: 10px;
   }
 
   #article-tags ul {
-    justify-content: flex-start;
+    padding: 0;
   }
 
   .column {
@@ -2408,16 +2385,15 @@ footer {
 
   #polacy-rodacy h2::before,
   #main-article h2::before {
-    margin-left: 0;
+    margin-left: 20px;
   }
-
+  
   #polacy-rodacy h2,
   #main-article h2 {
-    margin-left: 0;
-    margin-right: 0;
+    margin: 0;
   }
 
-  #polacy-rodacy .article-link .image-container img.placeholder {
+  #polacy-rodacy .article-link .image-container img {
     width: 100%;
     height: auto;
     object-fit: cover;
@@ -2441,28 +2417,37 @@ footer {
     display: none;
   }
   
-  #polacy-rodacy .article-link .image-title h3 {
-    margin: 0;
-  }
-  
   #polacy-rodacy .article-link:hover .image-title {
     display: block;
-  }
-
-  #main-article h2::before,
-  #polacy-rodacy h2::before {
-    margin-left: 20px;
-  }
-  
-  #main-article h2 span,
-  #polacy-rodacy h2 span {
-    margin-left: 60px;
   }
 
   #polacy-rodacy img {
     max-width: 100%;
     height: auto;
-    overflow: hidden;
+  }
+}
+
+@media only screen and (min-width: 1200px) {
+
+  #sport-section {
+    position: relative;
+    bottom: auto;
+    left: auto;
+    width: auto;
+    z-index: auto;
+    box-shadow: none;
+    padding: 0;
+    text-align: left;
   }
 
+  .profil-button,
+  .wyniki-button,
+  .search-icon,
+  .symulator-button {
+    display: inline-block;
+    color: #ffffff;
+    margin: 10px;
+    padding: 10px;
+    transition: color 0.3s ease, background-color 0.3s ease;
+  }
 }
