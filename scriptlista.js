@@ -88,6 +88,7 @@ document.addEventListener('DOMContentLoaded', function () {
         { id: 62, category: '4fun', text: '🎰 Wylosuj to co chcesz dzięki botu', details: '<em>prefix</em> losowanie', tag: '4fun' , przyklad: '!losowanie'},
         { id: 63, category: '4fun', text: '🌤️ Sprawdź pogodę', details: '<em>prefix</em> pogoda {kraj/miasto}', tag: '4fun' , przyklad: '!pogoda polska'},
         { id: 64, category: '4fun', text: '⚽ Zobacz listę piłkarzy reprezentacji', details: '<em>prefix</em> reprezentacja', tag: '4fun' , przyklad: '!reprezentacja'},
+        { id: 133, category: '4fun', text: '🔤 Znajdź ukryte słowo', details: '<em>prefix</em> rozsypanka', tag: '4fun' , przyklad: '!rozsypanka'},
 
         // Komendy Ekonomii
         { id: 65, category: 'Ekonomia', text: '💵 Stan Konta', details: '<em>prefix</em> konto/bal/balance', tag: 'Ekonomia' , przyklad: '!konto'},
@@ -167,7 +168,8 @@ document.addEventListener('DOMContentLoaded', function () {
         { id: 131, category: 'Menadżer [ANULOWANE]', text: '🏆 Historia', details: '<em>prefix</em> historia', tag: 'Menadżer [ANULOWANE]' , przyklad: '!historia'},
         { id: 132, category: 'Menadżer [ANULOWANE]', text: '💪 [WKRÓTCE] Trenowanie piłkarza', details: '<em>prefix</em> trenuj {piłkarz} {intensywność}', tag: 'Menadżer [ANULOWANE]' , przyklad: '!trenuj Lewandowski wysoka'}
     ];
-
+    // Największe ID: 133
+    
     const categories = ['Wszystkie', 'Moderacyjne', '4fun', 'Ekonomia', 'Poziomy', 'Muzyka', 'RPG', 'Menadżer [ANULOWANE]'];
     const existingCategories = [];
     const existingTags = [];
