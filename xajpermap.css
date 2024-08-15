@@ -329,16 +329,26 @@ body {
     align-items: center;
     color: #fff;
     text-decoration: none;
+    transition: color 0.3s ease, transform 0.3s ease;
 }
 
 .notification-icon i {
-    font-size: 24px;
+    font-size: 24px !important;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.notification-icon:hover {
+    color: #ffcc00;
+}
+
+.notification-icon:hover i {
+    transform: scale(1.1);
+    color: #ffcc00;
 }
 
 .profile-icon {
     display: flex;
     align-items: center;
-    margin-left: 2px;
     text-decoration: none;
 }
 
@@ -347,6 +357,48 @@ body {
     width: 40px;
     height: 40px;
     object-fit: cover;
+}
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    margin-left: 20px;
+    margin-right: auto;
+    position: relative;
+    width: 189px;
+}
+
+.search-bar input {
+    width: 100%;
+    padding: 10px 12px;
+    border: none;
+    border-radius: 20px 0 0 20px;
+    outline: none;
+    font-size: 14px;
+    height: 10px;
+}
+
+.search-bar button {
+    padding: 0 15px;
+    background-color: #fff;
+    border: none;
+    border-radius: 0 20px 20px 0;
+    cursor: pointer;
+    outline: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 31px;
+    transition: background-color 0.3s ease;
+}
+
+.search-bar button:hover {
+    background-color: #e0e0e0;
+}
+
+.search-bar button i {
+    color: #333;
+    font-size: 18px;
 }
 
 @media (max-width: 768px) {
