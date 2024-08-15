@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XajperMAP</title>
+    <link rel="stylesheet" href="xajpermap.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="icon" href="ikonkastronyxajpermap.ico" type="image/x-icon">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="navbar-banner">
+                <img src="baner1.3.png" alt="Logo">
+            </div>
+            <ul class="navbar-left">
+                <li><a href="#sortowanie"><i class="fas fa-sort"></i>Sortuj</a></li>
+                <li class="dropdown">
+                    <a href="#kategorie"><i class="fas fa-list"></i>Kategorie</a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="#przygodowe" class="category-button adventure">
+                                <img src="przygodowe.png" alt="PRZYGODOWE"> Przygodowe
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#game" class="category-button survival">
+                                <img src="game.png" alt="GAME"> Game
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#pvp" class="category-button pvp">
+                                <img src="pvp.png" alt="PVP"> PVP
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#fabularne" class="category-button pvp">
+                                <img src="fabularne.png" alt="FABULARNE"> Fabularne
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li><a href="#mapy"><i class="fas fa-map"></i>Mapy</a></li>
+                <li><a href="#losowa"><i class="fas fa-dice"></i>Losowa Mapa</a></li>
+            </ul>
+            <div class="navbar-right">
+                <a href="#notifications" class="notification-icon">
+                    <i class="fas fa-bell"></i>
+                </a>
+                <a href="#profile" class="profile-icon">
+                    <img src="profil.png" alt="Profil" />
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h2>
+                Odkryj <span class="highlighted-word">najlepsze</span> mapy do Minecrafta.
+                <i class="fas fa-star spinning-star"></i>
+            </h2>
+        </div>
+        <div class="mapy-label">MAPY</div>
+    </section>
+
+    <div class="glow-bar"></div>
+
+    <section id="maps" class="maps">
+        <div class="map-list">
+            <div class="map-tile">
+                <h3 class="map-title">Party Activities</h3>
+                <img src="partyactivities.png" alt="Mapa 1">
+                <div class="map-info">
+                    <p class="version"><i class="fas fa-code"></i> 1.21.1</p>
+                    <p class="author"><i class="fas fa-user"></i> Xajper</p>
+                    <p class="game"><i class="fas fa-gamepad"></i> Game</p>
+                </div>
+            </div>
+            <div class="map-tile">
+                <h3 class="map-title">Ostatnia Twierdza</h3>
+                <img src="ostatniatwierdza.png" alt="Mapa 2">
+                <div class="map-info">
+                    <p class="version"><i class="fas fa-code"></i> 1.21.1</p>
+                    <p class="author"><i class="fas fa-user"></i> Xajper</p>
+                    <p class="game"><i class="fas fa-scroll"></i> Fabularne</p>
+                </div>
+            </div>
+            <div class="map-tile">
+                <h3 class="map-title">Clicker Evolved</h3>
+                <img src="clickerevolved.png" alt="Mapa 3">
+                <div class="map-info">
+                    <p class="version"><i class="fas fa-code"></i> 1.21.1</p>
+                    <p class="author"><i class="fas fa-user"></i> Xajper</p>
+                    <p class="game"><i class="fas fa-gamepad"></i> Game</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="xajpermap.js"></script>
+</body>
+</html>
