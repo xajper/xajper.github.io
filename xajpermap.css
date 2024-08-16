@@ -402,30 +402,67 @@ body {
 }
 
 @media (max-width: 768px) {
+    .navbar-banner img {
+        display: none;
+    }
+
+    .search-bar {
+        display: none;
+    }
+
     .navbar {
         padding: 5px;
         height: auto;
+        flex-wrap: wrap;
+        justify-content: space-between;
     }
 
     .navbar ul {
-        flex-direction: column;
+        flex-direction: row;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        margin-right: 0;
+        width: 100%;
     }
 
     .navbar li {
         margin: 5px 0;
+        flex-grow: 1;
+        text-align: center;
     }
 
     .navbar a {
         font-size: 14px;
         padding: 5px;
+        display: block;
     }
 
-    .hero {
-        height: 180px;
+    .navbar-right {
+        margin-left: auto;
+        padding-right: 10px;
+        display: flex;
+        align-items: center;
+    }
+
+    .map-title {
+        margin-top: 150px;
     }
 
     .hero-content h2 {
-        font-size: 1.4rem;
+        font-size: 1.2rem;
+        line-height: 1.4;
+        text-align: center;
+        margin: 0;
+        padding: 0 10px;
+    }
+
+    .highlighted-word {
+        font-weight: bold;
+    }
+
+    .spinning-star {
+        display: inline-block;
+        margin-left: 5px;
     }
 
     .maps {
@@ -447,16 +484,33 @@ body {
 }
 
 @media (max-width: 480px) {
-    .navbar a {
-        font-size: 12px;
+    .navbar {
+        padding: 5px;
     }
 
-    .hero {
-        height: 150px;
+    .navbar a {
+        font-size: 12px;
+        padding: 4px;
+    }
+
+    .navbar ul {
+        justify-content: space-around;
+    }
+
+    .navbar-right {
+        justify-content: flex-end;
+        gap: 10px;
+    }
+
+    .profile-icon img {
+        width: 30px;
+        height: 30px;
     }
 
     .hero-content h2 {
-        font-size: 1.2rem;
+        font-size: 1rem;
+        line-height: 1.3;
+        padding: 0 10px;
     }
 
     .maps {
@@ -476,8 +530,7 @@ body {
         padding: 2px 4px;
     }
 
-    .profile-icon img {
-        width: 30px;
-        height: 30px;
+    .map-title {
+        margin-top: 150px;
     }
 }
