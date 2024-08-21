@@ -343,7 +343,7 @@ footer .footer-content p {
 footer {
     text-align: center;
     padding: 20px;
-    background-color: #333;
+    background: radial-gradient(circle, #333 0%, #212122 100%);
     color: #fff;
     margin-top: 40px;
 }
