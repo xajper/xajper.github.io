@@ -526,6 +526,30 @@ footer .social-media a.youtube:hover {
     color: #ff0000;
 }
 
+.details-button {
+    display: block;
+    margin: 10px auto;
+    padding: 8px 16px;
+    background-color: #6b6b6b;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.details-button:hover {
+    background-color: #808080;
+    transform: translateY(-2px);
+}
+
+.details-button:active {
+    background-color: #5b5b5b;
+    transform: translateY(0);
+}
+
 @media (max-width: 768px) {
     .navbar-banner img {
         display: none;
