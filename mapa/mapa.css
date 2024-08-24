@@ -311,15 +311,28 @@ body {
     background-color: rgb(255, 87, 34);
 }
 
-.map-gallery .gallery-images {
-    display: flex;
-    gap: 20px;
+.map-gallery {
+    padding: 20px;
 }
 
-.map-gallery .gallery-images img {
+.gallery-images {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+}
+
+.gallery-images img {
     width: 100%;
     max-width: 200px;
+    height: auto;
     border-radius: 8px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.gallery-images img:hover {
+    transform: scale(1.05);
 }
 
 footer {
@@ -427,7 +440,7 @@ footer .social-media a.youtube:hover {
 
 .close:hover,
 .close:focus {
-    color: #bbb;
+    transform: scale(1.05);
     text-decoration: none;
     cursor: pointer;
 }
@@ -458,7 +471,7 @@ footer .social-media a.youtube:hover {
 }
 
 .prev:hover, .next:hover {
-    color: rgba(218, 218, 218, 0.8);
+    transform: scale(1.1);
 }
 
 .map-download {
@@ -498,6 +511,7 @@ footer .social-media a.youtube:hover {
     margin-top: 15px;
     font-size: 16px;
     color: #ffffff;
+    font-weight: bold;
 }
 
 .map-download .rating {
