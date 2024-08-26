@@ -142,7 +142,7 @@ document.addEventListener('DOMContentLoaded', function () {
         { id: 106, category: 'RPG', text: '💻 Panel postaci', details: '<em>prefix</em> postać/profil/panel', tag: 'RPG' , przyklad: '!profil'},
         { id: 107, category: 'RPG', text: '🌋 Dungeon', details: '<em>prefix</em> dungeon', tag: 'RPG' , przyklad: '!dungeon'},
         { id: 108, category: 'RPG', text: '🗺️ Mapa', details: '<em>prefix</em> mapa', tag: 'RPG' , przyklad: '!mapa'},
-        { id: 109, category: 'RPG', text: '[WKRÓTCE] 💱 Wymiany', details: '<em>prefix</em> trade {@użytkownik} {przedmiot}', tag: 'RPG' , przyklad: '!trade @Xajper łuk'},
+        { id: 109, category: 'RPG', text: '[WKRÓTCE] 💱 Wymiany', details: '<em>prefix</em> trade/wymiana {@użytkownik} {przedmiot który oddajesz} {przedmiot który przyjmujesz}', tag: 'RPG' , przyklad: '!trade @Xajper łuk miecz'},
         { id: 110, category: 'RPG', text: '🏰 Lista komend do funkcji gildii', details: '<em>prefix</em> gildia', tag: 'RPG' , przyklad: '!gildia'},
         { id: 111, category: 'RPG', text: '😺 Stwórz własnego peta', details: '<em>prefix</em> pet {nazwa} {gatunek}', tag: 'RPG' , przyklad: '!pet Mruczek kot'},
         { id: 112, category: 'RPG', text: '🃏 Panel peta', details: '<em>prefix</em> pets', tag: 'RPG' , przyklad: '!pets'},
