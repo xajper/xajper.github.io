@@ -674,7 +674,7 @@ footer .social-media a.youtube:hover {
     }
 
     .map-title {
-        margin-top: 150px;
+        display: none;
     }
 
     .hero-content h2 {
@@ -751,7 +751,7 @@ footer .social-media a.youtube:hover {
     }
 
     .map-title {
-        font-size: 1rem;
+        display: none;
     }
 
     .version, .author, .game {
