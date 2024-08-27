@@ -38,3 +38,20 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
+
+document.addEventListener('DOMContentLoaded', (event) => {
+    const links = [
+        "mapa/partyactivities.html",
+        "mapa/ostatniatwierdza.html",
+        "mapa/clickerevolved.html",
+        "mapa/twojarestauracja.html"
+    ];
+
+    document.getElementById('losowa-link').addEventListener('click', function (event) {
+        event.preventDefault();
+
+        const randomLink = links[Math.floor(Math.random() * links.length)];
+
+        window.location.href = randomLink;
+    });
+});
