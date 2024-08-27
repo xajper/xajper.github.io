@@ -70,11 +70,74 @@ body {
     color: #d3d3d3;
 }
 
-.category-button.adventure,
-.category-button.survival,
+.category-button.adventure {
+    background-color: transparent;
+    display: inline-block;
+    padding: 3px 6px;
+    margin: 3px;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 0.9rem;
+    color: #fff;
+    box-shadow: 
+        3px 0 6px rgba(0, 0, 0, 0.3),
+        inset 2px 0 4px rgba(0, 0, 0, 0.2);
+}
+
+.category-button.game {
+    background-color: transparent;
+    display: inline-block;
+    padding: 3px 6px;
+    margin: 3px;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 0.9rem;
+    color: #fff;
+    box-shadow: 
+        3px 0 6px rgba(0, 0, 0, 0.3),
+        inset 2px 0 4px rgba(0, 0, 0, 0.2);
+}
+
 .category-button.pvp {
     background-color: transparent;
-    z-index: 9999;
+    display: inline-block;
+    padding: 3px 6px;
+    margin: 3px;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 0.9rem;
+    color: #fff;
+    box-shadow: 
+        3px 0 6px rgba(0, 0, 0, 0.3),
+        inset 2px 0 4px rgba(0, 0, 0, 0.2);
+}
+
+.category-button.fabularne {
+    background-color: transparent;
+    display: inline-block;
+    padding: 3px 6px;
+    margin: 3px;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 0.9rem;
+    color: #fff;
+    box-shadow: 
+        3px 0 6px rgba(0, 0, 0, 0.3),
+        inset 2px 0 4px rgba(0, 0, 0, 0.2);
+}
+
+.category-button.puzzle {
+    background-color: transparent;
+    display: inline-block;
+    padding: 3px 6px;
+    margin: 3px;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 0.9rem;
+    color: #fff;
+    box-shadow: 
+        3px 0 6px rgba(0, 0, 0, 0.3),
+        inset 2px 0 4px rgba(0, 0, 0, 0.2);
 }
 
 .navbar .dropdown {
@@ -440,17 +503,19 @@ body {
 
 .search-bar input {
     width: 100%;
+    background-color: #9292921e;
     padding: 10px 12px;
     border: none;
     border-radius: 20px 0 0 20px;
     outline: none;
     font-size: 14px;
     height: 10px;
+    color: whitesmoke;
 }
 
 .search-bar button {
     padding: 0 15px;
-    background-color: #fff;
+    background-color: #9292921e;
     border: none;
     border-radius: 0 20px 20px 0;
     cursor: pointer;
@@ -463,11 +528,11 @@ body {
 }
 
 .search-bar button:hover {
-    background-color: #e0e0e0;
+    background-color: #92929250;
 }
 
 .search-bar button i {
-    color: #333;
+    color: #d3d3d3;
     font-size: 18px;
 }
 
@@ -532,6 +597,7 @@ footer .social-media a.youtube:hover {
     padding: 8px 16px;
     background-color: rgba(255, 255, 255, 0.2);
     color: #fff;
+    width: 50%;
     border: 2px solid #888888;
     border-radius: 4px;
     font-size: 1rem;
