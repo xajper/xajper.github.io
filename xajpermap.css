@@ -144,6 +144,22 @@ body {
     position: relative;
 }
 
+.dropdown-toggle i.fas.fa-chevron-down {
+    margin-left: 8px;
+    transition: transform 0.3s ease;
+    transform-origin: center;
+}
+
+.dropdown-toggle i.fas.fa-chevron-up {
+    margin-left: 8px;
+    transition: transform 0.3s ease;
+    transform-origin: center;
+}
+
+.dropdown.active .toggle-icon {
+    transform: rotate(180deg);
+}
+
 .navbar .dropdown-menu {
     display: none;
     position: absolute;
@@ -159,7 +175,7 @@ body {
     transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
-.navbar .dropdown:hover .dropdown-menu {
+.navbar .dropdown.active .dropdown-menu {
     display: block;
     opacity: 1;
     visibility: visible;
