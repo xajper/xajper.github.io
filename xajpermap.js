@@ -39,6 +39,27 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
+document.addEventListener('DOMContentLoaded', function() {
+    const dropdownToggle = document.querySelector('.dropdown-toggle');
+    const dropdownContainer = document.querySelector('.dropdown');
+    const toggleIcon = dropdownToggle.querySelector('.toggle-icon');
+
+    dropdownToggle.addEventListener('click', function(e) {
+        e.preventDefault();
+        dropdownContainer.classList.toggle('active');
+        toggleIcon.classList.toggle('fa-chevron-down');
+        toggleIcon.classList.toggle('fa-chevron-down');
+    });
+
+    document.addEventListener('click', function(e) {
+        if (!dropdownContainer.contains(e.target) && !dropdownToggle.contains(e.target)) {
+            dropdownContainer.classList.remove('active');
+            toggleIcon.classList.remove('fa-chevron-down');
+            toggleIcon.classList.add('fa-chevron-down');
+        }
+    });
+});
+
 document.addEventListener('DOMContentLoaded', (event) => {
     const links = [
         "mapa/partyactivities.html",
