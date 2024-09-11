@@ -65,7 +65,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
         "mapa/partyactivities.html",
         "mapa/ostatniatwierdza.html",
         "mapa/clickerevolved.html",
-        "mapa/twojarestauracja.html"
+        "mapa/twojarestauracja.html",
+        "mapa/agentsztajger.html"
     ];
 
     document.getElementById('losowa-link').addEventListener('click', function (event) {
