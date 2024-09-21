@@ -2,6 +2,7 @@ body {
     font-family: 'Roboto', sans-serif;
     margin: 0;
     padding: 0;
+    background: radial-gradient(circle, #333 0%, #212122 100%);
 }
 
 .navbar {
@@ -294,7 +295,7 @@ body {
     padding: 50px;
     background: radial-gradient(circle, #333 0%, #212122 100%);
     margin-bottom: 20px;
-    color: #fff;/
+    color: #fff;
 }
 
 .map-list {
