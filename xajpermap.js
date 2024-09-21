@@ -77,3 +77,20 @@ document.addEventListener('DOMContentLoaded', (event) => {
         window.location.href = randomLink;
     });
 });
+
+const searchInput = document.querySelector('.search-bar input');
+const mapTiles = document.querySelectorAll('.map-tile');
+
+searchInput.addEventListener('input', function() {
+  const searchText = searchInput.value.toLowerCase();
+  
+  mapTiles.forEach(tile => {
+    const title = tile.querySelector('.map-title').textContent.toLowerCase();
+    
+    if (title.includes(searchText)) {
+      tile.style.display = 'block';
+    } else {
+      tile.style.display = 'none';
+    }
+  });
+});
