@@ -7,6 +7,7 @@ var matchData = {
         shots: 0,
         yellowCards: 0,
         redCards: 0,
+        score: 0,
     },
     team2: {
         name: "",
@@ -15,6 +16,7 @@ var matchData = {
         shots: 0,
         yellowCards: 0,
         redCards: 0,
+        score: 0,
     },
     location: "",
     score: { team1: 0, team2: 0 },
@@ -23,6 +25,30 @@ var matchData = {
     currentSecond: 0,
     intervalId: null,
 };
+
+function blokujMysz(event) {
+    if (event.button === 2 || event.which === 3) {
+        event.preventDefault();
+    }
+  }
+  
+  function blokujKlawisze(event) {
+    if (event.key === 'F12') {
+        event.preventDefault();
+    }
+  
+    if (event.ctrlKey && event.key === 'u') {
+        event.preventDefault();
+    }
+  }
+  
+document.addEventListener('mousedown', blokujMysz);
+  
+document.addEventListener('keydown', blokujKlawisze);
+  
+document.addEventListener('contextmenu', function (event) {
+    event.preventDefault();
+});
 
 document.getElementById('team1').addEventListener('input', function() {
     this.value = this.value.toUpperCase(); // Zamień na wielkie litery
@@ -46,15 +72,17 @@ document.addEventListener('contextmenu', function (event) {
 document.addEventListener('mousedown', blokujMysz);
 
 function initializePlayers(team) {
-    team.players = [];
+    team.players = []; // Wyczyść listę zawodników
 
     // Dodaj bramkarza
     team.players.push({
         name: "Bramkarz",
         position: "Bramkarz",
-        inGame: true,
         yellowCards: 0,
-        redCard: false,
+        redCards: 0,
+        goals: 0,
+        injury: false, // Ustal, czy zawodnik ma kontuzję
+        isRedCarded: false // Ustal, czy zawodnik ma czerwoną kartkę
     });
 
     // Dodaj obrońców
@@ -62,9 +90,11 @@ function initializePlayers(team) {
         team.players.push({
             name: `Obrońca ${i}`,
             position: "Obrońca",
-            inGame: true,
             yellowCards: 0,
-            redCard: false,
+            redCards: 0,
+            goals: 0,
+            injury: false,
+            isRedCarded: false
         });
     }
 
@@ -73,9 +103,11 @@ function initializePlayers(team) {
         team.players.push({
             name: `Pomocnik ${i}`,
             position: "Pomocnik",
-            inGame: true,
             yellowCards: 0,
-            redCard: false,
+            redCards: 0,
+            goals: 0,
+            injury: false,
+            isRedCarded: false
         });
     }
 
@@ -84,14 +116,12 @@ function initializePlayers(team) {
         team.players.push({
             name: `Napastnik ${i}`,
             position: "Napastnik",
-            inGame: true,
             yellowCards: 0,
-            redCard: false,
+            redCards: 0,
+            goals: 0,
+            injury: false,
+            isRedCarded: false
         });
-    }
-
-    for (let i = 0; i < team.players.length; i++) {
-        team.players[i].yellowCards = 0;
     }
 }
 
@@ -162,8 +192,8 @@ function updateResult() {
     updateStats();
     updateStatusIndicators();
     displayResult();
-    displayPlayers(matchData.team1, 1);
-    displayPlayers(matchData.team2, 2);
+    displayPlayers(matchData.team1, 'team1-players');
+    displayPlayers(matchData.team2, 'team2-players');
     checkGameStatus();
 }
 
@@ -171,16 +201,19 @@ function displayResult() {
     var resultContainer = document.getElementById("result");
     var statusIndicators = document.querySelector(".status-indicators");
 
+    // Sprawdzanie, czy matchData jest prawidłowe
+    console.log("matchData:", matchData);
+
     document.getElementById("brak-status").style.display = "block";
     document.getElementById("break-status").style.display = "none";
     document.getElementById("finished-status").style.display = "none";
     document.getElementById("in-progress-status").style.display = "none";
 
     resultContainer.innerHTML = `<h2><img src="szczegoly.png" style="width: 20px; height: 20px; margin-bottom: -5px; margin-right: 5px;">Szczegóły:</h2>`;
-    resultContainer.innerHTML += `<p><img src="mecz.png" style="width: 20px; height: 20px; margin-bottom: -5px; margin-right: 5px;">Mecz: ${matchData.team1.name} ${getIcon("fa-home")} - ${getIcon("fa-plane")} ${matchData.team2.name}</p>`;
+    resultContainer.innerHTML += `<p><img src="mecz.png" style="width: 20px; height: 20px; margin-bottom: -5px; margin-right: 5px;">Mecz: ${matchData.team1.name} - ${matchData.team2.name}</p>`;
     resultContainer.innerHTML += `<p><img src="wynik.png" style="width: 20px; height: 20px; margin-bottom: -5px; margin-right: 5px;">Wynik: ${matchData.score.team1}:${matchData.score.team2} (${matchData.currentMinute}') - ${getStatusText()}</p>`;
 
-    // Display the status indicators
+    // Wyświetlanie wskaźników statusu
     statusIndicators.style.display = "flex";
 }
 
@@ -204,7 +237,7 @@ function getStatusText() {
         breakStatus.style.display = "none";
         inProgressStatus.style.display = "none";
         finishedStatus.style.display = "block";
-        return `Końcówka meczu!`;
+        return `Koniec meczu!`;
     }
 }
 
@@ -282,46 +315,57 @@ function createCardImages(cardArray, cardType, player, teamId) {
     return cardImages;
 }
 
-function displayPlayers(team, teamId) {
-    var playersList = document.getElementById(`team${teamId}-players`);
-    playersList.innerHTML = "";
+function displayPlayers(team, containerId) {
+    let container = document.getElementById(containerId);
+
+    if (!container) {
+        console.error(`Nie znaleziono elementu o ID ${containerId}`);
+        return;
+    }
+
+    container.innerHTML = ''; // Wyczyść zawartość kontenera
 
     team.players.forEach(player => {
-        var listItem = document.createElement("li");
+        let playerItem = document.createElement('li');
 
-        // Dodaj napis nazwy gracza
-        var playerNameSpan = document.createElement("span");
-        playerNameSpan.innerText = `${player.name} (${player.position})`;
-        listItem.appendChild(playerNameSpan);
-
-        // Dodaj obrazki dla wszystkich goli strzelonych przez tego samego zawodnika w danej drużynie
-        var scorerGoals = matchData.goalScorers[`team${teamId}`].filter(scorer => scorer.name === player.name);
-        for (var i = 0; i < scorerGoals.length; i++) {
-            var goalImage = document.createElement("img");
-            goalImage.src = "zdobytygol.png";
-            goalImage.alt = "Gol";
-
-            // Ustaw mniejsze wymiary obrazka
-            goalImage.style.width = "18px";
-            goalImage.style.height = "18px";
-
-            // Dodaj lekki odstęp między napisem a obrazkiem
-            goalImage.style.marginLeft = "5px";
-
-            goalImage.style.verticalAlign = "middle";
-
-            listItem.appendChild(goalImage);
+        if (player.isRedCarded) {
+            // Przekreślenie zawodnika z czerwoną kartką
+            playerItem.innerHTML = `<s>${player.name}</s>`; // Tylko przekreślenie
+        } else {
+            playerItem.innerHTML = `${player.name}`;
+            if (player.injury) {
+                playerItem.innerHTML = `<s>${player.name} (${player.position})</s> <img src="injury_icon.png" style="width: 20px; height: 20px;">`; // Przekreślenie i znacznik kontuzji
+            }
         }
 
-        // Dodaj obrazki dla wszystkich żółtych kartek dla tego samego zawodnika w danej drużynie
-        var yellowCardImages = createCardImages(matchData.yellowCards, 'yellow', player, teamId);
-        listItem.appendChild(yellowCardImages);
-        
-        // Wywołanie funkcji dla czerwonych kartek
-        var redCardImages = createCardImages(matchData.redCards, 'red', player, teamId);
-        listItem.appendChild(redCardImages);
+        // Wyświetl gole
+        for (let i = 0; i < player.goals; i++) {
+            let goalImg = document.createElement('img');
+            goalImg.src = 'zdobytygol.png'; // Upewnij się, że to jest właściwy obrazek
+            goalImg.style.width = '20px';
+            goalImg.style.height = '20px';
+            playerItem.appendChild(goalImg);
+        }
 
-        playersList.appendChild(listItem);
+        // Wyświetl żółte kartki
+        for (let i = 0; i < player.yellowCards; i++) {
+            let yellowCardImg = document.createElement('img');
+            yellowCardImg.src = 'yellow_card.png';
+            yellowCardImg.style.width = '20px';
+            yellowCardImg.style.height = '20px';
+            playerItem.appendChild(yellowCardImg);
+        }
+
+        // Wyświetl czerwone kartki
+        if (player.isRedCarded) {
+            let redCardImg = document.createElement('img');
+            redCardImg.src = 'red_card.png';
+            redCardImg.style.width = '20px';
+            redCardImg.style.height = '20px';
+            playerItem.appendChild(redCardImg);
+        }
+
+        container.appendChild(playerItem);
     });
 }
 
@@ -343,7 +387,13 @@ function simulateEvent() {
         return;
     }
 
-    // Reszta kodu symulacji zdarzeń
+    // Prawdopodobieństwa
+    const probabilityGoal = 0.05; // 5% szansy na gola
+    const probabilityYellowCard = 0.1; // 10% szansy na żółtą kartkę
+    const probabilityRedCard = 0.03; // 3% szansy na czerwoną kartkę
+    const probabilityInjury = 0.02; // 2% szansy na kontuzję
+    const probabilityNeutral = 0.8; // 80% szansy na neutralne zdarzenie
+
     var players = ["Napastnik 1", "Napastnik 2", "Pomocnik 1", "Pomocnik 2", "Pomocnik 3", "Pomocnik 4", "Obrońca 1", "Obrońca 2", "Obrońca 3", "Obrońca 4", "Bramkarz"];
     var randomPlayerIndex = Math.floor(Math.random() * players.length);
     var randomPlayer = players[randomPlayerIndex];
@@ -356,207 +406,158 @@ function simulateEvent() {
     // Zaktualizuj statystyki posiadania piłki
     updatePossession();
 
-    var events = [
-                    `Bramka! ${randomPlayer} <img src="gol.png" style="width: 20px; height: 20px; margin-bottom: -5px; margin-right: 5px;"> GOOOL (${scoringTeam})`,
-                    `Karny! Bramka! ${randomPlayer} <img src="gol.png" style="width: 20px; height: 20px; margin-bottom: -5px; margin-right: 5px;"> GOOOL (${scoringTeam})`,
-                    `Strzał zza pola karnego! Bramka! ${randomPlayer} <img src="gol.png" style="width: 20px; height: 20px; margin-bottom: -5px; margin-right: 5px;"> GOOOL (${scoringTeam})`,
-                    `${randomPlayer} zdecydował się na strzał z dystansu, i piłka ląduje w siatce! Fantastyczny gol <img src="gol.png" style="width: 20px; height: 20px; margin-bottom: -5px; margin-right: 5px;"> GOOOL (${scoringTeam})`,
-                    `${randomPlayer} próbował szczęścia z daleka, i piłka wpada do bramki! Niesamowity gol <img src="gol.png" style="width: 20px; height: 20px; margin-bottom: -5px; margin-right: 5px;"> GOOOL (${scoringTeam})`,
-                    `${randomPlayer} oddał strzał z dalekiego dystansu, i piłka znalazła się w siatce! Rewelacyjny gol <img src="gol.png" style="width: 20px; height: 20px; margin-bottom: -5px; margin-right: 5px;"> GOOOL (${scoringTeam})`,
-                    `${randomPlayer} uderzył z daleka, i piłka trafiła do bramki! Wspaniały gol <img src="gol.png" style="width: 20px; height: 20px; margin-bottom: -5px; margin-right: 5px;"> GOOOL (${scoringTeam})`,
-                    `${randomPlayer} strzelił z dalekiego zasięgu, i piłka umieściła się w siatce! Znakomity gol <img src="gol.png" style="width: 20px; height: 20px; margin-bottom: -5px; margin-right: 5px;"> GOOOL (${scoringTeam})`,
-                    `${randomPlayer} wykonał strzał z daleka, i piłka wylądowała w bramce! Spektakularny gol <img src="gol.png" style="width: 20px; height: 20px; margin-bottom: -5px; margin-right: 5px;"> GOOOL (${scoringTeam})`,
-                    `${randomPlayer} zakończył akcje swojej drużyny strzelając z bliska w środek bramki przeciwnika <img src="gol.png" style="width: 20px; height: 20px; margin-bottom: -5px; margin-right: 5px;"> GOOOL (${scoringTeam})`,
-                    `${randomPlayer} zakończył akcje swojej drużyny strzelając z bliska w lewy róg bramki przeciwnika <img src="gol.png" style="width: 20px; height: 20px; margin-bottom: -5px; margin-right: 5px;"> GOOOL (${scoringTeam})`,
-                    `${randomPlayer} zakończył akcje swojej drużyny strzelając z bliska w prawy róg bramki przeciwnika <img src="gol.png" style="width: 20px; height: 20px; margin-bottom: -5px; margin-right: 5px;"> GOOOL (${scoringTeam})`,
-                    `${randomPlayer} zakończył akcje swojej drużyny dobiając piłkę do bramki <img src="gol.png" style="width: 20px; height: 20px; margin-bottom: -5px; margin-right: 5px;"> GOOOL (${scoringTeam})`,
-                    `${randomPlayer} dokończył dzieła i strzelił bramkę dla swojej drużyny <img src="gol.png" style="width: 20px; height: 20px; margin-bottom: -5px; margin-right: 5px;"> GOOOL (${scoringTeam})`,
-                    `${randomPlayer} zdobył gola kończąc akcję swojej drużyny <img src="gol.png" style="width: 20px; height: 20px; margin-bottom: -5px; margin-right: 5px;"> GOOOL (${scoringTeam})`,
-                    `${randomPlayer} nie pomylił się z bliska i zdobył gola <img src="gol.png" style="width: 20px; height: 20px; margin-bottom: -5px; margin-right: 5px;"> GOOOL (${scoringTeam})`,
+    // Losowanie zdarzenia na podstawie prawdopodobieństw
+    var randomNum = Math.random();
+    var randomEvent = '';
 
-                    `${randomPlayer} próbuje szczęścia z daleka, ale nie trafia w światło bramki`,
-                    `${randomPlayer} oddaje strzał z dalekiego dystansu, jednak piłka mija bramkę o wiele metrów`,
-                    `${randomPlayer} uderza z daleka, lecz piłka leci wysoko nad poprzeczką`,
-                    `${randomPlayer} strzela z dalekiego zasięgu, ale niecelnie i piłka ląduje poza boiskiem`,
-                    `${randomPlayer} wykonuje strzał z daleka, lecz piłka nie ma szans na trafienie do bramki`,
-                    `${randomPlayer} decyduje się na strzał z dystansu, lecz piłka leci daleko od bramki`,
+    if (randomNum < probabilityGoal) {
+        // Wybór zdarzenia związanego z bramką
+        const goalEvents = [
+            `Bramka! ${randomPlayer} <img src="gol.png" style="width: 20px; height: 20px; margin-bottom: -5px; margin-right: 5px;"> GOOOL (${scoringTeam})`,
+            `Karny! Bramka! ${randomPlayer} <img src="gol.png" style="width: 20px; height: 20px; margin-bottom: -5px; margin-right: 5px;"> GOOOL (${scoringTeam})`,
+            `Strzał zza pola karnego! Bramk! ${randomPlayer} <img src="gol.png" style="width: 20px; height: 20px; margin-bottom: -5px; margin-right: 5px;"> GOOOL (${scoringTeam})`,
+            `${randomPlayer} zdecydował się na strzał z dystansu, i piłka ląduje w siatce! Fantastyczny gol <img src="gol.png" style="width: 20px; height: 20px; margin-bottom: -5px; margin-right: 5px;"> GOOOL (${scoringTeam})`
+            // Dodaj więcej zdarzeń bramkowych, jeśli chcesz
+        ];
+        randomEvent = goalEvents[Math.floor(Math.random() * goalEvents.length)];
+        assignGoal(randomPlayer, scoringTeam); // Wywołanie funkcji do przydzielenia gola
+        scoringTeam.score += 1; // Zwiększ wynik drużyny
 
-                    `Rzut rożny: ${randomPlayer} wywalczył korner dla swojej drużyny`,
-                    `Korner: ${randomPlayer} zmusił do interwencji bramkarza przeciwnika`,
-                    `Róg: ${randomPlayer} wypracował sobie dogodną sytuację do dośrodkowania`,
-                    `Rzut z narożnika: ${randomPlayer} zaskoczył obrońcę i wywalczył rzut rożny`,
-                    `Rzut z rogu: ${randomPlayer} zagrał sprytnie i zyskał korner dla swojej drużyny`,
-                    `Rzut rożny: ${randomPlayer} zagrał na aut bramkarza rywali`,
-
-                    `Strzał w słupek przez ${randomPlayer}!`,
-                    `Trafienie w poprzeczkę przez ${randomPlayer}!`,
-                    `Strzał w metal przez ${randomPlayer}!`,
-                    `Uderzenie w słupek przez ${randomPlayer}!`,
-                    `Strzał w spojenie przez ${randomPlayer}!`,
-                    `Piłka odbija się od słupka po strzale ${randomPlayer}!`,
-
-                    `Żółta kartka dla ${randomPlayer}! <img src="yellow_card.png" style="width: 20px; height: 20px; margin-bottom: -5px; margin-right: 5px;"> ŻÓŁTA KARTKA (${scoringTeam})`,
-                    `Sędzia pokazuje żółtą kartkę ${randomPlayer}! <img src="yellow_card.png" style="width: 20px; height: 20px; margin-bottom: -5px; margin-right: 5px;"> ŻÓŁTA KARTKA (${scoringTeam})`,
-                    `${randomPlayer} dostaje żółtą kartkę za faul! <img src="yellow_card.png" style="width: 20px; height: 20px; margin-bottom: -5px; margin-right: 5px;"> ŻÓŁTA KARTKA (${scoringTeam})`,
-                    `Żółty kartonik dla ${randomPlayer}! <img src="yellow_card.png" style="width: 20px; height: 20px; margin-bottom: -5px; margin-right: 5px;"> ŻÓŁTA KARTKA (${scoringTeam})`,
-                    `Naruszenie przepisów: ${randomPlayer} sfaulował ${players[randomPlayerIndex + 1]} i widzi żółtą kartkę od sędziego <img src="yellow_card.png" style="width: 20px; height: 20px; margin-bottom: -5px; margin-right: 5px;"> ŻÓŁTA KARTKA (${scoringTeam})`,
-
-                    `Czerwona kartka dla ${randomPlayer}! <img src="red_card.png" style="width: 20px; height: 20px; margin-bottom: -5px; margin-right: 5px;"> CZERWONA KARTKA (${scoringTeam})`,
-                    `Wykluczenie dla ${randomPlayer}! <img src="red_card.png" style="width: 20px; height: 20px; margin-bottom: -5px; margin-right: 5px;"> CZERWONA KARTKA (${scoringTeam})`,
-                    `Sędzia pokazuje czerwoną kartkę ${randomPlayer}! <img src="red_card.png" style="width: 20px; height: 20px; margin-bottom: -5px; margin-right: 5px;"> CZERWONA KARTKA (${scoringTeam})`,
-                    `${randomPlayer} dostaje czerwoną kartkę za brutalny faul! <img src="red_card.png" style="width: 20px; height: 20px; margin-bottom: -5px; margin-right: 5px;"> CZERWONA KARTKA (${scoringTeam})`,
-                    `Zawieszenie dla ${randomPlayer}! <img src="red_card.png" style="width: 20px; height: 20px; margin-bottom: -5px; margin-right: 5px;"> CZERWONA KARTKA (${scoringTeam})`,
-                    `Czerwony kartonik dla ${randomPlayer}! <img src="red_card.png" style="width: 20px; height: 20px; margin-bottom: -5px; margin-right: 5px;"> CZERWONA KARTKA (${scoringTeam})`,
-
-                    `${randomPlayer} był na pozycji spalonej`,
-                    `Spalony: ${randomPlayer} znalazł się za linią obrony przeciwnika`,
-                    `Spalony, ${randomPlayer} zagrał z ofsajdu`,
-                    `Spalony: ${randomPlayer} był przedostatnim zawodnikiem na boisku`,
-                    `Spalony: ${randomPlayer} nie zdołał wrócić na czas za linię obrońców`,
+        // Zwiększanie statystyk dla odpowiedniej drużyny
+        if (scoringTeam === matchData.team1.name) {
+            matchData.score.team1 += 1;
+            matchData.team1.shots += 1; // Zwiększ liczbę strzałów dla team1
+        } else {
+            matchData.score.team2 += 1;
+            matchData.team2.shots += 1; // Zwiększ liczbę strzałów dla team2
+        }
 
 
-                    `Faul: ${randomPlayer} sfaulował ${players[randomPlayerIndex + 1]} i dostaje upomnienie od sędziego`,
-                    `Przewinienie, ${randomPlayer} zagrał nieczysto na ${players[randomPlayerIndex + 1]} i otrzymuje ostrzeżenie od sędziego`,
-                    `Niebezpieczna gra: ${randomPlayer} podciął ${players[randomPlayerIndex + 1]}`,
-                    `${randomPlayer} zaatakował ${players[randomPlayerIndex + 1]} i musi się liczyć z konsekwencjami od sędziego`,
-                    `${randomPlayer} powalił ${players[randomPlayerIndex + 1]} i słyszy gwizdek sędziego`,
+    } else if (randomNum < probabilityGoal + probabilityYellowCard) {
+        // Wybór zdarzenia związanego z żółtą kartką
+        const yellowCardEvents = [
+            `Żółta kartka dla ${randomPlayer}! <img src="yellow_card.png" style="width: 20px; height: 20px; margin-bottom: -5px; margin-right: 5px;"> ŻÓŁTA KARTKA (${scoringTeam})`,
+            `Sędzia pokazuje żółtą kartkę ${randomPlayer}! <img src="yellow_card.png" style="width: 20px; height: 20px; margin-bottom: -5px; margin-right: 5px;"> ŻÓŁTA KARTKA (${scoringTeam})`,
+            `${randomPlayer} dostaje żółtą kartkę za faul! <img src="yellow_card.png" style="width: 20px; height: 20px; margin-bottom: -5px; margin-right: 5px;"> ŻÓŁTA KARTKA (${scoringTeam})`
+        ];
+        randomEvent = yellowCardEvents[Math.floor(Math.random() * yellowCardEvents.length)];
+        assignCard('yellow', randomPlayer, scoringTeam); // Przypisz żółtą kartkę
+        // Zwiększanie statystyk dla odpowiedniej drużyny
+        if (scoringTeam === matchData.team1.name) {
+            matchData.team1.yellowCards += 1; // Zwiększ liczbę strzałów dla team1
+        } else {
+            matchData.team2.yellowCards += 1; // Zwiększ liczbę strzałów dla team2
+        }
 
+    } else if (randomNum < probabilityGoal + probabilityYellowCard + probabilityRedCard) {
+        // Wybór zdarzenia związanego z czerwoną kartką
+        const redCardEvents = [
+            `Czerwona kartka dla ${randomPlayer}! <img src="red_card.png" style="width: 20px; height: 20px; margin-bottom: -5px; margin-right: 5px;"> CZERWONA KARTKA (${scoringTeam})`,
+            `Wykluczenie dla ${randomPlayer}! <img src="red_card.png" style="width: 20px; height: 20px; margin-bottom: -5px; margin-right: 5px;"> CZERWONA KARTKA (${scoringTeam})`,
+            `Sędzia pokazuje czerwoną kartkę ${randomPlayer}! <img src="red_card.png" style="width: 20px; height: 20px; margin-bottom: -5px; margin-right: 5px;"> CZERWONA KARTKA (${scoringTeam})`
+        ];
+        randomEvent = redCardEvents[Math.floor(Math.random() * redCardEvents.length)];
+        assignCard('red', randomPlayer, scoringTeam); // Przypisz czerwoną kartkę
+        // Zwiększanie statystyk dla odpowiedniej drużyny
+        if (scoringTeam === matchData.team1.name) {
+            matchData.team1.redCards += 1; // Zwiększ liczbę strzałów dla team1
+        } else {
+            matchData.team2.redCards += 1; // Zwiększ liczbę strzałów dla team2
+        }
 
-                    `${randomPlayer} próbował zaskoczyć bramkarza, ale piłka poszła daleko obok bramki, słaby strzał`,
-                    `${randomPlayer} chciał zaskoczyć golkipera, ale piłka minęła bramkę o kilka metrów, nieudany strzał`,
-                    `${randomPlayer} próbował zrobić niespodziankę bramkarzowi, ale piłka poleciała daleko w bok, kiepski strzał`,
-                    `${randomPlayer} zamierzał zagiąć bramkarza, ale piłka nie trafiła w światło bramki, słaba próba`,
-                    `${randomPlayer} strzelił, ale piłka poszybowała daleko obok słupka, marny strzał`,
-                    `${randomPlayer} postanowił uderzyć, lecz piłka nie miała szans na trafienie do siatki, beznadziejny strzał`,
+    } else if (randomNum < probabilityGoal + probabilityYellowCard + probabilityRedCard + probabilityInjury) {
+        // Wybór zdarzenia związanego z kontuzją
+        const injuryEvents = [
+            `Kontuzja: ${randomPlayer} opuszcza boisko.`,
+            `Kontuzja: ${randomPlayer} zmuszony do zmiany.`,
+            `Kontuzja: ${randomPlayer} nie może kontynuować gry.`
+        ];
+        randomEvent = injuryEvents[Math.floor(Math.random() * injuryEvents.length)];
+        randomPlayer.injury = true; // Zaznacz kontuzję zawodnika
 
+    } else {
+        // Wybór neutralnego wydarzenia, jeśli nie było innych zdarzeń
+        const neutralEvents = [
+            `${randomPlayer} powstrzymał niebezpieczną akcję rywala i odbił piłkę na aut`,
+            `Drużyna gości buduje atak pozycyjny`,
+            `Drużyna gości nie może przedostać się na połowę przeciwnika`,
+            `Drużyna przyjezdnych powoli rozgrywa akcję`,
+            `Drużyna gospodarzy buduje atak pozycyjny`,
+            `Drużyna gospodarzy nie może przedostać się na połowę przeciwnika`,
+            `Gospodarze powoli rozgrywają akcję`,
+            `Zmiana: ${randomPlayer} za ${players[randomPlayerIndex - 1]}`,
+            `Zmiana: ${randomPlayer} za ${players[randomPlayerIndex + 1]}`,
+            `${randomPlayer} był na pozycji spalonej`,
+            `Spalony: ${randomPlayer} znalazł się za linią obrony przeciwnika`,
+            `Spalony, ${randomPlayer} zagrał z ofsajdu`,
+            `Spalony: ${randomPlayer} był przedostatnim zawodnikiem na boisku`,
+            `Spalony: ${randomPlayer} nie zdołał wrócić na czas za linię obrońców`,
+            `Faul: ${randomPlayer} sfaulował ${players[randomPlayerIndex + 1]} i dostaje upomnienie od sędziego`,
+            `Przewinienie, ${randomPlayer} zagrał nieczysto na ${players[randomPlayerIndex + 1]} i otrzymuje ostrzeżenie od sędziego`,
+            `Niebezpieczna gra: ${randomPlayer} podciął ${players[randomPlayerIndex + 1]}`,
+            `${randomPlayer} zaatakował ${players[randomPlayerIndex + 1]} i musi się liczyć z konsekwencjami od sędziego`,
+            `${randomPlayer} powalił ${players[randomPlayerIndex + 1]} i słyszy gwizdek sędziego`,
+            `${randomPlayer} próbował zaskoczyć bramkarza, ale piłka poszła daleko obok bramki, słaby strzał`,
+            `${randomPlayer} chciał zaskoczyć golkipera, ale piłka minęła bramkę o kilka metrów, nieudany strzał`,
+            `${randomPlayer} próbował zrobić niespodziankę bramkarzowi, ale piłka poleciała daleko w bok, kiepski strzał`,
+            `${randomPlayer} zamierzał zagiąć bramkarza, ale piłka nie trafiła w światło bramki, słaba próba`,
+            `${randomPlayer} strzelił, ale piłka poszybowała daleko obok słupka, marny strzał`,
+            `${randomPlayer} postanowił uderzyć, lecz piłka nie miała szans na trafienie do siatki, beznadziejny strzał`,
+            `${randomPlayer} zatrzymał groźny atak przeciwnika i wybił piłkę na aut`,
+            `${randomPlayer} powstrzymał niebezpieczną akcję rywala i odbił piłkę na aut`,
+            `${randomPlayer} zniweczył groźną ofensywę przeciwnika i wykopał piłkę na aut`,
+            `${randomPlayer} zatrzymał zagrożenie ze strony rywala i wyrzucił piłkę na aut`,
+            `${randomPlayer} udaremnił niepokojący atak przeciwnika i wybił piłkę poza boisko`,
+            `${randomPlayer} zakończył groźną sytuację rywala i odbił piłkę na linię boczną`,
+            `${randomPlayer} próbuje szczęścia z daleka, ale nie trafia w światło bramki`,
+            `${randomPlayer} oddaje strzał z dalekiego dystansu, jednak piłka mija bramkę o wiele metrów`,
+            `${randomPlayer} uderza z daleka, lecz piłka leci wysoko nad poprzeczką`,
+            `${randomPlayer} strzela z dalekiego zasięgu, ale niecelnie i piłka ląduje poza boiskiem`,
+            `${randomPlayer} wykonuje strzał z daleka, lecz piłka nie ma szans na trafienie do bramki`,
+            `${randomPlayer} decyduje się na strzał z dystansu, lecz piłka leci daleko od bramki`,
+            `Rzut rożny: ${randomPlayer} wywalczył korner dla swojej drużyny`,
+            `Korner: ${randomPlayer} zmusił do interwencji bramkarza przeciwnika`,
+            `Róg: ${randomPlayer} wypracował sobie dogodną sytuację do dośrodkowania`,
+            `Rzut z narożnika: ${randomPlayer} zaskoczył obrońcę i wywalczył rzut rożny`,
+            `Rzut z rogu: ${randomPlayer} zagrał sprytnie i zyskał korner dla swojej drużyny`,
+            `Rzut rożny: ${randomPlayer} zagrał na aut bramkarza rywali`,
+            `Strzał w słupek przez ${randomPlayer}!`,
+            `Trafienie w poprzeczkę przez ${randomPlayer}!`,
+            `Strzał w metal przez ${randomPlayer}!`,
+            `Uderzenie w słupek przez ${randomPlayer}!`,
+            `Strzał w spojenie przez ${randomPlayer}!`,
+            `Piłka odbija się od słupka po strzale ${randomPlayer}!`
+        ];
+        randomEvent = neutralEvents[Math.floor(Math.random() * neutralEvents.length)];
+    }
 
-                    `${randomPlayer} zatrzymał groźny atak przeciwnika i wybił piłkę na aut`,
-                    `${randomPlayer} powstrzymał niebezpieczną akcję rywala i odbił piłkę na aut`,
-                    `${randomPlayer} zniweczył groźną ofensywę przeciwnika i wykopał piłkę na aut`,
-                    `${randomPlayer} zatrzymał zagrożenie ze strony rywala i wyrzucił piłkę na aut`,
-                    `${randomPlayer} udaremnił niepokojący atak przeciwnika i wybił piłkę poza boisko`,
-                    `${randomPlayer} zakończył groźną sytuację rywala i odbił piłkę na linię boczną`,
-
-                    `Drużyna gości buduje atak pozycyjny`,
-                    `Drużyna gości nie może przedostać się na połowę przeciwnika`,
-                    `Drużyna przyjezdnych powoli rozgrywa akcję`,
-                    `Drużyna gospodarzy buduje atak pozycyjny`,
-                    `Drużyna gospodarzy nie może przedostać się na połowę przeciwnika`,
-                    `Gospodarze powoli rozgrywają akcję`,
-
-                    `Zmiana: ${randomPlayer} za ${players[randomPlayerIndex - 1]}`,
-                    `Zmiana: ${randomPlayer} za ${players[randomPlayerIndex + 1]}`,
-
-                    `Kontuzja: ${randomPlayer} opuszcza boisko`, `Zmiana: ${randomPlayer} za ${players[randomPlayerIndex - 1]}`,];
-
-    var randomEvent = events[Math.floor(Math.random() * events.length)];
+    checkForWalkover();
 
     // Dodaj minutę meczu do treści zdarzenia
     var eventMinute = matchData.currentMinute;
     matchData.events.push({ minute: eventMinute, event: `・ ${randomEvent}` });
 
     // Aktualizuj wynik tylko w przypadku bramki
-
     if (!matchData.goalScorers) {
         matchData.goalScorers = {
             team1: [],
             team2: []
         };
     }
-    
+
     if (!matchData.yellowCards) {
         matchData.yellowCards = {
             team1: [],
             team2: []
         };
     }
-    
+
     if (!matchData.redCards) {
         matchData.redCards = {
             team1: [],
             team2: []
         };
     }
-
-    if (randomEvent.includes("ŻÓŁTA KARTKA")) {
-        var yellowCardPlayer = {
-            name: randomPlayer,
-            team: randomEvent.includes(matchData.team1.name) ? matchData.team1.name : matchData.team2.name
-        };
-    
-        // Sprawdź, czy zawodnik jest jeszcze w grze dla drużyny A
-        if (isPlayerInGame(matchData.team1.players, yellowCardPlayer.name)) {
-            matchData.yellowCards.team1.push(yellowCardPlayer);
-            matchData.team1.yellowCards += 1;
-    
-            if (matchData.team1.playersInGame < 7) {
-                handleWalkover(yellowCardPlayer.team);
-            }
-        } else if (isPlayerInGame(matchData.team2.players, yellowCardPlayer.name)) {
-            // Sprawdź, czy zawodnik jest jeszcze w grze dla drużyny B
-            matchData.yellowCards.team2.push(yellowCardPlayer);
-            matchData.team2.yellowCards += 1;
-    
-            if (matchData.team2.playersInGame < 7) {
-                handleWalkover(yellowCardPlayer.team);
-            }
-        }
-    
-        // Aktualizacja wyświetlania obrazków żółtych kartek
-        var yellowCardImages = createCardImages(matchData.yellowCards, 'yellow', yellowCardPlayer, scoringTeam);
-        listItem.appendChild(yellowCardImages);
-    }
-    
-    // Poprawiona funkcja dla czerwonych kartek
-    if (randomEvent.includes("CZERWONA KARTKA")) {
-        var redCardPlayer = {
-            name: randomPlayer,
-            team: randomEvent.includes(matchData.team1.name) ? matchData.team1.name : matchData.team2.name
-        };
-    
-        // Sprawdź, czy zawodnik jest jeszcze w grze dla drużyny A
-        if (isPlayerInGame(matchData.team1.players, redCardPlayer.name)) {
-            matchData.redCards.team1.push(redCardPlayer);
-            matchData.team1.redCards += 1;
-    
-            if (matchData.team1.playersInGame < 7) {
-                handleWalkover(redCardPlayer.team);
-            }
-        } else if (isPlayerInGame(matchData.team2.players, redCardPlayer.name)) {
-            // Sprawdź, czy zawodnik jest jeszcze w grze dla drużyny B
-            matchData.redCards.team2.push(redCardPlayer);
-            matchData.team2.redCards += 1;
-    
-            if (matchData.team2.playersInGame < 7) {
-                handleWalkover(redCardPlayer.team);
-            }
-        }
-    
-        // Aktualizacja wyświetlania obrazków czerwonych kartekscoringTeam
-        var redCardImages = createCardImages(matchData.redCards, 'red', redCardPlayer, scoringTeam);
-        listItem.appendChild(redCardImages);
-    }
-    
-    if (randomEvent.includes("GOOOL")) {
-        var goalScorer = {
-            name: randomPlayer,
-            team: randomEvent.includes(matchData.team1.name) ? matchData.team1.name : matchData.team2.name
-        };
-
-        if (goalScorer.team === matchData.team1.name) {
-            matchData.score.team1 += 1;
-            matchData.team1.shots += 1;
-            // Dodaj nowego strzelca do tablicy dla drużyny 1
-            matchData.goalScorers.team1.push(goalScorer);
-        } else if (goalScorer.team === matchData.team2.name) {
-            matchData.score.team2 += 1;
-            matchData.team2.shots += 1;
-            // Dodaj nowego strzelca do tablicy dla drużyny 2
-            matchData.goalScorers.team2.push(goalScorer);
-        }
-
-    }
-    
 }
 
 function isPlayerInGame(teamPlayers, playerName) {
@@ -568,21 +569,70 @@ function formatTime(minutes) {
     return `${String(minutesPart)}'`;
 }
 
+function assignGoal(playerName, teamName) {
+    let team = teamName === matchData.team1.name ? matchData.team1 : matchData.team2;
+    let player = team.players.find(player => player.name === playerName);
+    
+    if (player) {
+        player.goals += 1; // Zwiększa liczbę goli        
+        matchData.events.push(`Gol! ${playerName} zdobywa bramkę dla ${teamName}!`);
+    } else {
+        console.error(`Zawodnik ${playerName} nie został znaleziony w drużynie ${teamName}`);
+    }
+}
+
+function assignCard(cardType, playerName, teamName) {
+    let team = teamName === matchData.team1.name ? matchData.team1 : matchData.team2;
+    let player = team.players.find(player => player.name === playerName);
+
+    if (player) {
+        if (cardType === 'yellow') {
+            player.yellowCards += 1; // Zwiększa liczbę żółtych kartek
+            if (player.yellowCards === 2) {
+                player.redCards += 1; // Przypisz czerwoną kartkę
+                player.isRedCarded = true; // Oznacz, że zawodnik ma czerwoną kartkę
+                matchData.events.push(`Czerwona kartka dla ${playerName} (z powodu 2 żółtych)! (${teamName})`);
+            } else {
+                matchData.events.push(`Żółta kartka dla ${playerName}! (${teamName})`);
+            }
+        } else if (cardType === 'red') {
+            player.redCards += 1; // Zwiększa liczbę czerwonych kartek
+            player.isRedCarded = true; // Oznacz, że zawodnik ma czerwoną kartkę
+            matchData.events.push(`Czerwona kartka dla ${playerName}! (${teamName})`);
+        }
+    } else {
+        console.error(`Zawodnik ${playerName} nie został znaleziony w drużynie ${teamName}`);
+    }
+}
+
+function checkForWalkover() {
+    // Sprawdzanie drużyny 1
+    if (matchData.team1.players.filter(player => !player.isRedCarded).length < 7) {
+        matchData.team2.score += 3; // Przyznaj 3 punkty drużynie 2
+        matchData.events.push(`Walkower dla ${matchData.team2.name} (za mało zawodników w ${matchData.team1.name})`);
+    } 
+    // Sprawdzanie drużyny 2
+    else if (matchData.team2.players.filter(player => !player.isRedCarded).length < 7) {
+        matchData.team1.score += 3; // Przyznaj 3 punkty drużynie 1
+        matchData.events.push(`Walkower dla ${matchData.team1.name} (za mało zawodników w ${matchData.team2.name})`);
+    }
+}
+
 function displayStats() {
     var statsContainer = document.getElementById("stats");
     statsContainer.innerHTML = "<h2>Statystyki:</h2>";
-    statsContainer.innerHTML +=
-    `<p><img src="posiadanie.png" style="width: 20px; height: 20px; margin-bottom: -5px; margin-right: 5px;">Posiadanie piłki: ${matchData.team1.possession}% - ${matchData.team2.possession}%</p>`;
     
     statsContainer.innerHTML +=
-    `<p><img src="yellow_card.png" style="width: 20px; height: 20px; margin-bottom: -5px; margin-right: 5px;">Żółte kartki: ${matchData.team1.yellowCards.length} - ${matchData.team2.yellowCards.length}</p>`;
-
-    // Dodaj grafikę red_car.png przy informacji o czerwonych kartkach
-    statsContainer.innerHTML += `
-    <p><img src="red_card.png" style="width: 20px; height: 20px; margin-bottom: -5px; margin-right: 5px;">Czerwone kartki: ${matchData.team1.redCards} - ${matchData.team2.redCards}</p>`;
-
+        `<p><img src="posiadanie.png" style="width: 20px; height: 20px; margin-bottom: -5px; margin-right: 5px;">Posiadanie piłki: ${matchData.team1.possession}% - ${matchData.team2.possession}%</p>`;
+    
     statsContainer.innerHTML +=
-    `<p><img src="shoot.png" style="width: 20px; height: 20px; margin-bottom: -5px; margin-right: 5px;">Strzały: ${matchData.team1.shots} - ${matchData.team2.shots}</p>`;
+        `<p><img src="yellow_card.png" style="width: 20px; height: 20px; margin-bottom: -5px; margin-right: 5px;">Żółte kartki: ${matchData.team1.yellowCards} - ${matchData.team2.yellowCards}</p>`;
+    
+    statsContainer.innerHTML += 
+        `<p><img src="red_card.png" style="width: 20px; height: 20px; margin-bottom: -5px; margin-right: 5px;">Czerwone kartki: ${matchData.team1.redCards} - ${matchData.team2.redCards}</p>`;
+    
+    statsContainer.innerHTML += 
+        `<p><img src="shoot.png" style="width: 20px; height: 20px; margin-bottom: -5px; margin-right: 5px;">Strzały: ${matchData.team1.shots} - ${matchData.team2.shots}</p>`;
 }
 
 function updatePossession() {
@@ -633,28 +683,40 @@ function slowDown() {
 }
 
 function skip() {
-    clearInterval(matchData.intervalId);
-    updateResult(); // Pomijaj aktualizację i aktualizuj wynik ręcznie
+    // Ustaw czas na 90 minut
+    matchData.currentMinute = 90;
+
+    // Symuluj wydarzenia przez pozostałe minuty
+    while (matchData.currentMinute < 90) {
+        simulateEvent();
+        matchData.currentMinute++;
+    }
+
+    // Po zakończeniu symulacji, wyświetl wynik
+    displayMatchResults();
 }
 
 function finish() {
-    clearInterval(matchData.intervalId);
+    // Ustaw czas na 90 minut
+    matchData.currentMinute = 90;
 
-    // Symuluj zdarzenia do 90. minuty z użyciem funkcji setTimeout
-    function simulateRemainingEventsAsync() {
-        if (matchData.currentMinute < 90) {
-            simulateEvent();
-            matchData.currentMinute === 90;
+    // Wyświetl wynik od razu
+    displayMatchResults();
+}
 
-            setTimeout(simulateRemainingEventsAsync, 0);
-        } else {
-            // Po zakończeniu symulacji zdarzeń, aktualizuj statystyki do 90. minuty
-            updateRemainingStats();
-        }
-    }
+function displayMatchResults() {
+    // Wyświetl wynik meczu
+    alert(`Mecz zakończony! 
+Drużyna A: ${matchData.team1.score} - ${matchData.team2.score} Drużyna B`);
 
-    // Rozpocznij asynchroniczną symulację zdarzeń
-    simulateRemainingEventsAsync();
+    // Wyświetl wszystkie wydarzenia
+    matchData.events.forEach(event => {
+        console.log(`Minuta ${event.minute}: ${event.event}`);
+    });
+
+    // Możesz też dodać logikę, aby zaktualizować interfejs użytkownika
+    displayPlayers(matchData.team1, 'team1-players');
+    displayPlayers(matchData.team2, 'team2-players');
 }
 
 function updateRemainingStats() {
