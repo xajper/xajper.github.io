@@ -328,10 +328,12 @@ function displayPlayers(team, containerId) {
     team.players.forEach(player => {
         let playerItem = document.createElement('li');
 
+        // Aktualizacja wyświetlania zawodnika
         if (player.isRedCarded) {
             // Przekreślenie zawodnika z czerwoną kartką
             playerItem.innerHTML = `<s>${player.name}</s>`; // Tylko przekreślenie
         } else {
+            // Aktualizacja wyświetlania imienia zawodnika
             playerItem.innerHTML = `${player.name}`;
             if (player.injury) {
                 playerItem.innerHTML = `<s>${player.name} (${player.position})</s> <img src="injury_icon.png" style="width: 20px; height: 20px;">`; // Przekreślenie i znacznik kontuzji
@@ -388,19 +390,21 @@ function simulateEvent() {
     }
 
     // Prawdopodobieństwa
-    const probabilityGoal = 0.05; // 5% szansy na gola
-    const probabilityYellowCard = 0.1; // 10% szansy na żółtą kartkę
-    const probabilityRedCard = 0.03; // 3% szansy na czerwoną kartkę
-    const probabilityInjury = 0.02; // 2% szansy na kontuzję
-    const probabilityNeutral = 0.8; // 80% szansy na neutralne zdarzenie
+    const probabilityGoal = 0.05;
+    const probabilityYellowCard = 0.04;
+    const probabilityRedCard = 0.02;
+    const probabilityInjury = 0.03;
+    const probabilityShot = 0.20;
+    const probabilityNeutral = 0.66;
+    // Suma wszystkich prawdopodobieństw powinna wynosić 1
 
     var players = ["Napastnik 1", "Napastnik 2", "Pomocnik 1", "Pomocnik 2", "Pomocnik 3", "Pomocnik 4", "Obrońca 1", "Obrońca 2", "Obrońca 3", "Obrońca 4", "Bramkarz"];
     var randomPlayerIndex = Math.floor(Math.random() * players.length);
     var randomPlayer = players[randomPlayerIndex];
 
     var team1Strength = 0.8;  // Przykładowa siła drużyny 1
-    var team2Strength = 0.7;  // Przykładowa siła drużyny 2
-    
+    var team2Strength = 0.6;  // Przykładowa siła drużyny 2
+
     var scoringTeam = Math.random() < team1Strength / (team1Strength + team2Strength) ? matchData.team1.name : matchData.team2.name;
 
     // Zaktualizuj statystyki posiadania piłki
@@ -410,14 +414,14 @@ function simulateEvent() {
     var randomNum = Math.random();
     var randomEvent = '';
 
+    // Sprawdź, co się wydarzy
     if (randomNum < probabilityGoal) {
         // Wybór zdarzenia związanego z bramką
         const goalEvents = [
             `Bramka! ${randomPlayer} <img src="gol.png" style="width: 20px; height: 20px; margin-bottom: -5px; margin-right: 5px;"> GOOOL (${scoringTeam})`,
             `Karny! Bramka! ${randomPlayer} <img src="gol.png" style="width: 20px; height: 20px; margin-bottom: -5px; margin-right: 5px;"> GOOOL (${scoringTeam})`,
-            `Strzał zza pola karnego! Bramk! ${randomPlayer} <img src="gol.png" style="width: 20px; height: 20px; margin-bottom: -5px; margin-right: 5px;"> GOOOL (${scoringTeam})`,
+            `Strzał zza pola karnego! ${randomPlayer} <img src="gol.png" style="width: 20px; height: 20px; margin-bottom: -5px; margin-right: 5px;"> GOOOL (${scoringTeam})`,
             `${randomPlayer} zdecydował się na strzał z dystansu, i piłka ląduje w siatce! Fantastyczny gol <img src="gol.png" style="width: 20px; height: 20px; margin-bottom: -5px; margin-right: 5px;"> GOOOL (${scoringTeam})`
-            // Dodaj więcej zdarzeń bramkowych, jeśli chcesz
         ];
         randomEvent = goalEvents[Math.floor(Math.random() * goalEvents.length)];
         assignGoal(randomPlayer, scoringTeam); // Wywołanie funkcji do przydzielenia gola
@@ -432,7 +436,6 @@ function simulateEvent() {
             matchData.team2.shots += 1; // Zwiększ liczbę strzałów dla team2
         }
 
-
     } else if (randomNum < probabilityGoal + probabilityYellowCard) {
         // Wybór zdarzenia związanego z żółtą kartką
         const yellowCardEvents = [
@@ -442,11 +445,12 @@ function simulateEvent() {
         ];
         randomEvent = yellowCardEvents[Math.floor(Math.random() * yellowCardEvents.length)];
         assignCard('yellow', randomPlayer, scoringTeam); // Przypisz żółtą kartkę
+
         // Zwiększanie statystyk dla odpowiedniej drużyny
         if (scoringTeam === matchData.team1.name) {
-            matchData.team1.yellowCards += 1; // Zwiększ liczbę strzałów dla team1
+            matchData.team1.yellowCards += 1; // Zwiększ liczbę żółtych kartek dla team1
         } else {
-            matchData.team2.yellowCards += 1; // Zwiększ liczbę strzałów dla team2
+            matchData.team2.yellowCards += 1; // Zwiększ liczbę żółtych kartek dla team2
         }
 
     } else if (randomNum < probabilityGoal + probabilityYellowCard + probabilityRedCard) {
@@ -458,11 +462,12 @@ function simulateEvent() {
         ];
         randomEvent = redCardEvents[Math.floor(Math.random() * redCardEvents.length)];
         assignCard('red', randomPlayer, scoringTeam); // Przypisz czerwoną kartkę
+
         // Zwiększanie statystyk dla odpowiedniej drużyny
         if (scoringTeam === matchData.team1.name) {
-            matchData.team1.redCards += 1; // Zwiększ liczbę strzałów dla team1
+            matchData.team1.redCards += 1; // Zwiększ liczbę czerwonych kartek dla team1
         } else {
-            matchData.team2.redCards += 1; // Zwiększ liczbę strzałów dla team2
+            matchData.team2.redCards += 1; // Zwiększ liczbę czerwonych kartek dla team2
         }
 
     } else if (randomNum < probabilityGoal + probabilityYellowCard + probabilityRedCard + probabilityInjury) {
@@ -474,6 +479,45 @@ function simulateEvent() {
         ];
         randomEvent = injuryEvents[Math.floor(Math.random() * injuryEvents.length)];
         randomPlayer.injury = true; // Zaznacz kontuzję zawodnika
+
+    } else if (randomNum < probabilityGoal + probabilityYellowCard + probabilityRedCard + probabilityInjury + probabilityShot) {
+        // Wybór zdarzenia związanego z niecelnym strzałem
+        const shotEvents = [
+            `${randomPlayer} próbował zaskoczyć bramkarza, ale piłka poszła daleko obok bramki, słaby strzał`,
+            `${randomPlayer} chciał zaskoczyć golkipera, ale piłka minęła bramkę o kilka metrów, nieudany strzał`,
+            `${randomPlayer} próbował zrobić niespodziankę bramkarzowi, ale piłka poleciała daleko w bok, kiepski strzał`,
+            `${randomPlayer} zamierzał zagiąć bramkarza, ale piłka nie trafiła w światło bramki, słaba próba`,
+            `${randomPlayer} strzelił, ale piłka poszybowała daleko obok słupka, marny strzał`,
+            `${randomPlayer} postanowił uderzyć, lecz piłka nie miała szans na trafienie do siatki, beznadziejny strzał`,
+            `${randomPlayer} próbuje szczęścia z daleka, ale nie trafia w światło bramki`,
+            `${randomPlayer} oddaje strzał z dalekiego dystansu, jednak piłka mija bramkę o wiele metrów`,
+            `${randomPlayer} uderza z daleka, lecz piłka leci wysoko nad poprzeczką`,
+            `${randomPlayer} strzela z dalekiego zasięgu, ale niecelnie i piłka ląduje poza boiskiem`,
+            `${randomPlayer} wykonuje strzał z daleka, lecz piłka nie ma szans na trafienie do bramki`,
+            `${randomPlayer} decyduje się na strzał z dystansu, lecz piłka leci daleko od bramki`,
+            `Strzał w słupek przez ${randomPlayer}!`,
+            `Trafienie w poprzeczkę przez ${randomPlayer}!`,
+            `Strzał w obramowanie bramki przez ${randomPlayer}!`,
+            `Uderzenie w słupek przez ${randomPlayer}!`,
+            `Strzał w spojenie przez ${randomPlayer}!`,
+            `Piłka odbija się od słupka po strzale ${randomPlayer}!`,
+            `Strzał w słupek przez ${randomPlayer}!`,
+            `Trafienie w poprzeczkę przez ${randomPlayer}!`,
+            `Strzał w metal przez ${randomPlayer}!`,
+            `Uderzenie w słupek przez ${randomPlayer}!`,
+            `Strzał w spojenie przez ${randomPlayer}!`,
+            `Piłka odbija się od słupka po strzale ${randomPlayer}!`,
+            `Korner: ${randomPlayer} zmusił do interwencji bramkarza przeciwnika`
+
+        ];
+        randomEvent = shotEvents[Math.floor(Math.random() * shotEvents.length)];
+
+        // Zwiększanie statystyk dla odpowiedniej drużyny
+        if (scoringTeam === matchData.team1.name) {
+            matchData.team1.shots += 1; // Zwiększ liczbę strzałów dla team1
+        } else {
+            matchData.team2.shots += 1; // Zwiększ liczbę strzałów dla team2
+        }
 
     } else {
         // Wybór neutralnego wydarzenia, jeśli nie było innych zdarzeń
@@ -499,34 +543,17 @@ function simulateEvent() {
             `${randomPlayer} powalił ${players[randomPlayerIndex + 1]} i słyszy gwizdek sędziego`,
             `${randomPlayer} próbował zaskoczyć bramkarza, ale piłka poszła daleko obok bramki, słaby strzał`,
             `${randomPlayer} chciał zaskoczyć golkipera, ale piłka minęła bramkę o kilka metrów, nieudany strzał`,
-            `${randomPlayer} próbował zrobić niespodziankę bramkarzowi, ale piłka poleciała daleko w bok, kiepski strzał`,
-            `${randomPlayer} zamierzał zagiąć bramkarza, ale piłka nie trafiła w światło bramki, słaba próba`,
-            `${randomPlayer} strzelił, ale piłka poszybowała daleko obok słupka, marny strzał`,
-            `${randomPlayer} postanowił uderzyć, lecz piłka nie miała szans na trafienie do siatki, beznadziejny strzał`,
             `${randomPlayer} zatrzymał groźny atak przeciwnika i wybił piłkę na aut`,
             `${randomPlayer} powstrzymał niebezpieczną akcję rywala i odbił piłkę na aut`,
             `${randomPlayer} zniweczył groźną ofensywę przeciwnika i wykopał piłkę na aut`,
             `${randomPlayer} zatrzymał zagrożenie ze strony rywala i wyrzucił piłkę na aut`,
             `${randomPlayer} udaremnił niepokojący atak przeciwnika i wybił piłkę poza boisko`,
             `${randomPlayer} zakończył groźną sytuację rywala i odbił piłkę na linię boczną`,
-            `${randomPlayer} próbuje szczęścia z daleka, ale nie trafia w światło bramki`,
-            `${randomPlayer} oddaje strzał z dalekiego dystansu, jednak piłka mija bramkę o wiele metrów`,
-            `${randomPlayer} uderza z daleka, lecz piłka leci wysoko nad poprzeczką`,
-            `${randomPlayer} strzela z dalekiego zasięgu, ale niecelnie i piłka ląduje poza boiskiem`,
-            `${randomPlayer} wykonuje strzał z daleka, lecz piłka nie ma szans na trafienie do bramki`,
-            `${randomPlayer} decyduje się na strzał z dystansu, lecz piłka leci daleko od bramki`,
             `Rzut rożny: ${randomPlayer} wywalczył korner dla swojej drużyny`,
-            `Korner: ${randomPlayer} zmusił do interwencji bramkarza przeciwnika`,
             `Róg: ${randomPlayer} wypracował sobie dogodną sytuację do dośrodkowania`,
             `Rzut z narożnika: ${randomPlayer} zaskoczył obrońcę i wywalczył rzut rożny`,
             `Rzut z rogu: ${randomPlayer} zagrał sprytnie i zyskał korner dla swojej drużyny`,
-            `Rzut rożny: ${randomPlayer} zagrał na aut bramkarza rywali`,
-            `Strzał w słupek przez ${randomPlayer}!`,
-            `Trafienie w poprzeczkę przez ${randomPlayer}!`,
-            `Strzał w metal przez ${randomPlayer}!`,
-            `Uderzenie w słupek przez ${randomPlayer}!`,
-            `Strzał w spojenie przez ${randomPlayer}!`,
-            `Piłka odbija się od słupka po strzale ${randomPlayer}!`
+            `Rzut rożny: ${randomPlayer} zagrał na aut bramkarza rywali`
         ];
         randomEvent = neutralEvents[Math.floor(Math.random() * neutralEvents.length)];
     }
@@ -559,7 +586,6 @@ function simulateEvent() {
         };
     }
 }
-
 function isPlayerInGame(teamPlayers, playerName) {
     return teamPlayers.some(player => player.name === playerName);
 }
