@@ -310,54 +310,61 @@ function displayPlayers(team, containerId) {
         return;
     }
 
-    container.innerHTML = ''; // Wyczyść zawartość kontenera
+    container.innerHTML = ''; // Clear the container
 
     team.players.forEach(player => {
         let playerItem = document.createElement('li');
+
         if (player.isRedCarded) {
             playerItem.innerHTML = `<s>${player.name}</s>`; // Strike-through for red-carded players
         } else if (player.injury) {
             let injuryPart = getRandomInjuryPart(); // Get a random injury part
-            // Cross out the player's name and add the injury icon with hover text
-            playerItem.innerHTML = `<s>${player.name}</s> <img src="injury_icon.png" style="width: 16px; height: 16px; verticalAlign: middle; marginLeft: 5px;" title="Kontuzja: ${injuryPart}" alt="Kontuzja">`;
+            playerItem.innerHTML = `<s>${player.name}</s> <img src="injury_icon.png" style="width: 16px; height: 16px; margin-left: 5px;" title="Kontuzja: ${injuryPart}" alt="Kontuzja">`;
+            playerItem.innerHTML += ` <img src="zmiana.png" style="width: 16px; height: 16px; margin-left: 5px;" title="Zmieniony przez: ${player.substitutedBy}" alt="Zmiana">`;
         } else {
             playerItem.innerHTML = `${player.name}`; // Normal display for active players
         }
 
-        // Wyświetl gole
+        // Show the substitution icon if the player was substituted
+        if (player.substituted) {
+            let subPlayerName = player.substitutedBy; // The name of the player who substituted
+            playerItem.innerHTML += ` <img src="zmiana.png" style="width: 16px; height: 16px; margin-left: 5px;" title="Zmieniony przez: ${subPlayerName}" alt="Zmiana">`;
+        }
+
+        // Display goals
         for (let i = 0; i < player.goals; i++) {
             let goalImg = document.createElement('img');
-            goalImg.src = 'zdobytygol.png'; // Upewnij się, że to jest właściwy obrazek
+            goalImg.src = 'zdobytygol.png'; // Make sure this is the correct image
             goalImg.style.width = '16px'; // Slightly smaller size
             goalImg.style.height = '16px';
             goalImg.style.verticalAlign = 'middle'; // Center vertically with text
-            goalImg.style.marginLeft = '5px'; // Add some spacing between text and image
+            goalImg.style.marginLeft = '5px'; // Add spacing
             playerItem.appendChild(goalImg);
         }
 
-        // Wyświetl żółte kartki
+        // Display yellow cards
         for (let i = 0; i < player.yellowCards; i++) {
             let yellowCardImg = document.createElement('img');
             yellowCardImg.src = 'yellow_card.png';
             yellowCardImg.style.width = '16px'; // Slightly smaller size
             yellowCardImg.style.height = '16px';
             yellowCardImg.style.verticalAlign = 'middle'; // Center vertically with text
-            yellowCardImg.style.marginLeft = '5px'; // Add some spacing between text and image
+            yellowCardImg.style.marginLeft = '5px'; // Add spacing
             playerItem.appendChild(yellowCardImg);
         }
 
-        // Wyświetl czerwone kartki
+        // Display red cards
         if (player.isRedCarded) {
             let redCardImg = document.createElement('img');
             redCardImg.src = 'red_card.png';
             redCardImg.style.width = '16px'; // Slightly smaller size
             redCardImg.style.height = '16px';
             redCardImg.style.verticalAlign = 'middle'; // Center vertically with text
-            redCardImg.style.marginLeft = '5px'; // Add some spacing between text and image
+            redCardImg.style.marginLeft = '5px'; // Add spacing
             playerItem.appendChild(redCardImg);
         }
 
-        container.appendChild(playerItem);
+        container.appendChild(playerItem); // Add the player item to the container
     });
 }
 
@@ -366,22 +373,104 @@ function getRandomInjuryPart() {
     return injuryParts[Math.floor(Math.random() * injuryParts.length)];
 }
 
+function substitutePlayer(playerOut, playerIn) {
+    playerOut.substituted = true; // Mark the player as substituted
+    playerOut.substitutedBy = playerIn.name; // Store the name of the player coming in
+}
+
+// Display current events
+function displayPlayers(team, containerId) {
+    let container = document.getElementById(containerId);
+
+    if (!container) {
+        console.error(`Nie znaleziono elementu o ID ${containerId}`);
+        return;
+    }
+
+    container.innerHTML = ''; // Clear the container
+
+    team.players.forEach(player => {
+        let playerItem = document.createElement('li');
+
+        if (player.isRedCarded) {
+            playerItem.innerHTML = `<s>${player.name}</s>`; // Strike-through for red-carded players
+        } else if (player.injury) {
+            let injuryPart = getRandomInjuryPart(); // Get a random injury part
+            playerItem.innerHTML = `<s>${player.name}</s> <img src="injury_icon.png" style="width: 16px; height: 16px; margin-left: 5px;" title="Kontuzja: ${injuryPart}" alt="Kontuzja">`;
+            playerItem.innerHTML += ` <img src="zmiana.png" style="width: 16px; height: 16px; margin-left: 5px;" title="Zmieniony przez: ${player.substitutedBy}" alt="Zmiana">`;
+        } else {
+            playerItem.innerHTML = `${player.name}`; // Normal display for active players
+        }
+
+        // Show the substitution icon if the player was substituted
+        if (player.substituted) {
+            let subPlayerName = player.substitutedBy; // The name of the player who substituted
+            playerItem.innerHTML += ` <img src="zmiana.png" style="width: 16px; height: 16px; margin-left: 5px;" title="Zmieniony przez: ${subPlayerName}" alt="Zmiana">`;
+        }
+
+        // Display goals
+        for (let i = 0; i < player.goals; i++) {
+            let goalImg = document.createElement('img');
+            goalImg.src = 'zdobytygol.png'; // Make sure this is the correct image
+            goalImg.style.width = '16px'; // Slightly smaller size
+            goalImg.style.height = '16px';
+            goalImg.style.verticalAlign = 'middle'; // Center vertically with text
+            goalImg.style.marginLeft = '5px'; // Add spacing
+            playerItem.appendChild(goalImg);
+        }
+
+        // Display yellow cards
+        for (let i = 0; i < player.yellowCards; i++) {
+            let yellowCardImg = document.createElement('img');
+            yellowCardImg.src = 'yellow_card.png';
+            yellowCardImg.style.width = '16px'; // Slightly smaller size
+            yellowCardImg.style.height = '16px';
+            yellowCardImg.style.verticalAlign = 'middle'; // Center vertically with text
+            yellowCardImg.style.marginLeft = '5px'; // Add spacing
+            playerItem.appendChild(yellowCardImg);
+        }
+
+        // Display red cards
+        if (player.isRedCarded) {
+            let redCardImg = document.createElement('img');
+            redCardImg.src = 'red_card.png';
+            redCardImg.style.width = '16px'; // Slightly smaller size
+            redCardImg.style.height = '16px';
+            redCardImg.style.verticalAlign = 'middle'; // Center vertically with text
+            redCardImg.style.marginLeft = '5px'; // Add spacing
+            playerItem.appendChild(redCardImg);
+        }
+
+        container.appendChild(playerItem); // Add the player item to the container
+    });
+}
+
+function getRandomInjuryPart() {
+    const injuryParts = ["uda", "kolana", "kostki", "plecy", "ramiona"];
+    return injuryParts[Math.floor(Math.random() * injuryParts.length)];
+}
+
+function substitutePlayer(playerOut, playerIn) {
+    playerOut.substituted = true; // Mark the player as substituted
+    playerOut.substitutedBy = playerIn.name; // Store the name of the player coming in
+}
+
+// Display current events
 function displayEvents() {
     var eventsContainer = document.getElementById("events");
     eventsContainer.innerHTML = `<h2><img src="events.png" style="width: 20px; height: 20px; margin-bottom: -5px; margin-right: 5px;">Aktualne wydarzenia:</h2>`;
 
     matchData.events.forEach((eventData) => {
-        var eventMinute = eventData.minute || matchData.currentMinute; // Użyj minute z obiektu zdarzenia lub aktualną minutę
+        var eventMinute = eventData.minute || matchData.currentMinute; // Use the event minute or current minute
         var formattedTime = formatTime(eventMinute);
         eventsContainer.innerHTML += `<p>${formattedTime} ${eventData.event}</p>`;
     });
 }
 
 function simulateEvent() {
-    // Sprawdź, czy mecz jest zakończony
+    // Check if the match has ended
     if (matchData.currentMinute > 90) {
-        // Mecz zakończony, nie dodawaj nowych zdarzeń
-        return;
+        return; // Match ended, do not add new events
     }
 
     // Filter out players who are injured or have received a red card
@@ -403,35 +492,64 @@ function simulateEvent() {
     // Use the player's `name` or other properties for output
     console.log("Wybrany zawodnik:", randomPlayer.name); // This will display the player's name, not [object Object]
 
-    // Determine team for the randomPlayer
+    // Determine the team for the randomPlayer
     var scoringTeam = availablePlayersTeam1.includes(randomPlayer) ? matchData.team1.name : matchData.team2.name;
 
-    // Prawdopodobieństwa na podstawie pozycji gracza
+    // Define probabilities for events
     let probabilityGoal = randomPlayer.position === "Napastnik" ? 0.15 :
                           randomPlayer.position === "Pomocnik" ? 0.08 :
-                          randomPlayer.position === "Obrońca" ? 0.05 : 0.01; // Najniższa szansa dla bramkarza
+                          randomPlayer.position === "Obrońca" ? 0.05 : 0.01; // Lowest for goalkeeper
 
     let probabilityYellowCard = randomPlayer.position === "Obrońca" ? 0.10 :
                                 randomPlayer.position === "Pomocnik" ? 0.07 :
-                                randomPlayer.position === "Napastnik" ? 0.03 : 0.01; // Najniższa szansa dla bramkarza
+                                randomPlayer.position === "Napastnik" ? 0.03 : 0.01; // Lowest for goalkeeper
 
     let probabilityRedCard = 0.02; // Fixed probability for all positions
     let probabilityInjury = 0.03; // Fixed probability for all positions
     let probabilityShot = randomPlayer.position === "Napastnik" ? 0.20 :
                          randomPlayer.position === "Pomocnik" ? 0.12 :
-                         randomPlayer.position === "Obrońca" ? 0.07 : 0.02; // Najniższa szansa dla bramkarza
+                         randomPlayer.position === "Obrońca" ? 0.07 : 0.02; // Lowest for goalkeeper
 
-    let probabilityNeutral = 0.66; // Adjust this as needed for remaining probability
+    let probabilitySubstitution = 0.1; // Probability for substitution
 
     updatePossession();
+    checkForWalkover();
 
-    // Losowanie zdarzenia na podstawie prawdopodobieństw
+    // Randomly determine the event
     var randomNum = Math.random();
     var randomEvent = '';
 
-    // Sprawdź, co się wydarzy
+    if (randomNum < probabilitySubstitution) {
+        // Select a player to substitute
+        let teamPlayers = (scoringTeam === matchData.team1.name) ? matchData.team1.players : matchData.team2.players;
+        let substitutes = (scoringTeam === matchData.team1.name) ? matchData.team1.substitutes : matchData.team2.substitutes; // Available substitutes
+        
+        let playerOut = teamPlayers[Math.floor(Math.random() * teamPlayers.length)]; // Player going out
+
+        // Ensure there are available substitutes
+        if (substitutes.length > 0) {
+            // Randomly select a substitute
+            let playerIn = substitutes[Math.floor(Math.random() * substitutes.length)]; 
+
+            // Array of substitution messages
+            const zmiany = [
+                `Zmiana: ${playerOut.name} za ${playerIn.name}`,
+                `Zmiana: ${playerOut.name} opuszcza boisko, wchodzi ${playerIn.name}`,
+                `Zmiana: ${playerIn.name} zastępuje ${playerOut.name}`
+            ];
+
+            // Log the substitution event
+            logEvent(matchData.currentMinute, zmiany[Math.floor(Math.random() * zmiany.length)]);
+            
+            // Update the player object
+            playerOut.substituted = true; // Mark the player as substituted
+            playerOut.substitutedBy = playerIn.name; // Store the name of the player coming in
+        }
+        return; // Exit to avoid further event processing in this cycle
+    }
+
+    // Check for other events (goal, cards, etc.)
     if (randomNum < probabilityGoal) {
-        // Wybór zdarzenia związanego z bramką
         const goalEvents = [
             `Bramka! ${randomPlayer.name} <img src="gol.png" style="width: 20px; height: 20px; margin-bottom: -5px; margin-right: 5px;"> GOOOL (${scoringTeam})`,
             `Karny! Bramka! ${randomPlayer.name} <img src="gol.png" style="width: 20px; height: 20px; margin-bottom: -5px; margin-right: 5px;"> GOOOL (${scoringTeam})`,
@@ -439,62 +557,61 @@ function simulateEvent() {
             `${randomPlayer.name} zdecydował się na strzał z dystansu, i piłka ląduje w siatce! Fantastyczny gol <img src="gol.png" style="width: 20px; height: 20px; margin-bottom: -5px; margin-right: 5px;"> GOOOL (${scoringTeam})`
         ];
         randomEvent = goalEvents[Math.floor(Math.random() * goalEvents.length)];
-        assignGoal(randomPlayer.name, scoringTeam); // Wywołanie funkcji do przydzielenia gola
-        scoringTeam.score += 1; // Zwiększ wynik drużyny
+        assignGoal(randomPlayer.name, scoringTeam); // Assign the goal
+        scoringTeam.score += 1; // Update score
 
-        // Zwiększanie statystyk dla odpowiedniej drużyny
+        // Increase stats for the appropriate team
         if (scoringTeam === matchData.team1.name) {
             matchData.score.team1 += 1;
-            matchData.team1.shots += 1; // Zwiększ liczbę strzałów dla team1
+            matchData.team1.shots += 1; // Increase shots for team1
         } else {
             matchData.score.team2 += 1;
-            matchData.team2.shots += 1; // Zwiększ liczbę strzałów dla team2
+            matchData.team2.shots += 1; // Increase shots for team2
         }
 
     } else if (randomNum < probabilityGoal + probabilityYellowCard) {
-        // Wybór zdarzenia związanego z żółtą kartką
+        // Yellow card event
         const yellowCardEvents = [
             `Żółta kartka dla ${randomPlayer.name}! <img src="yellow_card.png" style="width: 20px; height: 20px; margin-bottom: -5px; margin-right: 5px;"> ŻÓŁTA KARTKA (${scoringTeam})`,
             `Sędzia pokazuje żółtą kartkę ${randomPlayer.name}! <img src="yellow_card.png" style="width: 20px; height: 20px; margin-bottom: -5px; margin-right: 5px;"> ŻÓŁTA KARTKA (${scoringTeam})`,
             `${randomPlayer.name} dostaje żółtą kartkę za faul! <img src="yellow_card.png" style="width: 20px; height: 20px; margin-bottom: -5px; margin-right: 5px;"> ŻÓŁTA KARTKA (${scoringTeam})`
         ];
         randomEvent = yellowCardEvents[Math.floor(Math.random() * yellowCardEvents.length)];
-        assignCard('yellow', randomPlayer.name, scoringTeam); // Przypisz żółtą kartkę
-
-        // Zwiększanie statystyk dla odpowiedniej drużyny
+        assignCard('yellow', randomPlayer.name, scoringTeam); // Assign yellow card
         if (scoringTeam === matchData.team1.name) {
-            matchData.team1.yellowCards += 1; // Zwiększ liczbę żółtych kartek dla team1
+            matchData.team1.yellowCards += 1; // Increase shots for team1
         } else {
-            matchData.team2.yellowCards += 1; // Zwiększ liczbę żółtych kartek dla team2
+            matchData.team2.yellowCards += 1; // Increase shots for team2
         }
 
     } else if (randomNum < probabilityGoal + probabilityYellowCard + probabilityRedCard) {
-        // Wybór zdarzenia związanego z czerwoną kartką
+        // Red card event
         const redCardEvents = [
             `Czerwona kartka dla ${randomPlayer.name}! <img src="red_card.png" style="width: 20px; height: 20px; margin-bottom: -5px; margin-right: 5px;"> CZERWONA KARTKA (${scoringTeam})`,
             `Wykluczenie dla ${randomPlayer.name}! <img src="red_card.png" style="width: 20px; height: 20px; margin-bottom: -5px; margin-right: 5px;"> CZERWONA KARTKA (${scoringTeam})`,
             `Sędzia pokazuje czerwoną kartkę ${randomPlayer.name}! <img src="red_card.png" style="width: 20px; height: 20px; margin-bottom: -5px; margin-right: 5px;"> CZERWONA KARTKA (${scoringTeam})`
         ];
         randomEvent = redCardEvents[Math.floor(Math.random() * redCardEvents.length)];
-        assignCard('red', randomPlayer.name, scoringTeam); // Przypisz czerwoną kartkę
-
-        // Zwiększanie statystyk dla odpowiedniej drużyny
+        assignCard('red', randomPlayer.name, scoringTeam); // Assign red card
         if (scoringTeam === matchData.team1.name) {
-            matchData.team1.redCards += 1; // Zwiększ liczbę czerwonych kartek dla team1
+            matchData.team1.redCards += 1; // Increase shots for team1
         } else {
-            matchData.team2.redCards += 1; // Zwiększ liczbę czerwonych kartek dla team2
+            matchData.team2.redCards += 1; // Increase shots for team2
         }
 
     } else if (randomNum < probabilityGoal + probabilityYellowCard + probabilityRedCard + probabilityInjury) {
-        // Wybór zdarzenia związanego z kontuzją
+        // Injury event
         const injuryEvents = [
             `Kontuzja: ${randomPlayer.name} opuszcza boisko.`,
             `Kontuzja: ${randomPlayer.name} zmuszony do zmiany.`,
             `Kontuzja: ${randomPlayer.name} nie może kontynuować gry.`
         ];
         randomEvent = injuryEvents[Math.floor(Math.random() * injuryEvents.length)];
-        randomPlayer.injury = true; // Zaznacz kontuzję zawodnika
-
+        randomPlayer.injury = true; // Mark the player as injured
+        let playerIn = substitutes[Math.floor(Math.random() * substitutes.length)];
+        playerOut.substitutedBy = playerIn.name; // Store the name of the player coming in 
+        substitutePlayer(randomPlayer, playerIn); // Substitute the injured player
+        // Log the injury event (optional)
     } else if (randomNum < probabilityGoal + probabilityYellowCard + probabilityRedCard + probabilityInjury + probabilityShot) {
         // Wybór zdarzenia związanego z niecelnym strzałem
         const shotEvents = [
@@ -543,8 +660,6 @@ function simulateEvent() {
             `Drużyna gospodarzy buduje atak pozycyjny`,
             `Drużyna gospodarzy nie może przedostać się na połowę przeciwnika`,
             `Gospodarze powoli rozgrywają akcję`,
-            `Zmiana: ${randomPlayer.name} za ${players[randomPlayerIndex - 1]}`,
-            `Zmiana: ${randomPlayer.name} za ${players[randomPlayerIndex + 1]}`,
             `${randomPlayer.name} był na pozycji spalonej`,
             `Spalony: ${randomPlayer.name} znalazł się za linią obrony przeciwnika`,
             `Spalony, ${randomPlayer.name} zagrał z ofsajdu`,
@@ -572,34 +687,11 @@ function simulateEvent() {
         randomEvent = neutralEvents[Math.floor(Math.random() * neutralEvents.length)];
     }
 
-    // Dodaj minutę meczu do treści zdarzenia
+    // Add the minute of the match to the event content
     var eventMinute = matchData.currentMinute;
     logEvent(matchData.currentMinute, `・ ${randomEvent}`);
-
-    // Aktualizuj wynik tylko w przypadku bramki
-    if (!matchData.goalScorers) {
-        matchData.goalScorers = {
-            team1: [],
-            team2: []
-        };
-    }
-
-    if (!matchData.yellowCards) {
-        matchData.yellowCards = {
-            team1: [],
-            team2: []
-        };
-    }
-
-    if (!matchData.redCards) {
-        matchData.redCards = {
-            team1: [],
-            team2: []
-        };
-    }
-    
-    checkForWalkover();
 }
+
 
 function isPlayerInGame(teamPlayers, playerName) {
     return teamPlayers.some(player => player.name === playerName);
