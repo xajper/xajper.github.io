@@ -36,16 +36,27 @@ document.getElementById('team2').addEventListener('input', function() {
 
 function blokujMysz(event) {
     if (event.button === 2 || event.which === 3) {
-
-      event.preventDefault();
+        event.preventDefault();
     }
   }
+  
+  function blokujKlawisze(event) {
+    if (event.key === 'F12') {
+        event.preventDefault();
+    }
+  
+    if (event.ctrlKey && event.key === 'u') {
+        event.preventDefault();
+    }
+  }
+  
+document.addEventListener('mousedown', blokujMysz);
+  
+document.addEventListener('keydown', blokujKlawisze);
   
 document.addEventListener('contextmenu', function (event) {
     event.preventDefault();
 });
-  
-document.addEventListener('mousedown', blokujMysz);
 
 function initializePlayers(team) {
     team.players = []; // Wyczyść listę zawodników
@@ -561,11 +572,9 @@ function simulateEvent() {
         randomEvent = neutralEvents[Math.floor(Math.random() * neutralEvents.length)];
     }
 
-    checkForWalkover();
-
     // Dodaj minutę meczu do treści zdarzenia
     var eventMinute = matchData.currentMinute;
-    matchData.events.push({ minute: eventMinute, event: `・ ${randomEvent}` });
+    logEvent(matchData.currentMinute, `・ ${randomEvent}`);
 
     // Aktualizuj wynik tylko w przypadku bramki
     if (!matchData.goalScorers) {
@@ -588,6 +597,8 @@ function simulateEvent() {
             team2: []
         };
     }
+    
+    checkForWalkover();
 }
 
 function isPlayerInGame(teamPlayers, playerName) {
@@ -703,13 +714,6 @@ function updatePossession() {
     matchData.team2.possession = 100 - matchData.team1.possession;
 }
 
-function handleWalkover(team) {
-    matchData.events.push(`Walkower! Drużyna ${matchData[team].name} ma mniej niż 7 graczy na boisku.`);
-    // You can update the match result or take any other necessary actions
-    // For example, end the match and declare the opposing team as the winner.
-}
-
-
 function getPlayerTeam(player) {
     if (matchData.team1.name && matchData.team2.name) {
         return players.indexOf(player) < 6 ? "team1" : "team2";
@@ -795,30 +799,30 @@ function updateRemainingStats() {
     updateStatsAsync();
 }
 
-
 function downloadResult() {
+    // Check if the match has ended
     if (matchData.currentMinute < 90) {
         alert("Mecz jeszcze się nie zakończył. Poczekaj na końcowy gwizdek.");
         return;
     }
 
-    const filename = "match_result.txt";
+    const filename = "wynik.txt";
     const content = generateMatchDetails();
     const blob = new Blob([content], { type: "text/plain" });
 
     const link = document.createElement("a");
     link.href = URL.createObjectURL(blob);
     link.download = filename;
-    
+
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
 }
 
-
+// Function to generate match details for download
 function generateMatchDetails() {
     let details = `Mecz: ${matchData.team1.name} vs ${matchData.team2.name}\n`;
-    details += `Wynik: ${matchData.score.team1}:${matchData.score.team2} (${matchData.currentMinute}')\n\n`;
+    details += `Wynik: ${matchData.score.team1}:${matchData.score.team2}\n\n`;
 
     details += "Statystyki:\n";
     details += `Posiadanie piłki: ${matchData.team1.possession.toFixed(1)}% - ${matchData.team2.possession.toFixed(1)}%\n`;
@@ -827,11 +831,14 @@ function generateMatchDetails() {
     details += `Strzały: ${matchData.team1.shots} - ${matchData.team2.shots}\n\n`;
 
     details += "Wydarzenia:\n";
-    matchData.events.forEach((event, index) => {
-        details += `${matchData.currentMinute + index}' - ${event}\n`;
+    matchData.events.forEach(event => {
+        details += `${event.minute}' ${event.event}\n`; // Log the event correctly
     });
-
     return details;
+}
+
+function logEvent(minute, description) {
+    matchData.events.push({ minute: minute, event: description }); // Ensure the event structure is correct
 }
 
 function toggleMatch() {
