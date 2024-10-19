@@ -202,9 +202,13 @@ function updateResult() {
     checkGameStatus();
 }
 
+localStorage.removeItem('wylosowanySedzia')
+
 function displayResult() {
     var resultContainer = document.getElementById("result");
     var statusIndicators = document.querySelector(".status-indicators");
+
+    const wylosowanySedzia = localStorage.getItem('wylosowanySedzia');
 
     // Sprawdzanie, czy matchData jest prawidłowe
     console.log("matchData:", matchData);
@@ -217,10 +221,39 @@ function displayResult() {
     resultContainer.innerHTML = `<h2><img src="szczegoly.png" style="width: 20px; height: 20px; margin-bottom: -5px; margin-right: 5px;">Szczegóły:</h2>`;
     resultContainer.innerHTML += `<p><img src="mecz.png" style="width: 20px; height: 20px; margin-bottom: -5px; margin-right: 5px;">Mecz: ${matchData.team1.name} - ${matchData.team2.name}</p>`;
     resultContainer.innerHTML += `<p><img src="wynik.png" style="width: 20px; height: 20px; margin-bottom: -5px; margin-right: 5px;">Wynik: ${matchData.score.team1}:${matchData.score.team2} (${matchData.currentMinute}') - ${getStatusText()}</p>`;
-    resultContainer.innerHTML += `<p><img src="sedzia.png" style="width: 20px; height: 20px; margin-bottom: -5px; margin-right: 5px;">Sędzia: Szymon Marciniak</p>`;
+    resultContainer.innerHTML += `<p><img src="sedzia.png" style="width: 20px; height: 20px; margin-bottom: -5px; margin-right: 5px;">Sędzia: ${wylosowanySedzia}</p>`;
 
     // Wyświetlanie wskaźników statusu
     statusIndicators.style.display = "flex";
+}
+
+const sedziowie = [
+    "Szymon Marciniak",
+    "Wojciech Myc",
+    "Robert Gorol",
+    "Anthony Taylor",
+    "Clement Turpin",
+    "Michael Oliver",
+    "Daniele Orsato",
+    "Pierluigi Collina",
+    "Bartosz Frankowski",
+    "Damian Sylwestrzak"
+];
+
+// Funkcja do losowania sędziego
+function losowySedzia() {
+    const index = Math.floor(Math.random() * sedziowie.length);
+    return sedziowie[index];
+}
+
+// Sprawdzenie, czy sędzia już został wylosowany
+if (!localStorage.getItem('wylosowanySedzia')) {
+    const sedzia = losowySedzia();
+    localStorage.setItem('wylosowanySedzia', sedzia);
+    resultContainer.innerHTML += `<p><img src="sedzia.png" style="width: 20px; height: 20px; margin-bottom: -5px; margin-right: 5px;">Sędzia: ${sedzia}</p>`;
+} else {
+    const wylosowanySedzia = localStorage.getItem('wylosowanySedzia');
+    resultContainer.innerHTML += `<p><img src="sedzia.png" style="width: 20px; height: 20px; margin-bottom: -5px; margin-right: 5px;">Sędzia: ${wylosowanySedzia}</p>`;
 }
 
 function getStatusText() {
