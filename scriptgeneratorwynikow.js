@@ -794,47 +794,41 @@ function displayStats() {
 }
 
 function updatePossession() {
-    const cardPenalty = 0.5; // Possession decreases by 0.5% per yellow/red card
-    const homeAdvantage = 1.2; // Home team has an advantage
+    const cardPenalty = 0.005; // Posiadanie maleje o 0.5% (0.005 w zapisie dziesiętnym)
+    const homeAdvantage = 1.2; // Gospodarz ma przewagę
 
+    // Obliczanie karnych kart
     let team1CardPenalty = (matchData.team1.yellowCards + matchData.team1.redCards) * cardPenalty;
     let team2CardPenalty = (matchData.team2.yellowCards + matchData.team2.redCards) * cardPenalty;
 
+    // Siła drużyn
     let team1Strength = 0.8 * (matchData.location === "home" ? homeAdvantage : 1);
     let team2Strength = 0.6;
 
-    if (Math.random() < team1Strength / (team1Strength + team2Strength)) {
-        matchData.team1.possession += 0.5 - team1CardPenalty;
-    } else {
-        matchData.team2.possession += 0.5 - team2CardPenalty;
+    // Wzrost szansy na posiadanie dla drużyny przeciwnika w przypadku kary
+    if (matchData.team1.redCards > 0) {
+        team2Strength *= 1.5; // Zwiększenie szans drużyny gości
     }
-    
+    if (matchData.team2.redCards > 0) {
+        team1Strength *= 1.5; // Zwiększenie szans drużyny gospodarzy
+    }
+
+    // Losowanie posiadania piłki
+    let possessionChange;
+    if (Math.random() < team1Strength / (team1Strength + team2Strength)) {
+        possessionChange = 0.5 - team1CardPenalty; // Drużyna 1 zdobywa posiadanie
+        matchData.team1.possession += possessionChange;
+        matchData.team2.possession -= possessionChange; // Drużyna 2 traci posiadanie
+    } else {
+        possessionChange = 0.5 - team2CardPenalty; // Drużyna 2 zdobywa posiadanie
+        matchData.team2.possession += possessionChange;
+        matchData.team1.possession -= possessionChange; // Drużyna 1 traci posiadanie
+    }
+
+    // Aktualizacja posiadania
     matchData.team1.possession = Math.min(Math.max(matchData.team1.possession, 0), 100);
-    matchData.team2.possession = 100 - matchData.team1.possession;
+    matchData.team2.possession = Math.min(Math.max(matchData.team2.possession, 0), 100);
 }
-
-    // Factors for possession calculation
-    const cardPenalty = 0.5; // Possession decreases by 0.5% per yellow/red card
-    const homeAdvantage = 1.2; // Home team has an advantage
-
-    // Adjust for yellow and red cards
-    let team1CardPenalty = (matchData.team1.yellowCards + matchData.team1.redCards) * cardPenalty;
-    let team2CardPenalty = (matchData.team2.yellowCards + matchData.team2.redCards) * cardPenalty;
-
-    // Base possession calculation with team strength and home advantage
-    let team1Strength = 0.8 * (matchData.location === "home" ? homeAdvantage : 1);
-    let team2Strength = 0.6;
-
-    // Update possession with adjusted strength and penalties
-    if (Math.random() < team1Strength / (team1Strength + team2Strength)) {
-        matchData.team1.possession += 0.5 - team1CardPenalty;
-    } else {
-        matchData.team2.possession += 0.5 - team2CardPenalty;
-    }
-    
-    // Ensure possession totals 100%
-    matchData.team1.possession = Math.min(Math.max(matchData.team1.possession, 0), 100);
-    matchData.team2.possession = 100 - matchData.team1.possession;
 
 // Dodaj funkcje do kontrolowania symulacji
 function speedUp() {
