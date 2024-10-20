@@ -333,6 +333,49 @@ function updateStats() {
     document.getElementById("spalone-team2").innerText = matchData.team2.spalone;
 }
 
+function showPlayerStats(player) {
+    // Find or create the stats modal
+    let modal = document.getElementById("playerStatsModal");
+    if (!modal) {
+        modal = document.createElement("div");
+        modal.id = "playerStatsModal";
+        modal.className = "modal";
+        document.body.appendChild(modal);
+    }
+
+    // Populate the modal with player stats
+    modal.innerHTML = `
+        <div class="modal-content">
+            <span class="close" onclick="closePlayerStats()">&times;</span>
+            <h2>${player.name} (<em>${player.position}</em>)</h2>
+            <p>Gole: <strong>${player.goals}</strong> <img src="zdobytygol.png" style="width: 16px; height: 16px; margin-left: 5px;" alt="Zdobyty gol" /></p>
+            <p>Żółte kartki: <strong>${player.yellowCards}</strong> <img src="yellow_card.png" style="width: 16px; height: 16px; margin-left: 5px;" alt="Żółta kartka" /></p>
+            <p>Czerwone kartki: <strong>${player.redCards}</strong> <img src="red_card.png" style="width: 16px; height: 16px; margin-left: 5px;" alt="Czerwona kartka" /></p>
+            <p>Kontuzjowany: ${player.injury ? "<strong>Tak</strong>" : "<strong>Nie</strong>"} <img src="injury_icon.png" style="width: 16px; height: 16px; margin-left: 5px;" alt="Kontuzja" /></p>
+            <p>Zmieniony: ${player.substituted ? "<strong>Tak</strong>" : "<strong>Nie</strong>"} <img src="zmiana.png" style="width: 16px; height: 16px; margin-left: 5px;" alt="Zmieniony" /></p>
+        </div>
+    `;
+    
+    // Display the modal
+    modal.style.display = "block";
+}
+
+// Function to close the modal
+function closePlayerStats() {
+    let modal = document.getElementById("playerStatsModal");
+    if (modal) {
+        modal.style.display = "none";
+    }
+}
+
+// Add click event to each player in formation
+function addPlayerClickEvents(team, containerId) {
+    let container = document.getElementById(containerId);
+    container.querySelectorAll("li").forEach((li, index) => {
+        li.addEventListener("click", () => showPlayerStats(team.players[index]));
+    });
+}
+
 function displayPlayers(team, containerId) {
     let container = document.getElementById(containerId);
 
@@ -400,6 +443,8 @@ function displayPlayers(team, containerId) {
 
         container.appendChild(playerItem);
     });
+
+    addPlayerClickEvents(team, containerId);
 
     let separator = document.createElement('li');
     separator.style.listStyleType = 'none';
